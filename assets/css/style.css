@@ -1,4 +1,4 @@
-body {
+.body {
     font-family: Futura;
     margin: 0;
     height: 100vh;
@@ -6,11 +6,6 @@ body {
     background-image: url("/2019_2_LeMMaS/assets/img/back.jpg");
     max-height: 100vh;
     overflow: hidden;
-}
-
-header
-{
-    height: 14vh;
 }
 
 a, button{
@@ -22,116 +17,3 @@ a:hover, button:hover
 {
     transition: all 0.3s ease-in-out;
 }
-
-.menu
-{
-    height: 100%;
-    margin-right: 0;
-    margin-left: auto;
-}
-
-.menu nav
-{
-    margin: auto;
-    padding: 1em;
-}
-
-.menu-btn
-{
-    padding: 1em;
-    background-color: white;
-    border: 1px solid white;
-    margin: 0 1em;
-    color: #0b1233;
-}
-.menu-btn:hover
-{
-
-}
-
-
-.menu-btn:hover, .login
-{
-    background-color: transparent;
-    color: white;
-}
-
-.login:hover
-{
-    background-color: white;
-    color: #0b1233;
-}
-
-
-.plates-wrapper
-{
-    height: 86vh;
-}
-
-.logo
-{
-    max-height: 10vh;
-}
-
-.logo-wrapper
-{
-    padding: 1em;
-}
-
-.plate {
-    width: 20%;
-    background: /*linear-gradient(#405ef3, #b4639e);*/ #0b1233;
-    border: 1px solid white;
-    min-height: 50vh;
-    padding: 2em;
-    color: white;
-}
-
-.plate button
-{
-    -webkit-appearance: none;
-    background-color: white;
-    margin: auto;
-    border-color: transparent;
-    width: 100%;
-    padding: 1em 3em;
-    font-family: inherit;
-    margin-bottom: 1em;
-}
-
-
-button.achievements-btn
-{
-    background-color: gold;
-}
-
-button.champions-btn
-{
-    background-color: goldenrod;
-}
-
-.buy-btn{
-
-}
-button:hover
-{
-    background-color: transparent;
-    color: white;
-    border-color: white;
-}
-
-.m-a
-{
-    margin: auto;
-}
-
-.d-flex
-{
-    display: flex;
-}
-
-.row
-{
-    flex-direction: row;
-}
-
