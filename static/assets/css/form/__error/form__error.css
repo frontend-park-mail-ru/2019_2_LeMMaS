@@ -1,0 +1,10 @@
+.form__error
+{
+    color: red;
+    font-size: 0.8em;
+    margin-top: 0.1em;
+    margin-bottom: auto;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
