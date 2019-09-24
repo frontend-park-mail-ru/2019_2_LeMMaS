@@ -1,12 +1,12 @@
-let express = require('express');
+let express = require("express");
 let router = express.Router();
-let path = require('path');
+let path = require("path");
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.sendFile('www/register.html', {
-    root: path.join(__dirname, '../')
-  })
+router.get("/", function(req, res) {
+  res.sendFile("public/register.html", {
+    root: path.join(__dirname, "../")
+  });
 });
 
 module.exports = router;
