@@ -1,67 +1,51 @@
 import DefaultView from "./view";
+import Plate from "../components/plate/plate";
+import Text from "../components/text/text";
+import Form from "../components/form/form";
+import FormField from "../components/form/__field/form__field";
+import FormError from "../components/form/__error/form__error";
 
 class Login extends DefaultView{
     constructor() {
         super();
     }
 
-    beforeRender()
-    {
-        document.querySelector("head").innerHTML="<meta charset=\"UTF-8\">\n" +
-            "    <title>Login | LeMMaS</title>\n" +
-            "    <link rel=\"icon\" type=\"image/png\" href=\"../favicon.png\">\n" +
-            "    <script src=\"../bundle.js\"></script>" +
-            "<link rel=\"stylesheet\" href=\"static/assets/css/reset.css\">\n" +
-            "            <link rel=\"stylesheet\" href=\"static/assets/css/header/header.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/logo/logo.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/logo/__image/logo__img.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/buttons/button.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/buttons/button__transparency-transparent.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/plate/plate.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/menu/menu.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/form/form.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/form/__field/form__field.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/form/__error/form__error.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/plate/plate__size-big.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/buttons/button__size-big.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/form/__field/form__field__size-big.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/buttons/button__color-lavender.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/text/text__size-big.css\">\n" +
-            "    <link rel=\"stylesheet\" href=\"static/assets/css/anchorImg/anchorImg__position-absolute.css\">\n" +
-            "    <link rel=\"stylesheet\" href=\"static/assets/css/anchorImg/anchorImg__wrapper.css\">\n" +
-            "                <link rel=\"stylesheet\" href=\"static/assets/css/text/text__align-center.css\">";
-    }
-
     render()
     {
-        if(!document.querySelector(".plates__wrapper")) {
-            document.querySelector(".body").innerHTML="\n" +
-                "<header class=\"header\">\n" +
-                "    <div class=\"logo anchorImg__wrapper\">\n" +
-                "        <img class=\"logo__image\" src=\"static/assets/img/lemmaslogo.png\" alt=\"logo\">" +
-                "        <a class=\"anchorImg__position-absolute\" href=\"/\"></a>\n" +
-                "    </div>\n" +
-                "    <div class=\"menu\">\n" +
-                "        <a class=\"button button__transparency-transparent\" href=\"login\">LOGIN</a>\n" +
-                "        <a class=\"button\" href=\"register\">REGISTER</a>\n" +
-                "    </div>\n" +
-                "</header>\n" +
-                "<div class=\"plates__wrapper\">\n " +
-                "</div>";
-        }
 
-        document.querySelector(".plates__wrapper").innerHTML="<div class=\"plate plate__size-big\">\n" +
-            "        <h2 class=\"text__size-big text__align-center\">Login</h2>\n" +
-            "        <form class=\"form\">\n" +
-            "            <input class=\"form__field form__field__size-big\" placeholder=\"Login\">\n" +
-            "            <span class=\"form__error\">Error</span>\n" +
-            "            <input class=\"form__field form__field__size-big\" placeholder=\"Password\">\n" +
-            "            <span class=\"form__error\">Error</span>\n" +
-            "            <input class=\"button button__size-big button__color-lavender\" type=\"submit\" value=\"Login\">\n" +
-            "            <span class=\"form__error\">Error</span>\n" +
-            "        </form>\n" +
-            "        <p>Don't have an account? <a href=\"../register\" class=\"\">Register</a></p>\n" +
-            "    </div>";
+        const plate = new Plate();
+        const text = new Text();
+        const form = new Form();
+        const formField = new FormField();
+        const formError = new FormError();
+
+        const dontHaveP = document.createElement("p");
+        const dontHaveA = document.createElement("a");
+        dontHaveP.innerText = "Don't have an account? ";
+        dontHaveA.href = "register";
+        dontHaveA.innerText = "Register";
+        dontHaveP.appendChild(dontHaveA);
+
+        const plateLogin = plate.render("plate__size-big",
+            text.render("text__align-center text__size-big", "h2", "Login"),
+            form.render("",
+                formField.render("login", "login", "form__field__size-big"),
+                formError.render("Login incorrect"),
+                formField.render("password", "password", "form__field__size-big"),
+                formError.render("Password incorrect"),
+                formField.render("submit", "Login", "button button__size-big button__color-lavender"),
+                formError.render("All is incorrect")),
+            dontHaveP);
+
+
+        const platesWrapper = document.querySelector(".plates__wrapper");
+        platesWrapper.appendChild(plateLogin);
+        document.querySelector("form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const loginValue = document.querySelector("form[type=login]").value;
+            loginValue.match(/^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\d]{6,19}$/);
+            this.submit();
+        });
     }
 }
 

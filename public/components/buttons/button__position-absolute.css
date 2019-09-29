@@ -1,0 +1,6 @@
+.button__position-absolute
+{
+    position: absolute;
+    width: -webkit-fill-available;
+
+}

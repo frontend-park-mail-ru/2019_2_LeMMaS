@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server/server.js",
-    "build": "webpack --config webpack.config.js"
+    "build": "cp public/www/index.html public; webpack --config webpack.config.js"
   },
   "dependencies": {
     "express": "~4.16.1"
