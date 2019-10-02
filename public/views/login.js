@@ -4,6 +4,7 @@ import Text from "../components/text/text";
 import Form from "../components/form/form";
 import FormField from "../components/form/__field/form__field";
 import FormError from "../components/form/__error/form__error";
+import backendIntegrator from "../network";
 
 class Login extends DefaultView{
     constructor() {
@@ -42,9 +43,13 @@ class Login extends DefaultView{
         platesWrapper.appendChild(plateLogin);
         document.querySelector("form").addEventListener("submit", function (e) {
             e.preventDefault();
-            const loginValue = document.querySelector("form[type=login]").value;
-            loginValue.match(/^(?=.*[A-Za-z0-9]$)[A-Za-z][A-Za-z\d]{6,19}$/);
-            this.submit();
+            console.log("submit");
+            const loginValue = document.querySelector("input[type=login]").value;
+            if(loginValue.match(/^\w{6,19}$/)) {
+                console.log("loginmatch");
+                const back = new backendIntegrator();
+                back.register("login", "password");
+            }
         });
     }
 }
