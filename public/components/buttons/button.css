@@ -1,0 +1,22 @@
+.button
+{
+    text-align: center;
+    padding: 1em;
+    background-color: white;
+    border: 1px solid transparent;
+    color: #0b1233;
+    font-family: Futura, serif;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.button:hover
+{
+    transition: all 0.3s ease-in-out;
+    background-color: #ffffff42;
+    color: white;
+}
+
+
