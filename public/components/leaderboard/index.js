@@ -11,7 +11,9 @@ export default class Leaderboard {
             <div class="leaderboard">
                 ${this.players.map(
                     player => `
-                    <div class="leaderboard__player">
+                    <div class="leaderboard__player ${
+                        player.isMe ? "leaderboard__player-me" : ""
+                    }">
                         Player ${player.id}
                     </div>
                     `

@@ -9,14 +9,14 @@ export default class Index extends BasePage {
     renderContent() {
         const players = [];
         for (let i = 1; i < 10; i++) {
-            players.push({ id: i });
+            players.push({ id: i, isMe: i === 4 });
         }
         return html`
             <div class="plate">
                 <h2 class="text__align-center">Leaderboard</h2>
                 ${new Leaderboard(players).render()}
             </div>
-            <div class="plate plate__size-big">
+            <div class="plate plate__size-big start-game-menu">
                 <h2 class="text__size-big text__align-center">Play</h2>
                 ${new Button(
                     "",
