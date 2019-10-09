@@ -3,11 +3,9 @@ import "./__img/userPicName__img.css";
 import "./__name/userPicName__name.css";
 
 class UserPicName {
-    constructor(){
+    constructor() {}
 
-    }
-
-    render(){
+    render() {
         const userPicName = document.createElement("div");
         userPicName.className = "userPicName";
 

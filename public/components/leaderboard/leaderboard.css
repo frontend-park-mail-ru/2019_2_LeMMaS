@@ -1,7 +1,4 @@
-
-
-.leaderboard
-{
+.leaderboard {
     border: 1px solid;
     overflow: scroll;
     padding: 0 1em;

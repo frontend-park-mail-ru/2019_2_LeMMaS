@@ -11,8 +11,7 @@
     justify-content: space-evenly;
 }
 
-.plates__wrapper
-{
+.plates__wrapper {
     height: 86vh;
     display: flex;
 }

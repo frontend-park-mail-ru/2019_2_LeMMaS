@@ -1,11 +1,9 @@
 import "./userAchievement.css";
 
 class UserAchievement {
-    constructor(){
+    constructor() {}
 
-    }
-
-    render(achievementName, achievementValue){
+    render(achievementName, achievementValue) {
         const userAchievement = document.createElement("div");
         userAchievement.className = "userAchievement";
         const name = document.createElement("p");

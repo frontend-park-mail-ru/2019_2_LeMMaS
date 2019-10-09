@@ -1,11 +1,8 @@
 import "./plate.css";
 
 class PlatesWrapper {
-    constructor(){
-
-    }
-    render()
-    {
+    constructor() {}
+    render() {
         const platesWrapper = document.createElement("div");
         platesWrapper.className = "plates__wrapper";
         return platesWrapper;

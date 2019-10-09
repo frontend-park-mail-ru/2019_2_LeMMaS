@@ -1,5 +1,4 @@
-.button
-{
+.button {
     text-align: center;
     padding: 1em;
     background-color: white;
@@ -12,11 +11,8 @@
     font-size: 1em;
 }
 
-.button:hover
-{
+.button:hover {
     transition: all 0.3s ease-in-out;
     background-color: #ffffff42;
     color: white;
 }
-
-

@@ -1,12 +1,10 @@
-.form__field
-{
+.form__field {
     padding: 1em;
     border-color: transparent;
     width: 100%;
 }
 
-.form__field-wrapper
-{
+.form__field-wrapper {
     position: relative;
     display: flex;
 }

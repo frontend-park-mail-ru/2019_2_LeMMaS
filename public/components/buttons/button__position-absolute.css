@@ -1,6 +1,4 @@
-.button__position-absolute
-{
+.button__position-absolute {
     position: absolute;
     width: -webkit-fill-available;
-
 }

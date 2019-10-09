@@ -4,9 +4,9 @@ let path = require("path");
 
 /* GET home page. */
 router.get("/", function(req, res) {
-  res.sendFile("public/login.html", {
-    root: path.join(__dirname, "../")
-  });
+    res.sendFile("public/login.html", {
+        root: path.join(__dirname, "../")
+    });
 });
 
 module.exports = router;

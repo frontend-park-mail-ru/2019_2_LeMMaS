@@ -4,12 +4,9 @@ import "../anchorImg/anchorImg__position-absolute.css";
 import "../anchorImg/anchorImg__wrapper.css";
 
 class Logo {
-    constructor(){
+    constructor() {}
 
-    }
-
-    render()
-    {
+    render() {
         const logoWrapper = document.createElement("div");
         logoWrapper.className = "logo anchorImg__wrapper";
         const logoImg = document.createElement("img");

@@ -1,18 +1,14 @@
 import "./form__error.css";
 
-
 class FormError {
-    constructor(){
+    constructor() {}
 
-    }
-
-    render(error){
+    render(error) {
         const formError = document.createElement("span");
         formError.className = "form__error";
         formError.innerText = error;
         return formError;
     }
-
 }
 
 export default FormError;

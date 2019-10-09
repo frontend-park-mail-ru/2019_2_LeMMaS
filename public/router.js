@@ -4,8 +4,7 @@ import Register from "./views/register";
 import FourOFour from "./views/404";
 import Settings from "./views/settings";
 
-class Router
-{
+class Router {
     constructor() {
         this.routes = {};
     }
@@ -18,7 +17,6 @@ class Router
         return this.routes[url] ? this.routes[url] : this.routes["/404"];
     }
 }
-
 
 const router = new Router();
 router.addController("/", Index);

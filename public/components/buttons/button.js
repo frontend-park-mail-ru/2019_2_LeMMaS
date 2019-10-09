@@ -9,16 +9,13 @@ import "./button__transparency-transparent.css";
 import "./button__position-absolute.css";
 
 class Button {
-    constructor(){
+    constructor() {}
 
-    }
-
-    render(href, buttonText, buttonExtraClass = "")
-    {
+    render(href, buttonText, buttonExtraClass = "") {
         const button = document.createElement("a");
         button.className = "button " + buttonExtraClass;
         button.innerText = buttonText;
-        if(href !== "") {
+        if (href !== "") {
             button.href = href;
         }
         return button;
