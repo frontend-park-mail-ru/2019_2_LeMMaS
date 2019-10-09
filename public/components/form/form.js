@@ -13,6 +13,7 @@ class Form{
         elements.forEach(function (element) {
             form.appendChild(element);
         });
+
         return form;
     }
 
