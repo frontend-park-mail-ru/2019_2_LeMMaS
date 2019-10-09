@@ -1,0 +1,22 @@
+.userPicName {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 40%;
+}
+
+.userPicName__name {
+    margin: auto;
+    font-size: 1.5em;
+}
+
+.userPicName__img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin: auto;
+}
+
+.userPicName__img:hover {
+    opacity: 0.8;
+}

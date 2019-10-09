@@ -1,0 +1,59 @@
+.button {
+    text-align: center;
+    padding: 1em;
+    background-color: white;
+    border: 1px solid transparent;
+    color: #0b1233;
+    font-family: Futura, serif;
+    transition: all 0.3s ease-in-out;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.button:hover {
+    transition: all 0.3s ease-in-out;
+    background-color: #ffffff42;
+    color: white;
+}
+
+.button__color-gold {
+    background-color: gold;
+}
+
+.button__color-lavender {
+    background-color: #c1a8fe;
+}
+
+.button__color-red {
+    background-color: crimson;
+}
+
+.button__color-violet {
+    background-color: #9025a9;
+    color: white;
+}
+
+.button__color-yellow {
+    background-color: #e8d62b;
+}
+
+.button__position-absolute {
+    position: absolute;
+    width: -webkit-fill-available;
+}
+
+.button__size-big {
+    font-size: 1.1em;
+}
+
+.button__transparency-transparent {
+    background-color: transparent;
+    color: white;
+    border-color: white;
+}
+
+.button__transparency-transparent:hover {
+    background-color: white;
+    color: #0b1233;
+}

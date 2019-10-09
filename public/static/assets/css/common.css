@@ -1,0 +1,20 @@
+.content {
+    height: 86vh;
+    display: flex;
+}
+
+.plate {
+    width: 20%;
+    background: /*linear-gradient(#405ef3, #b4639e);*/ #0b1233bd;
+    border: 1px solid white;
+    padding: 2em;
+    color: white;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.plate__size-big {
+    width: 30%;
+}

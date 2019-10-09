@@ -1,18 +1,18 @@
+import { html } from "common-tags";
 import "./form.css";
-import "./form__type-setting.css";
 
-class Form {
-    constructor() {}
+export default class Form {
+    constructor(elements, onSubmit = null, big = false) {
+        this.elements = elements;
+        this.onSubmit = onSubmit;
+        this.big = big;
+    }
 
-    render(formExtraClass = "", ...elements) {
-        const form = document.createElement("form");
-        form.className = "form " + formExtraClass;
-        elements.forEach(function(element) {
-            form.appendChild(element);
-        });
-
-        return form;
+    render() {
+        return html`
+            <form class="form ${this.big ? "form__size-big" : ""}">
+                ${this.elements.map(element => element.render())}
+            </form>
+        `;
     }
 }
-
-export default Form;

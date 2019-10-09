@@ -1,12 +1,8 @@
-import "../public/static/assets/css/reset.css";
-
-import Router from "./Router";
+import Router from "./router";
 
 function renderPage() {
-    const url = location.pathname;
-    const view = new Router().getView(url);
-    view.beforeRender(url.substr(1, 1).toUpperCase() + url.slice(2));
-    view.render();
+    const view = new Router().getView(location.pathname);
+    document.body.innerHTML = view.render();
 }
 
 window.onpopstate = () => {

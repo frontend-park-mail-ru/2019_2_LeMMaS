@@ -23,6 +23,7 @@ class BackendIntegrator {
     register(login, password, email) {
         console.log("fetch");
         const url = "http://localhost:8080/api/v1/register";
+        let status;
         fetch(url, {
             method: "POST",
             mode: "cors",

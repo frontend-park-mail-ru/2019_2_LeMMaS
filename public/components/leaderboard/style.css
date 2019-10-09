@@ -1,0 +1,11 @@
+.leaderboard {
+    border: 1px solid;
+    overflow: scroll;
+    padding: 0 1em;
+    position: relative;
+}
+
+.leaderboard__player-me {
+    font-size: 1.1em;
+    font-weight: bold;
+}
