@@ -1,4 +1,4 @@
-import DefaultView from "./view";
+import BaseView from "./BaseView";
 import Plate from "../components/plate/plate";
 import Text from "../components/text/text";
 import Form from "../components/form/form";
@@ -7,11 +7,7 @@ import FormError from "../components/form/__error/form__error";
 import UserPicName from "../components/userPicName/userPicName";
 import Button from "../components/buttons/button";
 
-class Settings extends DefaultView {
-    constructor() {
-        super();
-    }
-
+export default class Settings extends BaseView {
     render() {
         const plate = new Plate();
         const text = new Text();
@@ -137,5 +133,3 @@ class Settings extends DefaultView {
         platesWrapper.appendChild(plateRegister);
     }
 }
-
-export default Settings;

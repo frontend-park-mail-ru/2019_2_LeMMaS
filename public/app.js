@@ -1,19 +1,20 @@
 import "../public/static/assets/css/reset.css";
-import router from "./router.js";
 
-function firstLoad() {}
+import Router from "./Router";
 
 function renderPage() {
     const url = location.pathname;
-    console.log("url: " + url);
-    let controller = router.getController(url);
-    controller = new controller();
-    controller.beforeRender(url.substr(1, 1).toUpperCase() + url.slice(2));
-    controller.render();
-    controller.afterRender();
+    const view = new Router().getView(url);
+    view.beforeRender(url.substr(1, 1).toUpperCase() + url.slice(2));
+    view.render();
 }
 
-function callback(e) {
+window.onpopstate = () => {
+    renderPage();
+};
+window.addEventListener("DOMContentLoaded", renderPage);
+
+document.addEventListener("click", e => {
     if (e.target.tagName !== "A") return;
 
     const href = e.target.getAttribute("href");
@@ -29,13 +30,4 @@ function callback(e) {
         href
     );
     renderPage();
-}
-
-window.onpopstate = function() {
-    renderPage();
-};
-
-document.addEventListener("click", callback);
-
-window.addEventListener("DOMContentLoaded", firstLoad);
-window.addEventListener("DOMContentLoaded", renderPage);
+});

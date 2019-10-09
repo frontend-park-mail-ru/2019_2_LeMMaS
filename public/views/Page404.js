@@ -1,10 +1,6 @@
-import DefaultView from "./view.js";
+import BaseView from "./BaseView";
 
-class FourOFour extends DefaultView {
-    constructor() {
-        super();
-    }
-
+export default class Page404 extends BaseView {
     beforeRender() {
         document.querySelector("head").innerHTML =
             '<meta charset="UTF-8">\n' +
@@ -76,5 +72,3 @@ class FourOFour extends DefaultView {
             "    </div>\n";
     }
 }
-
-export default FourOFour;

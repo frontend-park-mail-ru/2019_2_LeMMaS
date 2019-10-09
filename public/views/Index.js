@@ -1,4 +1,4 @@
-import DefaultView from "./view.js";
+import BaseView from "./BaseView";
 import Plate from "../components/plate/plate";
 import Leaderboard from "../components/leaderboard/leaderboard";
 import Button from "../components/buttons/button";
@@ -6,11 +6,7 @@ import Text from "../components/text/text";
 import UserPicName from "../components/userPicName/userPicName";
 import UserAchievement from "../components/userAchievement/userAchievement";
 
-class Index extends DefaultView {
-    constructor() {
-        super();
-    }
-
+export default class Index extends BaseView {
     render() {
         const plate = new Plate();
         const leaderboard = new Leaderboard();
@@ -63,5 +59,3 @@ class Index extends DefaultView {
         platesWrapper.appendChild(plateAboutMe);
     }
 }
-
-export default Index;

@@ -1,9 +1,7 @@
 import Header from "../components/header/header";
 import PlatesWrapper from "../components/plate/platesWrapper";
 
-class DefaultView {
-    constructor() {}
-
+export default class BaseView {
     beforeRender(title) {
         if (title === "") {
             title = "Play";
@@ -25,8 +23,4 @@ class DefaultView {
     }
 
     render() {}
-
-    afterRender() {}
 }
-
-export default DefaultView;
