@@ -4,7 +4,7 @@ import Text from "../components/text/text";
 import Form from "../components/form/form";
 import FormField from "../components/form/__field/form__field";
 import FormError from "../components/form/__error/form__error";
-import backendIntegrator from "../network";
+import BackendIntegrator from "../network";
 
 class Login extends DefaultView{
     constructor() {
@@ -45,10 +45,11 @@ class Login extends DefaultView{
             e.preventDefault();
             console.log("submit");
             const loginValue = document.querySelector("input[type=login]").value;
+            const passwordValue = document.querySelector("input[type=password]").value;
             if(loginValue.match(/^\w{6,19}$/)) {
                 console.log("loginmatch");
-                const back = new backendIntegrator();
-                back.register("login", "password");
+                const back = new BackendIntegrator();
+                back.login(loginValue, passwordValue);
             }
         });
     }
