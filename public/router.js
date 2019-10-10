@@ -8,7 +8,7 @@ export const routes = {
     INDEX_PAGE_ROUTE: "/",
     USER_LOGIN_PAGE_ROUTE: "/user/login",
     USER_REGISTER_PAGE_ROUTE: "/user/register",
-    USER_PROFILE_PAGE_ROUTE: "/user/profile"
+    USER_PROFILE_PAGE_ROUTE: "/user/profile",
 };
 
 export default class Router {

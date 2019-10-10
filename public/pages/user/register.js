@@ -11,7 +11,7 @@ export default class Register extends BasePage {
             new Input("Password", "password"),
             new Input("Repeat password", "password"),
             new Input("Email", "email"),
-            new SubmitButton("Register", "lavender")
+            new SubmitButton("Register", "lavender"),
         ];
         return html`
             <div class="plate plate__size-big">

@@ -11,7 +11,7 @@ export default class Profile extends BasePage {
             new Input("Password", "password"),
             new Input("Repeat password", "password"),
             new Input("Email", "email"),
-            new SubmitButton("Save", "lavender")
+            new SubmitButton("Save", "lavender"),
         ];
         return html`
             <div class="plate plate__size-big">

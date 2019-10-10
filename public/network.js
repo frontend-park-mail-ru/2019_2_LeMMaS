@@ -6,10 +6,10 @@ class BackendIntegrator {
         fetch(url, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8",
             },
             origin: true,
-            body: JSON.stringify({ login: login, password: password })
+            body: JSON.stringify({ login: login, password: password }),
         })
             .then(response => {
                 status = response.status;
@@ -28,14 +28,14 @@ class BackendIntegrator {
             method: "POST",
             mode: "cors",
             headers: {
-                "Content-Type": "application/json;charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8",
             },
             origin: true,
             body: JSON.stringify({
                 login: login,
                 password: password,
-                email: email
-            })
+                email: email,
+            }),
         })
             .then(response => {
                 status = response.status;

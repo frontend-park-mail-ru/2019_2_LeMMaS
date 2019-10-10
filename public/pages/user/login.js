@@ -11,7 +11,7 @@ export default class Login extends BasePage {
         const formElements = [
             new Input("Login"),
             new Input("Password"),
-            new SubmitButton("Login", "lavender")
+            new SubmitButton("Login", "lavender"),
         ];
         return html`
             <div class="plate plate__size-big">
