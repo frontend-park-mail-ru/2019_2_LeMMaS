@@ -11,9 +11,12 @@ export default class UserPicName {
                         alt="userpic"
                         src="static/assets/img/userpic.png"
                     />
-                    <a href="settings" class="anchorImg__position-absolute"></a>
+                    <a
+                        href="user/profile"
+                        class="anchorImg__position-absolute"
+                    ></a>
                 </div>
-                <a class="userPicName__name" href="settings">UserName</a>
+                <a class="userPicName__name" href="user/profile">UserName</a>
             </div>
         `;
     }
