@@ -5,7 +5,7 @@ let path = require("path");
 /* GET home page. */
 router.get("/", function(req, res) {
     res.sendFile("public/register.html", {
-        root: path.join(__dirname, "../")
+        root: path.join(__dirname, "../"),
     });
 });
 
