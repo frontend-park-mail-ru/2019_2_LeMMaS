@@ -14,7 +14,7 @@ export default class Leaderboard {
                     <div class="leaderboard__player ${
                         player.isMe ? "leaderboard__player-me" : ""
                     }">
-                        Player ${player.id}
+                        ${player.id}. Player ${player.id}
                     </div>
                     `
                 )}
