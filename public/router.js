@@ -1,16 +1,16 @@
 import Index from "./pages/index";
-import Login from "./pages/login";
-import Register from "./pages/register";
-import Settings from "./pages/settings";
+import Login from "./pages/user/login";
+import Register from "./pages/user/register";
+import Profile from "./pages/user/profile";
 import Page404 from "./pages/page404";
 
 export default class Router {
     constructor() {
         this.routes = {
             "/": Index,
-            "/login": Login,
-            "/register": Register,
-            "/settings": Settings
+            "/user/login": Login,
+            "/user/register": Register,
+            "/user/profile": Profile
         };
     }
 

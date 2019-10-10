@@ -1,11 +1,11 @@
-import BasePage from "./basePage";
+import BasePage from "../basePage";
 // import Text from "../components/text/text";
 // import Form from "../components/form/form";
 // import Input from "../components/form/elements/input";
 // import UserPicName from "../components/userPicName/userPicName";
 // import Button from "../components/buttons";
 
-export default class Settings extends BasePage {
+export default class Profile extends BasePage {
     renderContent() {
         // const plate = new Plate();
         // const text = new Text();
