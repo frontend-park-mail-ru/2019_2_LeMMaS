@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+import { routes } from "../../router";
 import BasePage from "../basePage";
 import Form from "../../components/form/form";
 import Input from "../../components/form/elements/input";
@@ -16,7 +17,10 @@ export default class Login extends BasePage {
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Login</h2>
                 ${new Form(formElements, this.onLoginFormSubmit, true).render()}
-                <p>Don't have an account? <a href="register">Register</a></p>
+                <p>
+                    Don't have an account?
+                    <a href="${routes.USER_REGISTER_PAGE_ROUTE}">Register</a>
+                </p>
             </div>
         `;
     }

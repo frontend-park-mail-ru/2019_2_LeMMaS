@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+import { routes } from "../../router";
 import "./style.css";
 
 export default class UserPicName {
@@ -12,11 +13,15 @@ export default class UserPicName {
                         src="static/assets/img/userpic.png"
                     />
                     <a
-                        href="user/profile"
+                        href="${routes.USER_PROFILE_PAGE_ROUTE}"
                         class="anchorImg__position-absolute"
                     ></a>
                 </div>
-                <a class="userPicName__name" href="user/profile">UserName</a>
+                <a
+                    class="userPicName__name"
+                    href="${routes.USER_PROFILE_PAGE_ROUTE}"
+                    >UserName</a
+                >
             </div>
         `;
     }

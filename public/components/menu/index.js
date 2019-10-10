@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+import { routes } from "../../router";
 import "./style.css";
 import Button from "../buttons";
 
@@ -7,11 +8,14 @@ class Menu {
         return html`
             <div class="menu">
                 ${new Button(
-                    "login",
+                    routes.USER_LOGIN_PAGE_ROUTE,
                     "LOGIN",
                     "button__transparency-transparent"
                 ).render()}
-                ${new Button("register", "REGISTER").render()}
+                ${new Button(
+                    routes.USER_REGISTER_PAGE_ROUTE,
+                    "REGISTER"
+                ).render()}
             </div>
         `;
     }
