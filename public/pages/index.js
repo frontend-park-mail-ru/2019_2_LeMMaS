@@ -19,31 +19,29 @@ export default class Index extends BasePage {
             </div>
             <div class="plate plate__size-big start-game-menu">
                 <h2 class="text__size-big text__align-center">Play</h2>
-                ${new Button(
-                    "",
-                    "Singleplayer",
-                    "button__size-big button__transparency-transparent"
-                ).render()}
-                ${new Button(
-                    "",
-                    "Multiplayer",
-                    "button__size-big button__color-yellow"
-                ).render()}
-                ${new Button(
-                    "",
-                    "Experimental",
-                    "button__size-big button__color-red"
-                ).render()}
+                ${new Button({
+                    text: "Singleplayer",
+                    extraClass:
+                        "button__size-big button__transparency-transparent",
+                }).render()}
+                ${new Button({
+                    text: "Multiplayer",
+                    extraClass: "button__size-big button__color-yellow",
+                }).render()}
+                ${new Button({
+                    text: "Experimental",
+                    extraClass: "button__size-big button__color-red",
+                }).render()}
             </div>
             <div class="plate">
                 ${new UserPicName().render()}
                 ${new UserAchievement("XP", "100").render()}
                 ${new UserAchievement("Coins", "130").render()}
-                ${new Button(
-                    "shop",
-                    "Shop",
-                    "button__size-big button__color-violet"
-                ).render()}
+                ${new Button({
+                    text: "Shop",
+                    href: "shop",
+                    extraClass: "button__size-big button__color-violet",
+                }).render()}
             </div>
         `;
     }

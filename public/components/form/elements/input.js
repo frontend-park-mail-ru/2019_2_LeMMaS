@@ -12,23 +12,14 @@ export default class Input {
     ) {
         this.labelText = labelText;
         this.type = type;
-        this.placeholder = placeholder === null ? labelText : placeholder;
+        this.placeholder = placeholder || labelText;
         this.disabled = disabled;
     }
 
     render() {
-        const label =
-            this.labelText === null
-                ? ""
-                : html`
-                      <label class="form__field__label"
-                          >${this.labelText}</label
-                      >
-                  `;
-
         return html`
             <div class="form__field-wrapper">
-                ${label}
+                ${this.renderLabel()}
                 <input
                     type="${this.type}"
                     class="form__field"
@@ -37,5 +28,13 @@ export default class Input {
                 />
             </div>
         `;
+    }
+
+    renderLabel() {
+        return this.labelText === null
+            ? ""
+            : html`
+                  <label class="form__field__label">${this.labelText}</label>
+              `;
     }
 }

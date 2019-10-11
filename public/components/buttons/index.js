@@ -3,9 +3,9 @@ import { html } from "common-tags";
 import "./style.css";
 
 export default class Button {
-    constructor(href, text, extraClass = "") {
-        this.href = href;
+    constructor({ text, href = "", extraClass = "" }) {
         this.text = text;
+        this.href = href;
         this.extraClass = extraClass;
     }
 
