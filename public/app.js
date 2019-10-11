@@ -1,5 +1,7 @@
 import Router from "./router";
 
+const LINK_TAG_NAME = "A";
+
 function renderPage() {
     const view = new Router().getView(location.pathname);
     document.body.innerHTML = view.render();
@@ -11,7 +13,9 @@ window.onpopstate = () => {
 window.addEventListener("DOMContentLoaded", renderPage);
 
 document.addEventListener("click", e => {
-    if (e.target.tagName !== "A") return;
+    if (e.target.tagName !== LINK_TAG_NAME) {
+        return;
+    }
 
     const href = e.target.getAttribute("href");
     if (href === location.pathname || href === "" || href === null) {

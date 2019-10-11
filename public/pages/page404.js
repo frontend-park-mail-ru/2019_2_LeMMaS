@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+
 import BasePage from "./basePage";
 
 export default class Page404 extends BasePage {

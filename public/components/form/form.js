@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+
 import "./form.css";
 
 export default class Form {

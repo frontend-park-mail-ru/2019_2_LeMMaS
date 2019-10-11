@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+
 import "./style.css";
 
 export default class UserAchievement {

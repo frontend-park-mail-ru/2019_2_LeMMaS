@@ -1,7 +1,8 @@
 import { html } from "common-tags";
+
 import "./style.css";
 
-class Button {
+export default class Button {
     constructor(href, text, extraClass = "") {
         this.href = href;
         this.text = text;
@@ -16,4 +17,3 @@ class Button {
         `;
     }
 }
-export default Button;

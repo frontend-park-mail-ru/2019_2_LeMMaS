@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+
 import BasePage from "../basePage";
 import Form from "../../components/form/form";
 import Input from "../../components/form/elements/input";

@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+
 import { routes } from "../../router";
 import BasePage from "../basePage";
 import Form from "../../components/form/form";

@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+
 import BasePage from "./basePage";
 import Leaderboard from "../components/leaderboard";
 import Button from "../components/buttons";
