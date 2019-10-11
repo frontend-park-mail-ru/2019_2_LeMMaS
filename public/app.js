@@ -1,44 +1,33 @@
-import "../public/static/assets/css/reset.css";
-import router from "./router.js";
+import Router from "./router";
 
-function firstLoad() {
+const LINK_TAG_NAME = "A";
 
+function renderPage() {
+    const view = new Router().getView(location.pathname);
+    document.body.innerHTML = view.render();
 }
 
-function renderPage () {
-    const url = location.pathname;
-    console.log("url: " + url);
-    let controller = router.getController(url);
-    controller = new controller;
-    controller.beforeRender(url.substr(1, 1).toUpperCase() + url.slice(2));
-    controller.render();
-    controller.afterRender();
-}
+window.onpopstate = () => {
+    renderPage();
+};
+window.addEventListener("DOMContentLoaded", renderPage);
 
-
-function callback(e) {
-    if (e.target.tagName !== "A")
+document.addEventListener("click", e => {
+    if (e.target.tagName !== LINK_TAG_NAME) {
         return;
+    }
 
     const href = e.target.getAttribute("href");
-    if(href === location.pathname || href === "" || href === null){
+    if (href === location.pathname || href === "" || href === null) {
         e.preventDefault();
         return;
     }
 
     e.preventDefault();
-    window.history.pushState({}, document.querySelector("title").innerText, href);
+    window.history.pushState(
+        {},
+        document.querySelector("title").innerText,
+        href
+    );
     renderPage();
-
-}
-
-window.onpopstate = function() {
-    renderPage();
-};
-
-
-document.addEventListener("click", callback);
-
-
-window.addEventListener("DOMContentLoaded", firstLoad);
-window.addEventListener("DOMContentLoaded", renderPage);
+});

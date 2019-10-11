@@ -1,7 +1,11 @@
-.form
-{
+.form {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     height: auto;
+}
+
+.form__size-big input,
+.form__size-big button {
+    font-size: 1.1em;
 }

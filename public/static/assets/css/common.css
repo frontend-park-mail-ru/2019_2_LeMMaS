@@ -1,0 +1,46 @@
+.content {
+    height: 86vh;
+    display: flex;
+}
+
+.plate {
+    width: 20%;
+    background: /*linear-gradient(#405ef3, #b4639e);*/ #0b1233bd;
+    border: 1px solid white;
+    padding: 2em;
+    color: white;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.plate__size-big {
+    width: 35%;
+}
+
+.start-game-menu {
+    height: 80vh;
+}
+
+.text__align-center {
+    text-align: center;
+}
+.text__size-big {
+    font-size: 3em;
+}
+.text__size-normal {
+    font-size: 2em;
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .text__size-normal {
+        font-size: 1em;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .text__size-normal {
+        font-size: 1em;
+    }
+}
