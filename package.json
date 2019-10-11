@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "node server/server.js",
+        "start": "node server/index.js",
         "build": "cp public/www/index.html public; webpack --config webpack.config.js"
     },
     "dependencies": {
