@@ -2,7 +2,7 @@ import { html } from "common-tags";
 
 import { routes } from "../../router";
 import BasePage from "../basePage";
-import Form from "../../components/form/form";
+import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 // import BackendIntegrator from "../network";

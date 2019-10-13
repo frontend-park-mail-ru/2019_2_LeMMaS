@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 
-import "./form.css";
+import "./style.css";
 
 export default class Form {
     constructor(elements, onSubmit = null, big = false) {
