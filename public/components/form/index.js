@@ -13,7 +13,7 @@ export default class Form {
     render() {
         this.parent.innerHTML = html`
             <form class="form ${this.big ? "form__size-big" : ""}">
-                ${this.elements.map(element => element.render())}
+                ${this.elements.map(element => element.renderString())}
             </form>
         `;
         this.parent

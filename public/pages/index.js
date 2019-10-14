@@ -15,7 +15,7 @@ export default class Index extends BasePage {
         return html`
             <div class="plate">
                 <h2 class="text__align-center">Leaderboard</h2>
-                ${new Leaderboard(players).render()}
+                ${new Leaderboard(players).renderString()}
             </div>
             <div class="plate plate__size-big start-game-menu">
                 <h2 class="text__size-big text__align-center">Play</h2>
@@ -23,15 +23,15 @@ export default class Index extends BasePage {
                     text: "Singleplayer",
                     extraClass:
                         "button__size-big button__transparency-transparent",
-                }).render()}
+                }).renderString()}
                 ${new Button({
                     text: "Multiplayer",
                     extraClass: "button__size-big button__color-yellow",
-                }).render()}
+                }).renderString()}
                 ${new Button({
                     text: "Experimental",
                     extraClass: "button__size-big button__color-red",
-                }).render()}
+                }).renderString()}
             </div>
             <div class="plate">
                 ${new UserPicName().render()}
@@ -41,7 +41,7 @@ export default class Index extends BasePage {
                     text: "Shop",
                     href: "shop",
                     extraClass: "button__size-big button__color-violet",
-                }).render()}
+                }).renderString()}
             </div>
         `;
     }

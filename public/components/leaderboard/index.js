@@ -7,7 +7,7 @@ export default class Leaderboard {
         this.players = players;
     }
 
-    render() {
+    renderString() {
         return html`
             <div class="leaderboard">
                 ${this.players.map(

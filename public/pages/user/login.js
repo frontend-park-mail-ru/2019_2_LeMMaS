@@ -14,11 +14,6 @@ export default class Login extends BasePage {
     }
 
     renderContent(parent) {
-        const formElements = [
-            new Input("login", "Login"),
-            new Input("password", "Password", "password"),
-            new SubmitButton("Login", "lavender"),
-        ];
         parent.innerHTML = html`
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Login</h2>
@@ -29,6 +24,11 @@ export default class Login extends BasePage {
                 </p>
             </div>
         `;
+        const formElements = [
+            new Input("login", "Login"),
+            new Input("password", "Password", "password"),
+            new SubmitButton("Login", "lavender"),
+        ];
         this.loginForm = new Form(
             parent.querySelector(".form-wrapper"),
             formElements,

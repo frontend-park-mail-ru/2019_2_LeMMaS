@@ -18,7 +18,7 @@ export default class Input {
         this.disabled = disabled;
     }
 
-    render() {
+    renderString() {
         return html`
             <div class="form__field-wrapper">
                 ${this.renderLabel()}

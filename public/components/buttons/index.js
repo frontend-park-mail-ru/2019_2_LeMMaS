@@ -9,7 +9,7 @@ export default class Button {
         this.extraClass = extraClass;
     }
 
-    render() {
+    renderString() {
         return html`
             <a class="button ${this.extraClass}" href="${this.href}">
                 ${this.text}

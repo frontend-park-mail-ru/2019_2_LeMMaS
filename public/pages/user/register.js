@@ -12,6 +12,12 @@ export default class Register extends BasePage {
     }
 
     renderContent(parent) {
+        parent.innerHTML = html`
+            <div class="plate plate__size-big">
+                <h2 class="text__align-center text__size-big">Register</h2>
+                <div class="form-wrapper"></div>
+            </div>
+        `;
         const formElements = [
             new Input("login", "Login"),
             new Input("password", "Password", "password"),
@@ -19,12 +25,6 @@ export default class Register extends BasePage {
             new Input("email", "Email", "email"),
             new SubmitButton("Register", "lavender"),
         ];
-        parent.innerHTML = html`
-            <div class="plate plate__size-big">
-                <h2 class="text__align-center text__size-big">Register</h2>
-                <div class="form-wrapper"></div>
-            </div>
-        `;
         this.registerForm = new Form(
             parent.querySelector(".form-wrapper"),
             formElements,
