@@ -5,7 +5,7 @@ import "./style.css";
 import Button from "../buttons";
 
 class Menu {
-    render() {
+    renderString() {
         return html`
             <div class="menu">
                 ${new Button({

@@ -4,7 +4,7 @@ import { routes } from "../../router";
 import "./style.css";
 
 export default class UserPicName {
-    render() {
+    renderString() {
         return html`
             <div class="userPicName">
                 <div class="anchorImg__wrapper">

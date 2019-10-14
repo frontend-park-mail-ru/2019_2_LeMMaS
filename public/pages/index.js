@@ -7,12 +7,12 @@ import UserPicName from "../components/userPicName";
 import UserAchievement from "../components/userAchievement";
 
 export default class Index extends BasePage {
-    renderContent() {
+    renderContent(parent) {
         const players = [];
         for (let i = 1; i < 10; i++) {
             players.push({ id: i, isMe: i === 4 });
         }
-        return html`
+        parent.innerHTML = html`
             <div class="plate">
                 <h2 class="text__align-center">Leaderboard</h2>
                 ${new Leaderboard(players).renderString()}
@@ -34,9 +34,9 @@ export default class Index extends BasePage {
                 }).renderString()}
             </div>
             <div class="plate">
-                ${new UserPicName().render()}
-                ${new UserAchievement("XP", "100").render()}
-                ${new UserAchievement("Coins", "130").render()}
+                ${new UserPicName().renderString()}
+                ${new UserAchievement("XP", "100").renderString()}
+                ${new UserAchievement("Coins", "130").renderString()}
                 ${new Button({
                     text: "Shop",
                     href: "shop",

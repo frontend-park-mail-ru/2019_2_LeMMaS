@@ -6,7 +6,7 @@ import "../anchorImg/anchorImg__position-absolute.css";
 import "../anchorImg/anchorImg__wrapper.css";
 
 class Logo {
-    render() {
+    renderString() {
         return html`
             <div class="logo anchorImg__wrapper">
                 <a

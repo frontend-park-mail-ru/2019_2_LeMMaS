@@ -8,7 +8,7 @@ export default class UserAchievement {
         this.value = value;
     }
 
-    render() {
+    renderString() {
         return html`
             <div class="userAchievement">
                 <p>${this.name}</p>

@@ -5,10 +5,10 @@ import Logo from "../logo";
 import Menu from "../menu";
 
 export default class Header {
-    render() {
+    renderString() {
         return html`
             <header class="header">
-                ${new Logo().render()} ${new Menu().render()}
+                ${new Logo().renderString()} ${new Menu().renderString()}
             </header>
         `;
     }
