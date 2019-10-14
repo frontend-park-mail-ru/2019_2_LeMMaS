@@ -3,17 +3,25 @@ import { html } from "common-tags";
 import "./style.css";
 
 export default class Form {
-    constructor(elements, onSubmit = null, big = false) {
+    constructor(parent, elements, onSubmit = null, big = false) {
+        this.parent = parent;
         this.elements = elements;
         this.onSubmit = onSubmit;
         this.big = big;
     }
 
     render() {
-        return html`
+        this.parent.innerHTML = html`
             <form class="form ${this.big ? "form__size-big" : ""}">
                 ${this.elements.map(element => element.render())}
             </form>
         `;
+        this.parent
+            .querySelector(".form")
+            .addEventListener("submit", this.onSubmit);
+    }
+
+    getValue(fieldName) {
+        return this.parent.querySelector(".form ." + fieldName).value;
     }
 }

@@ -8,35 +8,43 @@ import SubmitButton from "../../components/form/elements/submitButton";
 // import BackendIntegrator from "../network";
 
 export default class Login extends BasePage {
-    renderContent() {
+    constructor() {
+        super();
+        this.onLoginFormSubmit = this.onLoginFormSubmit.bind(this);
+    }
+
+    renderContent(parent) {
         const formElements = [
-            new Input("Login"),
-            new Input("Password"),
+            new Input("login", "Login"),
+            new Input("password", "Password", "password"),
             new SubmitButton("Login", "lavender"),
         ];
-        return html`
+        parent.innerHTML = html`
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Login</h2>
-                ${new Form(formElements, this.onLoginFormSubmit, true).render()}
+                <div class="form-wrapper"></div>
                 <p>
                     Don't have an account?
                     <a href="${routes.USER_REGISTER_PAGE_ROUTE}">Register</a>
                 </p>
             </div>
         `;
+        this.loginForm = new Form(
+            parent.querySelector(".form-wrapper"),
+            formElements,
+            this.onLoginFormSubmit,
+            true
+        );
+        this.loginForm.render();
     }
 
     onLoginFormSubmit(e) {
         e.preventDefault();
-        //     console.log("submit");
-        //     const loginValue = document.querySelector("input[type=login]")
-        //         .value;
-        //     const passwordValue = document.querySelector("input[type=password]")
-        //         .value;
-        //     if (loginValue.match(/^\w{6,19}$/)) {
-        //         console.log("loginmatch");
-        //         const back = new BackendIntegrator();
-        //         back.login(loginValue, passwordValue);
-        //     }
+
+        const login = this.loginForm.getValue("login");
+        const password = this.loginForm.getValue("password");
+
+        console.log(login);
+        console.log(password);
     }
 }

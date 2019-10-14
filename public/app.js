@@ -4,7 +4,7 @@ const LINK_TAG_NAME = "A";
 
 function renderPage() {
     const view = new Router().getView(location.pathname);
-    document.body.innerHTML = view.render();
+    view.render();
 }
 
 window.onpopstate = () => {

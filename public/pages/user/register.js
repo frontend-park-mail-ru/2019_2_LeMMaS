@@ -6,37 +6,45 @@ import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 
 export default class Register extends BasePage {
-    renderContent() {
+    constructor() {
+        super();
+        this.onRegisterFormSubmit = this.onRegisterFormSubmit.bind(this);
+    }
+
+    renderContent(parent) {
         const formElements = [
-            new Input("Login"),
-            new Input("Password", "password"),
-            new Input("Repeat password", "password"),
-            new Input("Email", "email"),
+            new Input("login", "Login"),
+            new Input("password", "Password", "password"),
+            new Input("password-repeat", "Repeat password", "password"),
+            new Input("email", "Email", "email"),
             new SubmitButton("Register", "lavender"),
         ];
-        return html`
+        parent.innerHTML = html`
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Register</h2>
-                ${new Form(
-                    formElements,
-                    this.onRegisterFormSubmit,
-                    true
-                ).render()}
+                <div class="form-wrapper"></div>
             </div>
         `;
+        this.registerForm = new Form(
+            parent.querySelector(".form-wrapper"),
+            formElements,
+            this.onRegisterFormSubmit,
+            true
+        );
+        this.registerForm.render();
     }
 
     onRegisterFormSubmit(e) {
         e.preventDefault();
-        console.log("submit");
-        // const loginValue = document.querySelector("input[type=login]").value;
-        // const passwordValue = document.querySelector("input[type=password]")
-        //     .value;
-        // const emailValue = document.querySelector("input[type=email]").value;
-        // if (loginValue.match(/^\w{6,19}$/)) {
-        //     console.log("loginmatch");
-        //     const back = new BackendIntegrator();
-        //     back.register(loginValue, passwordValue, emailValue);
-        // }
+
+        const login = this.registerForm.getValue("login");
+        const password = this.registerForm.getValue("password");
+        const passwordRepeat = this.registerForm.getValue("password-repeat");
+        const email = this.registerForm.getValue("email");
+
+        console.log(login);
+        console.log(password);
+        console.log(passwordRepeat);
+        console.log(email);
     }
 }

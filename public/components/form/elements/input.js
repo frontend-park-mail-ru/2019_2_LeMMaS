@@ -5,11 +5,13 @@ import "./form__field__label.css";
 
 export default class Input {
     constructor(
+        fieldName,
         labelText,
         type = "text",
         placeholder = null,
         disabled = false
     ) {
+        this.fieldName = fieldName;
         this.labelText = labelText;
         this.type = type;
         this.placeholder = placeholder || labelText;
@@ -22,7 +24,7 @@ export default class Input {
                 ${this.renderLabel()}
                 <input
                     type="${this.type}"
-                    class="form__field"
+                    class="form__field ${this.fieldName}"
                     placeholder="${this.placeholder}"
                     ${this.disabled ? "disabled" : ""}
                 />
