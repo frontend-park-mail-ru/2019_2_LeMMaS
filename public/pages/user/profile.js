@@ -19,10 +19,20 @@ export default class Profile extends BasePage {
             </div>
         `;
         const formElements = [
-            new Input("login", "Login"),
-            new Input("password", "Password", "password"),
-            new Input("password-repeat", "Repeat password", "password"),
-            new Input("email", "Email", "email"),
+            new Input({
+                name: "name",
+                label: "Name",
+            }),
+            new Input({
+                name: "password",
+                label: "Password",
+                type: "password",
+            }),
+            new Input({
+                name: "password-repeat",
+                label: "Repeat password",
+                type: "password",
+            }),
             new SubmitButton("Save", "lavender"),
         ];
         this.profileForm = new Form(
@@ -37,14 +47,12 @@ export default class Profile extends BasePage {
     onEditProfileFormSubmit(e) {
         e.preventDefault();
 
-        const login = this.profileForm.getValue("login");
+        const name = this.profileForm.getValue("name");
         const password = this.profileForm.getValue("password");
         const passwordRepeat = this.profileForm.getValue("password-repeat");
-        const email = this.profileForm.getValue("email");
 
-        console.log(login);
+        console.log(name);
         console.log(password);
         console.log(passwordRepeat);
-        console.log(email);
     }
 }

@@ -20,10 +20,25 @@ export default class Register extends BasePage {
             </div>
         `;
         const formElements = [
-            new Input("email", "Email", "email"),
-            new Input("name", "Name"),
-            new Input("password", "Password", "password"),
-            new Input("password-repeat", "Repeat password", "password"),
+            new Input({
+                name: "email",
+                label: "Email",
+                type: "email",
+                required: true,
+            }),
+            new Input({ name: "name", label: "Name", required: true }),
+            new Input({
+                name: "password",
+                label: "Password",
+                type: "password",
+                required: true,
+            }),
+            new Input({
+                name: "password-repeat",
+                label: "Repeat password",
+                type: "password",
+                required: true,
+            }),
             new SubmitButton("Register", "lavender"),
         ];
         this.registerForm = new Form(
@@ -47,6 +62,6 @@ export default class Register extends BasePage {
             console.log("passwords mismatch");
             return;
         }
-        API.register(email, name, password);
+        API.registerUser(email, name, password);
     }
 }

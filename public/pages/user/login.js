@@ -24,8 +24,13 @@ export default class Login extends BasePage {
             </div>
         `;
         const formElements = [
-            new Input("email", "Email"),
-            new Input("password", "Password", "password"),
+            new Input({ name: "email", label: "Email", required: true }),
+            new Input({
+                name: "password",
+                label: "Password",
+                type: "password",
+                required: true,
+            }),
             new SubmitButton("Login", "lavender"),
         ];
         this.loginForm = new Form(

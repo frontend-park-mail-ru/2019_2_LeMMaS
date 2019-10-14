@@ -8,14 +8,10 @@ import UserAchievement from "../components/userAchievement";
 
 export default class Index extends BasePage {
     renderContent(parent) {
-        const players = [];
-        for (let i = 1; i < 10; i++) {
-            players.push({ id: i, isMe: i === 4 });
-        }
         parent.innerHTML = html`
             <div class="plate">
                 <h2 class="text__align-center">Leaderboard</h2>
-                ${new Leaderboard(players).renderString()}
+                <div class="leaderboard-wrapper"></div>
             </div>
             <div class="plate plate__size-big start-game-menu">
                 <h2 class="text__size-big text__align-center">Play</h2>
@@ -44,5 +40,9 @@ export default class Index extends BasePage {
                 }).renderString()}
             </div>
         `;
+        const leaderboard = new Leaderboard(
+            parent.querySelector(".leaderboard-wrapper")
+        );
+        leaderboard.render();
     }
 }

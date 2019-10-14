@@ -7,7 +7,7 @@ import Page404 from "./pages/page404";
 export const routes = {
     INDEX_PAGE_ROUTE: "/",
     USER_LOGIN_PAGE_ROUTE: "/user/login",
-    USER_REGISTER_PAGE_ROUTE: "/user/register",
+    USER_REGISTER_PAGE_ROUTE: "/user/registerUser",
     USER_PROFILE_PAGE_ROUTE: "/user/profile",
 };
 

@@ -4,17 +4,19 @@ import "./form__field.css";
 import "./form__field__label.css";
 
 export default class Input {
-    constructor(
-        fieldName,
-        labelText,
+    constructor({
+        name,
+        label,
         type = "text",
+        required = false,
         placeholder = null,
-        disabled = false
-    ) {
-        this.fieldName = fieldName;
-        this.labelText = labelText;
+        disabled = false,
+    }) {
+        this.name = name;
+        this.label = label;
         this.type = type;
-        this.placeholder = placeholder || labelText;
+        this.required = required;
+        this.placeholder = placeholder || label;
         this.disabled = disabled;
     }
 
@@ -24,8 +26,9 @@ export default class Input {
                 ${this.renderLabel()}
                 <input
                     type="${this.type}"
-                    class="form__field ${this.fieldName}"
+                    class="form__field ${this.name}"
                     placeholder="${this.placeholder}"
+                    ${this.required ? "required" : ""}
                     ${this.disabled ? "disabled" : ""}
                 />
             </div>
@@ -33,10 +36,10 @@ export default class Input {
     }
 
     renderLabel() {
-        return this.labelText === null
+        return this.label === null
             ? ""
             : html`
-                  <label class="form__field__label">${this.labelText}</label>
+                  <label class="form__field__label">${this.label}</label>
               `;
     }
 }

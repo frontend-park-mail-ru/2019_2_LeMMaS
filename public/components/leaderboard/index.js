@@ -1,21 +1,24 @@
 import { html } from "common-tags";
 
+import API from "../../api";
+
 import "./style.css";
 
 export default class Leaderboard {
-    constructor(players) {
-        this.players = players;
+    constructor(parent) {
+        this.parent = parent;
     }
 
-    renderString() {
-        return html`
+    async render() {
+        const players = await API.listUsers();
+        this.parent.innerHTML = html`
             <div class="leaderboard">
-                ${this.players.map(
+                ${players.map(
                     player => `
                     <div class="leaderboard__player ${
-                        player.isMe ? "leaderboard__player-me" : ""
+                        player.id == 2 ? "leaderboard__player-me" : ""
                     }">
-                        ${player.id}. Player ${player.id}
+                        ${player.id}. ${player.name}
                     </div>
                     `
                 )}
