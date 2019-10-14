@@ -4,6 +4,7 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
+import API from "../../api";
 
 export default class Register extends BasePage {
     constructor() {
@@ -19,10 +20,10 @@ export default class Register extends BasePage {
             </div>
         `;
         const formElements = [
-            new Input("login", "Login"),
+            new Input("email", "Email", "email"),
+            new Input("name", "Name"),
             new Input("password", "Password", "password"),
             new Input("password-repeat", "Repeat password", "password"),
-            new Input("email", "Email", "email"),
             new SubmitButton("Register", "lavender"),
         ];
         this.registerForm = new Form(
@@ -37,14 +38,15 @@ export default class Register extends BasePage {
     onRegisterFormSubmit(e) {
         e.preventDefault();
 
-        const login = this.registerForm.getValue("login");
+        const email = this.registerForm.getValue("email");
+        const name = this.registerForm.getValue("name");
         const password = this.registerForm.getValue("password");
         const passwordRepeat = this.registerForm.getValue("password-repeat");
-        const email = this.registerForm.getValue("email");
 
-        console.log(login);
-        console.log(password);
-        console.log(passwordRepeat);
-        console.log(email);
+        if (password !== passwordRepeat) {
+            console.log("passwords mismatch");
+            return;
+        }
+        API.register(email, name, password);
     }
 }

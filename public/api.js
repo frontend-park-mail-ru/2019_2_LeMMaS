@@ -1,18 +1,20 @@
+const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
+
 const routes = {
-    USER_REGISTER_ROUTE: "/api/v1/register/login",
+    USER_REGISTER_PATH: "/api/v1/user/register",
 };
 
 export default class API {
-    static register(login, password, email) {
-        return this._post(routes.USER_REGISTER_ROUTE, {
-            login: login,
-            password: password,
+    static register(email, name, password) {
+        return this._post(routes.USER_REGISTER_PATH, {
             email: email,
+            name: name,
+            password: password,
         });
     }
 
-    static _post(url, body) {
-        return fetch(url, {
+    static _post(path, body) {
+        return fetch(BACKEND_URL + path, {
             method: "POST",
             mode: "cors",
             headers: {

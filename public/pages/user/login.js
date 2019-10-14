@@ -5,7 +5,6 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
-// import BackendIntegrator from "../network";
 
 export default class Login extends BasePage {
     constructor() {
@@ -25,7 +24,7 @@ export default class Login extends BasePage {
             </div>
         `;
         const formElements = [
-            new Input("login", "Login"),
+            new Input("email", "Email"),
             new Input("password", "Password", "password"),
             new SubmitButton("Login", "lavender"),
         ];
@@ -41,10 +40,10 @@ export default class Login extends BasePage {
     onLoginFormSubmit(e) {
         e.preventDefault();
 
-        const login = this.loginForm.getValue("login");
+        const email = this.loginForm.getValue("email");
         const password = this.loginForm.getValue("password");
 
-        console.log(login);
+        console.log(email);
         console.log(password);
     }
 }
