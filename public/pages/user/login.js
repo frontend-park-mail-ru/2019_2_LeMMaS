@@ -5,6 +5,7 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
+import API from "../../api";
 
 export default class Login extends BasePage {
     constructor() {
@@ -48,7 +49,6 @@ export default class Login extends BasePage {
         const email = this.loginForm.getValue("email");
         const password = this.loginForm.getValue("password");
 
-        console.log(email);
-        console.log(password);
+        API.loginUser(email, password);
     }
 }

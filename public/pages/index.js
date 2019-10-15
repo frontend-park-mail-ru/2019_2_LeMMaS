@@ -30,7 +30,7 @@ export default class Index extends BasePage {
                 }).renderString()}
             </div>
             <div class="plate">
-                ${new UserPicName().renderString()}
+                <span class="userPicName-wrapper"></span>
                 ${new UserAchievement("XP", "100").renderString()}
                 ${new UserAchievement("Coins", "130").renderString()}
                 ${new Button({
@@ -40,9 +40,11 @@ export default class Index extends BasePage {
                 }).renderString()}
             </div>
         `;
-        const leaderboard = new Leaderboard(
-            parent.querySelector(".leaderboard-wrapper")
-        );
-        leaderboard.render();
+
+        const leaderboardWrapper = parent.querySelector(".leaderboard-wrapper");
+        new Leaderboard(leaderboardWrapper).render();
+
+        const userPicNameWrapper = parent.querySelector(".userPicName-wrapper");
+        new UserPicName(userPicNameWrapper).render();
     }
 }
