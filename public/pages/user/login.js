@@ -2,41 +2,53 @@ import { html } from "common-tags";
 
 import { routes } from "../../router";
 import BasePage from "../basePage";
-import Form from "../../components/form/form";
+import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
-// import BackendIntegrator from "../network";
 
 export default class Login extends BasePage {
-    renderContent() {
-        const formElements = [
-            new Input("Login"),
-            new Input("Password"),
-            new SubmitButton("Login", "lavender"),
-        ];
-        return html`
+    constructor() {
+        super();
+        this.onLoginFormSubmit = this.onLoginFormSubmit.bind(this);
+    }
+
+    renderContent(parent) {
+        parent.innerHTML = html`
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Login</h2>
-                ${new Form(formElements, this.onLoginFormSubmit, true).render()}
+                <div class="form-wrapper"></div>
                 <p>
                     Don't have an account?
                     <a href="${routes.USER_REGISTER_PAGE_ROUTE}">Register</a>
                 </p>
             </div>
         `;
+        const formElements = [
+            new Input({ name: "email", label: "Email", required: true }),
+            new Input({
+                name: "password",
+                label: "Password",
+                type: "password",
+                required: true,
+            }),
+            new SubmitButton("Login", "lavender"),
+        ];
+        this.loginForm = new Form(
+            parent.querySelector(".form-wrapper"),
+            formElements,
+            this.onLoginFormSubmit,
+            true
+        );
+        this.loginForm.render();
     }
 
     onLoginFormSubmit(e) {
         e.preventDefault();
-        //     console.log("submit");
-        //     const loginValue = document.querySelector("input[type=login]")
-        //         .value;
-        //     const passwordValue = document.querySelector("input[type=password]")
-        //         .value;
-        //     if (loginValue.match(/^\w{6,19}$/)) {
-        //         console.log("loginmatch");
-        //         const back = new BackendIntegrator();
-        //         back.login(loginValue, passwordValue);
-        //     }
+
+        const email = this.loginForm.getValue("email");
+        const password = this.loginForm.getValue("password");
+
+        console.log(email);
+        console.log(password);
     }
 }

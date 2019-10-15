@@ -6,12 +6,11 @@ import "../static/assets/css/common.css";
 
 export default class BasePage {
     render() {
-        return html`
-            ${new Header().render()}
-            <div class="content">
-                ${this.renderContent()}
-            </div>
+        document.body.innerHTML = html`
+            ${new Header().renderString()}
+            <div class="content"></div>
         `;
+        this.renderContent(document.querySelector(".content"));
     }
 
     renderContent() {}

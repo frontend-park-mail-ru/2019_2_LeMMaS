@@ -7,15 +7,11 @@ import UserPicName from "../components/userPicName";
 import UserAchievement from "../components/userAchievement";
 
 export default class Index extends BasePage {
-    renderContent() {
-        const players = [];
-        for (let i = 1; i < 10; i++) {
-            players.push({ id: i, isMe: i === 4 });
-        }
-        return html`
+    renderContent(parent) {
+        parent.innerHTML = html`
             <div class="plate">
                 <h2 class="text__align-center">Leaderboard</h2>
-                ${new Leaderboard(players).render()}
+                <div class="leaderboard-wrapper"></div>
             </div>
             <div class="plate plate__size-big start-game-menu">
                 <h2 class="text__size-big text__align-center">Play</h2>
@@ -23,26 +19,30 @@ export default class Index extends BasePage {
                     text: "Singleplayer",
                     extraClass:
                         "button__size-big button__transparency-transparent",
-                }).render()}
+                }).renderString()}
                 ${new Button({
                     text: "Multiplayer",
                     extraClass: "button__size-big button__color-yellow",
-                }).render()}
+                }).renderString()}
                 ${new Button({
                     text: "Experimental",
                     extraClass: "button__size-big button__color-red",
-                }).render()}
+                }).renderString()}
             </div>
             <div class="plate">
-                ${new UserPicName().render()}
-                ${new UserAchievement("XP", "100").render()}
-                ${new UserAchievement("Coins", "130").render()}
+                ${new UserPicName().renderString()}
+                ${new UserAchievement("XP", "100").renderString()}
+                ${new UserAchievement("Coins", "130").renderString()}
                 ${new Button({
                     text: "Shop",
                     href: "shop",
                     extraClass: "button__size-big button__color-violet",
-                }).render()}
+                }).renderString()}
             </div>
         `;
+        const leaderboard = new Leaderboard(
+            parent.querySelector(".leaderboard-wrapper")
+        );
+        leaderboard.render();
     }
 }

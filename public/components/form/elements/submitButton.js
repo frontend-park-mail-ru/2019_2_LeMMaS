@@ -6,7 +6,7 @@ export default class SubmitButton {
         this.color = color;
     }
 
-    render() {
+    renderString() {
         const colorClass = this.color ? "button__color-" + this.color : "";
         return html`
             <div class="form__field-wrapper">
