@@ -17,40 +17,62 @@ export default class API {
     }
 
     static currentUserProfile() {
-        return this._get(routes.CURRENT_USER_PROFILE_PATH).then(
-            response => response["user"]
+        return this._get(routes.CURRENT_USER_PROFILE_PATH).then(response =>
+            response ? response["user"] : null
         );
     }
 
     static listUsers() {
-        return this._get(routes.USER_LIST_PATH).then(
-            response => response["users"]
+        return this._get(routes.USER_LIST_PATH).then(response =>
+            response ? response["users"] : null
         );
     }
 
     static _get(path) {
-        return fetch(BACKEND_URL + path, {
-            method: "GET",
-            mode: "cors",
-            origin: true,
-            credentials: "include",
-        })
-            .then(response => response.json())
-            .then(response => response["body"]);
+        const url = BACKEND_URL + path;
+        return this._processResponse(
+            url,
+            fetch(url, {
+                method: "GET",
+                mode: "cors",
+                origin: true,
+                credentials: "include",
+            })
+        );
     }
 
     static _post(path, body) {
-        return fetch(BACKEND_URL + path, {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8",
-            },
-            origin: true,
-            credentials: "include",
-            body: JSON.stringify(body),
-        })
+        const url = BACKEND_URL + path;
+        return this._processResponse(
+            url,
+            fetch(url, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8",
+                },
+                origin: true,
+                credentials: "include",
+                body: JSON.stringify(body),
+            })
+        );
+    }
+
+    static _processResponse(requestedUrl, responsePromise) {
+        return responsePromise
             .then(response => response.json())
-            .then(response => response["body"]);
+            .then(response => {
+                if (response["status"] === "error") {
+                    this._processResponseError(requestedUrl, response);
+                    return null;
+                }
+                return response["body"];
+            });
+    }
+
+    static _processResponseError(url, response) {
+        console.error(
+            `API request failed. \n${url}\n ${response["body"]["message"]}`
+        );
     }
 }

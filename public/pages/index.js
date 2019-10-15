@@ -3,8 +3,7 @@ import { html } from "common-tags";
 import BasePage from "./basePage";
 import Leaderboard from "../components/leaderboard";
 import Button from "../components/buttons";
-import UserPicName from "../components/userPicName";
-import UserAchievement from "../components/userAchievement";
+import UserInfo from "../components/userInfo";
 
 export default class Index extends BasePage {
     renderContent(parent) {
@@ -29,22 +28,13 @@ export default class Index extends BasePage {
                     extraClass: "button__size-big button__color-red",
                 }).renderString()}
             </div>
-            <div class="plate">
-                <span class="userPicName-wrapper"></span>
-                ${new UserAchievement("XP", "100").renderString()}
-                ${new UserAchievement("Coins", "130").renderString()}
-                ${new Button({
-                    text: "Shop",
-                    href: "shop",
-                    extraClass: "button__size-big button__color-violet",
-                }).renderString()}
-            </div>
+            <div class="plate user-info-wrapper"></div>
         `;
 
         const leaderboardWrapper = parent.querySelector(".leaderboard-wrapper");
         new Leaderboard(leaderboardWrapper).render();
 
-        const userPicNameWrapper = parent.querySelector(".userPicName-wrapper");
-        new UserPicName(userPicNameWrapper).render();
+        const userInfoWrapper = parent.querySelector(".user-info-wrapper");
+        new UserInfo(userInfoWrapper).render();
     }
 }
