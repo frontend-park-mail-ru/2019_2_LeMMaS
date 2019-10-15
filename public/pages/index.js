@@ -2,7 +2,7 @@ import { html } from "common-tags";
 
 import BasePage from "./basePage";
 import Leaderboard from "../components/leaderboard";
-import Button from "../components/buttons";
+import { LinkButton } from "../components/buttons";
 import UserInfo from "../components/userInfo";
 
 export default class Index extends BasePage {
@@ -14,16 +14,16 @@ export default class Index extends BasePage {
             </div>
             <div class="plate plate__size-big start-game-menu">
                 <h2 class="text__size-big text__align-center">Play</h2>
-                ${new Button({
+                ${new LinkButton({
                     text: "Singleplayer",
                     extraClass:
                         "button__size-big button__transparency-transparent",
                 }).renderString()}
-                ${new Button({
+                ${new LinkButton({
                     text: "Multiplayer",
                     extraClass: "button__size-big button__color-yellow",
                 }).renderString()}
-                ${new Button({
+                ${new LinkButton({
                     text: "Experimental",
                     extraClass: "button__size-big button__color-red",
                 }).renderString()}

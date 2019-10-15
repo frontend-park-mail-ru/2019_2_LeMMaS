@@ -3,7 +3,7 @@ import { html } from "common-tags";
 import { routes } from "../../router";
 import Session from "../../session";
 import UserAchievement from "../userAchievement";
-import Button from "../buttons";
+import { LinkButton } from "../buttons";
 
 import "./style.css";
 
@@ -16,7 +16,10 @@ export default class UserInfo {
         const user = await Session.user();
         if (user === null) {
             this.parent.innerHTML = html`
-                <a href="${routes.USER_LOGIN_PAGE_ROUTE}">Log in</a> to play!
+                <p>
+                    <a href="${routes.USER_LOGIN_PAGE_ROUTE}">Log in</a> to
+                    play!
+                </p>
             `;
         } else {
             this.parent.innerHTML = html`
@@ -41,7 +44,7 @@ export default class UserInfo {
                 </div>
                 ${new UserAchievement("XP", "100").renderString()}
                 ${new UserAchievement("Coins", "130").renderString()}
-                ${new Button({
+                ${new LinkButton({
                     text: "Shop",
                     href: "shop",
                     extraClass: "button__size-big button__color-violet",

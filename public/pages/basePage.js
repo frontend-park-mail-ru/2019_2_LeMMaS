@@ -7,9 +7,10 @@ import "../static/assets/css/common.css";
 export default class BasePage {
     render() {
         document.body.innerHTML = html`
-            ${new Header().renderString()}
+            <header class="header"></header>
             <div class="content"></div>
         `;
+        new Header(document.querySelector(".header")).render();
         this.renderContent(document.querySelector(".content"));
     }
 

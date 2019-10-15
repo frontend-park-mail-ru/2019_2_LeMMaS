@@ -4,6 +4,7 @@ const routes = {
     USER_LIST_PATH: "/api/v1/user/list",
     CURRENT_USER_PROFILE_PATH: "/api/v1/user/me",
     USER_LOGIN_PATH: "/api/v1/user/login",
+    USER_LOGOUT_PATH: "/api/v1/user/logout",
     USER_REGISTER_PATH: "/api/v1/user/register",
 };
 
@@ -14,6 +15,10 @@ export default class API {
 
     static loginUser(email, password) {
         return this._post(routes.USER_LOGIN_PATH, { email, password });
+    }
+
+    static logoutUser() {
+        return this._post(routes.USER_LOGOUT_PATH);
     }
 
     static currentUserProfile() {
