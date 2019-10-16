@@ -13,8 +13,8 @@ export default class UserInfo {
     }
 
     async render() {
-        const user = await Session.user();
-        if (user === null) {
+        const currentUser = await Session.user();
+        if (currentUser === null) {
             this.parent.innerHTML = html`
                 <p>
                     <a href="${routes.USER_LOGIN_PAGE_ROUTE}">Log in</a> to
@@ -39,7 +39,7 @@ export default class UserInfo {
                         class="userPicName__name"
                         href="${routes.USER_PROFILE_PAGE_ROUTE}"
                     >
-                        ${user.name}
+                        ${currentUser.name}
                     </a>
                 </div>
                 ${new UserAchievement("XP", "100").renderString()}

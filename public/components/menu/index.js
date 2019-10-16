@@ -15,8 +15,8 @@ export default class Menu {
     }
 
     async render() {
-        const user = await Session.user();
-        if (user != null) {
+        const currentUser = await Session.user();
+        if (currentUser != null) {
             this.parent.innerHTML = html`
                 <span class="logout-button-wrapper"></span>
             `;
