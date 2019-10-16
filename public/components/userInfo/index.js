@@ -2,7 +2,6 @@ import { html } from "common-tags";
 
 import { routes } from "../../router";
 import Session from "../../session";
-import UserAchievement from "../userAchievement";
 import { LinkButton } from "../buttons";
 
 import "./style.css";
@@ -42,8 +41,6 @@ export default class UserInfo {
                         ${currentUser.name}
                     </a>
                 </div>
-                ${new UserAchievement("XP", "100").renderString()}
-                ${new UserAchievement("Coins", "130").renderString()}
                 ${new LinkButton({
                     text: "Shop",
                     href: "shop",
