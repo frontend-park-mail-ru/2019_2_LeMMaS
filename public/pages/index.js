@@ -2,9 +2,8 @@ import { html } from "common-tags";
 
 import BasePage from "./basePage";
 import Leaderboard from "../components/leaderboard";
-import Button from "../components/buttons";
-import UserPicName from "../components/userPicName";
-import UserAchievement from "../components/userAchievement";
+import { LinkButton } from "../components/buttons";
+import UserInfo from "../components/userInfo";
 
 export default class Index extends BasePage {
     renderContent(parent) {
@@ -15,34 +14,27 @@ export default class Index extends BasePage {
             </div>
             <div class="plate plate__size-big start-game-menu">
                 <h2 class="text__size-big text__align-center">Play</h2>
-                ${new Button({
+                ${new LinkButton({
                     text: "Singleplayer",
                     extraClass:
                         "button__size-big button__transparency-transparent",
                 }).renderString()}
-                ${new Button({
+                ${new LinkButton({
                     text: "Multiplayer",
                     extraClass: "button__size-big button__color-yellow",
                 }).renderString()}
-                ${new Button({
+                ${new LinkButton({
                     text: "Experimental",
                     extraClass: "button__size-big button__color-red",
                 }).renderString()}
             </div>
-            <div class="plate">
-                ${new UserPicName().renderString()}
-                ${new UserAchievement("XP", "100").renderString()}
-                ${new UserAchievement("Coins", "130").renderString()}
-                ${new Button({
-                    text: "Shop",
-                    href: "shop",
-                    extraClass: "button__size-big button__color-violet",
-                }).renderString()}
-            </div>
+            <div class="plate user-info-wrapper"></div>
         `;
-        const leaderboard = new Leaderboard(
-            parent.querySelector(".leaderboard-wrapper")
-        );
-        leaderboard.render();
+
+        const leaderboardWrapper = parent.querySelector(".leaderboard-wrapper");
+        new Leaderboard(leaderboardWrapper).render();
+
+        const userInfoWrapper = parent.querySelector(".user-info-wrapper");
+        new UserInfo(userInfoWrapper).render();
     }
 }
