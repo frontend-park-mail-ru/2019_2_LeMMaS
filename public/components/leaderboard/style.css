@@ -3,6 +3,7 @@
     overflow: scroll;
     padding: 0 1em;
     position: relative;
+    max-height: 50vh;
 }
 
 .leaderboard__player-me {

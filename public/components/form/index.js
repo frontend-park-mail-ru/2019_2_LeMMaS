@@ -15,6 +15,7 @@ export default class Form {
             <form class="form ${this.big ? "form__size-big" : ""}">
                 ${this.elements.map(element => element.renderString())}
             </form>
+            <span class="form__error">Error</span>
         `;
         this.parent
             .querySelector(".form")

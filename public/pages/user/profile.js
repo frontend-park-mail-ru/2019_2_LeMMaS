@@ -4,6 +4,8 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
+import API from "../../api";
+import Router from "../../router";
 
 export default class Profile extends BasePage {
     constructor() {
@@ -50,9 +52,37 @@ export default class Profile extends BasePage {
         const name = this.profileForm.getValue("name");
         const password = this.profileForm.getValue("password");
         const passwordRepeat = this.profileForm.getValue("password-repeat");
+        const error = document.querySelector(".form__error");
 
-        console.log(name);
-        console.log(password);
-        console.log(passwordRepeat);
+        if(password.length < 6 && password.length > 1)
+        {
+            error.innerText = "Password must be 6 letters or more!";
+            error.style.visibility = "visible";
+            return;
+        }
+
+        if(password !== passwordRepeat)
+        {
+            error.innerText = "Passwords don't match!!";
+            error.style.visibility = "visible";
+            return;
+        }
+
+        API.changeUserData(name, password).then(response => {
+            if (response === null) {
+                error.innerText = "Wrong email or password!";
+                error.style.visibility = "visible";
+            }
+            else
+            {
+                window.history.pushState(
+                    {},
+                    document.querySelector("title").innerText,
+                    "/"
+                );
+                (new Router()).renderPage();
+            }
+        });
+
     }
 }

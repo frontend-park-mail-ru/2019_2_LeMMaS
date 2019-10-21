@@ -5,6 +5,7 @@ import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 import API from "../../api";
+import Login from "./login";
 
 export default class Register extends BasePage {
     constructor() {
@@ -57,11 +58,67 @@ export default class Register extends BasePage {
         const name = this.registerForm.getValue("name");
         const password = this.registerForm.getValue("password");
         const passwordRepeat = this.registerForm.getValue("password-repeat");
+        const error = document.querySelector(".form__error");
 
-        if (password !== passwordRepeat) {
-            console.log("passwords mismatch");
+        if(email.length === 0)
+        {
+            error.innerText = "Empty email!";
+            error.style.visibility = "visible";
             return;
         }
-        API.registerUser(email, name, password);
+        if(name.length === 0)
+        {
+            error.innerText = "Empty name!";
+            error.style.visibility = "visible";
+            return;
+        }
+        if(password.length === 0)
+        {
+            error.innerText = "Empty password!";
+            error.style.visibility = "visible";
+            return;
+        }
+
+
+
+        if(passwordRepeat.length === 0)
+        {
+            error.innerText = "Please repeat password!";
+            error.style.visibility = "visible";
+            return;
+        }
+
+        if(!email.match(/.+@.+\..+/))
+        {
+            error.innerText = "Wrong email format!";
+            error.style.visibility = "visible";
+            return;
+        }
+
+        if(password.length < 6)
+        {
+            error.innerText = "Password must be 6 letters or more!";
+            error.style.visibility = "visible";
+            return;
+        }
+
+        if (password !== passwordRepeat) {
+            error.innerText = "Passwords don't match!!";
+            error.style.visibility = "visible";
+            return;
+        }
+
+
+        API.registerUser(email, name, password).then(response => {
+            if (response["status"] !== "ok") {
+                error.innerText = "User already exists!";
+                error.style.visibility = "visible";
+            }
+            else
+            {
+                Login.prototype.login(email, password, error);
+            }
+        });
+
     }
 }

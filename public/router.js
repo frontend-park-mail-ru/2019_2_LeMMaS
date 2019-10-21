@@ -23,4 +23,10 @@ export default class Router {
     getView(url) {
         return this.routes[url] ? new this.routes[url]() : new Page404();
     }
+
+    renderPage() {
+        const url = location.pathname;
+        const view = this.routes[url] ? new this.routes[url]() : new Page404();
+        view.render();
+    }
 }
