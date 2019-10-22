@@ -35,6 +35,11 @@ export default class Profile extends BasePage {
                 label: "Repeat password",
                 type: "password",
             }),
+            new Input({
+                name: "avatar",
+                label: "User pic",
+                type: "file",
+            }),
             new SubmitButton("Save", "lavender"),
         ];
         this.profileForm = new Form(
@@ -44,6 +49,8 @@ export default class Profile extends BasePage {
             true
         );
         this.profileForm.render();
+
+        document.querySelector("input[type=\"password\"").autocomplete = "new-password";
     }
 
     onEditProfileFormSubmit(e) {
@@ -52,6 +59,8 @@ export default class Profile extends BasePage {
         const name = this.profileForm.getValue("name");
         const password = this.profileForm.getValue("password");
         const passwordRepeat = this.profileForm.getValue("password-repeat");
+        const userPic = document.querySelector("input[type=\"file\"]");
+
         const error = document.querySelector(".form__error");
 
         if(password.length < 6 && password.length > 1)
@@ -84,5 +93,16 @@ export default class Profile extends BasePage {
             }
         });
 
+        const formData = new FormData();
+        console.log(userPic.files[0]);
+        formData.append("avatar", userPic.files[0]);
+
+        fetch("https://quiet-depths-50475.herokuapp.com" + "/api/v1/user/avatar/upload", {
+            method: "POST",
+            mode: "cors",
+            origin: true,
+            credentials: "include",
+            body: formData
+        });
     }
 }

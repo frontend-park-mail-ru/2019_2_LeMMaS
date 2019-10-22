@@ -1,10 +1,10 @@
 import { html } from "common-tags";
+const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
 
 import { routes } from "../../router";
 import Session from "../../session";
 import UserAchievement from "../userAchievement";
 import { LinkButton } from "../buttons";
-
 import "./style.css";
 
 export default class UserInfo {
@@ -12,8 +12,20 @@ export default class UserInfo {
         this.parent = parent;
     }
 
-    async render() {
-        const currentUser = await Session.user();
+    start() {
+        this.preRender().then(
+            currentUser => {
+                this.render(currentUser);
+            }
+        );
+    }
+
+     preRender() {
+        const currentUser = Session.user();
+        return currentUser;
+    }
+
+    async render(currentUser) {
         if (currentUser === null) {
             this.parent.innerHTML = html`
                 <p>
@@ -28,8 +40,9 @@ export default class UserInfo {
                         <img
                             class="userPicName__img"
                             alt="userpic"
-                            src="static/assets/img/userpic.png"
+                            src="${BACKEND_URL}/${currentUser.avatar_path}"
                         />
+                        
                         <a
                             href="${routes.USER_PROFILE_PAGE_ROUTE}"
                             class="anchorImg__position-absolute"

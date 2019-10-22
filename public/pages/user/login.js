@@ -67,15 +67,12 @@ export default class Login extends BasePage {
         this.login(email, password, error);
     }
 
-    login(email, password, error)
-    {
-        API.loginUser(email, password).then(response => {
+    login(email, password, error) {
+        API.loginUser(email, password).then(async response => {
             if (response === null) {
                 error.innerText = "Wrong email or password!";
                 error.style.visibility = "visible";
-            }
-            else
-            {
+            } else {
                 window.history.pushState(
                     {},
                     document.querySelector("title").innerText,

@@ -6,6 +6,7 @@ import { LinkButton } from "../components/buttons";
 import UserInfo from "../components/userInfo";
 
 export default class Index extends BasePage {
+
     renderContent(parent) {
         parent.innerHTML = html`
             <div class="plate">
@@ -35,6 +36,7 @@ export default class Index extends BasePage {
         new Leaderboard(leaderboardWrapper).render();
 
         const userInfoWrapper = parent.querySelector(".user-info-wrapper");
-        new UserInfo(userInfoWrapper).render();
+        const userInfo = new UserInfo(userInfoWrapper);
+        userInfo.start();
     }
 }

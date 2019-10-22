@@ -76,8 +76,9 @@ export default class API {
                     this._processResponseError(requestedUrl, response);
                     //return null;
                 }
-                if (response["body"] !== null)
+                if (response["body"] !== null) {
                     return response["body"];
+                }
                 return response;
             });
     }
