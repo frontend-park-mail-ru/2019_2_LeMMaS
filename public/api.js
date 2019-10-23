@@ -7,6 +7,7 @@ const routes = {
     USER_LOGIN_PATH: "/api/v1/user/login",
     USER_LOGOUT_PATH: "/api/v1/user/logout",
     USER_REGISTER_PATH: "/api/v1/user/register",
+    USER_PIC_PATH: "/api/v1/user/avatar/upload"
 };
 
 export default class API {
@@ -16,6 +17,10 @@ export default class API {
 
     static changeUserData(name = "", password = "") {
         return this._post(routes.USER_SETIINGS_PATH, { name, password });
+    }
+
+    static changeAvatar(formData) {
+        return this._postMultipart(routes.USER_PIC_PATH, formData);
     }
 
     static loginUser(email, password) {
@@ -51,6 +56,20 @@ export default class API {
         );
     }
 
+    static _postMultipart(path, formaData) {
+        const url = BACKEND_URL + path;
+        return this._processResponse(
+            url,
+            fetch(url, {
+                method: "POST",
+                mode: "cors",
+                origin: true,
+                credentials: "include",
+                body: formaData,
+            })
+        );
+    }
+
     static _post(path, body) {
         const url = BACKEND_URL + path;
         return this._processResponse(
@@ -74,7 +93,6 @@ export default class API {
             .then(response => {
                 if (response["status"] === "error") {
                     this._processResponseError(requestedUrl, response);
-                    //return null;
                 }
                 if (response["body"] !== null) {
                     return response["body"];

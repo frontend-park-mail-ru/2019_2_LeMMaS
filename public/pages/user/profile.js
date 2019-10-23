@@ -5,7 +5,6 @@ import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 import API from "../../api";
-import Router from "../../router";
 
 export default class Profile extends BasePage {
     constructor() {
@@ -55,6 +54,7 @@ export default class Profile extends BasePage {
 
     onEditProfileFormSubmit(e) {
         e.preventDefault();
+        document.querySelector("body").style.filter = "blur(4px)";
 
         const name = this.profileForm.getValue("name");
         const password = this.profileForm.getValue("password");
@@ -62,6 +62,10 @@ export default class Profile extends BasePage {
         const userPic = document.querySelector("input[type=\"file\"]");
 
         const error = document.querySelector(".form__error");
+        error.style.visibility = "hidden";
+        error.style.color = "red";
+
+        let changeFlag = false;
 
         if(password.length < 6 && password.length > 1)
         {
@@ -77,32 +81,36 @@ export default class Profile extends BasePage {
             return;
         }
 
+
         API.changeUserData(name, password).then(response => {
             if (response === null) {
-                error.innerText = "Wrong email or password!";
+                error.innerText = "Wrong name or password!";
                 error.style.visibility = "visible";
-            }
-            else
-            {
-                window.history.pushState(
-                    {},
-                    document.querySelector("title").innerText,
-                    "/"
-                );
-                (new Router()).renderPage();
+            } else {
+                changeFlag = true;
             }
         });
 
-        const formData = new FormData();
-        console.log(userPic.files[0]);
-        formData.append("avatar", userPic.files[0]);
+        if(userPic.files[0] !== undefined) {
+            const formData = new FormData();
+            formData.append("avatar", userPic.files[0]);
 
-        fetch("https://quiet-depths-50475.herokuapp.com" + "/api/v1/user/avatar/upload", {
-            method: "POST",
-            mode: "cors",
-            origin: true,
-            credentials: "include",
-            body: formData
-        });
+            API.changeAvatar(formData).then(response => {
+                if (response === null) {
+                    error.innerText = "Something went wrong!";
+                    error.style.visibility = "visible";
+                } else {
+                    console.log(changeFlag);
+                    changeFlag = true;
+                }
+            });
+        }
+        if(changeFlag === true)
+        {
+            error.innerText = "Success!";
+            error.style.visibility = "visible";
+            error.style.color = "green";
+        }
+        document.querySelector("body").style.filter = "none";
     }
 }

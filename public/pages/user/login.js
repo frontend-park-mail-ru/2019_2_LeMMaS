@@ -46,6 +46,7 @@ export default class Login extends BasePage {
 
     onLoginFormSubmit(e) {
         e.preventDefault();
+        document.querySelector("body").style.filter = "blur(4px)";
 
         const email = this.loginForm.getValue("email");
         const password = this.loginForm.getValue("password");
@@ -80,6 +81,8 @@ export default class Login extends BasePage {
                 );
                 (new Router()).renderPage();
             }
-        });
+        }).finally(
+            document.querySelector("body").style.filter = "none"
+        );
     }
 }
