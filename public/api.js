@@ -2,15 +2,25 @@ const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
 
 const routes = {
     USER_LIST_PATH: "/api/v1/user/list",
+    USER_SETIINGS_PATH: "/api/v1/user/update",
     CURRENT_USER_PROFILE_PATH: "/api/v1/user/me",
     USER_LOGIN_PATH: "/api/v1/user/login",
     USER_LOGOUT_PATH: "/api/v1/user/logout",
     USER_REGISTER_PATH: "/api/v1/user/register",
+    USER_PIC_PATH: "/api/v1/user/avatar/upload"
 };
 
 export default class API {
     static registerUser(email, name, password) {
         return this._post(routes.USER_REGISTER_PATH, { email, name, password });
+    }
+
+    static changeUserData(name = "", password = "") {
+        return this._post(routes.USER_SETIINGS_PATH, { name, password });
+    }
+
+    static changeAvatar(formData) {
+        return this._postMultipart(routes.USER_PIC_PATH, formData);
     }
 
     static loginUser(email, password) {
@@ -46,6 +56,20 @@ export default class API {
         );
     }
 
+    static _postMultipart(path, formaData) {
+        const url = BACKEND_URL + path;
+        return this._processResponse(
+            url,
+            fetch(url, {
+                method: "POST",
+                mode: "cors",
+                origin: true,
+                credentials: "include",
+                body: formaData,
+            })
+        );
+    }
+
     static _post(path, body) {
         const url = BACKEND_URL + path;
         return this._processResponse(
@@ -69,9 +93,11 @@ export default class API {
             .then(response => {
                 if (response["status"] === "error") {
                     this._processResponseError(requestedUrl, response);
-                    return null;
                 }
-                return response["body"];
+                if (response["body"] !== null) {
+                    return response["body"];
+                }
+                return response;
             });
     }
 

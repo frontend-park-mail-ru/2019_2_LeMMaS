@@ -4,9 +4,7 @@ let user = null;
 
 export default class Session {
     static async user() {
-        if (user === null) {
-            user = API.currentUserProfile();
-        }
+        user = await API.currentUserProfile();
         return user;
     }
 }
