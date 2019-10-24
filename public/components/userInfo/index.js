@@ -33,15 +33,21 @@ export default class UserInfo {
                 </p>
             `;
         } else {
+            let src;
+            if(currentUser.avatar_path !== null)
+            {
+                src = BACKEND_URL + currentUser.avatar_path;
+            } else {
+                src = "static/assets/img/userpic.png";
+            }
             this.parent.innerHTML = html`
                 <div class="userPicName">
                     <div class="anchorImg__wrapper">
                         <img
                             class="userPicName__img"
                             alt="userpic"
-                            src="${BACKEND_URL}/${currentUser.avatar_path}"
+                            src="${src}"
                         />
-                        
                         <a
                             href="${routes.USER_PROFILE_PAGE_ROUTE}"
                             class="anchorImg__position-absolute"
