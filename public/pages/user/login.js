@@ -15,6 +15,7 @@ export default class Login extends BasePage {
     }
 
     renderContent(parent) {
+        document.querySelector("title").innerText = "Login | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Login</h2>
@@ -70,7 +71,7 @@ export default class Login extends BasePage {
 
     login(email, password, error) {
         API.loginUser(email, password).then(async response => {
-            if (response === null) {
+            if (response.status !== "ok") {
                 error.innerText = "Wrong email or password!";
                 error.style.visibility = "visible";
             } else {

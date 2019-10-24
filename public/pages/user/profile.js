@@ -12,7 +12,8 @@ export default class Profile extends BasePage {
         this.onEditProfileFormSubmit = this.onEditProfileFormSubmit.bind(this);
     }
 
-    renderContent(parent) {
+    async renderContent(parent) {
+        document.querySelector("title").innerText = "Settings | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Edit profile</h2>
