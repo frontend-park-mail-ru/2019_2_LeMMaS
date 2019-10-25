@@ -37,10 +37,9 @@ export default class API {
 
     static loginUser(email, password) {
         console.log("login");
-        const headers = "Content-Type: application/json;charset=utf-8";
         return (new HttpNetwork())._post(
             BACKEND_URL + PREFIX + routes.USER_LOGIN_PATH,
-            {body : JSON.stringify({email, password})}, headers);
+            {body : {email, password}} );
     }
 
     static logoutUser() {
