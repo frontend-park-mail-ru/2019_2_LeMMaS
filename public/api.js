@@ -39,8 +39,7 @@ export default class API {
     }
 
     static changeAvatar(formData) {
-        console.log(formData);
-        return (new HttpNetwork())._post(BACKEND_URL + PREFIX + routes.USER_PIC_PATH, formData);
+        return (new HttpNetwork())._post(BACKEND_URL + PREFIX + routes.USER_PIC_PATH, {body : formData});
     }
 
     static currentUserProfile() {
