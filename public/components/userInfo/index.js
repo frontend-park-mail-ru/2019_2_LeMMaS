@@ -1,5 +1,5 @@
 import { html } from "common-tags";
-const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
+const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com/";
 
 import { routes } from "../../router";
 import Session from "../../session";
