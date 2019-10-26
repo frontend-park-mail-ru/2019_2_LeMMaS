@@ -1,7 +1,7 @@
 import { html } from "common-tags";
 
 import BasePage from "./basePage";
-import Leaderboard from "../components/leaderboard";
+//import Leaderboard from "../components/leaderboard";
 import { LinkButton } from "../components/buttons";
 import UserInfo from "../components/userInfo";
 
@@ -33,8 +33,8 @@ export default class Index extends BasePage {
             <div class="plate user-info-wrapper"></div>
         `;
 
-        const leaderboardWrapper = parent.querySelector(".leaderboard-wrapper");
-        new Leaderboard(leaderboardWrapper).render();
+        //const leaderboardWrapper = parent.querySelector(".leaderboard-wrapper");
+       // new Leaderboard(leaderboardWrapper).render();
 
         const userInfoWrapper = parent.querySelector(".user-info-wrapper");
         const userInfo = new UserInfo(userInfoWrapper);

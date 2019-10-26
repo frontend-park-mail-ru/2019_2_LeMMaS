@@ -2,10 +2,14 @@ export default class HttpNetwork {
 
     _request(path, options) {
         const {body} = options;
-        const headers = {"Content-Type" : "application/json;charset=utf-8"};
+        let headers;
+        if (typeof body === "object") {
+            headers = {"Content-Type" : "application/json;charset=utf-8"};
+        }
+        console.log(headers);
         return fetch(path, {
             ...options,
-            headers: typeof body === "object" ? headers : undefined,
+            headers: headers,
             body: body instanceof FormData
                     ? body
                     : JSON.stringify(body)

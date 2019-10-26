@@ -10,9 +10,10 @@ export default class Leaderboard {
         this.parent = parent;
     }
 
-    async render() {
-        const currentUser = await Session.user();
-        const players = await API.listUsers();
+    render() {
+        const currentUser = Session.getUserData();
+        const players = API.listUsers();
+        console.log(players);
         this.parent.innerHTML = html`
             <div class="leaderboard">
                 ${players.map(

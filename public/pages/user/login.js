@@ -71,7 +71,8 @@ export default class Login extends BasePage {
 
     login(email, password, error) {
         API.loginUser(email, password).then(async response => {
-            if (response.status !== "ok") {
+            console.log(response.status);
+            if (response.status !== 200) {
                 error.innerText = "Wrong email or password!";
                 error.style.visibility = "visible";
             } else {

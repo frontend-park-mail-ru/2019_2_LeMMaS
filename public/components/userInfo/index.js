@@ -13,19 +13,20 @@ export default class UserInfo {
     }
 
     start() {
-        this.preRender().then(
-            currentUser => {
-                this.render(currentUser);
-            }
-        );
+        this.preRender()
+            .then(
+                currentUser =>  {
+                    this.render(currentUser);
+                }
+            );
     }
 
      preRender() {
-        const currentUser = Session.user();
+        const currentUser = Session.getUserData();
         return currentUser;
     }
 
-    async render(currentUser) {
+    render(currentUser) {
         if (currentUser === null) {
             this.parent.innerHTML = html`
                 <p>
