@@ -39,7 +39,7 @@ export default class API {
     }
 
     static changeAvatar(formData) {
-        return (new HttpNetwork())._post(BACKEND_URL + PREFIX + routes.USER_PIC_PATH, {body : formData});
+        return (new HttpNetwork())._post(BACKEND_URL + PREFIX + routes.USER_PIC_PATH,  formData);
     }
 
     static currentUserProfile() {
