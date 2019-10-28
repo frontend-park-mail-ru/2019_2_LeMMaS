@@ -1,10 +1,12 @@
 import { html } from "common-tags";
-const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com/";
-
 import { routes } from "../../router";
 import Session from "../../session";
+import UserAchievement from "../userAchievement";
 import { LinkButton } from "../buttons";
 import "./style.css";
+import Loader from "../../components/loader/index";
+
+const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
 
 export default class UserInfo {
     constructor(parent) {
@@ -12,19 +14,22 @@ export default class UserInfo {
     }
 
     start() {
-        this.preRender().then(
-            currentUser => {
-                this.render(currentUser);
-            }
-        );
+        const loader = new Loader(document.querySelector("html"));
+        loader.showLoader();
+        this.preRender()
+            .then(
+                currentUser =>  {
+                    this.render(currentUser);
+                    loader.hideLoader();
+                }
+            );
     }
 
      preRender() {
-        const currentUser = Session.user();
-        return currentUser;
+         return Session.getUserData();
     }
 
-    async render(currentUser) {
+    render(currentUser) {
         if (currentUser === null) {
             this.parent.innerHTML = html`
                 <p>
@@ -48,6 +53,7 @@ export default class UserInfo {
                             alt="userpic"
                             src="${src}"
                         />
+                        
                         <a
                             href="${routes.USER_PROFILE_PAGE_ROUTE}"
                             class="anchorImg__position-absolute"
@@ -60,6 +66,8 @@ export default class UserInfo {
                         ${currentUser.name}
                     </a>
                 </div>
+                ${new UserAchievement("XP", "100").renderString()}
+                ${new UserAchievement("Coins", "130").renderString()}
                 ${new LinkButton({
                     text: "Shop",
                     href: "shop",

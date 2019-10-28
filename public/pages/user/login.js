@@ -7,6 +7,7 @@ import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 import API from "../../api";
 import Router from "../../router";
+import Loader from "../../components/loader/index";
 
 export default class Login extends BasePage {
     constructor() {
@@ -15,6 +16,7 @@ export default class Login extends BasePage {
     }
 
     renderContent(parent) {
+        document.querySelector("title").innerText = "Login | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Login</h2>
@@ -46,7 +48,6 @@ export default class Login extends BasePage {
 
     onLoginFormSubmit(e) {
         e.preventDefault();
-        document.querySelector("body").style.filter = "blur(4px)";
 
         const email = this.loginForm.getValue("email");
         const password = this.loginForm.getValue("password");
@@ -69,8 +70,12 @@ export default class Login extends BasePage {
     }
 
     login(email, password, error) {
+        const loader = new Loader(document.querySelector("html"));
+        loader.showLoader();
+
         API.loginUser(email, password).then(async response => {
-            if (response === null) {
+            console.log(response.status);
+            if (response.status !== 200) {
                 error.innerText = "Wrong email or password!";
                 error.style.visibility = "visible";
             } else {
@@ -82,7 +87,7 @@ export default class Login extends BasePage {
                 (new Router()).renderPage();
             }
         }).finally(
-            document.querySelector("body").style.filter = "none"
+            loader.hideLoader()
         );
     }
 }

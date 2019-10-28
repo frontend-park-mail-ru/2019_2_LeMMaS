@@ -8,6 +8,7 @@ import UserInfo from "../components/userInfo";
 export default class Index extends BasePage {
 
     renderContent(parent) {
+        document.querySelector("title").innerText = "LeMMaS";
         parent.innerHTML = html`
             <div class="plate">
                 <h2 class="text__align-center">Leaderboard</h2>
@@ -33,7 +34,7 @@ export default class Index extends BasePage {
         `;
 
         const leaderboardWrapper = parent.querySelector(".leaderboard-wrapper");
-        new Leaderboard(leaderboardWrapper).render();
+        new Leaderboard(leaderboardWrapper).start();
 
         const userInfoWrapper = parent.querySelector(".user-info-wrapper");
         const userInfo = new UserInfo(userInfoWrapper);

@@ -14,6 +14,8 @@ export default class Register extends BasePage {
     }
 
     renderContent(parent) {
+        document.querySelector("title").innerText = "Register | LeMMaS";
+
         parent.innerHTML = html`
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Register</h2>
@@ -110,7 +112,7 @@ export default class Register extends BasePage {
 
 
         API.registerUser(email, name, password).then(response => {
-            if (response["status"] !== "ok") {
+            if (response.status !== 204) {
                 error.innerText = "User already exists!";
                 error.style.visibility = "visible";
             }

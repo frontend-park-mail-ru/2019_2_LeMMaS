@@ -1,109 +1,52 @@
+import HttpNetwork from "./http";
+
 const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
+const PREFIX = "/api/v1/user";
 
 const routes = {
-    USER_LIST_PATH: "/api/v1/user/list",
-    USER_SETIINGS_PATH: "/api/v1/user/update",
-    CURRENT_USER_PROFILE_PATH: "/api/v1/user/me",
-    USER_LOGIN_PATH: "/api/v1/user/login",
-    USER_LOGOUT_PATH: "/api/v1/user/logout",
-    USER_REGISTER_PATH: "/api/v1/user/register",
-    USER_PIC_PATH: "/api/v1/user/avatar/upload"
+    USER_LIST_PATH: "/list",
+    USER_SETTINGS_PATH: "/update",
+    CURRENT_USER_PROFILE_PATH: "/me",
+    USER_LOGIN_PATH: "/login",
+    USER_LOGOUT_PATH: "/logout",
+    USER_REGISTER_PATH: "/register",
+    USER_PIC_PATH: "/avatar/upload"
 };
 
 export default class API {
-    static registerUser(email, name, password) {
-        return this._post(routes.USER_REGISTER_PATH, { email, name, password });
-    }
-
-    static changeUserData(name = "", password = "") {
-        return this._post(routes.USER_SETIINGS_PATH, { name, password });
-    }
-
-    static changeAvatar(formData) {
-        return this._postMultipart(routes.USER_PIC_PATH, formData);
+    static registerUser(email, name, password)  {
+        return (new HttpNetwork())._post(
+            BACKEND_URL + PREFIX + routes.USER_REGISTER_PATH,
+            {body : {email, name, password}});
     }
 
     static loginUser(email, password) {
-        return this._post(routes.USER_LOGIN_PATH, { email, password });
+        return (new HttpNetwork())._post(
+            BACKEND_URL + PREFIX + routes.USER_LOGIN_PATH,
+            {body : {email, password}} );
     }
 
     static logoutUser() {
-        return this._post(routes.USER_LOGOUT_PATH);
+        return (new HttpNetwork())._post(
+            BACKEND_URL + PREFIX + routes.USER_LOGOUT_PATH,
+            {body : {}});
+    }
+
+    static changeUserData(name = "", password = "") {
+        return (new HttpNetwork())._post(
+            BACKEND_URL + PREFIX + routes.USER_SETTINGS_PATH,
+            {body : {name, password}});
+    }
+
+    static changeAvatar(formData) {
+        return (new HttpNetwork())._post(BACKEND_URL + PREFIX + routes.USER_PIC_PATH,  {body: formData});
     }
 
     static currentUserProfile() {
-        return this._get(routes.CURRENT_USER_PROFILE_PATH).then(response =>
-            response ? response["user"] : null
-        );
+        return (new HttpNetwork())._get(BACKEND_URL + PREFIX + routes.CURRENT_USER_PROFILE_PATH);
     }
 
     static listUsers() {
-        return this._get(routes.USER_LIST_PATH).then(response =>
-            response ? response["users"] : null
-        );
-    }
-
-    static _get(path) {
-        const url = BACKEND_URL + path;
-        return this._processResponse(
-            url,
-            fetch(url, {
-                method: "GET",
-                mode: "cors",
-                origin: true,
-                credentials: "include",
-            })
-        );
-    }
-
-    static _postMultipart(path, formaData) {
-        const url = BACKEND_URL + path;
-        return this._processResponse(
-            url,
-            fetch(url, {
-                method: "POST",
-                mode: "cors",
-                origin: true,
-                credentials: "include",
-                body: formaData,
-            })
-        );
-    }
-
-    static _post(path, body) {
-        const url = BACKEND_URL + path;
-        return this._processResponse(
-            url,
-            fetch(url, {
-                method: "POST",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json;charset=utf-8",
-                },
-                origin: true,
-                credentials: "include",
-                body: JSON.stringify(body),
-            })
-        );
-    }
-
-    static _processResponse(requestedUrl, responsePromise) {
-        return responsePromise
-            .then(response => response.json())
-            .then(response => {
-                if (response["status"] === "error") {
-                    this._processResponseError(requestedUrl, response);
-                }
-                if (response["body"] !== null) {
-                    return response["body"];
-                }
-                return response;
-            });
-    }
-
-    static _processResponseError(url, response) {
-        console.error(
-            `API request failed. \n${url}\n ${response["body"]["message"]}`
-        );
+        return (new HttpNetwork())._get(BACKEND_URL + PREFIX + routes.USER_LIST_PATH).then(response => response.json());
     }
 }
