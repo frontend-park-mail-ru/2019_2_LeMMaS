@@ -112,7 +112,7 @@ export default class Register extends BasePage {
 
 
         API.registerUser(email, name, password).then(response => {
-            if (response["status"] !== "ok") {
+            if (response.status !== 204) {
                 error.innerText = "User already exists!";
                 error.style.visibility = "visible";
             }

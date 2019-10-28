@@ -10,16 +10,29 @@ export default class Leaderboard {
         this.parent = parent;
     }
 
-    render() {
-        const currentUser = Session.getUserData();
-        const players = API.listUsers();
-        console.log(players);
+    start() {
+        this.preRender()
+            .then(
+                currentUser =>  {
+                    API.listUsers().then(
+                       userList => {
+                           this.render(currentUser, userList.body.users);
+                       });
+                }
+            );
+    }
+
+    preRender() {
+        return Session.getUserData();
+    }
+
+    render(currentUser, userList) {
         this.parent.innerHTML = html`
             <div class="leaderboard">
-                ${players.map(
+                ${userList.map(
                     player => `
                     <div class="leaderboard__player ${
-                        currentUser && player.id == currentUser.id
+                        currentUser && player.id === currentUser.id
                             ? "leaderboard__player-me"
                             : ""
                     }">

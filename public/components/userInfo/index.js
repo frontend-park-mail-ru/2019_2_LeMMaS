@@ -1,11 +1,12 @@
 import { html } from "common-tags";
-const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
-
 import { routes } from "../../router";
 import Session from "../../session";
 import UserAchievement from "../userAchievement";
 import { LinkButton } from "../buttons";
 import "./style.css";
+import Loader from "../../components/loader/index";
+
+const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
 
 export default class UserInfo {
     constructor(parent) {
@@ -13,17 +14,19 @@ export default class UserInfo {
     }
 
     start() {
+        const loader = new Loader(document.querySelector("html"));
+        loader.showLoader();
         this.preRender()
             .then(
                 currentUser =>  {
                     this.render(currentUser);
+                    loader.hideLoader();
                 }
             );
     }
 
      preRender() {
-        const currentUser = Session.getUserData();
-        return currentUser;
+         return Session.getUserData();
     }
 
     render(currentUser) {

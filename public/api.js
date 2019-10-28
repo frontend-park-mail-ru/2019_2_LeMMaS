@@ -10,7 +10,7 @@ const routes = {
     USER_LOGIN_PATH: "/login",
     USER_LOGOUT_PATH: "/logout",
     USER_REGISTER_PATH: "/register",
-    USER_PIC_PATH: "/upload"
+    USER_PIC_PATH: "/avatar/upload"
 };
 
 export default class API {
@@ -35,11 +35,11 @@ export default class API {
     static changeUserData(name = "", password = "") {
         return (new HttpNetwork())._post(
             BACKEND_URL + PREFIX + routes.USER_SETTINGS_PATH,
-            {body : {name, password}} );
+            {body : {name, password}});
     }
 
     static changeAvatar(formData) {
-        return (new HttpNetwork())._post(BACKEND_URL + PREFIX + routes.USER_PIC_PATH,  formData);
+        return (new HttpNetwork())._post(BACKEND_URL + PREFIX + routes.USER_PIC_PATH,  {body: formData});
     }
 
     static currentUserProfile() {
@@ -47,8 +47,6 @@ export default class API {
     }
 
     static listUsers() {
-        return (new HttpNetwork())._get(routes.USER_LIST_PATH).then(response =>
-            response ? response.body["users"] : null
-        );
+        return (new HttpNetwork())._get(BACKEND_URL + PREFIX + routes.USER_LIST_PATH).then(response => response.json());
     }
 }

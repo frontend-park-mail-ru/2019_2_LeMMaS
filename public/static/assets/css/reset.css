@@ -3,7 +3,7 @@
 }
 
 .body {
-    font-family: Futura;
+    font-family: Futura, arial, sans-serif;
     margin: 0;
     height: 100vh;
     background-color: #405ef3;
@@ -12,6 +12,10 @@
     overflow: hidden;
     background-position: center;
     background-size: cover;
+}
+
+p {
+    font-family: Futura, arial, sans-serif;
 }
 
 a,

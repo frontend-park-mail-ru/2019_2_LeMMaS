@@ -5,6 +5,7 @@ import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 import API from "../../api";
+import Loader from "../../components/loader/index";
 
 export default class Profile extends BasePage {
     constructor() {
@@ -55,7 +56,8 @@ export default class Profile extends BasePage {
 
     onEditProfileFormSubmit(e) {
         e.preventDefault();
-        document.querySelector("body").style.filter = "blur(4px)";
+        const loader = new Loader(document.querySelector("html"));
+        loader.showLoader();
 
         const name = this.profileForm.getValue("name");
         const password = this.profileForm.getValue("password");
@@ -66,12 +68,12 @@ export default class Profile extends BasePage {
         error.style.visibility = "hidden";
         error.style.color = "red";
 
-        let changeFlag = false;
 
         if(password.length < 6 && password.length > 1)
         {
             error.innerText = "Password must be 6 letters or more!";
             error.style.visibility = "visible";
+            loader.hideLoader();
             return;
         }
 
@@ -79,39 +81,50 @@ export default class Profile extends BasePage {
         {
             error.innerText = "Passwords don't match!!";
             error.style.visibility = "visible";
+            loader.hideLoader();
             return;
         }
 
+        let nameAndPasswordChange = false;
 
-        API.changeUserData(name, password).then(response => {
-            if (response === null) {
-                error.innerText = "Wrong name or password!";
-                error.style.visibility = "visible";
-            } else {
-                changeFlag = true;
-            }
-        });
+        if(name !== "" || password !== "") {
+            API.changeUserData(name, password).then(response => {
+                if (response.status !== 200) {
+                    error.innerText = "Wrong name or password!";
+                    error.style.visibility = "visible";
+                } else {
+                    nameAndPasswordChange = true;
+                    error.innerText = "Info changed Successful!";
+                    error.style.color = "green";
+                    error.style.visibility = "visible";
+                }
+            });
+        }
 
         if(userPic.files[0] !== undefined) {
             const formData = new FormData();
             formData.append("avatar", userPic.files[0]);
 
             API.changeAvatar(formData).then(response => {
-                if (response === null) {
+                if (response.status !== 200) {
                     error.innerText = "Something went wrong!";
                     error.style.visibility = "visible";
                 } else {
-                    console.log(changeFlag);
-                    changeFlag = true;
+                    if(nameAndPasswordChange === true)
+                    {
+                        error.innerText += "\nUserPic changed Successful!";
+                    } else {
+                        error.innerText = "UserPic changed Successful!";
+                    }
+
+                    error.style.color = "green";
+                    error.style.visibility = "visible";
+                    loader.hideLoader();
                 }
             });
         }
-        if(changeFlag === true)
-        {
-            error.innerText = "Success!";
-            error.style.visibility = "visible";
-            error.style.color = "green";
+        else {
+            loader.hideLoader();
         }
-        document.querySelector("body").style.filter = "none";
     }
 }
