@@ -7,6 +7,7 @@ import "../components/gameScore/style.css";
 import "../components/infoLeft/style.css";
 
 import GameDemo from "../game/gameDemo";
+import Router from "../router";
 
 export default class GamePage {
     render() {
@@ -26,7 +27,12 @@ export default class GamePage {
             if (event.key === 'Escape' || event.keyCode === 27) {
                 document.querySelector(".body").style.background = null;
 
-                window.history.back();
+                window.history.pushState(
+                    {},
+                    document.querySelector("title").innerText,
+                    "/"
+                );
+                (new Router()).renderPage();
             }
         });
 
