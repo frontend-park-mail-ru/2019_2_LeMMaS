@@ -1,4 +1,4 @@
-import { html } from "common-tags";
+import { html, safeHtml } from "common-tags";
 
 import API from "../../api";
 import Session from "../../session";
@@ -26,7 +26,7 @@ export default class Leaderboard {
         this.parent.innerHTML = html`
             <div class="leaderboard">
                 ${userList.map(
-                    player => `
+                    player => safeHtml`
                     <div class="leaderboard__player ${
                         currentUser && player.id === currentUser.id
                             ? "leaderboard__player-me"

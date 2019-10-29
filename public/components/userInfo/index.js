@@ -1,4 +1,4 @@
-import { html } from "common-tags";
+import { html, safeHtml } from "common-tags";
 import { routes } from "../../router";
 import Session from "../../session";
 import { LinkButton } from "../buttons";
@@ -42,7 +42,6 @@ export default class UserInfo {
                             alt="userpic"
                             src="${avatarImageSrc}"
                         />
-
                         <a
                             href="${routes.USER_PROFILE_PAGE_ROUTE}"
                             class="anchorImg__position-absolute"
@@ -52,7 +51,7 @@ export default class UserInfo {
                         class="userPicName__name"
                         href="${routes.USER_PROFILE_PAGE_ROUTE}"
                     >
-                        ${currentUser.name}
+                        ${safeHtml`${currentUser.name}`}
                     </a>
                 </div>
                 ${new LinkButton({
