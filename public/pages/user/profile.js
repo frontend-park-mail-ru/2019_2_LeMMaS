@@ -69,6 +69,8 @@ export default class Profile extends BasePage {
         parent
             .querySelector(".form__field.name")
             .addEventListener("input", this.onNameTyped);
+
+        document.querySelector("input[type=\"password\"").autocomplete = "new-password";
     }
 
     onEditProfileFormSubmit(e) {
