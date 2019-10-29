@@ -4,42 +4,57 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
+import AvatarPreview from "../../components/avatarPreview";
 import API from "../../api";
 import Loader from "../../components/loader/index";
+
+const AVATAR_PREVIEW_TIMEOUT = 650;
 
 export default class Profile extends BasePage {
     constructor() {
         super();
+
+        this.avatarPreviewTimeoutHandler = null;
+
         this.onEditProfileFormSubmit = this.onEditProfileFormSubmit.bind(this);
+        this.onNameTyped = this.onNameTyped.bind(this);
     }
 
     async renderContent(parent) {
         document.querySelector("title").innerText = "Settings | LeMMaS";
         parent.innerHTML = html`
-            <div class="plate plate__size-big">
+            <div class="plate plate__size-big profile-wrapper">
                 <h2 class="text__align-center text__size-big">Edit profile</h2>
+                <div class="avatar-preview-wrapper"></div>
                 <div class="form-wrapper"></div>
             </div>
         `;
+
+        this.avatarPreview = new AvatarPreview(
+            parent.querySelector(".avatar-preview-wrapper")
+        );
+        this.avatarPreview.render();
+
         const formElements = [
             new Input({
                 name: "name",
                 label: "Name",
+                tip: 'Try "trump", "cat" to get special avatar',
+            }),
+            new Input({
+                name: "avatar",
+                label: "Upload avatar manualy",
+                type: "file",
             }),
             new Input({
                 name: "password",
-                label: "Password",
+                label: "Change password",
                 type: "password",
             }),
             new Input({
                 name: "password-repeat",
                 label: "Repeat password",
                 type: "password",
-            }),
-            new Input({
-                name: "avatar",
-                label: "User pic",
-                type: "file",
             }),
             new SubmitButton("Save", "lavender"),
         ];
@@ -51,8 +66,9 @@ export default class Profile extends BasePage {
         );
         this.profileForm.render();
 
-        document.querySelector('input[type="password"').autocomplete =
-            "new-password";
+        parent
+            .querySelector(".form__field.name")
+            .addEventListener("input", this.onNameTyped);
     }
 
     onEditProfileFormSubmit(e) {
@@ -122,5 +138,19 @@ export default class Profile extends BasePage {
         } else {
             loader.hideLoader();
         }
+    }
+
+    onNameTyped(e) {
+        const name = e.target.value;
+        if (name === "") {
+            this.avatarPreview.render();
+            return;
+        }
+        if (this.avatarPreviewTimeoutHandler !== null) {
+            clearTimeout(this.avatarPreviewTimeoutHandler);
+        }
+        this.avatarPreviewTimeoutHandler = setTimeout(() => {
+            this.avatarPreview.render(name);
+        }, AVATAR_PREVIEW_TIMEOUT);
     }
 }

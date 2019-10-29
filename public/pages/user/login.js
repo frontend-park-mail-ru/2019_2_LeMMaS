@@ -28,7 +28,12 @@ export default class Login extends BasePage {
             </div>
         `;
         const formElements = [
-            new Input({ name: "email", label: "Email", required: true }),
+            new Input({
+                name: "email",
+                type: "email",
+                label: "Email",
+                required: true,
+            }),
             new Input({
                 name: "password",
                 label: "Password",
@@ -53,11 +58,6 @@ export default class Login extends BasePage {
         const password = this.loginForm.getValue("password");
         const error = document.querySelector(".form__error");
 
-        if (!email.match(/.+@.+\..+/)) {
-            error.innerText = "Wrong email format!";
-            error.style.visibility = "visible";
-            return;
-        }
         if (password.length < 6) {
             error.innerText = "Wrong email or password!";
             error.style.visibility = "visible";

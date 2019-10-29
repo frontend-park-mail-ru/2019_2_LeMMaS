@@ -33,9 +33,7 @@ export default class UserInfo {
                 </p>
             `;
         } else {
-            const avatarImageSrc = currentUser.avatar_path
-                ? BACKEND_URL + "/" + currentUser.avatar_path
-                : "static/assets/img/userpic.png";
+            const avatarImageSrc = this.getAvatarUrl(currentUser);
             this.parent.innerHTML = html`
                 <div class="userPicName">
                     <div class="anchorImg__wrapper">
@@ -60,9 +58,19 @@ export default class UserInfo {
                 ${new LinkButton({
                     text: "Shop",
                     href: "shop",
-                    extraClass: "button__size-big button__color-violet",
+                    extraClass:
+                        "button__size-big button__color-violet shop-button",
                 }).renderString()}
             `;
         }
+    }
+
+    getAvatarUrl(user) {
+        if (!user.avatar_path) {
+            return "static/assets/img/userpic.png";
+        }
+        return user.avatar_path.indexOf("http") === 0
+            ? user.avatar_path
+            : BACKEND_URL + "/" + user.avatar_path;
     }
 }
