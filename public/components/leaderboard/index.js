@@ -23,6 +23,7 @@ export default class Leaderboard {
     }
 
     render(currentUser, userList) {
+        let i = 1;
         this.parent.innerHTML = html`
             <div class="leaderboard">
                 ${userList.map(
@@ -32,7 +33,7 @@ export default class Leaderboard {
                             ? "leaderboard__player-me"
                             : ""
                     }">
-                        ${player.id}. ${player.name}
+                        ${i++}. ${player.name}
                     </div>
                     `
                 )}
