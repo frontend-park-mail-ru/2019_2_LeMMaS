@@ -11,7 +11,8 @@ const routes = {
     USER_LOGIN_PATH: "/login",
     USER_LOGOUT_PATH: "/logout",
     USER_REGISTER_PATH: "/register",
-    USER_PIC_PATH: "/avatar/upload",
+    USER_AVATAR_UPLOAD_PATH: "/avatar/upload",
+    USER_AVATAR_PREVIEW_PATH: "/avatar/getByName",
 };
 
 export default class API {
@@ -45,9 +46,22 @@ export default class API {
 
     static changeAvatar(formData) {
         return new HttpNetwork()._post(
-            BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_PIC_PATH,
+            BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_AVATAR_UPLOAD_PATH,
             { body: formData }
         );
+    }
+
+    static getAvatarPreviewUrl(name) {
+        const path =
+            BACKEND_URL +
+            API_V1_PATH_PREFIX +
+            routes.USER_AVATAR_PREVIEW_PATH +
+            "?name=" +
+            name;
+        return new HttpNetwork()
+            ._get(path)
+            .then(response => response.json())
+            .then(response => response["body"]["avatar_url"]);
     }
 
     static currentUserProfile() {

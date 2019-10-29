@@ -1,13 +1,13 @@
 import { html } from "common-tags";
 
-import "./form__field.css";
-import "./form__field__label.css";
+import "./style.css";
 
 export default class Input {
     constructor({
         name,
         label,
         type = "text",
+        tip = null,
         required = false,
         placeholder = null,
         disabled = false,
@@ -15,6 +15,7 @@ export default class Input {
         this.name = name;
         this.label = label;
         this.type = type;
+        this.tip = tip;
         this.required = required;
         this.placeholder = placeholder || label;
         this.disabled = disabled;
@@ -31,6 +32,7 @@ export default class Input {
                     ${this.required ? "required" : ""}
                     ${this.disabled ? "disabled" : ""}
                 />
+                ${this.renderTip()}
             </div>
         `;
     }
@@ -40,6 +42,14 @@ export default class Input {
             ? ""
             : html`
                   <label class="form__field__label">${this.label}</label>
+              `;
+    }
+
+    renderTip() {
+        return this.tip === null
+            ? ""
+            : html`
+                  <span class="form__field__tip">${this.tip}</span>
               `;
     }
 }
