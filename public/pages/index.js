@@ -18,6 +18,7 @@ export default class Index extends BasePage {
                 <h2 class="text__size-big text__align-center">Play</h2>
                 ${new LinkButton({
                     text: "Singleplayer",
+                    href: "/game/singleplayer",
                     extraClass:
                         "button__size-big button__transparency-transparent",
                 }).renderString()}
