@@ -46,10 +46,8 @@
     }
 }
 
-
 @media (max-height: 800px) {
     .text__size-big {
         font-size: 1.5em;
     }
 }
-

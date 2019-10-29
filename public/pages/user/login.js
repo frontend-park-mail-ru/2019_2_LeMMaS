@@ -53,14 +53,12 @@ export default class Login extends BasePage {
         const password = this.loginForm.getValue("password");
         const error = document.querySelector(".form__error");
 
-        if(!email.match(/.+@.+\..+/))
-        {
+        if (!email.match(/.+@.+\..+/)) {
             error.innerText = "Wrong email format!";
             error.style.visibility = "visible";
             return;
         }
-        if(password.length < 6)
-        {
+        if (password.length < 6) {
             error.innerText = "Wrong email or password!";
             error.style.visibility = "visible";
             return;
@@ -73,21 +71,21 @@ export default class Login extends BasePage {
         const loader = new Loader(document.querySelector("html"));
         loader.showLoader();
 
-        API.loginUser(email, password).then(async response => {
-            console.log(response.status);
-            if (response.status !== 200) {
-                error.innerText = "Wrong email or password!";
-                error.style.visibility = "visible";
-            } else {
-                window.history.pushState(
-                    {},
-                    document.querySelector("title").innerText,
-                    "/"
-                );
-                (new Router()).renderPage();
-            }
-        }).finally(
-            loader.hideLoader()
-        );
+        API.loginUser(email, password)
+            .then(async response => {
+                console.log(response.status);
+                if (response.status !== 200) {
+                    error.innerText = "Wrong email or password!";
+                    error.style.visibility = "visible";
+                } else {
+                    window.history.pushState(
+                        {},
+                        document.querySelector("title").innerText,
+                        "/"
+                    );
+                    new Router().renderPage();
+                }
+            })
+            .finally(loader.hideLoader());
     }
 }

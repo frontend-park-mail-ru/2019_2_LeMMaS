@@ -62,43 +62,35 @@ export default class Register extends BasePage {
         const passwordRepeat = this.registerForm.getValue("password-repeat");
         const error = document.querySelector(".form__error");
 
-        if(email.length === 0)
-        {
+        if (email.length === 0) {
             error.innerText = "Empty email!";
             error.style.visibility = "visible";
             return;
         }
-        if(name.length === 0)
-        {
+        if (name.length === 0) {
             error.innerText = "Empty name!";
             error.style.visibility = "visible";
             return;
         }
-        if(password.length === 0)
-        {
+        if (password.length === 0) {
             error.innerText = "Empty password!";
             error.style.visibility = "visible";
             return;
         }
 
-
-
-        if(passwordRepeat.length === 0)
-        {
+        if (passwordRepeat.length === 0) {
             error.innerText = "Please repeat password!";
             error.style.visibility = "visible";
             return;
         }
 
-        if(!email.match(/.+@.+\..+/))
-        {
+        if (!email.match(/.+@.+\..+/)) {
             error.innerText = "Wrong email format!";
             error.style.visibility = "visible";
             return;
         }
 
-        if(password.length < 6)
-        {
+        if (password.length < 6) {
             error.innerText = "Password must be 6 letters or more!";
             error.style.visibility = "visible";
             return;
@@ -110,17 +102,13 @@ export default class Register extends BasePage {
             return;
         }
 
-
         API.registerUser(email, name, password).then(response => {
             if (response.status !== 204) {
                 error.innerText = "User already exists!";
                 error.style.visibility = "visible";
-            }
-            else
-            {
+            } else {
                 Login.prototype.login(email, password, error);
             }
         });
-
     }
 }

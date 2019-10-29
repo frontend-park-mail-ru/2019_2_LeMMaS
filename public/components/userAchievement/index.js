@@ -6,7 +6,6 @@ export default class UserAchievement {
     constructor(name, value) {
         this.name = name;
         this.value = value;
-
     }
 
     renderString() {

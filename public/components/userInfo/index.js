@@ -16,17 +16,14 @@ export default class UserInfo {
     start() {
         const loader = new Loader(document.querySelector("html"));
         loader.showLoader();
-        this.preRender()
-            .then(
-                currentUser =>  {
-                    this.render(currentUser);
-                    loader.hideLoader();
-                }
-            );
+        this.preRender().then(currentUser => {
+            this.render(currentUser);
+            loader.hideLoader();
+        });
     }
 
-     preRender() {
-         return Session.getUserData();
+    preRender() {
+        return Session.getUserData();
     }
 
     render(currentUser) {
@@ -39,8 +36,7 @@ export default class UserInfo {
             `;
         } else {
             let src;
-            if(currentUser.avatar_path !== null)
-            {
+            if (currentUser.avatar_path !== null) {
                 src = BACKEND_URL + currentUser.avatar_path;
             } else {
                 src = "static/assets/img/userpic.png";
@@ -53,7 +49,7 @@ export default class UserInfo {
                             alt="userpic"
                             src="${src}"
                         />
-                        
+
                         <a
                             href="${routes.USER_PROFILE_PAGE_ROUTE}"
                             class="anchorImg__position-absolute"

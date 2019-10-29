@@ -51,7 +51,8 @@ export default class Profile extends BasePage {
         );
         this.profileForm.render();
 
-        document.querySelector("input[type=\"password\"").autocomplete = "new-password";
+        document.querySelector('input[type="password"').autocomplete =
+            "new-password";
     }
 
     onEditProfileFormSubmit(e) {
@@ -62,23 +63,20 @@ export default class Profile extends BasePage {
         const name = this.profileForm.getValue("name");
         const password = this.profileForm.getValue("password");
         const passwordRepeat = this.profileForm.getValue("password-repeat");
-        const userPic = document.querySelector("input[type=\"file\"]");
+        const userPic = document.querySelector('input[type="file"]');
 
         const error = document.querySelector(".form__error");
         error.style.visibility = "hidden";
         error.style.color = "red";
 
-
-        if(password.length < 6 && password.length > 1)
-        {
+        if (password.length < 6 && password.length > 1) {
             error.innerText = "Password must be 6 letters or more!";
             error.style.visibility = "visible";
             loader.hideLoader();
             return;
         }
 
-        if(password !== passwordRepeat)
-        {
+        if (password !== passwordRepeat) {
             error.innerText = "Passwords don't match!!";
             error.style.visibility = "visible";
             loader.hideLoader();
@@ -87,7 +85,7 @@ export default class Profile extends BasePage {
 
         let nameAndPasswordChange = false;
 
-        if(name !== "" || password !== "") {
+        if (name !== "" || password !== "") {
             API.changeUserData(name, password).then(response => {
                 if (response.status !== 200) {
                     error.innerText = "Wrong name or password!";
@@ -101,7 +99,7 @@ export default class Profile extends BasePage {
             });
         }
 
-        if(userPic.files[0] !== undefined) {
+        if (userPic.files[0] !== undefined) {
             const formData = new FormData();
             formData.append("avatar", userPic.files[0]);
 
@@ -110,8 +108,7 @@ export default class Profile extends BasePage {
                     error.innerText = "Something went wrong!";
                     error.style.visibility = "visible";
                 } else {
-                    if(nameAndPasswordChange === true)
-                    {
+                    if (nameAndPasswordChange === true) {
                         error.innerText += "\nUserPic changed Successful!";
                     } else {
                         error.innerText = "UserPic changed Successful!";
@@ -122,8 +119,7 @@ export default class Profile extends BasePage {
                     loader.hideLoader();
                 }
             });
-        }
-        else {
+        } else {
             loader.hideLoader();
         }
     }

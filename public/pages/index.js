@@ -6,7 +6,6 @@ import { LinkButton } from "../components/buttons";
 import UserInfo from "../components/userInfo";
 
 export default class Index extends BasePage {
-
     renderContent(parent) {
         document.querySelector("title").innerText = "LeMMaS";
         parent.innerHTML = html`

@@ -11,15 +11,11 @@ export default class Leaderboard {
     }
 
     start() {
-        this.preRender()
-            .then(
-                currentUser =>  {
-                    API.listUsers().then(
-                       userList => {
-                           this.render(currentUser, userList.body.users);
-                       });
-                }
-            );
+        this.preRender().then(currentUser => {
+            API.listUsers().then(userList => {
+                this.render(currentUser, userList.body.users);
+            });
+        });
     }
 
     preRender() {

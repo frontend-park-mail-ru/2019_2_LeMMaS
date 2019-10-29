@@ -10,9 +10,9 @@ class Logo {
         return html`
             <div class="logo anchorImg__wrapper">
                 <img
-                        class="logo__image"
-                        alt="Lemmas logo"
-                        src="/static/assets/img/lemmaslogo.png"
+                    class="logo__image"
+                    alt="Lemmas logo"
+                    src="/static/assets/img/lemmaslogo.png"
                 />
                 <a
                     href="${routes.INDEX_PAGE_ROUTE}"
