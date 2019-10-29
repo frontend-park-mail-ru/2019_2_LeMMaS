@@ -1,12 +1,10 @@
 import { html } from "common-tags";
 import { routes } from "../../router";
 import Session from "../../session";
-import UserAchievement from "../userAchievement";
 import { LinkButton } from "../buttons";
 import "./style.css";
 import Loader from "../../components/loader/index";
-
-const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
+import { BACKEND_URL } from "../../api";
 
 export default class UserInfo {
     constructor(parent) {
@@ -35,19 +33,16 @@ export default class UserInfo {
                 </p>
             `;
         } else {
-            let src;
-            if (currentUser.avatar_path !== null) {
-                src = BACKEND_URL + currentUser.avatar_path;
-            } else {
-                src = "static/assets/img/userpic.png";
-            }
+            const avatarImageSrc = currentUser.avatar_path
+                ? BACKEND_URL + "/" + currentUser.avatar_path
+                : "static/assets/img/userpic.png";
             this.parent.innerHTML = html`
                 <div class="userPicName">
                     <div class="anchorImg__wrapper">
                         <img
                             class="userPicName__img"
                             alt="userpic"
-                            src="${src}"
+                            src="${avatarImageSrc}"
                         />
 
                         <a
@@ -62,8 +57,6 @@ export default class UserInfo {
                         ${currentUser.name}
                     </a>
                 </div>
-                ${new UserAchievement("XP", "100").renderString()}
-                ${new UserAchievement("Coins", "130").renderString()}
                 ${new LinkButton({
                     text: "Shop",
                     href: "shop",

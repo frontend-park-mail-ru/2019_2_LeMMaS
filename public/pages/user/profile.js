@@ -70,14 +70,14 @@ export default class Profile extends BasePage {
         error.style.color = "red";
 
         if (password.length < 6 && password.length > 1) {
-            error.innerText = "Password must be 6 letters or more!";
+            error.innerText = "Password must be 6 letters or more";
             error.style.visibility = "visible";
             loader.hideLoader();
             return;
         }
 
         if (password !== passwordRepeat) {
-            error.innerText = "Passwords don't match!!";
+            error.innerText = "Passwords don't match";
             error.style.visibility = "visible";
             loader.hideLoader();
             return;
@@ -88,11 +88,11 @@ export default class Profile extends BasePage {
         if (name !== "" || password !== "") {
             API.changeUserData(name, password).then(response => {
                 if (response.status !== 200) {
-                    error.innerText = "Wrong name or password!";
+                    error.innerText = "Wrong name or password";
                     error.style.visibility = "visible";
                 } else {
                     nameAndPasswordChange = true;
-                    error.innerText = "Info changed Successful!";
+                    error.innerText = "Info changed";
                     error.style.color = "green";
                     error.style.visibility = "visible";
                 }
@@ -105,13 +105,13 @@ export default class Profile extends BasePage {
 
             API.changeAvatar(formData).then(response => {
                 if (response.status !== 200) {
-                    error.innerText = "Something went wrong!";
+                    error.innerText = "Something went wrong";
                     error.style.visibility = "visible";
                 } else {
-                    if (nameAndPasswordChange === true) {
-                        error.innerText += "\nUserPic changed Successful!";
+                    if (nameAndPasswordChange) {
+                        error.innerText += "\nAvatar changed";
                     } else {
-                        error.innerText = "UserPic changed Successful!";
+                        error.innerText = "Avatar changed";
                     }
 
                     error.style.color = "green";
