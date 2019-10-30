@@ -11,15 +11,11 @@ export default class Leaderboard {
     }
 
     start() {
-        this.preRender().then(currentUser => {
+        Session.getUserData().then(currentUser => {
             API.listUsers().then(userList => {
                 this.render(currentUser, userList.body.users);
             });
         });
-    }
-
-    preRender() {
-        return Session.getUserData();
     }
 
     render(currentUser, userList) {
@@ -30,10 +26,16 @@ export default class Leaderboard {
                     player => safeHtml`
                     <div class="leaderboard__player ${
                         currentUser && player.id === currentUser.id
-                            ? "leaderboard__player-me"
+                            ? "leaderboard__player_me"
                             : ""
                     }">
-                        ${i++}. ${player.name}
+                        ${i++}. 
+                        <span class="leaderboard__player-name">${
+                            player.name
+                        }</span>
+                        <span class="leaderboard__player-email">${
+                            player.email
+                        }</span>
                     </div>
                     `
                 )}
