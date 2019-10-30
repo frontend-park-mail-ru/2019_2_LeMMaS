@@ -7,6 +7,7 @@ export default class Input {
         name,
         label,
         type = "text",
+        value = null,
         tip = null,
         required = false,
         placeholder = null,
@@ -15,6 +16,7 @@ export default class Input {
         this.name = name;
         this.label = label;
         this.type = type;
+        this.value = value;
         this.tip = tip;
         this.required = required;
         this.placeholder = placeholder || label;
@@ -29,6 +31,7 @@ export default class Input {
                     type="${this.type}"
                     class="form__field ${this.name}"
                     placeholder="${this.placeholder}"
+                    value="${this.value}"
                     ${this.required ? "required" : ""}
                     ${this.disabled ? "disabled" : ""}
                 />
