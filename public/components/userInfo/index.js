@@ -1,10 +1,9 @@
 import { html, safeHtml } from "common-tags";
 import { routes } from "../../router";
-import Session from "../../session";
+import User from "../../user";
 import { LinkButton } from "../buttons";
 import "./style.css";
 import Loader from "../../components/loader/index";
-import { BACKEND_URL } from "../../api";
 
 export default class UserInfo {
     constructor(parent) {
@@ -14,17 +13,13 @@ export default class UserInfo {
     start() {
         const loader = new Loader(document.querySelector("html"));
         loader.showLoader();
-        this.preRender().then(currentUser => {
+        User.getCurrentUser().then(currentUser => {
             this.render(currentUser);
             loader.hideLoader();
         });
     }
 
-    preRender() {
-        return Session.getUserData();
-    }
-
-    render(currentUser) {
+    async render(currentUser) {
         if (currentUser === null) {
             this.parent.innerHTML = html`
                 <p>
@@ -33,14 +28,14 @@ export default class UserInfo {
                 </p>
             `;
         } else {
-            const avatarImageSrc = this.getAvatarUrl(currentUser);
             this.parent.innerHTML = html`
+                <h2 class="text__align-center">You</h2>
                 <div class="userPicName">
                     <div class="anchorImg__wrapper">
                         <img
                             class="userPicName__img"
                             alt="userpic"
-                            src="${avatarImageSrc}"
+                            src="${await User.getAvatarUrl()}"
                         />
                         <a
                             href="${routes.USER_PROFILE_PAGE_ROUTE}"
@@ -62,14 +57,5 @@ export default class UserInfo {
                 }).renderString()}
             `;
         }
-    }
-
-    getAvatarUrl(user) {
-        if (!user.avatar_path) {
-            return "static/assets/img/userpic.png";
-        }
-        return user.avatar_path.indexOf("http") === 0
-            ? user.avatar_path
-            : BACKEND_URL + "/" + user.avatar_path;
     }
 }

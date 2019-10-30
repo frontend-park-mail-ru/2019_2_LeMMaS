@@ -1,7 +1,7 @@
 import { html, safeHtml } from "common-tags";
 
 import API from "../../api";
-import Session from "../../session";
+import User from "../../user";
 
 import "./style.css";
 
@@ -11,7 +11,7 @@ export default class Leaderboard {
     }
 
     start() {
-        Session.getUserData().then(currentUser => {
+        User.getCurrentUser().then(currentUser => {
             API.listUsers().then(userList => {
                 this.render(currentUser, userList.body.users);
             });

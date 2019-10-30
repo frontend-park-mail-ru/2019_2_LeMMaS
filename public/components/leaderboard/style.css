@@ -6,6 +6,11 @@
     max-height: 50vh;
 }
 
+.leaderboard__player {
+    font-size: 0.9em;
+    margin-bottom: 0.2em;
+}
+
 .leaderboard__player_me {
     font-size: 1.1em;
     font-weight: bold;

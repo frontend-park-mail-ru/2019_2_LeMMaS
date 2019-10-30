@@ -2,7 +2,7 @@ import { html } from "common-tags";
 
 import { routes } from "../../router";
 import { LinkButton, Button } from "../buttons";
-import Session from "../../session";
+import User from "../../user";
 import API from "../../api";
 
 import "./style.css";
@@ -15,7 +15,7 @@ export default class Menu {
     }
 
     async render() {
-        const currentUser = await Session.getUserData();
+        const currentUser = await User.getCurrentUser();
         if (currentUser != null) {
             this.parent.innerHTML = html`
                 <span class="logout-button-wrapper"></span>
