@@ -2,7 +2,31 @@ export default class GameDemo {
     start = () => {
         this.foodCanvas = document.querySelector(".foodCanvas");
         this.ballCanvas = document.querySelector(".ballCanvas");
+        this.enemiesCanvas = document.querySelector(".enemiesCanvas");
+
         this.score = document.querySelector(".gameScore__number");
+        this.ball = {
+            x: this.ballCanvas.width / 2,
+            y: this.ballCanvas.height / 2,
+            radius: 20,
+            
+        };
+        
+        this.easing = 0.01;
+        this.easingTargetX = 0;
+        this.easingTargetY = 0;
+        
+        this.food = [];
+
+        for (let count = 0; count < 100; count++) {
+            this.food[count] = {
+                x: Math.round(Math.random() * window.innerWidth),
+                y: Math.round(Math.random() * window.innerHeight),
+                status: 1,
+                color: "#" + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
+            };
+        }
+
         window.addEventListener("resize", () => {
             this.ballCanvas.width = window.innerWidth;
             this.ballCanvas.height = window.innerHeight;
@@ -10,80 +34,44 @@ export default class GameDemo {
             this.foodCanvas.height = window.innerHeight;
         });
 
-        this.x = this.ballCanvas.width / 2;
-        this.y = this.ballCanvas.height / 2;
-        this.dx = 1;
-        this.dy = -1;
-        this.food = [];
-
-        for (let c = 0; c < 10; c++) {
-            this.food[c] = [];
-            for (let r = 0; r < 10; r++) {
-                this.food[c][r] = {
-                    x: Math.round(Math.random() * window.innerWidth),
-                    y: Math.round(Math.random() * window.innerHeight),
-                    status: 1,
-                };
-            }
-        }
         this.drawFood();
-        this.draw();
+        this.drawMyBall();
 
         document.addEventListener("mousemove", (event) => {
-
-            this.main(event.clientX, event.clientY);
-/*
-            const points = this.linePoints(relativeX, relativeY, 60);
-
-
-            let currentFrame = 0;
-
-            if (currentFrame < points.length) {
-               setInterval(() => {
-                   currentFrame++;
-                   this.x = points[currentFrame].x;
-                   this.y = points[currentFrame].y;
-
-               }, 1000 / 60);
-            }*/
-
-
+            this.easingTargetX = event.clientX;
+            this.easingTargetY = event.clientY;
+            this.moveMyBall();
         });
     };
 
-    main = (relativeX, relativeY) => {
-        if(relativeX === (this.x + 20) && relativeY === (this.y + 20)) {
-            console.log("on mouse");
+    moveMyBall = () => {
+        if (this.easingTargetX === (this.ball.x + this.ball.radius) && this.easingTargetY === (this.ball.y + this.ball.radius)) {
             return;
         }
-        this.draw(relativeX, relativeY);
+        this.drawMyBall(this.easingTargetX, this.easingTargetY);
 
-        window.setTimeout(() => this.main(relativeX, relativeY), 100);
+        setTimeout(() => this.moveMyBall(), 100);
     };
 
-    draw = (relativeX, relativeY) => {
-        if(relativeX !== undefined) {
-            const easing = 0.01;
-            this.x += (relativeX - this.x) * easing;
-            this.y += (relativeY - this.y) * easing;
+    drawMyBall = (relativeX, relativeY) => {
+        if (relativeX !== undefined) {
+            this.ball.x += (relativeX - this.ball.x) * this.easing;
+            this.ball.y += (relativeY - this.ball.y) * this.easing;
         }
-            const ballRadius = 20;
-            const ctx = this.ballCanvas.getContext("2d");
-            ctx.clearRect(0, 0, this.ballCanvas.width, this.ballCanvas.height);
-            ctx.beginPath();
-            ctx.arc(this.x - 10, this.y - 10, ballRadius, 0, Math.PI * 2, false);
-            ctx.fillStyle = "green";
-            ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
-            ctx.fill();
-            ctx.stroke();
-            ctx.closePath();
-            if (this.x + this.dx > this.ballCanvas.width - ballRadius || this.x + this.dx < ballRadius) {
-                this.dx = -this.dx;
-            }
-            if (this.y + this.dy > this.ballCanvas.height - ballRadius || this.y + this.dy < ballRadius) {
-                this.dy = -this.dy;
-            }
-            this.detectCollision(this.x, this.y);
+
+        const ctx = this.ballCanvas.getContext("2d");
+
+        ctx.clearRect(0, 0, this.ballCanvas.width, this.ballCanvas.height);
+
+        ctx.beginPath();
+        ctx.arc(this.ball.x, this.ball.y, this.ball.radius, 0, Math.PI * 2, false);
+        ctx.fillStyle = "green";
+        ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+
+        this.detectFoodEating(this.ball.x, this.ball.y);
     };
 
 
@@ -91,64 +79,57 @@ export default class GameDemo {
         const ctx = this.foodCanvas.getContext("2d");
         ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
 
-        for (let c = 0; c < 10; c++) {
-            for (let r = 0; r < 10; r++) {
-                let foodElement = this.food[c][r];
-                if(foodElement.status === 1) {
-                    ctx.beginPath();
-                    ctx.arc(foodElement.x, foodElement.y, 5, 0, Math.PI * 2, false);
-                    ctx.fillStyle = "#0095DD";
-                    ctx.fill();
-                    ctx.closePath();
-                }
+        this.food.forEach((foodElement) =>{
+            if (foodElement.status === 1) {
+                ctx.beginPath();
+                ctx.arc(foodElement.x, foodElement.y, 5, 0, Math.PI * 2, false);
+                ctx.fillStyle = foodElement.color;
+                ctx.fill();
+                ctx.closePath();
             }
-        }
+        });
     };
 
-    detectCollision = (x, y) => {
-        for (let c = 0; c < 10; c++) {
-            for (let r = 0; r < 10; r++) {
-                let foodElement = this.food[c][r];
-
-                if (x > foodElement.x && x < foodElement.x + 20 && y > foodElement.y && y < foodElement.y + 20) {
-                    if (foodElement.status === 1) {
-                        if (x > foodElement.x && x < foodElement.x + 20 && y > foodElement.y && y < foodElement.y + 20) {
-                            foodElement.status = 0;
-                            this.drawFood();
-                            this.scoreIncrement();
-                        }
-                    }
+    detectFoodEating = (x, y) =>
+        this.food.forEach( (foodElement) => {
+            if (x > foodElement.x - this.ball.radius
+                && x < foodElement.x + this.ball.radius
+                && y > foodElement.y - this.ball.radius
+                && y < foodElement.y + this.ball.radius) {
+                if (foodElement.status === 1) {
+                    foodElement.status = 0;
+                    this.drawFood();
+                    this.scoreIncrement();
                 }
             }
-        }
+        });
+
+    drawOneEnemy = (x, y, radius, color, dx, dy) => {
+        setInterval(() => {
+
+            const ctx = this.enemiesCanvas.getContext("2d");
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+            ctx.fillStyle = color;
+            ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+            if (x + dx > this.enemiesCanvas.width - radius || x + dx < radius) {
+                dx = -dx;
+            }
+            if (y + dy > this.enemiesCanvas.height - radius || y + dy < radius) {
+                dy = -dy;
+            }
+
+            this.detectFoodEating(x, y);
+
+        }, 5);
     };
 
     scoreIncrement = () => {
+        this.ball.radius++;
+        this.easing /= 1.06;
         this.score.innerText = parseInt(this.score.innerText) + 1;
-    };
-
-
-    linePoints = (x2, y2, frames) => {
-        let dx = x2 - this.x;
-        let dy = y2 - this.y;
-        let incrementX = dx / frames;
-        let incrementY = dy / frames;
-        let a = new Array();
-
-        a.push({
-            x: this.x,
-            y: this.y
-        });
-        for (let frame = 0; frame < frames - 1; frame++) {
-            a.push({
-                x: this.x + (incrementX * frame),
-                y: this.y + (incrementY * frame)
-            });
-        }
-        a.push({
-            x: x2,
-            y: y2
-        });
-        return (a);
     };
 }

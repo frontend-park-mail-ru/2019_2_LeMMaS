@@ -18,6 +18,7 @@ export default class GamePage {
             <div class="gameScore"><p>Score: <span class="gameScore__number">0</span></p></div>
             <div class="infoLeft"><p>Press Escape to exit the game</p></div>
             <canvas width="${width}" height="${height}" class="foodCanvas"></canvas>
+            <canvas width="${width}" height="${height}" class="enemiesCanvas"></canvas>
             <canvas width="${width}" height="${height}" class="ballCanvas"></canvas>
         `;
 

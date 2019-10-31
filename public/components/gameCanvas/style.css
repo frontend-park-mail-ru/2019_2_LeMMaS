@@ -7,7 +7,17 @@
     display: block;
 }
 
+.enemiesCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    transition: .3s all;
+    display: block;
+}
+
 .ballCanvas {
+    opacity: 0.5;
     position: absolute;
     top: 0;
     left: 0;
