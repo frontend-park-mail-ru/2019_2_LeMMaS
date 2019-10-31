@@ -1,7 +1,25 @@
+.form__row {
+    display: flex;
+}
+
+.form__column {
+    margin-right: 20px;
+}
+
+.form__column:last-child {
+    margin-right: 0;
+}
+
 .form__field {
-    padding: 1em;
-    border-color: transparent;
+    padding: 0.9em;
+    font-size: 15px;
+    border: none;
     width: 100%;
+    transition: box-shadow 0.2s;
+}
+
+.form__field:focus {
+    box-shadow: rgba(131, 85, 255, 0.67) 0 0 9px 2px inset;
 }
 
 .form__field[type="file"] {

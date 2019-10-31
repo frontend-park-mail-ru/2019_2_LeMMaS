@@ -6,7 +6,28 @@
     max-height: 50vh;
 }
 
-.leaderboard__player-me {
+.leaderboard__player {
+    font-size: 0.9em;
+    margin-bottom: 0.2em;
+}
+
+.leaderboard__player_me {
     font-size: 1.1em;
     font-weight: bold;
+    position: relative;
+}
+
+.leaderboard__player_me::after {
+    content: "You";
+    display: inline-block;
+    position: absolute;
+    font-size: 0.8em;
+    color: #154167;
+    background: #e8d62b;
+    margin: 3px 10px;
+}
+
+.leaderboard__player-email {
+    opacity: 0.5;
+    font-size: 0.8em;
 }

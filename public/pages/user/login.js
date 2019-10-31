@@ -40,14 +40,14 @@ export default class Login extends BasePage {
                 type: "password",
                 required: true,
             }),
-            new SubmitButton("Login", "lavender"),
+            new SubmitButton("Login", "yellow"),
         ];
-        this.loginForm = new Form(
-            parent.querySelector(".form-wrapper"),
-            formElements,
-            this.onLoginFormSubmit,
-            true
-        );
+        this.loginForm = new Form({
+            parent: parent.querySelector(".form-wrapper"),
+            elements: formElements,
+            onSubmit: this.onLoginFormSubmit,
+            big: true,
+        });
         this.loginForm.render();
     }
 

@@ -42,14 +42,14 @@ export default class Register extends BasePage {
                 type: "password",
                 required: true,
             }),
-            new SubmitButton("Register", "lavender"),
+            new SubmitButton("Register", "yellow"),
         ];
-        this.registerForm = new Form(
-            parent.querySelector(".form-wrapper"),
-            formElements,
-            this.onRegisterFormSubmit,
-            true
-        );
+        this.registerForm = new Form({
+            parent: parent.querySelector(".form-wrapper"),
+            elements: formElements,
+            onSubmit: this.onRegisterFormSubmit,
+            big: true,
+        });
         this.registerForm.render();
     }
 
