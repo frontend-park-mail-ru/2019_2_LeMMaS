@@ -1,5 +1,5 @@
 export default class GameDemo {
-    start() {
+    start = () => {
         this.foodCanvas = document.querySelector(".foodCanvas");
         this.ballCanvas = document.querySelector(".ballCanvas");
         this.score = document.querySelector(".gameScore__number");
@@ -9,11 +9,9 @@ export default class GameDemo {
             this.foodCanvas.width = window.innerWidth;
             this.foodCanvas.height = window.innerHeight;
         });
-        console.log(this);
 
-
-        this.x = this.ballCanvas.width / 3;
-        this.y = this.ballCanvas.height - 80;
+        this.x = this.ballCanvas.width / 2;
+        this.y = this.ballCanvas.height / 2;
         this.dx = 1;
         this.dy = -1;
         this.food = [];
@@ -29,34 +27,51 @@ export default class GameDemo {
             }
         }
         this.drawFood();
-        document.addEventListener("mousedown", (event) => {
-            let relativeX = event.clientX - this.ballCanvas.offsetLeft;
-            let relativeY = event.clientY - this.ballCanvas.offsetLeft;
+        this.draw();
+
+        document.addEventListener("mousemove", (event) => {
+
+            this.main(event.clientX, event.clientY);
+/*
             const points = this.linePoints(relativeX, relativeY, 60);
-            this.draw();
 
 
             let currentFrame = 0;
-            while (currentFrame < points.length) {
-                currentFrame++;
-                this.x = points[currentFrame];
-                this.y = points[currentFrame];
 
-                this.draw();
-            }
+            if (currentFrame < points.length) {
+               setInterval(() => {
+                   currentFrame++;
+                   this.x = points[currentFrame].x;
+                   this.y = points[currentFrame].y;
+
+               }, 1000 / 60);
+            }*/
 
 
         });
-      //  this.draw();
-    }
+    };
 
-    draw() {
-        console.log(this.x);
+    main = (relativeX, relativeY) => {
+        if(relativeX === (this.x + 20) && relativeY === (this.y + 20)) {
+            console.log("on mouse");
+            return;
+        }
+        this.draw(relativeX, relativeY);
+
+        window.setTimeout(() => this.main(relativeX, relativeY), 100);
+    };
+
+    draw = (relativeX, relativeY) => {
+        if(relativeX !== undefined) {
+            const easing = 0.01;
+            this.x += (relativeX - this.x) * easing;
+            this.y += (relativeY - this.y) * easing;
+        }
             const ballRadius = 20;
             const ctx = this.ballCanvas.getContext("2d");
             ctx.clearRect(0, 0, this.ballCanvas.width, this.ballCanvas.height);
             ctx.beginPath();
-            ctx.arc(this.x, this.y, ballRadius, 0, Math.PI * 2, false);
+            ctx.arc(this.x - 10, this.y - 10, ballRadius, 0, Math.PI * 2, false);
             ctx.fillStyle = "green";
             ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
             ctx.fill();
@@ -69,11 +84,10 @@ export default class GameDemo {
                 this.dy = -this.dy;
             }
             this.detectCollision(this.x, this.y);
-    }
+    };
 
 
-    drawFood() {
-        console.log("drawing food");
+    drawFood = () => {
         const ctx = this.foodCanvas.getContext("2d");
         ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
 
@@ -89,9 +103,9 @@ export default class GameDemo {
                 }
             }
         }
-    }
+    };
 
-    detectCollision(x, y) {
+    detectCollision = (x, y) => {
         for (let c = 0; c < 10; c++) {
             for (let r = 0; r < 10; r++) {
                 let foodElement = this.food[c][r];
@@ -107,14 +121,14 @@ export default class GameDemo {
                 }
             }
         }
-    }
+    };
 
-    scoreIncrement() {
+    scoreIncrement = () => {
         this.score.innerText = parseInt(this.score.innerText) + 1;
-    }
+    };
 
 
-    linePoints(x2, y2, frames) {
+    linePoints = (x2, y2, frames) => {
         let dx = x2 - this.x;
         let dy = y2 - this.y;
         let incrementX = dx / frames;
@@ -136,5 +150,5 @@ export default class GameDemo {
             y: y2
         });
         return (a);
-    }
+    };
 }

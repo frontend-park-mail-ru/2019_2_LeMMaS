@@ -33,6 +33,7 @@ export default class UserInfo {
                 </p>
             `;
         } else {
+            document.querySelector(".button__size-big.button__transparency-transparent").classList.remove("button__type-disabled");
             const avatarImageSrc = this.getAvatarUrl(currentUser);
             this.parent.innerHTML = html`
                 <div class="userPicName">

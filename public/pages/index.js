@@ -19,15 +19,15 @@ export default class Index extends BasePage {
                     text: "Singleplayer",
                     href: "/game/singleplayer",
                     extraClass:
-                        "button__size-big button__transparency-transparent",
+                        "button__size-big button__transparency-transparent button__type-disabled",
                 }).renderString()}
                 ${new LinkButton({
                     text: "Multiplayer",
-                    extraClass: "button__size-big button__color-yellow",
+                    extraClass: "button__size-big button__color-yellow button__type-disabled",
                 }).renderString()}
                 ${new LinkButton({
                     text: "Experimental",
-                    extraClass: "button__size-big button__color-red",
+                    extraClass: "button__size-big button__color-red button__type-disabled",
                 }).renderString()}
             </div>
             <div class="plate user-info-wrapper"></div>

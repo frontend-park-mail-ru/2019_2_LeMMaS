@@ -6,7 +6,7 @@ import "../components/gameCanvas/style.css";
 import "../components/gameScore/style.css";
 import "../components/infoLeft/style.css";
 
-import GameDemo from "../game/gameDemo";
+import GameDemo from "../game/gameDemo_future";
 import Router from "../router";
 
 export default class GamePage {

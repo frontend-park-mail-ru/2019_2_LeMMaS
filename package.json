@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "node server/index.js",
-        "build": "cp public/www/index.html public; webpack --config webpack.config.js"
+        "build": "webpack --config webpack.config.js"
     },
     "dependencies": {
         "common-tags": "^1.8.0",
@@ -15,12 +15,15 @@
         "@babel/preset-env": "^7.6.0",
         "@now/node": "^1.0.0",
         "@now/node-server": "^0.8.2",
+        "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "babel-preset-stage-1": "^6.24.1",
         "consolidate": "^0.15.1",
         "cookie-parser": "~1.4.4",
         "css-loader": "latest",
         "debug": "~2.6.9",
-        "eslint": "^6.4.0",
+        "eslint": "^6.6.0",
         "eslint-loader": "^3.0.0",
         "http-errors": "~1.6.3",
         "husky": "^3.0.8",
