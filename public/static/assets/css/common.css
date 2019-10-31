@@ -14,7 +14,7 @@ body {
 .plate {
     position: relative;
     width: 20%;
-    background: /*linear-gradient(#405ef3, #b4639e);*/ #0b1233bd;
+    background: /*linear-gradient(#405ef3, #b4639e);*/ #250823bf;
     border: 1px solid white;
     padding: 2em;
     color: white;
