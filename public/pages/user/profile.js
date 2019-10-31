@@ -30,7 +30,7 @@ export default class Profile extends BasePage {
 
     onEditProfileFormSubmit(e) {
         e.preventDefault();
-        const loader = new Loader(document.querySelector("html"));
+        const loader = new Loader();
         loader.show();
 
         const name = this.profileForm.getValue("name");

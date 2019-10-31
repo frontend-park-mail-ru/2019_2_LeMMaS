@@ -68,7 +68,7 @@ export default class Login extends BasePage {
     }
 
     login(email, password, error) {
-        const loader = new Loader(document.querySelector("html"));
+        const loader = new Loader();
         loader.show();
 
         API.loginUser(email, password)

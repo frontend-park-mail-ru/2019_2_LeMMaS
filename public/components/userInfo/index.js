@@ -11,7 +11,7 @@ export default class UserInfo {
     }
 
     start() {
-        const loader = new Loader(document.querySelector("html"));
+        const loader = new Loader();
         loader.show();
         User.getCurrentUser().then(currentUser => {
             this.render(currentUser);
