@@ -5,7 +5,7 @@ export default class Loader {
         this.parent = parent;
     }
 
-    showLoader() {
+    show() {
         document.body.classList.add("loader-shown");
         this.loader = document.createElement("div");
         this.loader.className = "loader";
@@ -17,7 +17,7 @@ export default class Loader {
         this.parent.appendChild(this.loader);
     }
 
-    hideLoader() {
+    hide() {
         this.parent.removeChild(this.loader);
         document.body.classList.remove("loader-shown");
     }

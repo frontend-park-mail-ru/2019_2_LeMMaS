@@ -6,7 +6,11 @@
     border: 3px solid transparent;
 }
 
-.avatar:hover {
+.avatar-input-wrapper {
+    max-width: 100px;
+}
+
+.avatar-input-wrapper:hover .avatar {
     border-color: #000;
 }
 
@@ -20,17 +24,32 @@
 }
 
 .avatar-input + label {
-    display: inline-block;
-    position: relative;
+    display: flex;
     cursor: pointer;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .avatar-input__tip {
-    position: absolute;
-    left: 50%;
-    bottom: -14px;
-    transform: translate(-50%, 0);
+    margin: auto;
     background: #000;
     border-radius: 5px;
+    margin-top: -22px;
     padding: 5px;
+    z-index: 10;
+}
+
+.avatar-input__upload-icon {
+    display: none;
+    margin: auto;
+    margin-top: -65%;
+    z-index: 10;
+}
+
+.avatar-input-wrapper_file-selected .avatar-input__upload-icon {
+    display: inline-block;
+}
+
+.avatar-input-wrapper_file-selected .avatar {
+    filter: brightness(0.6);
 }
