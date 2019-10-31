@@ -28,4 +28,8 @@ export default class User {
             ? user.avatar_path
             : BACKEND_URL + "/" + user.avatar_path;
     }
+
+    static reset() {
+        currentUser = null;
+    }
 }

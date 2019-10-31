@@ -2,6 +2,7 @@ import { html } from "common-tags";
 
 import BasePage from "../basePage";
 import API from "../../api";
+import User from "../../user";
 import ProfileForm from "../../components/profileForm";
 import Loader from "../../components/loader/index";
 
@@ -82,10 +83,12 @@ export default class Profile extends BasePage {
                     error.style.color = "green";
                     error.style.visibility = "visible";
                     loader.hide();
+                    User.reset();
                 }
             });
         } else {
             loader.hide();
+            User.reset();
         }
     }
 }
