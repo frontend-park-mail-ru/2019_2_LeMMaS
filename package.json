@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "node server/index.js",
-        "build": "cp public/www/index.html public; webpack --config webpack.config.js"
+        "build": "webpack"
     },
     "dependencies": {
         "common-tags": "^1.8.0",

@@ -1,7 +1,8 @@
 const path = require("path");
 
 module.exports = {
-    entry: "./public/app.js", // указать с путем
+    mode: "production",
+    entry: "./public/app.js",
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, "public"),
