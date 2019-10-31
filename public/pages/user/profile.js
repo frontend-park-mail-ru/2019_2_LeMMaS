@@ -1,8 +1,8 @@
 import { html } from "common-tags";
 
 import BasePage from "../basePage";
-import ProfileForm from "../../components/profileForm";
 import API from "../../api";
+import ProfileForm from "../../components/profileForm";
 import Loader from "../../components/loader/index";
 
 export default class Profile extends BasePage {

@@ -65,14 +65,20 @@ export default class API {
     }
 
     static currentUserProfile() {
-        return new HttpNetwork()._get(
-            BACKEND_URL + API_V1_PATH_PREFIX + routes.CURRENT_USER_PROFILE_PATH
-        );
+        return new HttpNetwork()
+            ._get(
+                BACKEND_URL +
+                    API_V1_PATH_PREFIX +
+                    routes.CURRENT_USER_PROFILE_PATH
+            )
+            .then(response => response.json())
+            .then(response => response["body"]["user"]);
     }
 
     static listUsers() {
         return new HttpNetwork()
             ._get(BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_LIST_PATH)
-            .then(response => response.json());
+            .then(response => response.json())
+            .then(response => response["body"]["users"]);
     }
 }
