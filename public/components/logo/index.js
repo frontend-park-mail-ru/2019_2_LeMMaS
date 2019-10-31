@@ -2,8 +2,6 @@ import { html } from "common-tags";
 
 import { routes } from "../../router";
 import "./style.css";
-import "../anchorImg/anchorImg__position-absolute.css";
-import "../anchorImg/anchorImg__wrapper.css";
 
 class Logo {
     renderString() {

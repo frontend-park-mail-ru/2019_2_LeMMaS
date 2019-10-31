@@ -31,21 +31,14 @@ export default class UserInfo {
             this.parent.innerHTML = html`
                 <h2 class="text__align-center">You</h2>
                 <div class="userPicName">
-                    <div class="anchorImg__wrapper">
-                        <img
-                            class="userPicName__img"
-                            alt="userpic"
-                            src="${await User.getAvatarUrl()}"
-                        />
-                        <a
-                            href="${routes.USER_PROFILE_PAGE_ROUTE}"
-                            class="anchorImg__position-absolute"
-                        ></a>
-                    </div>
-                    <a
-                        class="userPicName__name"
-                        href="${routes.USER_PROFILE_PAGE_ROUTE}"
-                    >
+                    <a href="${routes.USER_PROFILE_PAGE_ROUTE}">
+                        <div class="anchorImg__wrapper">
+                            <img
+                                class="userPicName__img"
+                                alt="userpic"
+                                src="${await User.getAvatarUrl()}"
+                            />
+                        </div>
                         ${safeHtml`${currentUser.name}`}
                     </a>
                 </div>
