@@ -11,11 +11,11 @@ export default class UserInfo {
     }
 
     start() {
-        const loader = new Loader(document.querySelector("html"));
-        loader.showLoader();
+        const loader = new Loader();
+        loader.show();
         User.getCurrentUser().then(currentUser => {
             this.render(currentUser);
-            loader.hideLoader();
+            loader.hide();
         });
     }
 

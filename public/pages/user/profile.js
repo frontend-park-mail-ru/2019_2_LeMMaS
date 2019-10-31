@@ -1,8 +1,8 @@
 import { html } from "common-tags";
 
 import BasePage from "../basePage";
-import ProfileForm from "../../components/profileForm";
 import API from "../../api";
+import ProfileForm from "../../components/profileForm";
 import Loader from "../../components/loader/index";
 
 export default class Profile extends BasePage {
@@ -30,8 +30,8 @@ export default class Profile extends BasePage {
 
     onEditProfileFormSubmit(e) {
         e.preventDefault();
-        const loader = new Loader(document.querySelector("html"));
-        loader.showLoader();
+        const loader = new Loader();
+        loader.show();
 
         const name = this.profileForm.getValue("name");
         const password = this.profileForm.getValue("password");
@@ -45,27 +45,24 @@ export default class Profile extends BasePage {
         if (password.length < 6 && password.length > 1) {
             error.innerText = "Password must be 6 letters or more";
             error.style.visibility = "visible";
-            loader.hideLoader();
+            loader.hide();
             return;
         }
 
         if (password !== passwordRepeat) {
             error.innerText = "Passwords don't match";
             error.style.visibility = "visible";
-            loader.hideLoader();
+            loader.hide();
             return;
         }
-
-        let nameAndPasswordChange = false;
 
         if (name !== "" || password !== "") {
             API.changeUserData(name, password).then(response => {
                 if (response.status !== 200) {
-                    error.innerText = "Wrong name or password";
+                    error.innerText = "Error saving changes";
                     error.style.visibility = "visible";
                 } else {
-                    nameAndPasswordChange = true;
-                    error.innerText = "Info changed";
+                    error.innerText = "Profile updated";
                     error.style.color = "green";
                     error.style.visibility = "visible";
                 }
@@ -78,22 +75,17 @@ export default class Profile extends BasePage {
 
             API.changeAvatar(formData).then(response => {
                 if (response.status !== 200) {
-                    error.innerText = "Something went wrong";
+                    error.innerText = "Error saving changes";
                     error.style.visibility = "visible";
                 } else {
-                    if (nameAndPasswordChange) {
-                        error.innerText += "\nAvatar changed";
-                    } else {
-                        error.innerText = "Avatar changed";
-                    }
-
+                    error.innerText = "Profile updated";
                     error.style.color = "green";
                     error.style.visibility = "visible";
-                    loader.hideLoader();
+                    loader.hide();
                 }
             });
         } else {
-            loader.hideLoader();
+            loader.hide();
         }
     }
 }

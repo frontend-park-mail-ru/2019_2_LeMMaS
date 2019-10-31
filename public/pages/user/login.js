@@ -68,8 +68,8 @@ export default class Login extends BasePage {
     }
 
     login(email, password, error) {
-        const loader = new Loader(document.querySelector("html"));
-        loader.showLoader();
+        const loader = new Loader();
+        loader.show();
 
         API.loginUser(email, password)
             .then(async response => {
@@ -82,6 +82,6 @@ export default class Login extends BasePage {
                     Router.renderPage();
                 }
             })
-            .finally(loader.hideLoader());
+            .finally(loader.hide());
     }
 }

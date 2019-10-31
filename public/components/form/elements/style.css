@@ -13,13 +13,13 @@
 .form__field {
     padding: 0.9em;
     font-size: 15px;
-    border: none;
+    border: 2px solid transparent;
     width: 100%;
     transition: box-shadow 0.2s;
 }
 
 .form__field:focus {
-    box-shadow: rgba(131, 85, 255, 0.67) 0 0 9px 2px inset;
+    border-color: #e8d62b;
 }
 
 .form__field[type="file"] {

@@ -12,8 +12,8 @@ export default class Leaderboard {
 
     start() {
         User.getCurrentUser().then(currentUser => {
-            API.listUsers().then(userList => {
-                this.render(currentUser, userList.body.users);
+            API.listUsers().then(users => {
+                this.render(currentUser, users);
             });
         });
     }
