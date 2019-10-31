@@ -2,15 +2,10 @@ import Router from "./router";
 
 const LINK_TAG_NAME = "A";
 
-function renderPage() {
-    const view = new Router().getView(location.pathname);
-    view.render();
-}
-
 window.onpopstate = () => {
-    renderPage();
+    Router.renderPage();
 };
-window.addEventListener("DOMContentLoaded", renderPage);
+window.addEventListener("DOMContentLoaded", Router.renderPage);
 
 document.addEventListener("click", e => {
     if (e.target.tagName !== LINK_TAG_NAME) {
@@ -24,10 +19,6 @@ document.addEventListener("click", e => {
     }
 
     e.preventDefault();
-    window.history.pushState(
-        {},
-        document.querySelector("title").innerText,
-        href
-    );
-    renderPage();
+    window.history.pushState({}, document.title, href);
+    Router.renderPage();
 });

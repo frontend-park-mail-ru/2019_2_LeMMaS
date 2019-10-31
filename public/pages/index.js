@@ -7,7 +7,7 @@ import UserInfo from "../components/userInfo";
 
 export default class Index extends BasePage {
     renderContent(parent) {
-        document.querySelector("title").innerText = "LeMMaS";
+        document.title = "LeMMaS";
         parent.innerHTML = html`
             <div class="plate">
                 <h2 class="text__align-center">Leaderboard</h2>

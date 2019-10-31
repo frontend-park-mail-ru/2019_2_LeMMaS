@@ -16,7 +16,7 @@ export default class Login extends BasePage {
     }
 
     renderContent(parent) {
-        document.querySelector("title").innerText = "Login | LeMMaS";
+        document.title = "Login | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Login</h2>
@@ -78,12 +78,8 @@ export default class Login extends BasePage {
                     error.innerText = "Wrong email or password!";
                     error.style.visibility = "visible";
                 } else {
-                    window.history.pushState(
-                        {},
-                        document.querySelector("title").innerText,
-                        "/"
-                    );
-                    new Router().renderPage();
+                    window.history.pushState({}, document.title, "/");
+                    Router.renderPage();
                 }
             })
             .finally(loader.hideLoader());

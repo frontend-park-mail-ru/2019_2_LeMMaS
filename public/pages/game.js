@@ -15,30 +15,34 @@ export default class GamePage {
         const height = window.innerHeight;
 
         document.body.innerHTML = html`
-            <div class="gameScore"><p>Score: <span class="gameScore__number">0</span></p></div>
+            <div class="gameScore">
+                <p>Score: <span class="gameScore__number">0</span></p>
+            </div>
             <div class="infoLeft"><p>Press Escape to exit the game</p></div>
-            <canvas width="${width}" height="${height}" class="foodCanvas"></canvas>
-            <canvas width="${width}" height="${height}" class="ballCanvas"></canvas>
+            <canvas
+                width="${width}"
+                height="${height}"
+                class="foodCanvas"
+            ></canvas>
+            <canvas
+                width="${width}"
+                height="${height}"
+                class="ballCanvas"
+            ></canvas>
         `;
 
-        document.querySelector(".body").style.background = "white";
+        document.body.style.background = "white";
 
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Escape' || event.keyCode === 27) {
-                document.querySelector(".body").style.background = null;
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape" || event.keyCode === 27) {
+                document.body.style.background = null;
 
-                window.history.pushState(
-                    {},
-                    document.querySelector("title").innerText,
-                    "/"
-                );
-                (new Router()).renderPage();
+                window.history.pushState({}, document.title, "/");
+                Router.renderPage();
             }
         });
 
         const gameDemo = new GameDemo();
         gameDemo.start();
     }
-
-
 }

@@ -13,7 +13,7 @@ export default class Profile extends BasePage {
     }
 
     async renderContent(parent) {
-        document.querySelector("title").innerText = "Settings | LeMMaS";
+        document.title = "Settings | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-big profile-wrapper">
                 <h2 class="text__align-center text__size-big">Edit profile</h2>

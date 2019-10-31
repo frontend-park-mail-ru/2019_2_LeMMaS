@@ -14,7 +14,7 @@ export default class Register extends BasePage {
     }
 
     renderContent(parent) {
-        document.querySelector("title").innerText = "Register | LeMMaS";
+        document.title = "Register | LeMMaS";
 
         parent.innerHTML = html`
             <div class="plate plate__size-big">
