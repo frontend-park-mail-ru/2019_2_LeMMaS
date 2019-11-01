@@ -1,0 +1,16 @@
+.userPicName {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 40%;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.userPicName__img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin: auto;
+    border-radius: 50%;
+}
