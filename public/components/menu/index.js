@@ -18,16 +18,14 @@ export default class Menu {
         const currentUser = await Session.getUserData();
         if (currentUser != null) {
             this.parent.innerHTML = html`
-                <span class="logout-button-wrapper"></span>
-            `;
-            const logoutButtonWrapper = this.parent.querySelector(
-                ".logout-button-wrapper"
-            );
-            new Button(logoutButtonWrapper, {
+                <span class="logout-button-wrapper">
+                ${new Button({
                 text: "LOGOUT",
                 extraClass: "button__transparency-transparent",
                 onClick: this._onLogoutButtonClick,
-            }).render();
+            }).renderString()}
+                </span>
+            `;
         } else {
             this.parent.innerHTML = html`
                 ${new LinkButton({

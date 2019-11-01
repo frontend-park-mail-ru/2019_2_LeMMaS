@@ -8,6 +8,7 @@ import "../components/infoLeft/style.css";
 
 import GameDemo from "../game/gameDemo_future";
 import Router from "../router";
+//import ModalWindow from "../components/modalWindow";
 
 export default class GamePage {
     render() {
@@ -18,11 +19,10 @@ export default class GamePage {
             <div class="gameScore"><p>Score: <span class="gameScore__number">0</span></p></div>
             <div class="infoLeft"><p>Press Escape to exit the game</p></div>
             <canvas width="${width}" height="${height}" class="foodCanvas"></canvas>
-            <canvas width="${width}" height="${height}" class="enemiesCanvas"></canvas>
             <canvas width="${width}" height="${height}" class="ballCanvas"></canvas>
         `;
 
-        document.querySelector(".body").style.background = "white";
+        document.body.style.background = "white";
 
         document.addEventListener('keydown', event => {
             if (event.key === 'Escape' || event.keyCode === 27) {
@@ -34,6 +34,11 @@ export default class GamePage {
                     "/"
                 );
                 (new Router()).renderPage();
+
+
+                // TODO make modal window
+               // const modalWindow = new ModalWindow(document.body);
+                //modalWindow.start("Do you really want to exit?");
             }
         });
 
