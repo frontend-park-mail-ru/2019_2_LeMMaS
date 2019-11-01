@@ -6,8 +6,8 @@ export default class Page404 extends BasePage {
     renderContent(parent) {
         parent.innerHTML = html`
             <div class="plate plate__size-big">
-                <h2 class="text__size-big text__align-center">404</h2>
-                <p>NOT FOUND :(</p>
+                <p class="text__size-big text__align-center">404</p>
+                <p class="text__size-big text__align-center">_NOTHING HERE</p>
             </div>
         `;
     }

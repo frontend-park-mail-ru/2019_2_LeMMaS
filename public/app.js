@@ -1,24 +1,30 @@
 import Router from "./router";
 
-const LINK_TAG_NAME = "A";
-
 window.onpopstate = () => {
     Router.renderPage();
 };
 window.addEventListener("DOMContentLoaded", Router.renderPage);
 
 document.addEventListener("click", e => {
-    if (e.target.tagName !== LINK_TAG_NAME) {
+    const link = findParent("A", e.target || e.srcElement);
+    if (link === null) {
         return;
     }
-
-    const href = e.target.getAttribute("href");
-    if (href === location.pathname || href === "" || href === null) {
-        e.preventDefault();
-        return;
-    }
-
     e.preventDefault();
+    const href = link.href;
+    if (href === location.pathname || href === "" || href === null) {
+        return;
+    }
     window.history.pushState({}, document.title, href);
     Router.renderPage();
 });
+
+function findParent(tag, element) {
+    while (element) {
+        if ((element.nodeName || element.tagName) === tag) {
+            return element;
+        }
+        element = element.parentNode;
+    }
+    return null;
+}

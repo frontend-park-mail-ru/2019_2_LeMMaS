@@ -8,7 +8,7 @@
 }
 
 body.loader-shown {
-    filter: blur(3px);
+    filter: blur(3px) brightness(0.7);
     pointer-events: none;
 }
 
@@ -17,6 +17,4 @@ body.loader-shown {
     color: white;
     font-size: 3em;
     padding: 1em;
-    background: #000000b8;
-    border: 1px solid;
 }
