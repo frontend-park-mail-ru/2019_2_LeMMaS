@@ -1,1 +1,4 @@
+node_modules
 .idea
+public/bundle.js
+public/static/assets/fonts

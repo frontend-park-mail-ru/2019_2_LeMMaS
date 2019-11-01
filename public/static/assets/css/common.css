@@ -1,0 +1,82 @@
+* {
+    outline: none !important;
+}
+
+body {
+    transition: filter 0.2s;
+}
+
+.content {
+    height: 86vh;
+    display: flex;
+}
+
+.plate {
+    position: relative;
+    width: 20%;
+    background: /*linear-gradient(#405ef3, #b4639e);*/ #250823bf;
+    border: 1px solid white;
+    padding: 2em;
+    color: white;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.plate__size-big {
+    width: 35%;
+}
+
+.start-game-menu {
+    height: 80vh;
+}
+
+.text__align-center {
+    text-align: center;
+}
+
+.text__size-big {
+    font-size: 3em;
+    margin-bottom: 0.6em;
+    margin-top: 0.6em;
+}
+
+.text__size-normal {
+    font-size: 2em;
+}
+
+.shop-button {
+    margin-top: 20px;
+}
+
+.anchorImg__wrapper {
+    position: relative;
+    display: flex;
+}
+
+.anchorImg__position-absolute {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .text__size-normal {
+        font-size: 1em;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .text__size-normal {
+        font-size: 1em;
+    }
+}
+
+@media (max-height: 800px) {
+    .text__size-big {
+        font-size: 1.5em;
+    }
+}

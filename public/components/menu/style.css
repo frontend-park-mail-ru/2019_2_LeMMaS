@@ -1,0 +1,8 @@
+.menu {
+    height: auto;
+    padding: 1em;
+    width: 20%;
+    display: flex;
+    margin: auto 0 auto auto;
+    justify-content: space-evenly;
+}

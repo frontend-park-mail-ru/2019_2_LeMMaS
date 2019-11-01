@@ -1,0 +1,87 @@
+import { html } from "common-tags";
+
+import { routes } from "../../router";
+import BasePage from "../basePage";
+import Form from "../../components/form";
+import Input from "../../components/form/elements/input";
+import SubmitButton from "../../components/form/elements/submitButton";
+import API from "../../api";
+import Router from "../../router";
+import Loader from "../../components/loader/index";
+
+export default class Login extends BasePage {
+    constructor() {
+        super();
+        this.onLoginFormSubmit = this.onLoginFormSubmit.bind(this);
+    }
+
+    renderContent(parent) {
+        document.title = "Login | LeMMaS";
+        parent.innerHTML = html`
+            <div class="plate plate__size-big">
+                <h2 class="text__align-center text__size-big">Login</h2>
+                <div class="form-wrapper"></div>
+                <p>
+                    Don't have an account?
+                    <a href="${routes.USER_REGISTER_PAGE_ROUTE}">Register</a>
+                </p>
+            </div>
+        `;
+        const formElements = [
+            new Input({
+                name: "email",
+                type: "email",
+                label: "Email",
+                required: true,
+            }),
+            new Input({
+                name: "password",
+                label: "Password",
+                type: "password",
+                required: true,
+            }),
+            new SubmitButton("Login", "yellow"),
+        ];
+        this.loginForm = new Form({
+            parent: parent.querySelector(".form-wrapper"),
+            elements: formElements,
+            onSubmit: this.onLoginFormSubmit,
+            big: true,
+        });
+        this.loginForm.render();
+    }
+
+    onLoginFormSubmit(e) {
+        e.preventDefault();
+
+        const email = this.loginForm.getValue("email");
+        const password = this.loginForm.getValue("password");
+        const error = document.querySelector(".form__error");
+
+        if (password.length < 6) {
+            error.innerText = "Wrong email or password!";
+            error.style.visibility = "visible";
+            return;
+        }
+
+        this.login(email, password, error);
+    }
+
+    login(email, password, error) {
+        const loader = new Loader();
+        loader.show();
+
+        API.loginUser(email, password)
+            .then(async response => {
+                console.log(response.status);
+                if (response.status !== 200) {
+                    error.innerText = "Wrong email or password!";
+                    error.style.visibility = "visible";
+                } else {
+                    window.history.pushState({}, document.title, "/");
+                    Router.renderPage();
+                }
+            })
+            .finally(loader.hide());
+    }
+}

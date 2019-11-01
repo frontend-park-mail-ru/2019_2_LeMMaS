@@ -1,0 +1,7 @@
+.logo {
+    padding: 1em;
+}
+
+.logo__image {
+    max-height: 10vh;
+}
