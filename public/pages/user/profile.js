@@ -26,7 +26,7 @@ export default class Profile extends BasePage {
             parent.querySelector(".form-wrapper"),
             this.onEditProfileFormSubmit
         );
-        this.profileForm.render();
+        await this.profileForm.render();
     }
 
     onEditProfileFormSubmit(e) {

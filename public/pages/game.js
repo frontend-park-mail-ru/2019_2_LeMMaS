@@ -45,7 +45,7 @@ export default class GamePage {
                     document.querySelector("title").innerText,
                     "/"
                 );
-                (new Router()).renderPage();
+                Router.renderPage();
 
 
                 // TODO make modal window

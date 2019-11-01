@@ -19,18 +19,21 @@ export class LinkButton {
 }
 
 export class Button {
-    constructor({ text, onClick, extraClass = "" }) {
+    constructor(parent, { text, onClick, extraClass = "" }) {
+        this.parent = parent;
         this.text = text;
         this.onClick = onClick;
         this.extraClass = extraClass;
     }
 
-    renderString() {
-        return html`
-            <a class="button ${this.extraClass}" href="#" onclick="${this.onClick}">
+    render() {
+        this.parent.innerHTML = html`
+            <a class="button ${this.extraClass}" href="#">
                 ${this.text}
             </a>
         `;
+        this.parent
+            .querySelector(".button")
+            .addEventListener("click", this.onClick);
     }
-
 }

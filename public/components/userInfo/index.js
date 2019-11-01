@@ -19,7 +19,7 @@ export default class UserInfo {
         });
     }
 
-    render(currentUser) {
+    async render(currentUser) {
         if (currentUser === null) {
             this.parent.innerHTML = html`
                 <p>
@@ -36,7 +36,7 @@ export default class UserInfo {
                             <img
                                 class="userPicName__img"
                                 alt="userpic"
-                                src="${User.getAvatarUrl()}"
+                                src="${await User.getAvatarUrl()}"
                             />
                         </div>
                         ${safeHtml`${currentUser.name}`}
