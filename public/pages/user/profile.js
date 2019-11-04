@@ -14,10 +14,10 @@ export default class Profile extends BasePage {
     }
 
     async renderContent(parent) {
-        document.title = "Settings | LeMMaS";
+        document.title = "Мой профиль | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-big profile-wrapper">
-                <h2 class="text__align-center text__size-big">Edit profile</h2>
+                <h2 class="text__align-center text__size-big">Мой профиль</h2>
                 <div class="form-wrapper"></div>
             </div>
         `;
@@ -44,14 +44,14 @@ export default class Profile extends BasePage {
         error.style.color = "red";
 
         if (password.length < 6 && password.length > 1) {
-            error.innerText = "Password must be 6 letters or more";
+            error.innerText = "Пароль должен содержать не менее 6 символов";
             error.style.visibility = "visible";
             loader.hide();
             return;
         }
 
         if (password !== passwordRepeat) {
-            error.innerText = "Passwords don't match";
+            error.innerText = "Пароли не совпадают";
             error.style.visibility = "visible";
             loader.hide();
             return;
@@ -60,10 +60,10 @@ export default class Profile extends BasePage {
         if (name !== "" || password !== "") {
             API.changeUserData(name, password).then(response => {
                 if (response.status !== 200) {
-                    error.innerText = "Error saving changes";
+                    error.innerText = "Произошла ошибка";
                     error.style.visibility = "visible";
                 } else {
-                    error.innerText = "Profile updated";
+                    error.innerText = "Изменения сохранены";
                     error.style.color = "green";
                     error.style.visibility = "visible";
                 }
@@ -76,10 +76,10 @@ export default class Profile extends BasePage {
 
             API.changeAvatar(formData).then(response => {
                 if (response.status !== 200) {
-                    error.innerText = "Error saving changes";
+                    error.innerText = "Произошла ошибка";
                     error.style.visibility = "visible";
                 } else {
-                    error.innerText = "Profile updated";
+                    error.innerText = "Изменения сохранены";
                     error.style.color = "green";
                     error.style.visibility = "visible";
                     loader.hide();

@@ -1,6 +1,5 @@
 import { html } from "common-tags";
 
-import "../static/assets/css/reset.css";
 import "../static/assets/css/common.css";
 import "../components/gameCanvas/style.css";
 import "../components/gameScore/style.css";
@@ -17,9 +16,11 @@ export default class GamePage {
 
         document.body.innerHTML = html`
             <div class="gameScore">
-                <p>Score: <span class="gameScore__number">0</span></p>
+                <p>Счет: <span class="gameScore__number">0</span></p>
             </div>
-            <div class="infoLeft"><p>Press Escape to exit the game</p></div>
+            <div class="infoLeft">
+                <p><b>ESC</b> для выхода из игры</p>
+            </div>
             <canvas
                 width="${width}"
                 height="${height}"
@@ -47,9 +48,8 @@ export default class GamePage {
                 );
                 Router.renderPage();
 
-
                 // TODO make modal window
-               // const modalWindow = new ModalWindow(document.body);
+                // const modalWindow = new ModalWindow(document.body);
                 //modalWindow.start("Do you really want to exit?");
             }
         });

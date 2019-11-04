@@ -10,24 +10,26 @@ export default class Index extends BasePage {
         document.title = "LeMMaS";
         parent.innerHTML = html`
             <div class="plate">
-                <h2 class="text__align-center">Leaderboard</h2>
+                <h2 class="text__align-center">Лучшие игроки</h2>
                 <div class="leaderboard-wrapper"></div>
             </div>
             <div class="plate plate__size-big start-game-menu">
-                <h2 class="text__size-big text__align-center">Play</h2>
+                <h2 class="text__size-big text__align-center">Играть</h2>
                 ${new LinkButton({
-                    text: "Singleplayer",
+                    text: "Одиночная",
                     href: "/game/singleplayer",
                     extraClass:
                         "button__size-big button__transparency-transparent",
                 }).renderString()}
                 ${new LinkButton({
-                    text: "Multiplayer",
-                    extraClass: "button__size-big button__color-yellow button__type-disabled",
+                    text: "Мультиплеер",
+                    extraClass:
+                        "button__size-big button__color-yellow button__type-disabled",
                 }).renderString()}
                 ${new LinkButton({
-                    text: "Experimental",
-                    extraClass: "button__size-big button__color-red button__type-disabled",
+                    text: "Экспериментальная",
+                    extraClass:
+                        "button__size-big button__color-red button__type-disabled",
                 }).renderString()}
             </div>
             <div class="plate user-info-wrapper"></div>

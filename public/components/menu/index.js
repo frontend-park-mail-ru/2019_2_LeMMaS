@@ -24,19 +24,19 @@ export default class Menu {
                 ".logout-button-wrapper"
             );
             new Button(logoutButtonWrapper, {
-                text: "LOGOUT",
+                text: "Выйти",
                 extraClass: "button__transparency-transparent",
                 onClick: this._onLogoutButtonClick,
             }).render();
         } else {
             this.parent.innerHTML = html`
                 ${new LinkButton({
-                    text: "LOGIN",
+                    text: "Войти",
                     href: routes.USER_LOGIN_PAGE_ROUTE,
                     extraClass: "button__transparency-transparent",
                 }).renderString()}
                 ${new LinkButton({
-                    text: "REGISTER",
+                    text: "Регистрация",
                     href: routes.USER_REGISTER_PAGE_ROUTE,
                 }).renderString()}
             `;

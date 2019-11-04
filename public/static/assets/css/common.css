@@ -1,9 +1,32 @@
+@import url("https://fonts.googleapis.com/css?family=Play&display=swap");
+
 * {
     outline: none !important;
+    box-sizing: border-box;
 }
 
 body {
+    font-family: "Play", sans-serif;
+    margin: 0;
+    height: 100vh;
+    background-image: url("/static/assets/img/back.jpg");
+    max-height: 100vh;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
     transition: filter 0.2s;
+}
+
+a,
+button {
+    transition: all 0.3s ease-in-out;
+    color: white;
+}
+
+a:hover,
+button:hover {
+    color: gold;
+    transition: all 0.3s ease-in-out;
 }
 
 .content {
@@ -14,7 +37,7 @@ body {
 .plate {
     position: relative;
     width: 20%;
-    background: /*linear-gradient(#405ef3, #b4639e);*/ #250823bf;
+    background: #250823bf;
     border: 1px solid white;
     padding: 2em;
     color: white;

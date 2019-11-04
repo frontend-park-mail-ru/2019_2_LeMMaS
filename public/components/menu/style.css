@@ -6,3 +6,7 @@
     margin: auto 0 auto auto;
     justify-content: space-evenly;
 }
+
+.menu .button {
+    text-transform: uppercase;
+}
