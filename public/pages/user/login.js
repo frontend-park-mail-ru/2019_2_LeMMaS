@@ -19,11 +19,13 @@ export default class Login extends BasePage {
         document.title = "Login | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-big">
-                <h2 class="text__align-center text__size-big">Login</h2>
+                <h2 class="text__align-center text__size-big">Войти</h2>
                 <div class="form-wrapper"></div>
                 <p>
-                    Don't have an account?
-                    <a href="${routes.USER_REGISTER_PAGE_ROUTE}">Register</a>
+                    Нет аккаунта?
+                    <a href="${routes.USER_REGISTER_PAGE_ROUTE}"
+                        >Зарегистрироваться</a
+                    >
                 </p>
             </div>
         `;
@@ -36,11 +38,11 @@ export default class Login extends BasePage {
             }),
             new Input({
                 name: "password",
-                label: "Password",
+                label: "Пароль",
                 type: "password",
                 required: true,
             }),
-            new SubmitButton("Login", "yellow"),
+            new SubmitButton("Войти", "yellow"),
         ];
         this.loginForm = new Form({
             parent: parent.querySelector(".form-wrapper"),
@@ -59,7 +61,7 @@ export default class Login extends BasePage {
         const error = document.querySelector(".form__error");
 
         if (password.length < 6) {
-            error.innerText = "Wrong email or password!";
+            error.innerText = "Неверная почта или пароль";
             error.style.visibility = "visible";
             return;
         }
@@ -75,7 +77,7 @@ export default class Login extends BasePage {
             .then(async response => {
                 console.log(response.status);
                 if (response.status !== 200) {
-                    error.innerText = "Wrong email or password!";
+                    error.innerText = "Неверная почта или пароль";
                     error.style.visibility = "visible";
                 } else {
                     window.history.pushState({}, document.title, "/");

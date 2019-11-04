@@ -18,7 +18,7 @@ export default class Register extends BasePage {
 
         parent.innerHTML = html`
             <div class="plate plate__size-big">
-                <h2 class="text__align-center text__size-big">Register</h2>
+                <h2 class="text__align-center text__size-big">Регистрация</h2>
                 <div class="form-wrapper"></div>
             </div>
         `;
@@ -32,17 +32,17 @@ export default class Register extends BasePage {
             new Input({ name: "name", label: "Name", required: true }),
             new Input({
                 name: "password",
-                label: "Password",
+                label: "Пароль",
                 type: "password",
                 required: true,
             }),
             new Input({
                 name: "password-repeat",
-                label: "Repeat password",
+                label: "Повторите пароль",
                 type: "password",
                 required: true,
             }),
-            new SubmitButton("Register", "yellow"),
+            new SubmitButton("Зарегистрироваться", "yellow"),
         ];
         this.registerForm = new Form({
             parent: parent.querySelector(".form-wrapper"),
@@ -63,20 +63,21 @@ export default class Register extends BasePage {
         const error = document.querySelector(".form__error");
 
         if (password.length < 6) {
-            error.innerText = "Password must be 6 letters or more";
+            error.innerText = "Пароль должен содержать не менее 6 символов";
             error.style.visibility = "visible";
             return;
         }
 
         if (password !== passwordRepeat) {
-            error.innerText = "Passwords don't match";
+            error.innerText = "Пароли не совпадают";
             error.style.visibility = "visible";
             return;
         }
 
         API.registerUser(email, name, password).then(response => {
             if (response.status !== 200) {
-                error.innerText = "User already exists";
+                error.innerText =
+                    "Пользователь с такой почтой уже зарегистрирован";
                 error.style.visibility = "visible";
             } else {
                 Login.prototype.login(email, password, error);

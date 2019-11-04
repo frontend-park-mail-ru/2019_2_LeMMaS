@@ -4,7 +4,6 @@ import Header from "../components/header";
 
 import "@fortawesome/fontawesome-free/css/solid.min.css";
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
-import "../static/assets/css/reset.css";
 import "../static/assets/css/common.css";
 
 export default class BasePage {

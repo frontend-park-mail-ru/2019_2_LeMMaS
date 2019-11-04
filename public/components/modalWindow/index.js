@@ -18,12 +18,12 @@ export default class ModalWindow {
                 <div class="modalWindow plate">
                     <p>${info}</p>
                     ${new Button({
-                        text: "Yes",
+                        text: "Да",
                         onClick: clickYes,
                         extraClass: "",
                     }).renderString()}
                     ${new Button({
-                        text: "No",
+                        text: "Нет",
                         onClick: clickNo !== undefined ? clickNo : this.close,
                         extraClass: "button__transparency-transparent",
                     }).renderString()}

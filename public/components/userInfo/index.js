@@ -23,8 +23,8 @@ export default class UserInfo {
         if (currentUser === null) {
             this.parent.innerHTML = html`
                 <p>
-                    <a href="${routes.USER_LOGIN_PAGE_ROUTE}">Log in</a> to
-                    play!
+                    <a href="${routes.USER_LOGIN_PAGE_ROUTE}">Войдите</a>, чтобы
+                    начать игру
                 </p>
             `;
         } else {

@@ -31,20 +31,21 @@ export default class ProfileForm extends Form {
                 <div class="form__column">
                     ${new Input({
                         name: "name",
-                        label: "Name",
+                        label: "Имя",
                         value: user.name,
-                        tip: 'Try "trump", "cat" to get special avatar',
+                        tip:
+                            'Попробуйте "trump", "cat", чтобы получить спец. аватар',
                     }).renderString()}
                 </div>
             </div>
             ${new Input({
                 name: "password",
-                label: "Change password",
+                label: "Сменить пароль",
                 type: "password",
             }).renderString()}
             ${new Input({
                 name: "password-repeat",
-                label: "Repeat password",
+                label: "Повторите пароль",
                 type: "password",
             }).renderString()}
             ${new SubmitButton("Save", "yellow").renderString()}
