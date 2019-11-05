@@ -1,34 +1,52 @@
 import { html } from "common-tags";
-
-import BaseComponent from "../baseComponent";
-import { Button } from "../buttons";
-
 import "./style.css";
+import "../../static/css/common.css";
+import { Button } from "../../components/buttons/index";
 
-export default class ModalWindow extends BaseComponent {
-    render = (info, onClickYes = null, onClickNo = null) => {
-        this.parent.innerHTML += html`
-            <div class="modalWindow__wrapper">
+export default class ModalWindow {
+    constructor(parent) {
+        this.parent = parent;
+    }
+
+    start = (info, clickYes, clickNo) => {
+        this.info = info;
+        this.clickYes = clickYes;
+        this.clickNo = clickNo;
+
+        this.render();
+    };
+
+    render = () => {
+        const modalWindowWrapper = document.createElement("div");
+        modalWindowWrapper.className = "modalWindow__wrapper";
+        this.parent.appendChild(modalWindowWrapper);
+
+        modalWindowWrapper.innerHTML = html`
                 <div class="modalWindow plate">
-                    <p>${info}</p>
-                    ${new Button({
-                        text: "Да",
-                        onClick: onClickYes !== null ? onClickYes : this.close,
-                        extraClass: "",
-                    }).renderString()}
-                    ${new Button({
-                        text: "Нет",
-                        onClick: onClickNo !== null ? onClickNo : this.close,
-                        extraClass: "button__transparency-transparent",
-                    }).renderString()}
-                </div>
-            </div>
+                <p>${this.info}</p>
+              </div>
         `;
+
+        const modalWindow = modalWindowWrapper.querySelector(".modalWindow");
+
+        const yesButton = new Button(modalWindow, {
+            text: "Yes",
+            onClick: this.clickYes,
+            extraClass:
+                "",
+        });
+        const noButton = new Button(modalWindow, {
+            text: "No",
+            onClick: this.clickNo,
+            extraClass:
+                "button__transparency-transparent",
+        });
+
+        yesButton.render();
+        noButton.render();
     };
 
     close = () => {
-        this.parent.removeChild(
-            document.body.querySelector("modalWindow__wrapper")
-        );
+        this.parent.removeChild(document.body.querySelector(".modalWindow__wrapper"));
     };
 }
