@@ -1,4 +1,4 @@
-import API, { BACKEND_URL } from "./api";
+import API from "./api";
 
 let getCurrentUserPromise = null;
 let currentUser = null;
@@ -24,9 +24,7 @@ export default class User {
         if (!user.avatar_path) {
             return "/static/img/userpic.png";
         }
-        return user.avatar_path.indexOf("http") === 0
-            ? user.avatar_path
-            : BACKEND_URL + "/" + user.avatar_path;
+        return user.avatar_path;
     }
 
     static reset() {

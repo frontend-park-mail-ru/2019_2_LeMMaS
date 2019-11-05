@@ -1,6 +1,7 @@
 import { html } from "common-tags";
 
 import API from "../../modules/api";
+import TextUtils from "../../modules/textUtils";
 import BaseComponent from "../baseComponent";
 
 import "./style.css";
@@ -36,7 +37,10 @@ export default class AvatarSelect extends BaseComponent {
             .querySelector("input[type=file]")
             .addEventListener("change", e => {
                 const filename = e.target.value.split("\\").pop();
-                const tip = Text.cutIfLong(filename, FILE_NAME_DISPLAY_LIMIT);
+                const tip = TextUtils.cutIfLong(
+                    filename,
+                    FILE_NAME_DISPLAY_LIMIT
+                );
                 this.parent.querySelector(".avatar-input__tip").innerHTML = tip;
                 this.parent
                     .querySelector(".avatar-input-wrapper")

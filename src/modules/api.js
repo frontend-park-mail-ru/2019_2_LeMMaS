@@ -1,62 +1,51 @@
 import HttpNetwork from "./http";
 
-export const BACKEND_URL = "https://quiet-depths-50475.herokuapp.com";
-
-const API_V1_PATH_PREFIX = "/api/v1/user";
+const API_V1_PATH_PREFIX = "/api/v1";
 
 const routes = {
-    USER_LIST_PATH: "/list",
-    USER_SETTINGS_PATH: "/update",
-    CURRENT_USER_PROFILE_PATH: "/me",
-    USER_LOGIN_PATH: "/login",
-    USER_LOGOUT_PATH: "/logout",
-    USER_REGISTER_PATH: "/register",
-    USER_AVATAR_UPLOAD_PATH: "/avatar/upload",
-    USER_AVATAR_PREVIEW_PATH: "/avatar/getByName",
+    USER_LIST_PATH: API_V1_PATH_PREFIX + "/user/list",
+    USER_SETTINGS_PATH: API_V1_PATH_PREFIX + "/user/update",
+    CURRENT_USER_PROFILE_PATH: API_V1_PATH_PREFIX + "/user/me",
+    USER_LOGIN_PATH: API_V1_PATH_PREFIX + "/user/login",
+    USER_LOGOUT_PATH: API_V1_PATH_PREFIX + "/user/logout",
+    USER_REGISTER_PATH: API_V1_PATH_PREFIX + "/user/register",
+    USER_AVATAR_UPLOAD_PATH: API_V1_PATH_PREFIX + "/user/avatar/upload",
+    USER_AVATAR_PREVIEW_PATH: API_V1_PATH_PREFIX + "/user/avatar/getByName",
 };
 
 export default class API {
     static registerUser(email, name, password) {
-        return new HttpNetwork().post(
-            BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_REGISTER_PATH,
-            { email, name, password }
-        );
+        return new HttpNetwork().post(routes.USER_REGISTER_PATH, {
+            email,
+            name,
+            password,
+        });
     }
 
     static loginUser(email, password) {
-        return new HttpNetwork().post(
-            BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_LOGIN_PATH,
-            { email, password }
-        );
+        return new HttpNetwork().post(routes.USER_LOGIN_PATH, {
+            email,
+            password,
+        });
     }
 
     static logoutUser() {
-        return new HttpNetwork().post(
-            BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_LOGOUT_PATH
-        );
+        return new HttpNetwork().post(routes.USER_LOGOUT_PATH);
     }
 
     static changeUserData(name, password) {
-        return new HttpNetwork().post(
-            BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_SETTINGS_PATH,
-            { name, password }
-        );
+        return new HttpNetwork().post(routes.USER_SETTINGS_PATH, {
+            name,
+            password,
+        });
     }
 
     static changeAvatar(formData) {
-        return new HttpNetwork().post(
-            BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_AVATAR_UPLOAD_PATH,
-            formData
-        );
+        return new HttpNetwork().post(routes.USER_AVATAR_UPLOAD_PATH, formData);
     }
 
     static getAvatarPreviewUrl(name) {
-        const path =
-            BACKEND_URL +
-            API_V1_PATH_PREFIX +
-            routes.USER_AVATAR_PREVIEW_PATH +
-            "?name=" +
-            name;
+        const path = routes.USER_AVATAR_PREVIEW_PATH + "?name=" + name;
         return new HttpNetwork()
             .get(path)
             .then(response => response.json())
@@ -65,18 +54,14 @@ export default class API {
 
     static currentUserProfile() {
         return new HttpNetwork()
-            .get(
-                BACKEND_URL +
-                    API_V1_PATH_PREFIX +
-                    routes.CURRENT_USER_PROFILE_PATH
-            )
+            .get(routes.CURRENT_USER_PROFILE_PATH)
             .then(response => response.json())
             .then(response => response.body.user);
     }
 
     static listUsers() {
         return new HttpNetwork()
-            .get(BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_LIST_PATH)
+            .get(routes.USER_LIST_PATH)
             .then(response => response.json())
             .then(response => response.body.users);
     }
