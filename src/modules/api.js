@@ -1,21 +1,20 @@
-import HttpNetwork from "./http";
-
-const API_V1_PATH_PREFIX = "/api/v1";
+const BACKEND_URL = "http://95.163.212.121";
+const API_V1_PATH_PREFIX = "api/v1";
 
 const routes = {
-    USER_LIST_PATH: API_V1_PATH_PREFIX + "/user/list",
-    USER_SETTINGS_PATH: API_V1_PATH_PREFIX + "/user/update",
-    CURRENT_USER_PROFILE_PATH: API_V1_PATH_PREFIX + "/user/me",
-    USER_LOGIN_PATH: API_V1_PATH_PREFIX + "/user/login",
-    USER_LOGOUT_PATH: API_V1_PATH_PREFIX + "/user/logout",
-    USER_REGISTER_PATH: API_V1_PATH_PREFIX + "/user/register",
-    USER_AVATAR_UPLOAD_PATH: API_V1_PATH_PREFIX + "/user/avatar/upload",
-    USER_AVATAR_PREVIEW_PATH: API_V1_PATH_PREFIX + "/user/avatar/getByName",
+    USER_LIST_PATH: "user/list",
+    USER_SETTINGS_PATH: "user/update",
+    CURRENT_USER_PROFILE_PATH: "user/me",
+    USER_LOGIN_PATH: "user/login",
+    USER_LOGOUT_PATH: "user/logout",
+    USER_REGISTER_PATH: "user/register",
+    USER_AVATAR_UPLOAD_PATH: "user/avatar/upload",
+    USER_AVATAR_PREVIEW_PATH: "user/avatar/getByName",
 };
 
 export default class API {
     static registerUser(email, name, password) {
-        return new HttpNetwork().post(routes.USER_REGISTER_PATH, {
+        return this._post(routes.USER_REGISTER_PATH, {
             email,
             name,
             password,
@@ -23,46 +22,79 @@ export default class API {
     }
 
     static loginUser(email, password) {
-        return new HttpNetwork().post(routes.USER_LOGIN_PATH, {
+        return this._post(routes.USER_LOGIN_PATH, {
             email,
             password,
         });
     }
 
     static logoutUser() {
-        return new HttpNetwork().post(routes.USER_LOGOUT_PATH);
+        return this._post(routes.USER_LOGOUT_PATH);
     }
 
     static changeUserData(name, password) {
-        return new HttpNetwork().post(routes.USER_SETTINGS_PATH, {
+        return this._post(routes.USER_SETTINGS_PATH, {
             name,
             password,
         });
     }
 
     static changeAvatar(formData) {
-        return new HttpNetwork().post(routes.USER_AVATAR_UPLOAD_PATH, formData);
+        return this._post(routes.USER_AVATAR_UPLOAD_PATH, formData);
     }
 
     static getAvatarPreviewUrl(name) {
         const path = routes.USER_AVATAR_PREVIEW_PATH + "?name=" + name;
-        return new HttpNetwork()
-            .get(path)
+        return this._get(path)
             .then(response => response.json())
             .then(response => response.body.avatar_url);
     }
 
     static currentUserProfile() {
-        return new HttpNetwork()
-            .get(routes.CURRENT_USER_PROFILE_PATH)
+        return this._get(routes.CURRENT_USER_PROFILE_PATH)
             .then(response => response.json())
             .then(response => response.body.user);
     }
 
     static listUsers() {
-        return new HttpNetwork()
-            .get(routes.USER_LIST_PATH)
+        return this._get(routes.USER_LIST_PATH)
             .then(response => response.json())
             .then(response => response.body.users);
+    }
+
+    static _get(route) {
+        return this._request(route, {
+            method: "GET",
+            mode: "cors",
+            origin: true,
+            credentials: "include",
+        });
+    }
+
+    static _post(route, body) {
+        return this._request(route, {
+            method: "POST",
+            mode: "cors",
+            origin: true,
+            credentials: "include",
+            body,
+        });
+    }
+
+    static _request(route, options) {
+        const url = [BACKEND_URL, API_V1_PATH_PREFIX, route].join("/");
+        const { body } = options;
+        const { method } = options;
+        const headers =
+            method === "GET"
+                ? {}
+                : { "Content-Type": "application/json;charset=utf-8" };
+
+        const isFormData = body instanceof FormData;
+        return fetch(url, {
+            ...options,
+            headers: isFormData ? undefined : headers,
+            body: isFormData ? body : JSON.stringify(body),
+        });
     }
 }
