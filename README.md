@@ -1,6 +1,8 @@
 # LeMMaS
 
-Игра про голодные шарики, вдохновленная [Agar.io](http://agar.io/). Поиграть можно [тут](https://20192lemmasnew-h0ivhao1a.now.sh/).
+Игра про голодные шарики, вдохновленная [Agar.io](http://agar.io/). Поиграть можно [тут](http://95.163.212.121).
+
+[Документация по API](https://go-park-mail-ru.github.io/2019_2_LeMMaS).
 
 ## Авторы
 
