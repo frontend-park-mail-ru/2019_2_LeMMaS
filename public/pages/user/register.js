@@ -4,7 +4,7 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
-import API from "../../api";
+import API from "../../modules/api";
 import Login from "./login";
 
 export default class Register extends BasePage {

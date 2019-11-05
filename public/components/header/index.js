@@ -1,14 +1,12 @@
 import { html } from "common-tags";
 
-import "./style.css";
+import BaseComponent from "../baseComponent";
 import Logo from "../logo";
 import Menu from "../menu";
 
-export default class Header {
-    constructor(parent) {
-        this.parent = parent;
-    }
+import "./style.css";
 
+export default class Header extends BaseComponent {
     render() {
         this.parent.innerHTML = html`
             ${new Logo().renderString()}

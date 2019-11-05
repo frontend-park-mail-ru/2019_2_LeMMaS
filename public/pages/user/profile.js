@@ -1,8 +1,8 @@
 import { html } from "common-tags";
 
 import BasePage from "../basePage";
-import API from "../../api";
-import User from "../../user";
+import API from "../../modules/api";
+import User from "../../modules/user";
 import ProfileForm from "../../components/profileForm";
 import Loader from "../../components/loader/index";
 

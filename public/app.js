@@ -1,4 +1,4 @@
-import Router from "./router";
+import Router from "./modules/router";
 
 window.onpopstate = () => {
     Router.renderPage();
@@ -11,8 +11,8 @@ document.addEventListener("click", e => {
         return;
     }
     e.preventDefault();
-    const href = link.href;
-    if (href === location.pathname || href === "" || href === null) {
+    const { href } = link;
+    if (!href || href === location.pathname) {
         return;
     }
     window.history.pushState({}, document.title, href);

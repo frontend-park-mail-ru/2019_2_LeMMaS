@@ -17,37 +17,36 @@ const routes = {
 
 export default class API {
     static registerUser(email, name, password) {
-        return new HttpNetwork()._post(
+        return new HttpNetwork().post(
             BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_REGISTER_PATH,
-            { body: { email, name, password } }
+            { email, name, password }
         );
     }
 
     static loginUser(email, password) {
-        return new HttpNetwork()._post(
+        return new HttpNetwork().post(
             BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_LOGIN_PATH,
-            { body: { email, password } }
+            { email, password }
         );
     }
 
     static logoutUser() {
-        return new HttpNetwork()._post(
-            BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_LOGOUT_PATH,
-            { body: {} }
+        return new HttpNetwork().post(
+            BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_LOGOUT_PATH
         );
     }
 
-    static changeUserData(name = "", password = "") {
-        return new HttpNetwork()._post(
+    static changeUserData(name, password) {
+        return new HttpNetwork().post(
             BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_SETTINGS_PATH,
-            { body: { name, password } }
+            { name, password }
         );
     }
 
     static changeAvatar(formData) {
-        return new HttpNetwork()._post(
+        return new HttpNetwork().post(
             BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_AVATAR_UPLOAD_PATH,
-            { body: formData }
+            formData
         );
     }
 
@@ -59,26 +58,26 @@ export default class API {
             "?name=" +
             name;
         return new HttpNetwork()
-            ._get(path)
+            .get(path)
             .then(response => response.json())
-            .then(response => response["body"]["avatar_url"]);
+            .then(response => response.body.avatar_url);
     }
 
     static currentUserProfile() {
         return new HttpNetwork()
-            ._get(
+            .get(
                 BACKEND_URL +
                     API_V1_PATH_PREFIX +
                     routes.CURRENT_USER_PROFILE_PATH
             )
             .then(response => response.json())
-            .then(response => response["body"]["user"]);
+            .then(response => response.body.user);
     }
 
     static listUsers() {
         return new HttpNetwork()
-            ._get(BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_LIST_PATH)
+            .get(BACKEND_URL + API_V1_PATH_PREFIX + routes.USER_LIST_PATH)
             .then(response => response.json())
-            .then(response => response["body"]["users"]);
+            .then(response => response.body.users);
     }
 }

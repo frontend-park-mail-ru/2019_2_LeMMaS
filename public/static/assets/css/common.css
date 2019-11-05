@@ -51,6 +51,12 @@ button:hover {
     width: 35%;
 }
 
+.plate h1,
+h2,
+h3 {
+    margin-top: 0;
+}
+
 .start-game-menu {
     height: 80vh;
 }
@@ -67,10 +73,6 @@ button:hover {
 
 .text__size-normal {
     font-size: 2em;
-}
-
-.shop-button {
-    margin-top: 20px;
 }
 
 .anchorImg__wrapper {

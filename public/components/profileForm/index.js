@@ -1,9 +1,10 @@
 import { html } from "common-tags";
+
 import Form from "../form";
 import Input from "../form/elements/input";
 import SubmitButton from "../form/elements/submitButton";
 import AvatarSelect from "../avatarSelect";
-import User from "../../user";
+import User from "../../modules/user";
 
 import "./style.css";
 
@@ -20,10 +21,10 @@ export default class ProfileForm extends Form {
         });
         this.parent = parent;
         this.onSubmit = onSubmit;
-        this.onNameTyped = this.onNameTyped.bind(this);
+        this._onNameTyped = this._onNameTyped.bind(this);
     }
 
-    async renderElements(form) {
+    async _renderElements(form) {
         const user = await User.getCurrentUser();
         form.innerHTML = html`
             <div class="form__row">
@@ -48,7 +49,7 @@ export default class ProfileForm extends Form {
                 label: "Повторите пароль",
                 type: "password",
             }).renderString()}
-            ${new SubmitButton("Save", "yellow").renderString()}
+            ${new SubmitButton("Сохранить", "yellow").renderString()}
         `;
 
         this.avatarSelect = new AvatarSelect(
@@ -59,7 +60,7 @@ export default class ProfileForm extends Form {
 
         form.querySelector(".form__field.name").addEventListener(
             "input",
-            this.onNameTyped
+            this._onNameTyped
         );
         form.querySelector(".form__field.password").autocomplete =
             "new-password";
@@ -67,7 +68,7 @@ export default class ProfileForm extends Form {
             "new-password";
     }
 
-    onNameTyped(e) {
+    _onNameTyped(e) {
         const name = e.target.value;
         if (name === "") {
             this.avatarSelect.render();

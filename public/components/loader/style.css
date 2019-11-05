@@ -12,7 +12,7 @@ body.loader-shown {
     pointer-events: none;
 }
 
-.loader__text {
+.loader__inner {
     margin: auto;
     color: white;
     font-size: 3em;

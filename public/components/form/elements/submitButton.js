@@ -1,7 +1,10 @@
 import { html } from "common-tags";
 
-export default class SubmitButton {
+import BaseStringComponent from "../../baseStringComponent";
+
+export default class SubmitButton extends BaseStringComponent {
     constructor(text, color = null) {
+        super();
         this.text = text;
         this.color = color;
     }

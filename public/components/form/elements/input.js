@@ -1,8 +1,10 @@
 import { html } from "common-tags";
 
+import BaseStringComponent from "../../baseStringComponent";
+
 import "./style.css";
 
-export default class Input {
+export default class Input extends BaseStringComponent {
     constructor({
         name,
         label,
@@ -13,6 +15,7 @@ export default class Input {
         placeholder = null,
         disabled = false,
     }) {
+        super();
         this.name = name;
         this.label = label;
         this.type = type;
@@ -26,7 +29,7 @@ export default class Input {
     renderString() {
         return html`
             <div class="form__field-wrapper">
-                ${this.renderLabel()}
+                ${this._renderLabel()}
                 <input
                     type="${this.type}"
                     class="form__field ${this.name}"
@@ -35,12 +38,12 @@ export default class Input {
                     ${this.required ? "required" : ""}
                     ${this.disabled ? "disabled" : ""}
                 />
-                ${this.renderTip()}
+                ${this._renderTip()}
             </div>
         `;
     }
 
-    renderLabel() {
+    _renderLabel() {
         return this.label === null
             ? ""
             : html`
@@ -48,7 +51,7 @@ export default class Input {
               `;
     }
 
-    renderTip() {
+    _renderTip() {
         return this.tip === null
             ? ""
             : html`

@@ -6,7 +6,7 @@ import "../components/gameScore/style.css";
 import "../components/infoLeft/style.css";
 
 import GameDemo from "../game/gameDemo_future";
-import Router from "../router";
+import Router from "../modules/router";
 //import ModalWindow from "../components/modalWindow";
 
 export default class GamePage {

@@ -1,15 +1,13 @@
 import { html, safeHtml } from "common-tags";
-import { routes } from "../../router";
-import User from "../../user";
-import { LinkButton } from "../buttons";
+
+import BaseComponent from "../baseComponent";
+import Loader from "../loader";
+import { routes } from "../../modules/router";
+import User from "../../modules/user";
+
 import "./style.css";
-import Loader from "../../components/loader/index";
 
-export default class UserInfo {
-    constructor(parent) {
-        this.parent = parent;
-    }
-
+export default class UserInfo extends BaseComponent {
     start() {
         const loader = new Loader();
         loader.show();
@@ -23,32 +21,26 @@ export default class UserInfo {
         if (currentUser === null) {
             this.parent.innerHTML = html`
                 <p>
-                    <a href="${routes.USER_LOGIN_PAGE_ROUTE}">Войдите</a>, чтобы
-                    начать игру
+                    <a href="${routes.USER_LOGIN}">Войдите</a>, чтобы начать
+                    игру
                 </p>
             `;
-        } else {
-            this.parent.innerHTML = html`
-                <h2 class="text__align-center">You</h2>
-                <div class="userPicName">
-                    <a href="${routes.USER_PROFILE_PAGE_ROUTE}">
-                        <div class="anchorImg__wrapper">
-                            <img
-                                class="userPicName__img"
-                                alt="userpic"
-                                src="${await User.getAvatarUrl()}"
-                            />
-                        </div>
-                        ${safeHtml`${currentUser.name}`}
-                    </a>
-                </div>
-                ${new LinkButton({
-                    text: "Shop",
-                    href: "shop",
-                    extraClass:
-                        "button__size-big button__color-violet shop-button",
-                }).renderString()}
-            `;
+            return;
         }
+        this.parent.innerHTML = html`
+            <h2 class="text__align-center">Профиль</h2>
+            <div class="userPicName">
+                <a href="${routes.USER_PROFILE}">
+                    <div class="anchorImg__wrapper">
+                        <img
+                            class="userPicName__img"
+                            alt="userpic"
+                            src="${await User.getAvatarUrl()}"
+                        />
+                    </div>
+                    ${safeHtml`${currentUser.name}`}
+                </a>
+            </div>
+        `;
     }
 }

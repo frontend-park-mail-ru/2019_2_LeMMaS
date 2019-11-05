@@ -1,12 +1,12 @@
 import { html } from "common-tags";
 
-import { routes } from "../../router";
+import { routes } from "../../modules/router";
 import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
-import API from "../../api";
-import Router from "../../router";
+import API from "../../modules/api";
+import Router from "../../modules/router";
 import Loader from "../../components/loader/index";
 
 export default class Login extends BasePage {
@@ -23,9 +23,7 @@ export default class Login extends BasePage {
                 <div class="form-wrapper"></div>
                 <p>
                     Нет аккаунта?
-                    <a href="${routes.USER_REGISTER_PAGE_ROUTE}"
-                        >Зарегистрироваться</a
-                    >
+                    <a href="${routes.USER_REGISTER}">Зарегистрироваться</a>
                 </p>
             </div>
         `;

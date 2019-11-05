@@ -1,9 +1,13 @@
 import { html } from "common-tags";
 
+import BaseComponent from "../baseComponent";
+import BaseStringComponent from "../baseStringComponent";
+
 import "./style.css";
 
-export class LinkButton {
+export class LinkButton extends BaseStringComponent {
     constructor({ text, href = "", extraClass = "" }) {
+        super();
         this.text = text;
         this.href = href;
         this.extraClass = extraClass;
@@ -18,9 +22,9 @@ export class LinkButton {
     }
 }
 
-export class Button {
+export class Button extends BaseComponent {
     constructor(parent, { text, onClick, extraClass = "" }) {
-        this.parent = parent;
+        super(parent);
         this.text = text;
         this.onClick = onClick;
         this.extraClass = extraClass;

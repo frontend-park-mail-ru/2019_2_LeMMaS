@@ -1,46 +1,40 @@
 import { html } from "common-tags";
 
-import { routes } from "../../router";
+import BaseComponent from "../baseComponent";
 import { LinkButton, Button } from "../buttons";
-import User from "../../user";
-import API from "../../api";
+import { routes } from "../../modules/router";
+import User from "../../modules/user";
+import API from "../../modules/api";
 
 import "./style.css";
 
-export default class Menu {
+export default class Menu extends BaseComponent {
     constructor(parent) {
-        this.parent = parent;
-
+        super(parent);
         this._onLogoutButtonClick = this._onLogoutButtonClick.bind(this);
     }
 
     async render() {
         const currentUser = await User.getCurrentUser();
-        if (currentUser != null) {
-            this.parent.innerHTML = html`
-                <span class="logout-button-wrapper"></span>
-            `;
-            const logoutButtonWrapper = this.parent.querySelector(
-                ".logout-button-wrapper"
-            );
-            new Button(logoutButtonWrapper, {
+        if (currentUser !== null) {
+            new Button(this.parent, {
                 text: "Выйти",
                 extraClass: "button__transparency-transparent",
                 onClick: this._onLogoutButtonClick,
             }).render();
-        } else {
-            this.parent.innerHTML = html`
-                ${new LinkButton({
-                    text: "Войти",
-                    href: routes.USER_LOGIN_PAGE_ROUTE,
-                    extraClass: "button__transparency-transparent",
-                }).renderString()}
-                ${new LinkButton({
-                    text: "Регистрация",
-                    href: routes.USER_REGISTER_PAGE_ROUTE,
-                }).renderString()}
-            `;
+            return;
         }
+        this.parent.innerHTML = html`
+            ${new LinkButton({
+                text: "Войти",
+                href: routes.USER_LOGIN,
+                extraClass: "button__transparency-transparent",
+            }).renderString()}
+            ${new LinkButton({
+                text: "Регистрация",
+                href: routes.USER_REGISTER,
+            }).renderString()}
+        `;
     }
 
     async _onLogoutButtonClick() {

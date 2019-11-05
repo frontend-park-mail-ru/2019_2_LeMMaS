@@ -1,9 +1,11 @@
 import { html } from "common-tags";
 
-import { routes } from "../../router";
+import { routes } from "../../modules/router";
+import BaseStringComponent from "../baseStringComponent";
+
 import "./style.css";
 
-class Logo {
+export default class Logo extends BaseStringComponent {
     renderString() {
         return html`
             <div class="logo anchorImg__wrapper">
@@ -12,13 +14,9 @@ class Logo {
                     alt="Lemmas logo"
                     src="/static/assets/img/lemmaslogo.png"
                 />
-                <a
-                    href="${routes.INDEX_PAGE_ROUTE}"
-                    class="anchorImg__position-absolute"
-                >
+                <a href="${routes.INDEX}" class="anchorImg__position-absolute">
                 </a>
             </div>
         `;
     }
 }
-export default Logo;

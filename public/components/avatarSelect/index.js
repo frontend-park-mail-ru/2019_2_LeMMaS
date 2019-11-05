@@ -1,14 +1,15 @@
 import { html } from "common-tags";
 
-import API from "../../api";
+import API from "../../modules/api";
+import BaseComponent from "../baseComponent";
 
 import "./style.css";
 
 const FILE_NAME_DISPLAY_LIMIT = 9;
 
-export default class AvatarSelect {
+export default class AvatarSelect extends BaseComponent {
     constructor(parent, userAvatarUrl) {
-        this.parent = parent;
+        super(parent);
         this.userAvatarUrl = userAvatarUrl;
     }
 
@@ -26,7 +27,7 @@ export default class AvatarSelect {
                         class="avatar"
                         src="${avatarUrl ? avatarUrl : this.userAvatarUrl}"
                     />
-                    <span class="avatar-input__tip">Edit</span>
+                    <span class="avatar-input__tip">Изменить</span>
                     <i class="avatar-input__upload-icon fas fa-upload"></i>
                 </label>
             </div>
@@ -35,9 +36,7 @@ export default class AvatarSelect {
             .querySelector("input[type=file]")
             .addEventListener("change", e => {
                 const filename = e.target.value.split("\\").pop();
-                const tip =
-                    filename.slice(0, FILE_NAME_DISPLAY_LIMIT) +
-                    (filename.length > FILE_NAME_DISPLAY_LIMIT ? "..." : "");
+                const tip = Text.cutIfLong(filename, FILE_NAME_DISPLAY_LIMIT);
                 this.parent.querySelector(".avatar-input__tip").innerHTML = tip;
                 this.parent
                     .querySelector(".avatar-input-wrapper")
@@ -45,7 +44,7 @@ export default class AvatarSelect {
             });
     }
 
-    async previewByName(name = "") {
+    async previewByName(name) {
         const avatarUrl = name ? await API.getAvatarPreviewUrl(name) : null;
         this.render(avatarUrl);
     }
