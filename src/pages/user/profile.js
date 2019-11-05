@@ -5,6 +5,7 @@ import API from "../../modules/api";
 import User from "../../modules/user";
 import ProfileForm from "../../components/profileForm";
 import Loader from "../../components/loader/index";
+import HomeButton from "../../components/buttons/index";
 
 export default class Profile extends BasePage {
     constructor() {
@@ -16,6 +17,7 @@ export default class Profile extends BasePage {
     async renderContent(parent) {
         document.title = "Мой профиль | LeMMaS";
         parent.innerHTML = html`
+            ${HomeButton.renderString()}
             <div class="plate plate__size-big profile-wrapper">
                 <h2 class="text__align-center text__size-big">Мой профиль</h2>
                 <div class="form-wrapper"></div>

@@ -136,7 +136,6 @@ export default class GamePlay {
         if (!this.enemies.length) {
             this.end();
             document.removeEventListener('keydown', this.modalWindowHandler);
-            console.log("win");
             this.modalWindow.start("You win. Do you want to play again?", this.playAgain, () => {
                 this.exit();
             });

@@ -30,6 +30,7 @@ button:hover {
 }
 
 .content {
+    position: relative;
     height: 86vh;
     display: flex;
 }

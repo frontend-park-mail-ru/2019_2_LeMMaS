@@ -39,7 +39,6 @@
 
 .button__position-absolute {
     position: absolute;
-    width: -webkit-fill-available;
 }
 
 .button__size-big {
@@ -53,11 +52,23 @@
 }
 
 .button__transparency-transparent:hover {
-    background-color: white;
-    color: #0b1233;
+    border-color: transparent;
 }
 
 .button__type-disabled {
     cursor: not-allowed;
     opacity: 0.5;
+}
+
+.button__wrapper__position-absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 2em;
+}
+
+.homeIcon {
+    filter: invert(1);
+    width: 3.5em;
+    height: 3.5em;
 }
