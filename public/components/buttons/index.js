@@ -19,10 +19,11 @@ export class LinkButton {
 }
 
 export class Button {
-    constructor({ text, onClick, extraClass = "" }) {
+    constructor({ text, onClick, extraClass = "", parent = undefined }) {
         this.text = text;
         this.onClick = onClick;
         this.extraClass = extraClass;
+        this.parent = parent;
     }
 
     renderString() {
@@ -33,4 +34,13 @@ export class Button {
         `;
     }
 
+    render() {
+        const button = document.createElement("a");
+        button.className = "button " + this.extraClass;
+        button.innerText = this.text;
+
+        button.addEventListener("click", this.onClick);
+
+        this.parent.appendChild(button);
+    }
 }

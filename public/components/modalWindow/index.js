@@ -8,34 +8,47 @@ export default class ModalWindow {
         this.parent = parent;
     }
 
-    start = (info) => {
-        this.render(info);
+    start = (info, clickYes, clickNo) => {
+        this.info = info;
+        this.clickYes = clickYes;
+        this.clickNo = clickNo;
+
+        this.render();
     };
 
-    render = (info, clickYes, clickNo) => {
-        this.parent.innerHTML += html`
-                <div class="modalWindow__wrapper">
+    render = () => {
+        const modalWindowWrapper = document.createElement("div");
+        modalWindowWrapper.className = "modalWindow__wrapper";
+        this.parent.appendChild(modalWindowWrapper);
+
+        modalWindowWrapper.innerHTML = html`
                 <div class="modalWindow plate">
-                <p>${info}</p>
-                ${new Button({
+                <p>${this.info}</p>
+              </div>
+        `;
+
+        const modalWindow = modalWindowWrapper.querySelector(".modalWindow");
+
+        const yesButton = new Button({
             text: "Yes",
-            onClick: clickYes,
+            onClick: this.clickYes,
             extraClass:
                 "",
-        }).renderString()}
-                ${new Button({
+            parent: modalWindow,
+        });
+        const noButton = new Button({
             text: "No",
-            onClick: clickNo !== undefined ? clickNo : this.close,
+            onClick: this.clickNo,
             extraClass:
                 "button__transparency-transparent",
-        }).renderString()}
-              </div>
-            </div>
-            `;
+            parent: modalWindow,
+        });
 
+        yesButton.render();
+        noButton.render();
     };
 
     close = () => {
-        this.parent.removeChild(document.body.querySelector("modalWindow__wrapper"));
+        this.parent.removeChild(document.body.querySelector(".modalWindow__wrapper"));
     };
 }

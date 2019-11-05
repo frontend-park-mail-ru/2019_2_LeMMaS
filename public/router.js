@@ -10,7 +10,7 @@ export const routes = {
     USER_LOGIN_PAGE_ROUTE: "/user/login",
     USER_REGISTER_PAGE_ROUTE: "/user/register",
     USER_PROFILE_PAGE_ROUTE: "/user/profile",
-    GAME_SINGLE_PAGE_ROUTE: "/game/singleplayer",
+    GAME_SINGLE_PAGE_ROUTE: "/gamePlay/singleplayer",
 };
 
 export default class Router {
