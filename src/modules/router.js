@@ -20,10 +20,14 @@ views[routes.USER_REGISTER] = Register;
 views[routes.USER_PROFILE] = Profile;
 views[routes.SINGLEPLAYER] = GamePage;
 
-export default class Router {
-    static renderPage() {
+class Router {
+    renderPage() {
         const url = location.pathname;
         const view = views[url] ? new views[url]() : new Page404();
         view.render();
     }
 }
+
+const router = new Router();
+
+export default router;
