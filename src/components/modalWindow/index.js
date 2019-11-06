@@ -22,9 +22,9 @@ export default class ModalWindow {
         this.parent.appendChild(modalWindowWrapper);
 
         modalWindowWrapper.innerHTML = html`
-                <div class="modalWindow plate">
+            <div class="modalWindow plate">
                 <p>${this.info}</p>
-              </div>
+            </div>
         `;
 
         const modalWindow = modalWindowWrapper.querySelector(".modalWindow");
@@ -32,14 +32,12 @@ export default class ModalWindow {
         const yesButton = new Button(modalWindow, {
             text: "Yes",
             onClick: this.clickYes,
-            extraClass:
-                "",
+            extraClass: ""
         });
         const noButton = new Button(modalWindow, {
             text: "No",
             onClick: this.clickNo,
-            extraClass:
-                "button__transparency-transparent",
+            extraClass: "button__transparency-transparent"
         });
 
         yesButton.render();
@@ -47,6 +45,8 @@ export default class ModalWindow {
     };
 
     close = () => {
-        this.parent.removeChild(document.body.querySelector(".modalWindow__wrapper"));
+        this.parent.removeChild(
+            document.body.querySelector(".modalWindow__wrapper")
+        );
     };
 }

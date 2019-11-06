@@ -12,7 +12,7 @@ export default class Logo extends BaseStringComponent {
                 <img
                     class="logo__image"
                     alt="Lemmas logo"
-                    src="/static/img/lemmaslogo.png"
+                    src="/assets/img/lemmaslogo.png"
                 />
                 <a href="${routes.INDEX}" class="anchorImg__position-absolute">
                 </a>
