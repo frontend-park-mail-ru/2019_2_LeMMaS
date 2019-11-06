@@ -31,14 +31,12 @@ export class Button extends BaseComponent {
     }
 
     render() {
-
         const button = document.createElement("a");
         button.className = "button " + this.extraClass;
         button.innerText = this.text;
         button.addEventListener("click", this.onClick);
 
         this.parent.appendChild(button);
-
     }
 }
 

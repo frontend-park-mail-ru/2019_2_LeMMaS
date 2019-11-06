@@ -22,7 +22,7 @@ export default class User {
     static async getAvatarUrl() {
         const user = await User.getCurrentUser();
         if (!user.avatar_path) {
-            return "/static/img/userpic.png";
+            return "/assets/img/userpic.png";
         }
         return user.avatar_path;
     }

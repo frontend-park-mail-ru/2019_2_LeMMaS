@@ -35,7 +35,9 @@ export default class GamePage {
 
         document.body.style.background = "white";
 
-        this.gamePlay = new GamePlay(document.body.querySelector(".game__wrapper"));
+        this.gamePlay = new GamePlay(
+            document.body.querySelector(".game__wrapper")
+        );
         this.gamePlay.start();
     }
 }

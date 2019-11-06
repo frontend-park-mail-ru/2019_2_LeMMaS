@@ -9,7 +9,7 @@ body {
     font-family: "Play", sans-serif;
     margin: 0;
     height: 100vh;
-    background-image: url("/static/img/back.jpg");
+    background-image: url("/assets/img/back.jpg");
     max-height: 100vh;
     overflow: hidden;
     background-position: center;
