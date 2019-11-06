@@ -31,13 +31,11 @@ export class Button extends BaseComponent {
     }
 
     render() {
-        this.parent.innerHTML = html`
-            <a class="button ${this.extraClass}" href="#">
-                ${this.text}
-            </a>
-        `;
-        this.parent
-            .querySelector(".button")
-            .addEventListener("click", this.onClick);
+        const button = document.createElement("a");
+        button.className = "button " + this.extraClass;
+        button.innerText = this.text;
+        button.addEventListener("click", this.onClick);
+
+        this.parent.appendChild(button);
     }
 }
