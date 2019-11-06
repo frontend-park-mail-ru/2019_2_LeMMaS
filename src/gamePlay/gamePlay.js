@@ -200,9 +200,11 @@ export default class GamePlay {
                 if (enemy1 !== enemy2) {
                     const eatenBall = this.detectBallEating(enemy1, enemy2);
                     if (eatenBall === enemy1) {
+                        this.parent.removeChild(enemy1.canvas);
                         this.enemies.splice(this.enemies.indexOf(enemy1), 1);
                     }
                     if (eatenBall === enemy2) {
+                        this.parent.removeChild(enemy2.canvas);
                         this.enemies.splice(this.enemies.indexOf(enemy2), 1);
                     }
                 }
