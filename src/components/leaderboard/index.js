@@ -5,16 +5,26 @@ import User from "../../modules/user";
 import BaseComponent from "../baseComponent";
 
 import "./style.css";
+import Loader from "../loader";
 
 export default class Leaderboard extends BaseComponent {
-    start = () =>
+    start = () => {
+        const loader = new Loader(this.parent.parentElement, this.parent.parentElement.parentElement);
+        loader.show();
         API.listUsers().then(users => {
-            this.render(User.getCurrentUser(), users);
+            const interval = setInterval(() => {
+                if (User.getCurrentUser() !== undefined) {
+                    this.render(User.getCurrentUser(), users);
+                    loader.hide();
+                    clearInterval(interval);
+                }
+            }, 200);
         });
+    };
 
-    render(currentUser, userList) {
+    render = (currentUser, userList) => {
         let i = 1;
-        this.parent.innerHTML = html`
+        this.parent.innerHTML += html`
             <div class="leaderboard">
                 ${userList.map(
                     player => safeHtml`
@@ -35,5 +45,5 @@ export default class Leaderboard extends BaseComponent {
                 )}
             </div>
         `;
-    }
+    };
 }

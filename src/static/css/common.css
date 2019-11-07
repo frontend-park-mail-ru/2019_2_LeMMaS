@@ -48,6 +48,14 @@ button:hover {
     justify-content: space-evenly;
 }
 
+.plate__innerContent {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
 .plate__size-big {
     width: 35%;
 }

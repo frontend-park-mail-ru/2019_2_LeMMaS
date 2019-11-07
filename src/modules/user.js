@@ -4,19 +4,14 @@ let getCurrentUserPromise = null;
 
 class User {
     constructor() {
-        this.loggedIn = false;
-        this.updateCurrentUser().then(returnedUser => {
-            this.currentUser = returnedUser;
-        });
-        if(this.currentUser) {
-            this.loggedIn = true;
-        }
+        this.updateCurrentUser()
+            .then(returnedUser => {
+                this.currentUser = returnedUser !== undefined ? returnedUser : null;
+                this.loggedIn = !!this.currentUser;
+            });
     }
 
     updateCurrentUser = () => {
-        if(this.loggedIn && this.currentUser) {
-            return Promise.resolve(this.currentUser);
-        }
         if (getCurrentUserPromise !== null) {
             return getCurrentUserPromise;
         }
@@ -33,7 +28,7 @@ class User {
 
     getAvatarUrl = async () => {
         if(!this.currentUser) {
-            this.currentUser = await this.updateCurrentUser();
+            await this.updateCurrentUser();
         }
         if (!this.currentUser.avatar_path) {
             return "/assets/img/userpic.png";

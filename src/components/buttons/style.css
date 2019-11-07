@@ -67,8 +67,14 @@
     padding: 2em;
 }
 
-.homeIcon {
-    filter: invert(1);
-    width: 3.5em;
-    height: 3.5em;
+.button__type-home {
+    font-size: 4em;
+    background: none;
+    color: #250823bf;
+    padding: 0.5em;
+}
+
+.button__type-home:hover {
+    background: none;
+    color: white;
 }

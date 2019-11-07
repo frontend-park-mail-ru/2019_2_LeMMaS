@@ -15,11 +15,12 @@ export default class Menu extends BaseComponent {
     }
 
     start = () => {
-        if(!User.getCurrentUser()) {
-            User.updateCurrentUser().then(() => this._render());
-            return;
-        }
-        this._render();
+        const interval = setInterval(() => {
+            if (User.getCurrentUser() !== undefined) {
+                this._render();
+                clearInterval(interval);
+            }
+        }, 200);
     };
 
     _render = async () => {

@@ -21,18 +21,15 @@ export default class ProfileForm extends Form {
         });
         this.parent = parent;
         this.onSubmit = onSubmit;
-        this._onNameTyped = this._onNameTyped.bind(this);
     }
 
     start = () => {
-        if(!User.getCurrentUser()) {
-            User.updateCurrentUser().then(() => {
-                console.log(User.getCurrentUser());
+        const interval = setInterval(() => {
+            if (User.getCurrentUser() !== undefined) {
                 this.render();
-            });
-            return;
-        }
-        this.render();
+                clearInterval(interval);
+            }
+        }, 200);
     };
 
     async _renderElements(form) {
@@ -79,7 +76,7 @@ export default class ProfileForm extends Form {
             "new-password";
     }
 
-    _onNameTyped(e) {
+    _onNameTyped = (e) => {
         const name = e.target.value;
         if (name === "") {
             this.avatarSelect.render();
@@ -91,5 +88,5 @@ export default class ProfileForm extends Form {
         this.avatarPreviewTimeoutHandler = setTimeout(() => {
             this.avatarSelect.previewByName(name);
         }, AVATAR_PREVIEW_TIMEOUT);
-    }
+    };
 }

@@ -60,16 +60,20 @@ export default class Profile extends BasePage {
         }
 
         if (name !== "" && name !== User.getCurrentUser().name || password !== "") {
-            API.changeUserData(name, password).then(response => {
-                if (response.status !== 200) {
-                    error.innerText = "Произошла ошибка";
-                    error.style.visibility = "visible";
-                } else {
-                    error.innerText = "Изменения сохранены";
-                    error.style.color = "green";
-                    error.style.visibility = "visible";
-                }
-            });
+            API.changeUserData(name, password)
+                .then(response => {
+                    if (response.status !== 200) {
+                        error.innerText = "Произошла ошибка";
+                        error.style.visibility = "visible";
+                    } else {
+                        error.innerText = "Изменения сохранены";
+                        error.style.color = "green";
+                        error.style.visibility = "visible";
+                    }
+                })
+                .then(() => {
+                    User.updateCurrentUser();
+                });
         }
 
         if (userPic.files[0]) {
@@ -95,7 +99,6 @@ export default class Profile extends BasePage {
                 .catch(error => error ? console.log(error) : console.log("errorr"));
         } else {
             loader.hide();
-            User.updateCurrentUser();
         }
     }
 }
