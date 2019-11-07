@@ -72,7 +72,7 @@ export default class Profile extends BasePage {
             });
         }
 
-        if (userPic.files[0] !== undefined) {
+        if (userPic.files[0]) {
             const formData = new FormData();
             formData.append("avatar", userPic.files[0]);
 
@@ -91,7 +91,8 @@ export default class Profile extends BasePage {
                         User.updateCurrentUser();
                     }
                 })
-                .finally(() => loader.hide());
+                .finally(() => loader.hide())
+                .catch(error => error ? console.log(error) : console.log("errorr"));
         } else {
             loader.hide();
             User.updateCurrentUser();
