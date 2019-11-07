@@ -7,9 +7,9 @@ export default class GamePlay {
     }
 
     start = () => {
-        document.addEventListener("keydown", this.modalWindowHandler);
+        document.addEventListener("keydown", this._modalWindowHandler);
 
-        window.addEventListener("pushstate", this.onPageChange);
+        window.addEventListener("pushstate", this._onPageChange);
 
         this.foodCanvas = document.querySelector(".foodCanvas");
         this.score = document.querySelector(".gameScore__number");
@@ -68,17 +68,17 @@ export default class GamePlay {
             };
         }
 
-        window.addEventListener("resize", this.onWindowResize);
+        window.addEventListener("resize", this._onWindowResize);
 
-        this.drawFood();
-        this.interval = setInterval(this.redrawAllBalls, 1000 / 60);
+        this._drawFood();
+        this.interval = setInterval(this._redrawAllBalls, 1000 / 60);
 
         this.timeouts = [];
 
-        document.addEventListener("mousemove", this.handleMouseMove);
+        document.addEventListener("mousemove", this._handleMouseMove);
     };
 
-    onWindowResize = () => {
+    _onWindowResize = () => {
         this.ball.canvas.width = window.innerWidth;
         this.ball.canvas.height = window.innerHeight;
         this.foodCanvas.width = window.innerWidth;
@@ -89,13 +89,13 @@ export default class GamePlay {
         });
     };
 
-    handleMouseMove = event => {
+    _handleMouseMove = event => {
         this.easingTargetX = event.clientX;
         this.easingTargetY = event.clientY;
-        this.moveMyBall();
+        this._moveMyBall();
     };
 
-    moveMyBall = () => {
+    _moveMyBall = () => {
         if (
             this.easingTargetX === this.ball.x + this.ball.radius &&
             this.easingTargetY === this.ball.y + this.ball.radius
@@ -106,10 +106,10 @@ export default class GamePlay {
         this.ball.x += (this.easingTargetX - this.ball.x) * this.ball.easing;
         this.ball.y += (this.easingTargetY - this.ball.y) * this.ball.easing;
 
-        this.timeouts.push(setTimeout(() => this.moveMyBall(), 100));
+        this.timeouts.push(setTimeout(() => this._moveMyBall(), 100));
     };
 
-    drawFood = () => {
+    _drawFood = () => {
         const ctx = this.foodCanvas.getContext("2d");
         ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
 
@@ -124,7 +124,7 @@ export default class GamePlay {
         });
     };
 
-    detectFoodEating = ball =>
+    _detectFoodEating = ball =>
         this.food.forEach(foodElement => {
             if (
                 ball.x > foodElement.x - this.ball.radius &&
@@ -134,19 +134,19 @@ export default class GamePlay {
             ) {
                 if (foodElement.status === 1) {
                     foodElement.status = 0;
-                    this.drawFood();
-                    this.scoreIncrement(ball);
+                    this._drawFood();
+                    this._scoreIncrement(ball);
                 }
             }
         });
 
-    redrawAllBalls = () => {
+    _redrawAllBalls = () => {
         if (!this.enemies.length) {
-            this.end();
-            document.removeEventListener("keydown", this.modalWindowHandler);
+            this._end();
+            document.removeEventListener("keydown", this._modalWindowHandler);
             this.modalWindow.start(
                 "You win. Do you want to play again?",
-                this.playAgain,
+                this._playAgain,
                 () => {
                     this.exit();
                 }
@@ -154,9 +154,9 @@ export default class GamePlay {
             return;
         }
 
-        this.drawOneBall(this.ball);
+        this._drawOneBall(this.ball);
         this.enemies.forEach(enemy => {
-            this.drawOneBall(enemy, enemy.canvas);
+            this._drawOneBall(enemy, enemy.canvas);
             if (
                 enemy.x + enemy.dx > enemy.canvas.width - enemy.radius ||
                 enemy.x + enemy.dx < enemy.radius
@@ -175,15 +175,15 @@ export default class GamePlay {
         });
 
         this.enemies.forEach(enemy => {
-            const eatenBall = this.detectBallEating(enemy, this.ball);
+            const eatenBall = this._detectBallEating(enemy, this.ball);
             if (eatenBall === this.ball) {
                 document.removeEventListener(
                     "keydown",
-                    this.modalWindowHandler
+                    this._modalWindowHandler
                 );
                 this.modalWindow.start(
                     "You lost. Do you want to play again?",
-                    this.playAgain,
+                    this._playAgain,
                     () => {
                         this.exit();
                     }
@@ -198,7 +198,7 @@ export default class GamePlay {
         this.enemies.forEach(enemy1 =>
             this.enemies.forEach(enemy2 => {
                 if (enemy1 !== enemy2) {
-                    const eatenBall = this.detectBallEating(enemy1, enemy2);
+                    const eatenBall = this._detectBallEating(enemy1, enemy2);
                     if (eatenBall === enemy1) {
                         this.parent.removeChild(enemy1.canvas);
                         this.enemies.splice(this.enemies.indexOf(enemy1), 1);
@@ -212,7 +212,7 @@ export default class GamePlay {
         );
     };
 
-    detectBallEating = (ball1, ball2) => {
+    _detectBallEating = (ball1, ball2) => {
         if (!ball1.alive || !ball2.alive) {
             return;
         }
@@ -244,7 +244,7 @@ export default class GamePlay {
         }
     };
 
-    drawOneBall = ball => {
+    _drawOneBall = ball => {
         const ballCtx = ball.canvas.getContext("2d");
         ballCtx.clearRect(0, 0, ball.canvas.width, ball.canvas.height);
 
@@ -261,10 +261,10 @@ export default class GamePlay {
         ballCtx.stroke();
         ballCtx.closePath();
 
-        this.detectFoodEating(ball);
+        this._detectFoodEating(ball);
     };
 
-    scoreIncrement = ball => {
+    _scoreIncrement = ball => {
         ball.radius++;
         ball.canvas.style.zIndex++;
         ball.easing /= 1.06;
@@ -273,9 +273,9 @@ export default class GamePlay {
         }
     };
 
-    end = () => {
-        document.removeEventListener("mousemove", this.handleMouseMove);
-        window.removeEventListener("resize", this.onWindowResize);
+    _end = () => {
+        document.removeEventListener("mousemove", this._handleMouseMove);
+        window.removeEventListener("resize", this._onWindowResize);
         if (this.timeouts) {
             this.timeouts.forEach(timer => {
                 clearTimeout(timer);
@@ -299,16 +299,16 @@ export default class GamePlay {
         }
     };
 
-    pause = () => {
-        document.removeEventListener("mousemove", this.handleMouseMove);
+    _pause = () => {
+        document.removeEventListener("mousemove", this._handleMouseMove);
     };
 
-    resume = () => {
-        document.addEventListener("mousemove", this.handleMouseMove);
+    _resume = () => {
+        document.addEventListener("mousemove", this._handleMouseMove);
     };
 
     exit = () => {
-        this.end();
+        this._end();
 
         document.body.style.background = null;
 
@@ -320,38 +320,34 @@ export default class GamePlay {
         router.renderPage();
     };
 
-    playAgain = () => {
+    _playAgain = () => {
         this.modalWindow.close();
-        this.end();
+        this._end();
         this.start();
     };
 
-    onPageChange = () => {
+    _onPageChange = () => {
 
-        document.removeEventListener("keydown", this.modalWindowHandler);
-        window.removeEventListener("popstate", this.onPageChange);
+        document.removeEventListener("keydown", this._modalWindowHandler);
+        window.removeEventListener("popstate", this._onPageChange);
     };
 
-    modalWindowHandler = event => {
+    _modalWindowHandler = event => {
         if (event.key === "Escape" || event.keyCode === 27) {
-            document.removeEventListener("keydown", this.modalWindowHandler);
-            this.pause();
+            document.removeEventListener("keydown", this._modalWindowHandler);
+            this._pause();
             this.modalWindow.start(
                 "Do you really want to exit?",
-                this.gameExitHandler,
+                this.exit,
                 () => {
                     this.modalWindow.close();
                     document.addEventListener(
                         "keydown",
-                        this.modalWindowHandler
+                        this._modalWindowHandler
                     );
-                    this.resume();
+                    this._resume();
                 }
             );
         }
-    };
-
-    gameExitHandler = () => {
-        this.exit();
     };
 }
