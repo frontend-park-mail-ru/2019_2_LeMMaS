@@ -7,13 +7,10 @@ import BaseComponent from "../baseComponent";
 import "./style.css";
 
 export default class Leaderboard extends BaseComponent {
-    start() {
-        User.getCurrentUser().then(currentUser => {
-            API.listUsers().then(users => {
-                this.render(currentUser, users);
-            });
+    start = () =>
+        API.listUsers().then(users => {
+            this.render(User.getCurrentUser(), users);
         });
-    }
 
     render(currentUser, userList) {
         let i = 1;

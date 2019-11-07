@@ -12,6 +12,6 @@ export default class Header extends BaseComponent {
             ${new Logo().renderString()}
             <div class="menu"></div>
         `;
-        new Menu(this.parent.querySelector(".menu")).render();
+        new Menu(this.parent.querySelector(".menu")).start();
     }
 }

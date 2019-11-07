@@ -28,7 +28,7 @@ export default class Profile extends BasePage {
             parent.querySelector(".form-wrapper"),
             this.onEditProfileFormSubmit
         );
-        await this.profileForm.render();
+        await this.profileForm.start();
     }
 
     onEditProfileFormSubmit(e) {
@@ -59,7 +59,7 @@ export default class Profile extends BasePage {
             return;
         }
 
-        if (name !== "" || password !== "") {
+        if (name !== "" && name !== User.getCurrentUser().name || password !== "") {
             API.changeUserData(name, password).then(response => {
                 if (response.status !== 200) {
                     error.innerText = "Произошла ошибка";
@@ -76,21 +76,25 @@ export default class Profile extends BasePage {
             const formData = new FormData();
             formData.append("avatar", userPic.files[0]);
 
-            API.changeAvatar(formData).then(response => {
-                if (response.status !== 200) {
-                    error.innerText = "Произошла ошибка";
-                    error.style.visibility = "visible";
-                } else {
-                    error.innerText = "Изменения сохранены";
-                    error.style.color = "green";
-                    error.style.visibility = "visible";
-                    loader.hide();
-                    User.reset();
-                }
-            });
+            API.changeAvatar(formData)
+                .then(response => {
+                    if (response.status !== 200) {
+                        error.innerText = "Произошла ошибка";
+                        error.style.visibility = "visible";
+                    } else if (response.status === 403) {
+                        error.innerText += "\nАватарка слишком большая";
+                        error.style.visibility = "visible";
+                    } else if (response.status === 200) {
+                        error.innerText = "Изменения сохранены";
+                        error.style.color = "green";
+                        error.style.visibility = "visible";
+                        User.updateCurrentUser();
+                    }
+                })
+                .finally(() => loader.hide());
         } else {
             loader.hide();
-            User.reset();
+            User.updateCurrentUser();
         }
     }
 }

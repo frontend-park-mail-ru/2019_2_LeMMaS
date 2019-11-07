@@ -11,7 +11,7 @@ export default class UserInfo extends BaseComponent {
     start() {
         const loader = new Loader();
         loader.show();
-        User.getCurrentUser().then(currentUser => {
+        User.updateCurrentUser().then(currentUser => {
             this.render(currentUser);
             loader.hide();
         });

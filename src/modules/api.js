@@ -1,4 +1,5 @@
 import httpNetwork from "./http";
+import User from "../modules/user";
 
 const BACKEND_URL = "http://95.163.212.121";
 const API_V1_PATH_PREFIX = "api/v1";
@@ -27,11 +28,23 @@ export default class API {
         return httpNetwork.post([BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LOGIN_PATH].join("/"), {
             email,
             password,
+        })
+            .then((response) => {
+            if (response.status === 200) {
+                User.setLogin(true);
+                return response;
+            }
         });
     }
 
     static logoutUser() {
-        return httpNetwork.post([BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LOGOUT_PATH].join("/"));
+        return httpNetwork.post([BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LOGOUT_PATH].join("/"))
+            .then((response) => {
+            if (response.status === 200) {
+                User.setLogin(false);
+                return response;
+            }
+        });
     }
 
     static changeUserData(name, password) {

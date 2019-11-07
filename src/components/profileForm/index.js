@@ -24,8 +24,19 @@ export default class ProfileForm extends Form {
         this._onNameTyped = this._onNameTyped.bind(this);
     }
 
+    start = () => {
+        if(!User.getCurrentUser()) {
+            User.updateCurrentUser().then(() => {
+                console.log(User.getCurrentUser());
+                this.render();
+            });
+            return;
+        }
+        this.render();
+    };
+
     async _renderElements(form) {
-        const user = await User.getCurrentUser();
+        const user = User.getCurrentUser();
         form.innerHTML = html`
             <div class="form__row">
                 <div class="form__column avatar-select-wrapper"></div>

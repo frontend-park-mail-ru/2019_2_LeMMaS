@@ -1,33 +1,62 @@
 import API from "./api";
 
 let getCurrentUserPromise = null;
-let currentUser = null;
 
-export default class User {
-    static getCurrentUser() {
-        if (currentUser !== null) {
-            return Promise.resolve(currentUser);
+class User {
+    constructor() {
+        this.loggedIn = false;
+        this.updateCurrentUser().then(returnedUser => {
+            this.currentUser = returnedUser;
+        });
+        if(this.currentUser) {
+            this.loggedIn = true;
+        }
+    }
+
+    updateCurrentUser = () => {
+        if(this.loggedIn && this.currentUser) {
+            return Promise.resolve(this.currentUser);
         }
         if (getCurrentUserPromise !== null) {
             return getCurrentUserPromise;
         }
-        getCurrentUserPromise = API.currentUserProfile();
-        getCurrentUserPromise.then(user => {
-            getCurrentUserPromise = null;
-            currentUser = user;
-        });
-        return getCurrentUserPromise;
-    }
+        return API.currentUserProfile()
+            .then(user => {
+                getCurrentUserPromise = null;
+                this.currentUser = user;
+                if (this.currentUser) {
+                    this.setLogin(true);
+                }
+                return user;
+            });
+    };
 
-    static async getAvatarUrl() {
-        const user = await User.getCurrentUser();
-        if (!user.avatar_path) {
+    getAvatarUrl = async () => {
+        if(!this.currentUser) {
+            this.currentUser = await this.updateCurrentUser();
+        }
+        if (!this.currentUser.avatar_path) {
             return "/assets/img/userpic.png";
         }
-        return user.avatar_path;
-    }
+        return this.currentUser.avatar_path;
+    };
 
-    static reset() {
-        currentUser = null;
-    }
+    reset = () =>
+        this.currentUser = null;
+
+
+    setLogin = (loggedIn) => {
+        this.loggedIn = loggedIn;
+        this.updateCurrentUser();
+    };
+
+    isLoggedIn = () =>
+        this.loggedIn;
+
+    getCurrentUser = () =>
+        this.currentUser;
 }
+
+const user = new User();
+
+export default user;
