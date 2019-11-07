@@ -57,6 +57,4 @@ class User {
         this.currentUser;
 }
 
-const user = new User();
-
-export default user;
+export default new User();
