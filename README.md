@@ -11,6 +11,7 @@
 -   [Webpack](https://webpack.js.org/) - сборка проектов
 -   [Babel](https://babeljs.io/) - компилятор JavaScript
 -   [ESLint](https://eslint.org/) - линтер
+-   [Prettier](https://prettier.io/) - форматирование кода
 
 ## Установка и запуск
 

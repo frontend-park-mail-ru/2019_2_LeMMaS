@@ -1,9 +1,8 @@
-import getUrlsToCache from "../scripts/generateSWUrlsToCache";
+import { cache as urlsToCache } from "./urlsToCache";
 
-const urlsToCache = getUrlsToCache();
 const CACHE_NAME = "lemmas-cache-v1";
 
-self.addEventListener("install", function(event) {
+self.addEventListener("install", event => {
     // установка sw
     event.waitUntil(
         // пока все нужное не загружится в кеш
