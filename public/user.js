@@ -5,7 +5,7 @@ let currentUser = null;
 
 export default class User {
     static getCurrentUser() {
-        if (currentUser != null) {
+        if (currentUser !== null) {
             return Promise.resolve(currentUser);
         }
         if (getCurrentUserPromise != null) {

@@ -23,11 +23,13 @@ export default class Index extends BasePage {
                 }).renderString()}
                 ${new LinkButton({
                     text: "Multiplayer",
-                    extraClass: "button__size-big button__color-yellow button__type-disabled",
+                    extraClass:
+                        "button__size-big button__color-yellow button__type-disabled",
                 }).renderString()}
                 ${new LinkButton({
                     text: "Experimental",
-                    extraClass: "button__size-big button__color-red button__type-disabled",
+                    extraClass:
+                        "button__size-big button__color-red button__type-disabled",
                 }).renderString()}
             </div>
             <div class="plate user-info-wrapper"></div>

@@ -47,9 +47,8 @@ export default class GamePage {
                 );
                 Router.renderPage();
 
-
                 // TODO make modal window
-               // const modalWindow = new ModalWindow(document.body);
+                // const modalWindow = new ModalWindow(document.body);
                 //modalWindow.start("Do you really want to exit?");
             }
         });

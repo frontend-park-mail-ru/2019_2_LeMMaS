@@ -27,8 +27,8 @@ export default class GameDemo {
             document.body.appendChild(canvas);
 
             this.enemies[count] = {
-                x: Math.random() * window.innerWidth / 2,
-                y: Math.random() * window.innerHeight / 2,
+                x: (Math.random() * window.innerWidth) / 2,
+                y: (Math.random() * window.innerHeight) / 2,
                 radius: 20,
                 color: "#ffff00",
                 dx: 2,
@@ -49,7 +49,11 @@ export default class GameDemo {
                 x: Math.round(Math.random() * window.innerWidth),
                 y: Math.round(Math.random() * window.innerHeight),
                 status: 1,
-                color: "#" + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6),
+                color:
+                    "#" +
+                    (0x1000000 + Math.random() * 0xffffff)
+                        .toString(16)
+                        .substr(1, 6),
             };
         }
 
@@ -58,17 +62,16 @@ export default class GameDemo {
             this.ball.canvas.height = window.innerHeight;
             this.foodCanvas.width = window.innerWidth;
             this.foodCanvas.height = window.innerHeight;
-            this.enemies.forEach((enemy) => {
+            this.enemies.forEach(enemy => {
                 enemy.canvas.height = window.innerHeight;
                 enemy.canvas.width = window.innerWidth;
             });
         });
 
-
         this.drawFood();
         this.redrawAllBalls();
 
-        document.addEventListener("mousemove", (event) => {
+        document.addEventListener("mousemove", event => {
             this.easingTargetX = event.clientX;
             this.easingTargetY = event.clientY;
             this.moveMyBall();
@@ -76,24 +79,24 @@ export default class GameDemo {
     };
 
     moveMyBall = () => {
-        if (this.easingTargetX === (this.ball.x + this.ball.radius) && this.easingTargetY === (this.ball.y + this.ball.radius)) {
+        if (
+            this.easingTargetX === this.ball.x + this.ball.radius &&
+            this.easingTargetY === this.ball.y + this.ball.radius
+        ) {
             return;
         }
 
         this.ball.x += (this.easingTargetX - this.ball.x) * this.ball.easing;
         this.ball.y += (this.easingTargetY - this.ball.y) * this.ball.easing;
 
-
         setTimeout(() => this.moveMyBall(), 100);
     };
-
-
 
     drawFood = () => {
         const ctx = this.foodCanvas.getContext("2d");
         ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
 
-        this.food.forEach((foodElement) => {
+        this.food.forEach(foodElement => {
             if (foodElement.status === 1) {
                 ctx.beginPath();
                 ctx.arc(foodElement.x, foodElement.y, 5, 0, Math.PI * 2, false);
@@ -105,11 +108,13 @@ export default class GameDemo {
     };
 
     detectFoodEating = (x, y, ball) =>
-        this.food.forEach((foodElement) => {
-            if (x > foodElement.x - this.ball.radius
-                && x < foodElement.x + this.ball.radius
-                && y > foodElement.y - this.ball.radius
-                && y < foodElement.y + this.ball.radius) {
+        this.food.forEach(foodElement => {
+            if (
+                x > foodElement.x - this.ball.radius &&
+                x < foodElement.x + this.ball.radius &&
+                y > foodElement.y - this.ball.radius &&
+                y < foodElement.y + this.ball.radius
+            ) {
                 if (foodElement.status === 1) {
                     foodElement.status = 0;
                     this.drawFood();
@@ -122,14 +127,18 @@ export default class GameDemo {
         setInterval(() => {
             this.drawOneBall(this.ball);
 
-            this.enemies.forEach((enemy) => {
+            this.enemies.forEach(enemy => {
                 this.drawOneBall(enemy, enemy.canvas);
-                if (enemy.x + enemy.dx > enemy.canvas.width - enemy.radius
-                    || enemy.x + enemy.dx < enemy.radius) {
+                if (
+                    enemy.x + enemy.dx > enemy.canvas.width - enemy.radius ||
+                    enemy.x + enemy.dx < enemy.radius
+                ) {
                     enemy.dx = -enemy.dx;
                 }
-                if (enemy.y + enemy.dy > enemy.canvas.height - enemy.radius
-                    || enemy.y + enemy.dy < enemy.radius) {
+                if (
+                    enemy.y + enemy.dy > enemy.canvas.height - enemy.radius ||
+                    enemy.y + enemy.dy < enemy.radius
+                ) {
                     enemy.dy = -enemy.dy;
                 }
 
@@ -137,49 +146,55 @@ export default class GameDemo {
                 enemy.y += enemy.dy;
             });
 
-            this.enemies.forEach((enemy) => {
+            this.enemies.forEach(enemy => {
                 this.detectBallEating(enemy, this.ball);
             });
 
-            this.enemies.forEach((enemy1) => this.enemies.forEach((enemy2) => {
-                    if(enemy1 !== enemy2) {
+            this.enemies.forEach(enemy1 =>
+                this.enemies.forEach(enemy2 => {
+                    if (enemy1 !== enemy2) {
                         this.detectBallEating(enemy1, enemy2);
                     }
-            }));
+                })
+            );
         }, 1000 / 60);
     };
 
     detectBallEating = (ball1, ball2) => {
-        if(!ball1.alive || !ball2.alive) {
+        if (!ball1.alive || !ball2.alive) {
             return;
         }
-        let small = ball1, large = ball1;
-        if(ball1.radius === ball2.radius) {
+        let small = ball1,
+            large = ball1;
+        if (ball1.radius === ball2.radius) {
             return;
-        } else if(ball1.radius < ball2.radius) {
+        } else if (ball1.radius < ball2.radius) {
             large = ball2;
         } else {
             small = ball2;
         }
 
-        if(small.x + small.radius < large.x + large.radius
-            && small.x - small.radius > large.x - large.radius
-            && small.y + small.radius < large.y + large.radius
-            && small.y - small.radius > large.y - large.radius) {
+        if (
+            small.x + small.radius < large.x + large.radius &&
+            small.x - small.radius > large.x - large.radius &&
+            small.y + small.radius < large.y + large.radius &&
+            small.y - small.radius > large.y - large.radius
+        ) {
             small.alive = false;
             large.radius += small.radius;
             if (large === this.ball) {
-                this.score.innerText = parseInt(this.score.innerText) + small.radius;
+                this.score.innerText =
+                    parseInt(this.score.innerText) + small.radius;
             }
             return small;
         }
     };
 
-    drawOneBall = (ball) => {
+    drawOneBall = ball => {
         const ballCtx = ball.canvas.getContext("2d");
         ballCtx.clearRect(0, 0, ball.canvas.width, ball.canvas.height);
 
-        if(!ball.alive) {
+        if (!ball.alive) {
             ballCtx.clearRect(0, 0, ball.canvas.width, ball.canvas.height);
             return;
         }
@@ -195,7 +210,7 @@ export default class GameDemo {
         this.detectFoodEating(ball.x, ball.y, ball);
     };
 
-    scoreIncrement = (ball) => {
+    scoreIncrement = ball => {
         ball.radius++;
         ball.canvas.style.zIndex++;
         ball.easing /= 1.06;
@@ -208,5 +223,5 @@ export default class GameDemo {
         delete this.ball;
         delete this.enemies;
         delete this.food;
-    }
+    };
 }
