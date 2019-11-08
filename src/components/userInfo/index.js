@@ -9,12 +9,14 @@ import "./style.css";
 
 export default class UserInfo extends BaseComponent {
     start() {
-        const loader = new Loader();
+        const loader = new Loader(this.parent, this.parent.parentElement);
         loader.show();
-        User.getCurrentUser().then(currentUser => {
-            this.render(currentUser);
-            loader.hide();
-        });
+        const interval = setInterval(() => {
+            if (User.getCurrentUser() !== undefined) {
+                this.render(User.getCurrentUser()).then(() => loader.hide());
+                clearInterval(interval);
+            }
+        }, 200);
     }
 
     async render(currentUser) {

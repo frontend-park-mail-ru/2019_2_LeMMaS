@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 import "./style.css";
-import "../../static/css/common.css";
+import "../../static/css/common.scss";
 import { Button } from "../../components/buttons/index";
 
 export default class ModalWindow {
@@ -32,12 +32,12 @@ export default class ModalWindow {
         const yesButton = new Button(modalWindow, {
             text: "Yes",
             onClick: this.clickYes,
-            extraClass: ""
+            extraClass: "",
         });
         const noButton = new Button(modalWindow, {
             text: "No",
             onClick: this.clickNo,
-            extraClass: "button__transparency-transparent"
+            extraClass: "button__transparency-transparent",
         });
 
         yesButton.render();

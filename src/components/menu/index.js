@@ -5,18 +5,26 @@ import { LinkButton, Button } from "../buttons";
 import { routes } from "../../modules/router";
 import User from "../../modules/user";
 import API from "../../modules/api";
+import router from "../../modules/router";
 
 import "./style.css";
 
 export default class Menu extends BaseComponent {
     constructor(parent) {
         super(parent);
-        this._onLogoutButtonClick = this._onLogoutButtonClick.bind(this);
     }
 
-    async render() {
-        const currentUser = await User.getCurrentUser();
-        if (currentUser !== null) {
+    start = () => {
+        const interval = setInterval(() => {
+            if (User.getCurrentUser() !== undefined) {
+                this._render();
+                clearInterval(interval);
+            }
+        }, 200);
+    };
+
+    _render = async () => {
+        if (User.isLoggedIn()) {
             new Button(this.parent, {
                 text: "Выйти",
                 extraClass: "button__transparency-transparent",
@@ -35,10 +43,10 @@ export default class Menu extends BaseComponent {
                 href: routes.USER_REGISTER,
             }).renderString()}
         `;
-    }
+    };
 
-    async _onLogoutButtonClick() {
-        await API.logoutUser();
-        location.reload();
-    }
+    _onLogoutButtonClick = async () =>
+        await API.logoutUser().then(() => {
+            router.renderPage();
+        });
 }

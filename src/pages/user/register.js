@@ -78,8 +78,7 @@ export default class Register extends BasePage {
 
         API.registerUser(email, name, password).then(response => {
             if (response.status !== 200) {
-                error.innerText =
-                    "Введены неверные данные!";
+                error.innerText = "Введены неверные данные!";
                 error.style.visibility = "visible";
             } else {
                 Login.prototype.login(email, password, error);

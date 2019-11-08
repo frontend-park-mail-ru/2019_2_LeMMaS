@@ -1,33 +1,49 @@
 import API from "./api";
 
 let getCurrentUserPromise = null;
-let currentUser = null;
 
-export default class User {
-    static getCurrentUser() {
-        if (currentUser !== null) {
-            return Promise.resolve(currentUser);
-        }
+class User {
+    constructor() {
+        this.updateCurrentUser().then(returnedUser => {
+            this.currentUser = returnedUser !== undefined ? returnedUser : null;
+            this.loggedIn = !!this.currentUser;
+        });
+    }
+
+    updateCurrentUser = () => {
         if (getCurrentUserPromise !== null) {
             return getCurrentUserPromise;
         }
-        getCurrentUserPromise = API.currentUserProfile();
-        getCurrentUserPromise.then(user => {
+        return API.currentUserProfile().then(user => {
             getCurrentUserPromise = null;
-            currentUser = user;
+            this.currentUser = user;
+            if (this.currentUser) {
+                this.setLogin(true);
+            }
+            return user;
         });
-        return getCurrentUserPromise;
-    }
+    };
 
-    static async getAvatarUrl() {
-        const user = await User.getCurrentUser();
-        if (!user.avatar_path) {
+    getAvatarUrl = async () => {
+        if (!this.currentUser) {
+            await this.updateCurrentUser();
+        }
+        if (!this.currentUser.avatar_path) {
             return "/assets/img/userpic.png";
         }
-        return user.avatar_path;
-    }
+        return this.currentUser.avatar_path;
+    };
 
-    static reset() {
-        currentUser = null;
-    }
+    reset = () => (this.currentUser = null);
+
+    setLogin = loggedIn => {
+        this.loggedIn = loggedIn;
+        this.updateCurrentUser();
+    };
+
+    isLoggedIn = () => this.loggedIn;
+
+    getCurrentUser = () => this.currentUser;
 }
+
+export default new User();
