@@ -19,46 +19,47 @@ const routes = {
     ACCESS_CSRF_TOKEN: API_PUBLIC_PREFIX + "/access/csrf",
 };
 
-const CSRF_TOKEN_HEADER = "X-CSRF-Token";
-
 class API {
-    constructor() {
-        this.csrfToken = null;
-    }
-
     registerUser = (email, name, password) =>
-        this._post(routes.USER_REGISTER, {
+        httpNetwork.post(this._getUrl(routes.USER_REGISTER), {
             email,
             name,
             password,
         });
 
     loginUser = (email, password) =>
-        this._post(routes.USER_LOGIN, {
-            email,
-            password,
-        }).then(response => {
-            if (response.status === 200) {
-                User.updateCurrentUser();
+        httpNetwork
+            .post(this._getUrl(routes.USER_LOGIN), {
+                email,
+                password,
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    User.setLogin(true);
+                    User.updateCurrentUser();
+                    return response;
+                }
                 return response;
-            }
-        });
+            });
 
     logoutUser = () =>
-        this._post(routes.USER_LOGOUT).then(response => {
+        httpNetwork.post(this._getUrl(routes.USER_LOGOUT)).then(response => {
             if (response.status === 200) {
-                User.updateCurrentUser();
+                User.setLogin(false);
+                User.reset();
                 return response;
             }
+            return response;
         });
 
     changeUserData = (name, password) =>
-        this._post(routes.USER_UPDATE, {
+        httpNetwork.post(this._getUrl(routes.USER_UPDATE), {
             name,
             password,
         });
 
-    changeAvatar = formData => this._post(routes.USER_AVATAR_UPLOAD, formData);
+    changeAvatar = formData =>
+        httpNetwork.post(this._getUrl(routes.USER_AVATAR_UPLOAD), formData);
 
     getAvatarPreviewUrl = name =>
         httpNetwork
@@ -78,20 +79,7 @@ class API {
             .then(response => response.json())
             .then(response => response.body.users);
 
-    async _post(route, body) {
-        const headers = {};
-        if (this._isPrivateRoute(route)) {
-            if (!this.csrfToken) {
-                this.csrfToken = await this._getCSRFToken();
-            }
-            headers[CSRF_TOKEN_HEADER] = this.csrfToken;
-        }
-        return httpNetwork.post(this._getUrl(route), body, headers);
-    }
-
-    _isPrivateRoute = route => route.startsWith(API_PRIVATE_PREFIX);
-
-    _getCSRFToken = () =>
+    getCSRFToken = () =>
         httpNetwork
             .get(this._getUrl(routes.ACCESS_CSRF_TOKEN))
             .then(response => response.json())

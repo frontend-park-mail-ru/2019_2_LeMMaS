@@ -46,7 +46,7 @@ export default class Menu extends BaseComponent {
     };
 
     _onLogoutButtonClick = async () =>
-        await API.logoutUser().then(() => {
+        API.logoutUser().then(() => {
             router.renderPage();
         });
 }
