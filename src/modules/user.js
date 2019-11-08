@@ -4,10 +4,7 @@ let getCurrentUserPromise = null;
 
 class User {
     constructor() {
-        this.updateCurrentUser().then(returnedUser => {
-            this.currentUser = returnedUser !== undefined ? returnedUser : null;
-            this.loggedIn = !!this.currentUser;
-        });
+        this.updateCurrentUser();
     }
 
     updateCurrentUser = () => {
