@@ -1,7 +1,7 @@
 import { html } from "common-tags";
 
 import API from "../../modules/api";
-import textUtils from "../../modules/textUtils";
+import TextUtils from "../../modules/textUtils";
 import BaseComponent from "../baseComponent";
 
 import "./style.css";
@@ -37,7 +37,7 @@ export default class AvatarSelect extends BaseComponent {
             .querySelector("input[type=file]")
             .addEventListener("change", e => {
                 const filename = e.target.value.split("\\").pop();
-                const tip = textUtils.cutIfLong(
+                const tip = TextUtils.cutIfLong(
                     filename,
                     FILE_NAME_DISPLAY_LIMIT
                 );
