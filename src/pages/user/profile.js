@@ -100,7 +100,7 @@ export default class Profile extends BasePage {
                 })
                 .finally(() => loader.hide())
                 .catch(error =>
-                    error ? console.log(error) : console.log("errorr"),
+                    error ? console.log(error) : console.log("errorr")
                 );
         } else {
             loader.hide();

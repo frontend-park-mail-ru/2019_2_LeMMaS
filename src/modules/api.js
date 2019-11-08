@@ -25,7 +25,7 @@ export default class API {
                 email,
                 name,
                 password,
-            },
+            }
         );
     }
 
@@ -38,7 +38,7 @@ export default class API {
                 {
                     email,
                     password,
-                },
+                }
             )
             .then(response => {
                 if (response.status === 200) {
@@ -53,7 +53,7 @@ export default class API {
             .post(
                 [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LOGOUT_PATH].join(
                     "/",
-                ),
+                )
             )
             .then(response => {
                 if (response.status === 200) {
@@ -71,7 +71,7 @@ export default class API {
             {
                 name,
                 password,
-            },
+            }
         );
     }
 
@@ -108,7 +108,7 @@ export default class API {
                     BACKEND_URL,
                     API_V1_PATH_PREFIX,
                     routes.CURRENT_USER_PROFILE_PATH,
-                ].join("/"),
+                ].join("/")
             )
             .then(response => response.json())
             .then(response => response.body.user);
@@ -119,7 +119,7 @@ export default class API {
             .get(
                 [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LIST_PATH].join(
                     "/",
-                ),
+                )
             )
             .then(response => response.json())
             .then(response => response.body.users);
