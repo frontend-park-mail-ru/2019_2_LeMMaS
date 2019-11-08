@@ -4,7 +4,7 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
-import api from "../../modules/api";
+import API from "../../modules/api";
 import Login from "./login";
 import HomeButton from "../../components/buttons";
 
@@ -76,7 +76,7 @@ export default class Register extends BasePage {
             return;
         }
 
-        api.registerUser(email, name, password).then(response => {
+        API.registerUser(email, name, password).then(response => {
             if (response.status !== 200) {
                 error.innerText = "Введены неверные данные!";
                 error.style.visibility = "visible";

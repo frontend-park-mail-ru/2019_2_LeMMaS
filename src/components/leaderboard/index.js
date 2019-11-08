@@ -1,6 +1,6 @@
 import { html, safeHtml } from "common-tags";
 
-import api from "../../modules/api";
+import API from "../../modules/api";
 import User from "../../modules/user";
 import BaseComponent from "../baseComponent";
 
@@ -14,7 +14,7 @@ export default class Leaderboard extends BaseComponent {
             this.parent.parentElement.parentElement
         );
         loader.show();
-        api.listUsers().then(users => {
+        API.listUsers().then(users => {
             const interval = setInterval(() => {
                 if (User.getCurrentUser() !== undefined) {
                     this.render(User.getCurrentUser(), users);

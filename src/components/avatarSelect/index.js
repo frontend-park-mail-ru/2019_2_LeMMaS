@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 
-import api from "../../modules/api";
+import API from "../../modules/api";
 import textUtils from "../../modules/textUtils";
 import BaseComponent from "../baseComponent";
 
@@ -49,7 +49,7 @@ export default class AvatarSelect extends BaseComponent {
     }
 
     async previewByName(name) {
-        const avatarUrl = name ? await api.getAvatarPreviewUrl(name) : null;
+        const avatarUrl = name ? await API.getAvatarPreviewUrl(name) : null;
         this.render(avatarUrl);
     }
 }

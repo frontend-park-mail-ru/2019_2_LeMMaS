@@ -1,7 +1,7 @@
 import { html } from "common-tags";
 
 import BasePage from "../basePage";
-import api from "../../modules/api";
+import API from "../../modules/api";
 import User from "../../modules/user";
 import ProfileForm from "../../components/profileForm";
 import Loader from "../../components/loader";
@@ -63,7 +63,7 @@ export default class Profile extends BasePage {
             (name !== "" && name !== User.getCurrentUser().name) ||
             password !== ""
         ) {
-            api.changeUserData(name, password)
+            API.changeUserData(name, password)
                 .then(response => {
                     if (response.status !== 200) {
                         error.innerText = "Произошла ошибка";
@@ -83,7 +83,7 @@ export default class Profile extends BasePage {
             const formData = new FormData();
             formData.append("avatar", userPic.files[0]);
 
-            api.changeAvatar(formData)
+            API.changeAvatar(formData)
                 .then(response => {
                     if (response.status !== 200) {
                         error.innerText = "Произошла ошибка";

@@ -5,7 +5,7 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
-import api from "../../modules/api";
+import API from "../../modules/api";
 import router from "../../modules/router";
 import Loader from "../../components/loader";
 import HomeButton from "../../components/buttons";
@@ -73,7 +73,7 @@ export default class Login extends BasePage {
         const loader = new Loader();
         loader.show();
 
-        api.loginUser(email, password)
+        API.loginUser(email, password)
             .then(async response => {
                 if (response.status !== 200) {
                     error.innerText = "Неверная почта или пароль";
