@@ -40,4 +40,5 @@ class HttpNetwork {
 }
 
 const httpNetwork = new HttpNetwork();
+
 export default httpNetwork;
