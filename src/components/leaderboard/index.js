@@ -1,6 +1,6 @@
 import { html, safeHtml } from "common-tags";
 
-import API from "../../modules/api";
+import api from "../../modules/api";
 import User from "../../modules/user";
 import BaseComponent from "../baseComponent";
 
@@ -9,7 +9,7 @@ import "./style.css";
 export default class Leaderboard extends BaseComponent {
     start() {
         User.getCurrentUser().then(currentUser => {
-            API.listUsers().then(users => {
+            api.listUsers().then(users => {
                 this.render(currentUser, users);
             });
         });

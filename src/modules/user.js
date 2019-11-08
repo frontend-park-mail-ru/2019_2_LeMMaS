@@ -1,4 +1,4 @@
-import API from "./api";
+import api from "./api";
 
 let getCurrentUserPromise = null;
 let currentUser = null;
@@ -11,7 +11,7 @@ export default class User {
         if (getCurrentUserPromise !== null) {
             return getCurrentUserPromise;
         }
-        getCurrentUserPromise = API.currentUserProfile();
+        getCurrentUserPromise = api.currentUserProfile();
         getCurrentUserPromise.then(user => {
             getCurrentUserPromise = null;
             currentUser = user;

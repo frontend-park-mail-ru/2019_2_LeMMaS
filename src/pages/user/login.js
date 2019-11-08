@@ -5,10 +5,10 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
-import API from "../../modules/api";
-import Router from "../../modules/router";
-import Loader from "../../components/loader/index";
-import HomeButton from "../../components/buttons/index";
+import api from "../../modules/api";
+import router from "../../modules/router";
+import Loader from "../../components/loader";
+import HomeButton from "../../components/buttons";
 
 export default class Login extends BasePage {
     constructor() {
@@ -18,8 +18,8 @@ export default class Login extends BasePage {
 
     renderContent(parent) {
         document.title = "Login | LeMMaS";
-        parent.innerHTML = html` 
-             ${HomeButton.renderString()}
+        parent.innerHTML = html`
+            ${HomeButton.renderString()}
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Войти</h2>
                 <div class="form-wrapper"></div>
@@ -73,7 +73,7 @@ export default class Login extends BasePage {
         const loader = new Loader();
         loader.show();
 
-        API.loginUser(email, password)
+        api.loginUser(email, password)
             .then(async response => {
                 console.log(response.status);
                 if (response.status !== 200) {
@@ -81,7 +81,7 @@ export default class Login extends BasePage {
                     error.style.visibility = "visible";
                 } else {
                     window.history.pushState({}, document.title, "/");
-                    Router.renderPage();
+                    router.renderPage();
                 }
             })
             .finally(loader.hide());

@@ -4,7 +4,7 @@ import BaseComponent from "../baseComponent";
 import { LinkButton, Button } from "../buttons";
 import { routes } from "../../modules/router";
 import User from "../../modules/user";
-import API from "../../modules/api";
+import api from "../../modules/api";
 
 import "./style.css";
 
@@ -38,7 +38,7 @@ export default class Menu extends BaseComponent {
     }
 
     async _onLogoutButtonClick() {
-        await API.logoutUser();
+        await api.logoutUser();
         location.reload();
     }
 }

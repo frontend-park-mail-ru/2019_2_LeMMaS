@@ -1,7 +1,7 @@
 import { html } from "common-tags";
 
-import API from "../../modules/api";
-import TextUtils from "../../modules/textUtils";
+import api from "../../modules/api";
+import textUtils from "../../modules/textUtils";
 import BaseComponent from "../baseComponent";
 
 import "./style.css";
@@ -37,7 +37,7 @@ export default class AvatarSelect extends BaseComponent {
             .querySelector("input[type=file]")
             .addEventListener("change", e => {
                 const filename = e.target.value.split("\\").pop();
-                const tip = TextUtils.cutIfLong(
+                const tip = textUtils.cutIfLong(
                     filename,
                     FILE_NAME_DISPLAY_LIMIT
                 );
@@ -49,7 +49,7 @@ export default class AvatarSelect extends BaseComponent {
     }
 
     async previewByName(name) {
-        const avatarUrl = name ? await API.getAvatarPreviewUrl(name) : null;
+        const avatarUrl = name ? await api.getAvatarPreviewUrl(name) : null;
         this.render(avatarUrl);
     }
 }

@@ -1,11 +1,11 @@
 import { html } from "common-tags";
 
 import BasePage from "../basePage";
-import API from "../../modules/api";
+import api from "../../modules/api";
 import User from "../../modules/user";
 import ProfileForm from "../../components/profileForm";
-import Loader from "../../components/loader/index";
-import HomeButton from "../../components/buttons/index";
+import Loader from "../../components/loader";
+import HomeButton from "../../components/buttons";
 
 export default class Profile extends BasePage {
     constructor() {
@@ -60,7 +60,7 @@ export default class Profile extends BasePage {
         }
 
         if (name !== "" || password !== "") {
-            API.changeUserData(name, password).then(response => {
+            api.changeUserData(name, password).then(response => {
                 if (response.status !== 200) {
                     error.innerText = "Произошла ошибка";
                     error.style.visibility = "visible";
@@ -76,7 +76,7 @@ export default class Profile extends BasePage {
             const formData = new FormData();
             formData.append("avatar", userPic.files[0]);
 
-            API.changeAvatar(formData).then(response => {
+            api.changeAvatar(formData).then(response => {
                 if (response.status !== 200) {
                     error.innerText = "Произошла ошибка";
                     error.style.visibility = "visible";
