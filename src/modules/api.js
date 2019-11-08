@@ -39,11 +39,11 @@ class API {
             email,
             password,
         }).then(response => {
-                if (response.status === 200) {
-                    User.setLogin(true);
-                    return response;
-                }
-            });
+            if (response.status === 200) {
+                User.setLogin(true);
+                return response;
+            }
+        });
     }
 
     logoutUser() {

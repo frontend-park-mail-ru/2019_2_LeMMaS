@@ -14,7 +14,7 @@ export default class Leaderboard extends BaseComponent {
             this.parent.parentElement.parentElement
         );
         loader.show();
-        API.listUsers().then(users => {
+        api.listUsers().then(users => {
             const interval = setInterval(() => {
                 if (User.getCurrentUser() !== undefined) {
                     this.render(User.getCurrentUser(), users);
