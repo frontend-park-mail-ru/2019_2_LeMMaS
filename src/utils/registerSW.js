@@ -3,7 +3,7 @@ export default () => {
         // проверка поддерживает ли браузер sw
         window.addEventListener("load", function() {
             // sw будет работать на всем сайте, а не на отдельном урле
-            navigator.serviceWorker.register("/src/sw.js").then(
+            navigator.serviceWorker.register("./src/sw.js").then(
                 function(registration) {
                     // регистрация sw для одного устройства - 1 раз (до следующего обновления sw.js)
                     console.log(
