@@ -40,14 +40,19 @@ class API {
             password,
         }).then(response => {
             if (response.status === 200) {
-                User.setLogin(true);
+                User.updateCurrentUser();
                 return response;
             }
         });
     }
 
     logoutUser() {
-        return this._post(routes.USER_LOGOUT);
+        return this._post(routes.USER_LOGOUT).then(response => {
+            if (response.status === 200) {
+                User.updateCurrentUser();
+                return response;
+            }
+        });
     }
 
     changeUserData(name, password) {
