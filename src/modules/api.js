@@ -19,7 +19,7 @@ export default class API {
     static registerUser(email, name, password) {
         return httpNetwork.post(
             [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_REGISTER_PATH].join(
-                "/",
+                "/"
             ),
             {
                 email,
@@ -33,7 +33,7 @@ export default class API {
         return httpNetwork
             .post(
                 [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LOGIN_PATH].join(
-                    "/",
+                    "/"
                 ),
                 {
                     email,
@@ -52,7 +52,7 @@ export default class API {
         return httpNetwork
             .post(
                 [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LOGOUT_PATH].join(
-                    "/",
+                    "/"
                 )
             )
             .then(response => {
@@ -66,7 +66,7 @@ export default class API {
     static changeUserData(name, password) {
         return httpNetwork.post(
             [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_SETTINGS_PATH].join(
-                "/",
+                "/"
             ),
             {
                 name,
@@ -82,7 +82,7 @@ export default class API {
                 API_V1_PATH_PREFIX,
                 routes.USER_AVATAR_UPLOAD_PATH,
             ].join("/"),
-            formData,
+            formData
         );
     }
 
@@ -118,7 +118,7 @@ export default class API {
         return httpNetwork
             .get(
                 [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LIST_PATH].join(
-                    "/",
+                    "/"
                 )
             )
             .then(response => response.json())

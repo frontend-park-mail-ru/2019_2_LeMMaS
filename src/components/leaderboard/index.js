@@ -11,7 +11,7 @@ export default class Leaderboard extends BaseComponent {
     start = () => {
         const loader = new Loader(
             this.parent.parentElement,
-            this.parent.parentElement.parentElement,
+            this.parent.parentElement.parentElement
         );
         loader.show();
         API.listUsers().then(users => {

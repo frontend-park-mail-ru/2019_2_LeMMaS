@@ -19,21 +19,21 @@ export default class Index extends BasePage {
                 <div class="plate__innerContent">
                     <h2 class="text__size-big text__align-center">Играть</h2>
                     ${new LinkButton({
-            text: "Одиночная",
-            href: "/game/singleplayer",
-            extraClass:
-                "button__size-big button__transparency-transparent",
-        }).renderString()}
+                        text: "Одиночная",
+                        href: "/game/singleplayer",
+                        extraClass:
+                            "button__size-big button__transparency-transparent",
+                    }).renderString()}
                     ${new LinkButton({
-            text: "Мультиплеер",
-            extraClass:
-                "button__size-big button__color-yellow button__type-disabled",
-        }).renderString()}
+                        text: "Мультиплеер",
+                        extraClass:
+                            "button__size-big button__color-yellow button__type-disabled",
+                    }).renderString()}
                     ${new LinkButton({
-            text: "Экспериментальная",
-            extraClass:
-                "button__size-big button__color-red button__type-disabled",
-        }).renderString()}
+                        text: "Экспериментальная",
+                        extraClass:
+                            "button__size-big button__color-red button__type-disabled",
+                    }).renderString()}
                 </div>
             </div>
             <div class="plate">
