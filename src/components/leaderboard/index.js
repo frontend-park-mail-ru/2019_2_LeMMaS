@@ -9,7 +9,10 @@ import Loader from "../loader";
 
 export default class Leaderboard extends BaseComponent {
     start = () => {
-        const loader = new Loader(this.parent.parentElement, this.parent.parentElement.parentElement);
+        const loader = new Loader(
+            this.parent.parentElement,
+            this.parent.parentElement.parentElement,
+        );
         loader.show();
         API.listUsers().then(users => {
             const interval = setInterval(() => {

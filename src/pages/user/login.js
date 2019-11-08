@@ -18,8 +18,8 @@ export default class Login extends BasePage {
 
     renderContent(parent) {
         document.title = "Login | LeMMaS";
-        parent.innerHTML = html` 
-             ${HomeButton.renderString()}
+        parent.innerHTML = html`
+            ${HomeButton.renderString()}
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Войти</h2>
                 <div class="form-wrapper"></div>

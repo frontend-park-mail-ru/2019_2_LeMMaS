@@ -1,3 +1,4 @@
+const PrettierPlugin = require("prettier-webpack-plugin");
 const path = require("path");
 
 module.exports = {
@@ -17,7 +18,11 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ["style-loader", "css-loader"],
+                use: [
+                    "style-loader",
+                    { loader: "css-loader", options: { importLoaders: 1 } },
+                    "postcss-loader",
+                ],
             },
             {
                 test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
@@ -37,4 +42,10 @@ module.exports = {
         fs: "empty",
         net: "empty",
     },
+    plugins: [
+        new PrettierPlugin({
+            tabWidth: 4,
+            trailingComma: "es5",
+        }),
+    ],
 };

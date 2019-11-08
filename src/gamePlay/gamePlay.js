@@ -327,7 +327,6 @@ export default class GamePlay {
     };
 
     _onPageChange = () => {
-
         document.removeEventListener("keydown", this._modalWindowHandler);
         window.removeEventListener("popstate", this._onPageChange);
     };

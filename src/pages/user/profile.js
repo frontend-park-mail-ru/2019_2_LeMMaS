@@ -59,7 +59,10 @@ export default class Profile extends BasePage {
             return;
         }
 
-        if (name !== "" && name !== User.getCurrentUser().name || password !== "") {
+        if (
+            (name !== "" && name !== User.getCurrentUser().name) ||
+            password !== ""
+        ) {
             API.changeUserData(name, password)
                 .then(response => {
                     if (response.status !== 200) {
@@ -96,7 +99,9 @@ export default class Profile extends BasePage {
                     }
                 })
                 .finally(() => loader.hide())
-                .catch(error => error ? console.log(error) : console.log("errorr"));
+                .catch(error =>
+                    error ? console.log(error) : console.log("errorr"),
+                );
         } else {
             loader.hide();
         }

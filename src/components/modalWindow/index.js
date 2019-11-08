@@ -32,12 +32,12 @@ export default class ModalWindow {
         const yesButton = new Button(modalWindow, {
             text: "Yes",
             onClick: this.clickYes,
-            extraClass: ""
+            extraClass: "",
         });
         const noButton = new Button(modalWindow, {
             text: "No",
             onClick: this.clickNo,
-            extraClass: "button__transparency-transparent"
+            extraClass: "button__transparency-transparent",
         });
 
         yesButton.render();

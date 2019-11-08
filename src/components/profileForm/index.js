@@ -76,7 +76,7 @@ export default class ProfileForm extends Form {
             "new-password";
     }
 
-    _onNameTyped = (e) => {
+    _onNameTyped = e => {
         const name = e.target.value;
         if (name === "") {
             this.avatarSelect.render();

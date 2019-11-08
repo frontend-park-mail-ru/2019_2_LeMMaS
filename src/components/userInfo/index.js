@@ -13,8 +13,7 @@ export default class UserInfo extends BaseComponent {
         loader.show();
         const interval = setInterval(() => {
             if (User.getCurrentUser() !== undefined) {
-                this.render(User.getCurrentUser())
-                    .then(() => loader.hide());
+                this.render(User.getCurrentUser()).then(() => loader.hide());
                 clearInterval(interval);
             }
         }, 200);

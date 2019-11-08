@@ -43,7 +43,10 @@ export class Button extends BaseComponent {
 export default class HomeButton {
     static renderString() {
         return html`
-            <a class="button button__position-absolute button__type-home" href="/">
+            <a
+                class="button button__position-absolute button__type-home"
+                href="/"
+            >
                 <i class="fa fa-home"></i>
             </a>
         `;
