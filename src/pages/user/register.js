@@ -6,7 +6,7 @@ import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 import API from "../../modules/api";
 import Login from "./login";
-import HomeButton from "../../components/buttons";
+import HomeButton from "../../components/buttons/index";
 
 export default class Register extends BasePage {
     constructor() {

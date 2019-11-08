@@ -4,8 +4,8 @@ import BasePage from "../basePage";
 import API from "../../modules/api";
 import User from "../../modules/user";
 import ProfileForm from "../../components/profileForm";
-import Loader from "../../components/loader";
-import HomeButton from "../../components/buttons";
+import Loader from "../../components/loader/index";
+import HomeButton from "../../components/buttons/index";
 
 export default class Profile extends BasePage {
     constructor() {
