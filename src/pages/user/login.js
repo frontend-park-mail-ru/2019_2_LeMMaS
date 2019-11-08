@@ -6,9 +6,9 @@ import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 import API from "../../modules/api";
-import router from "../../modules/router";
-import Loader from "../../components/loader";
-import HomeButton from "../../components/buttons";
+import Router from "../../modules/router";
+import Loader from "../../components/loader/index";
+import HomeButton from "../../components/buttons/index";
 
 export default class Login extends BasePage {
     constructor() {
@@ -80,7 +80,7 @@ export default class Login extends BasePage {
                     error.style.visibility = "visible";
                 } else {
                     window.history.pushState({}, document.title, "/");
-                    router.renderPage();
+                    Router.renderPage();
                 }
             })
             .finally(loader.hide());
