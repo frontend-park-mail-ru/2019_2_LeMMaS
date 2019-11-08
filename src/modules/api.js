@@ -42,7 +42,7 @@ export default class API {
             )
             .then(response => {
                 if (response.status === 200) {
-                    User.setLogin(true);
+                    User.updateCurrentUser();
                     return response;
                 }
             });
@@ -57,7 +57,7 @@ export default class API {
             )
             .then(response => {
                 if (response.status === 200) {
-                    User.setLogin(false);
+                    User.updateCurrentUser();
                     return response;
                 }
             });
