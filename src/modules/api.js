@@ -19,100 +19,73 @@ const routes = {
     ACCESS_CSRF_TOKEN: API_PUBLIC_PREFIX + "/access/csrf",
 };
 
-const CSRF_TOKEN_HEADER = "X-CSRF-Token";
-
 class API {
-    constructor() {
-        this.csrfToken = null;
-    }
-
-    registerUser(email, name, password) {
-        return this._post(routes.USER_REGISTER, {
+    registerUser = (email, name, password) =>
+        httpNetwork.post(this._getUrl(routes.USER_REGISTER), {
             email,
             name,
             password,
         });
-    }
 
-    loginUser(email, password) {
-        return this._post(routes.USER_LOGIN, {
-            email,
-            password,
-        }).then(response => {
+    loginUser = (email, password) =>
+        httpNetwork
+            .post(this._getUrl(routes.USER_LOGIN), {
+                email,
+                password,
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    User.setLogin(true);
+                    User.updateCurrentUser();
+                    return response;
+                }
+                return response;
+            });
+
+    logoutUser = () =>
+        httpNetwork.post(this._getUrl(routes.USER_LOGOUT)).then(response => {
             if (response.status === 200) {
-                User.updateCurrentUser();
+                User.setLogin(false);
+                User.reset();
                 return response;
             }
+            return response;
         });
-    }
 
-    logoutUser() {
-        return this._post(routes.USER_LOGOUT).then(response => {
-            if (response.status === 200) {
-                User.updateCurrentUser();
-                return response;
-            }
-        });
-    }
-
-    changeUserData(name, password) {
-        return this._post(routes.USER_UPDATE, {
+    changeUserData = (name, password) =>
+        httpNetwork.post(this._getUrl(routes.USER_UPDATE), {
             name,
             password,
         });
-    }
 
-    changeAvatar(formData) {
-        return this._post(routes.USER_AVATAR_UPLOAD, formData);
-    }
+    changeAvatar = formData =>
+        httpNetwork.post(this._getUrl(routes.USER_AVATAR_UPLOAD), formData);
 
-    getAvatarPreviewUrl(name) {
-        return this._get(routes.USER_AVATAR_PREVIEW + "?name=" + name)
+    getAvatarPreviewUrl = name =>
+        httpNetwork
+            .get(this._getUrl(routes.USER_AVATAR_PREVIEW + "?name=" + name))
             .then(response => response.json())
             .then(response => response.body.avatar_url);
-    }
 
-    currentUserProfile() {
-        return this._get(routes.USER_PROFILE)
+    currentUserProfile = () =>
+        httpNetwork
+            .get(this._getUrl(routes.USER_PROFILE))
             .then(response => response.json())
             .then(response => response.body.user);
-    }
 
-    listUsers() {
-        return this._get(routes.USER_LIST)
+    listUsers = () =>
+        httpNetwork
+            .get(this._getUrl(routes.USER_LIST))
             .then(response => response.json())
             .then(response => response.body.users);
-    }
 
-    _get(route) {
-        return httpNetwork.get(this._getUrl(route));
-    }
-
-    async _post(route, body) {
-        const headers = {};
-        if (this._isPrivateRoute(route)) {
-            if (this.csrfToken === null) {
-                this.csrfToken = await this._getCSRFToken();
-            }
-            headers[CSRF_TOKEN_HEADER] = this.csrfToken;
-        }
-        return httpNetwork.post(this._getUrl(route), body, headers);
-    }
-
-    _getUrl(route) {
-        return [BACKEND_URL, API_V1_PREFIX, route].join("/");
-    }
-
-    _isPrivateRoute(route) {
-        return route.startsWith(API_PRIVATE_PREFIX);
-    }
-
-    _getCSRFToken() {
-        return this._get(routes.ACCESS_CSRF_TOKEN)
+    getCSRFToken = () =>
+        httpNetwork
+            .get(this._getUrl(routes.ACCESS_CSRF_TOKEN))
             .then(response => response.json())
             .then(response => response.body.token);
-    }
+
+    _getUrl = route => [BACKEND_URL, API_V1_PREFIX, route].join("/");
 }
 
-const api = new API();
-export default api;
+export default new API();

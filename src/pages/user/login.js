@@ -74,7 +74,7 @@ export default class Login extends BasePage {
         loader.show();
 
         API.loginUser(email, password)
-            .then(async response => {
+            .then(response => {
                 if (response.status !== 200) {
                     error.innerText = "Неверная почта или пароль";
                     error.style.visibility = "visible";
@@ -83,6 +83,7 @@ export default class Login extends BasePage {
                     Router.renderPage();
                 }
             })
-            .finally(loader.hide());
+            .finally(loader.hide())
+            .catch(error => console.log(error));
     }
 }
