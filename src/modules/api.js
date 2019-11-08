@@ -1,7 +1,7 @@
 import httpNetwork from "./http";
 import User from "../modules/user";
 
-const BACKEND_URL = "http://localhost:8080";
+const BACKEND_URL = "http://95.163.212.121";
 const API_V1_PREFIX = "api/v1";
 const API_PUBLIC_PREFIX = "public";
 const API_PRIVATE_PREFIX = "private";
