@@ -1,6 +1,5 @@
-const DEFAULT_POST_HEADERS = {
-    "Content-Type": "application/json;charset=utf-8",
-};
+const HEADER_CONTENT_TYPE = "Content-Type";
+const CONTENT_TYPE = "application/json;charset=utf-8";
 
 class HttpNetwork {
     get(url) {
@@ -12,7 +11,10 @@ class HttpNetwork {
         });
     }
 
-    post(url, body, headers = DEFAULT_POST_HEADERS) {
+    post(url, body, headers = {}) {
+        if (!(HEADER_CONTENT_TYPE in headers)) {
+            headers[HEADER_CONTENT_TYPE] = CONTENT_TYPE;
+        }
         return this._request(
             url,
             {
