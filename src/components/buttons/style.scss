@@ -1,3 +1,5 @@
+@import "../../static/css/common";
+
 .button {
     text-align: center;
     padding: 1em;
@@ -70,7 +72,7 @@
 .button__type-home {
     font-size: 4em;
     background: none;
-    color: #250823bf;
+    color: $plateBackground;
     padding: 0.5em;
 }
 

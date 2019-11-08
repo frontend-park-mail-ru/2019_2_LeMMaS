@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 import "./style.css";
-import "../../static/css/common.css";
+import "../../static/css/common.scss";
 import { Button } from "../../components/buttons/index";
 
 export default class ModalWindow {
