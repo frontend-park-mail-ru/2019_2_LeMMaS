@@ -1,6 +1,4 @@
-import api from "./api";
-
-let getCurrentUserPromise = null;
+import API from "./api";
 
 class User {
     constructor() {
@@ -11,12 +9,7 @@ class User {
     }
 
     updateCurrentUser = () => {
-        if (getCurrentUserPromise !== null) {
-            return getCurrentUserPromise;
-        }
-        getCurrentUserPromise = api.currentUserProfile();
-        getCurrentUserPromise.then(user => {
-            getCurrentUserPromise = null;
+        return API.currentUserProfile().then(user => {
             this.currentUser = user;
             if (this.currentUser) {
                 this.setLogin(true);
