@@ -7,8 +7,12 @@
         "build": "webpack --config webpack.config.js"
     },
     "dependencies": {
-        "common-tags": "^1.8.0",
-        "express": "~4.16.1"
+        "autoprefixer": "^9.7.1",
+        "cssnano": "^4.1.10",
+        "express": "~4.16.1",
+        "postcss-import": "^12.0.1",
+        "postcss-preset-env": "^6.7.0",
+        "sugarss": "^2.0.0"
     },
     "devDependencies": {
         "@babel/core": "^7.6.0",
@@ -20,6 +24,7 @@
         "babel-loader": "^8.0.6",
         "babel-plugin-transform-class-properties": "^6.24.1",
         "babel-preset-stage-1": "^6.24.1",
+        "common-tags": "^1.8.0",
         "consolidate": "^0.15.1",
         "cookie-parser": "~1.4.4",
         "css-loader": "latest",
@@ -31,7 +36,11 @@
         "husky": "^3.0.8",
         "jade": "latest",
         "morgan": "~1.9.1",
-        "prettier": "1.18.2",
+        "postcss-loader": "^3.0.0",
+        "pre-commit": "^1.2.2",
+        "precss": "^4.0.0",
+        "prettier": "^1.18.2",
+        "prettier-webpack-plugin": "^1.2.0",
         "pretty-quick": "^1.11.1",
         "style-loader": "^0.13.1",
         "swig": "^1.4.2",

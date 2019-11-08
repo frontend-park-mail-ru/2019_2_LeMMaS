@@ -75,7 +75,6 @@ export default class Login extends BasePage {
 
         api.loginUser(email, password)
             .then(async response => {
-                console.log(response.status);
                 if (response.status !== 200) {
                     error.innerText = "Неверная почта или пароль";
                     error.style.visibility = "visible";

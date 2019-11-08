@@ -1,4 +1,5 @@
 import httpNetwork from "./http";
+import User from "../modules/user";
 
 const BACKEND_URL = "http://localhost:8080";
 const API_V1_PREFIX = "api/v1";
@@ -37,7 +38,12 @@ class API {
         return this._post(routes.USER_LOGIN, {
             email,
             password,
-        });
+        }).then(response => {
+                if (response.status === 200) {
+                    User.setLogin(true);
+                    return response;
+                }
+            });
     }
 
     logoutUser() {

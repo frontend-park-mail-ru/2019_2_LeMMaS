@@ -1,3 +1,5 @@
+@import "../../static/css/common";
+
 .button {
     text-align: center;
     padding: 1em;
@@ -67,8 +69,14 @@
     padding: 2em;
 }
 
-.homeIcon {
-    filter: invert(1);
-    width: 3.5em;
-    height: 3.5em;
+.button__type-home {
+    font-size: 4em;
+    background: none;
+    color: $plateBackground;
+    padding: 0.5em;
+}
+
+.button__type-home:hover {
+    background: none;
+    color: white;
 }
