@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 
-import "../static/css/common.scss";
+import "../static/css/common.css";
 import "../components/gameCanvas/style.css";
 import "../components/gameScore/style.css";
 import "../components/infoLeft/style.css";

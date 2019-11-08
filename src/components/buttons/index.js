@@ -3,7 +3,7 @@ import { html } from "common-tags";
 import BaseComponent from "../baseComponent";
 import BaseStringComponent from "../baseStringComponent";
 
-import "./style.scss";
+import "./style.css";
 
 export class LinkButton extends BaseStringComponent {
     constructor({ text, href = "", extraClass = "" }) {
