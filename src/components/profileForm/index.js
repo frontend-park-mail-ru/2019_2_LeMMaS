@@ -21,11 +21,19 @@ export default class ProfileForm extends Form {
         });
         this.parent = parent;
         this.onSubmit = onSubmit;
-        this._onNameTyped = this._onNameTyped.bind(this);
     }
 
+    start = () => {
+        const interval = setInterval(() => {
+            if (User.getCurrentUser() !== undefined) {
+                this.render();
+                clearInterval(interval);
+            }
+        }, 200);
+    };
+
     async _renderElements(form) {
-        const user = await User.getCurrentUser();
+        const user = User.getCurrentUser();
         form.innerHTML = html`
             <div class="form__row">
                 <div class="form__column avatar-select-wrapper"></div>
@@ -68,7 +76,7 @@ export default class ProfileForm extends Form {
             "new-password";
     }
 
-    _onNameTyped(e) {
+    _onNameTyped = e => {
         const name = e.target.value;
         if (name === "") {
             this.avatarSelect.render();
@@ -80,5 +88,5 @@ export default class ProfileForm extends Form {
         this.avatarPreviewTimeoutHandler = setTimeout(() => {
             this.avatarSelect.previewByName(name);
         }, AVATAR_PREVIEW_TIMEOUT);
-    }
+    };
 }

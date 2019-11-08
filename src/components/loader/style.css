@@ -5,9 +5,10 @@
     height: 100%;
     top: 0;
     left: 0;
+    filter: blur(0);
 }
 
-body.loader-shown {
+.loader-shown {
     filter: blur(3px) brightness(0.7);
     pointer-events: none;
 }
@@ -15,6 +16,6 @@ body.loader-shown {
 .loader__inner {
     margin: auto;
     color: white;
-    font-size: 3em;
+    font-size: 1em;
     padding: 1em;
 }

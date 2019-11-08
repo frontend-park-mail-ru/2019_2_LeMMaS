@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Play&display=swap");
 
+$plateBackground: #250823bf;
+
 * {
     outline: none !important;
     box-sizing: border-box;
@@ -43,6 +45,14 @@ button:hover {
     padding: 2em;
     color: white;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.plate__innerContent {
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -95,14 +105,11 @@ h3 {
     }
 }
 
-
 @media (max-height: 800px) {
     .text__size-big {
         font-size: 1.5em;
     }
 }
-
-
 
 /*
   ##Device = Tablets, Ipads (portrait)
@@ -115,14 +122,12 @@ h3 {
     }
 }
 
-
 /*
   ##Device = Tablets, Ipads (landscape)
   ##Screen = B/w 768px to 1024px
 */
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-
 }
 
 /*
@@ -131,8 +136,6 @@ h3 {
 */
 
 @media (min-width: 481px) and (max-width: 767px) {
-
-
 }
 
 /*
@@ -148,5 +151,4 @@ h3 {
     .header {
         height: 10vh;
     }
-
 }

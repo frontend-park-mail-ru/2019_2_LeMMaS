@@ -5,13 +5,14 @@ import "./style.css";
 const LOADER_SHOWN_CLASS = "loader-shown";
 
 export default class Loader extends BaseComponent {
-    constructor(parent = null) {
+    constructor(blurElement, loaderParent) {
         const htmlElement = document.querySelector("html");
-        super(parent === null ? htmlElement : parent);
+        super(!loaderParent ? htmlElement : loaderParent);
+        this.blurElement = blurElement ? blurElement : document.body;
     }
 
     show() {
-        document.body.classList.add(LOADER_SHOWN_CLASS);
+        this.blurElement.classList.add(LOADER_SHOWN_CLASS);
 
         this.loader = document.createElement("div");
         this.loader.className = "loader";
@@ -26,6 +27,6 @@ export default class Loader extends BaseComponent {
 
     hide() {
         this.parent.removeChild(this.loader);
-        document.body.classList.remove(LOADER_SHOWN_CLASS);
+        this.blurElement.classList.remove(LOADER_SHOWN_CLASS);
     }
 }
