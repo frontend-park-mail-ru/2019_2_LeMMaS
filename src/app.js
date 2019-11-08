@@ -1,9 +1,9 @@
-import router from "./modules/router";
+import Router from "./modules/router";
 
 window.onpopstate = () => {
-    router.renderPage();
+    Router.renderPage();
 };
-window.addEventListener("DOMContentLoaded", router.renderPage);
+window.addEventListener("DOMContentLoaded", Router.renderPage);
 
 document.addEventListener("click", e => {
     const link = findParent("A", e.target || e.srcElement);
@@ -16,7 +16,7 @@ document.addEventListener("click", e => {
         return;
     }
     window.history.pushState({}, document.title, href);
-    router.renderPage();
+    Router.renderPage();
 });
 
 function findParent(tag, element) {
