@@ -6,16 +6,12 @@ class User {
     }
 
     updateCurrentUser = () =>
-        API.currentUserProfile()
-            .then(user => {
-                this.currentUser = user;
-                if (this.currentUser) {
-                    this.setLogin(true);
-                }
-            })
-            .then(async () => {
-                this.CSRFToken = await API.getCSRFToken();
-            });
+        API.currentUserProfile().then(user => {
+            this.currentUser = user;
+            if (this.currentUser) {
+                this.setLogin(true);
+            }
+        });
 
     getAvatarUrl = async () =>
         !this.currentUser.avatar_path
@@ -32,8 +28,6 @@ class User {
     isLoggedIn = () => this.loggedIn;
 
     getCurrentUser = () => this.currentUser;
-
-    getCSRF = () => this.CSRFToken;
 }
 
 export default new User();
