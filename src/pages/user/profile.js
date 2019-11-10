@@ -1,7 +1,6 @@
 import { html } from "common-tags";
 
 import BasePage from "../basePage";
-import API from "../../modules/api";
 import User from "../../modules/user";
 import ProfileForm from "../../components/profileForm";
 import Loader from "../../components/loader/index";
@@ -63,27 +62,23 @@ export default class Profile extends BasePage {
             (name !== "" && name !== User.getCurrentUser().name) ||
             password !== ""
         ) {
-            API.changeUserData(name, password)
-                .then(response => {
-                    if (response.status !== 200) {
-                        error.innerText = "Произошла ошибка";
-                        error.style.visibility = "visible";
-                    } else {
-                        error.innerText = "Изменения сохранены";
-                        error.style.color = "green";
-                        error.style.visibility = "visible";
-                    }
-                })
-                .then(() => {
-                    User.updateCurrentUser();
-                });
+            User.update(name, password).then(response => {
+                if (response.status !== 200) {
+                    error.innerText = "Произошла ошибка";
+                    error.style.visibility = "visible";
+                } else {
+                    error.innerText = "Изменения сохранены";
+                    error.style.color = "green";
+                    error.style.visibility = "visible";
+                }
+            });
         }
 
         if (userPic.files[0]) {
             const formData = new FormData();
             formData.append("avatar", userPic.files[0]);
 
-            API.changeAvatar(formData)
+            User.updateAvatar(formData)
                 .then(response => {
                     if (response.status !== 200) {
                         error.innerText = "Произошла ошибка";
@@ -95,7 +90,6 @@ export default class Profile extends BasePage {
                         error.innerText = "Изменения сохранены";
                         error.style.color = "green";
                         error.style.visibility = "visible";
-                        User.updateCurrentUser();
                     }
                 })
                 .finally(() => loader.hide())

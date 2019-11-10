@@ -4,7 +4,6 @@ import BaseComponent from "../baseComponent";
 import { LinkButton, Button } from "../buttons";
 import { routes } from "../../modules/router";
 import User from "../../modules/user";
-import API from "../../modules/api";
 import router from "../../modules/router";
 
 import "./style.css";
@@ -45,16 +44,8 @@ export default class Menu extends BaseComponent {
         `;
     };
 
-    _onLogoutButtonClick = async () =>
-        API.logoutUser()
-            .then(response => {
-                if (response.status === 200) {
-                    User.setLogin(false);
-                    User.reset();
-                }
-                return response;
-            })
-            .then(() => {
-                router.renderPage();
-            });
+    async _onLogoutButtonClick() {
+        await User.logout();
+        router.renderPage();
+    }
 }

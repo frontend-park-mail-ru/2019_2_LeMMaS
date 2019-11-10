@@ -40,21 +40,21 @@ class API {
 
     logoutUser = () => this._post(routes.USER_LOGOUT);
 
-    changeUserData = (name, password) =>
+    updateUser = (name, password) =>
         this._post(routes.USER_UPDATE, {
             name,
             password,
         });
 
-    changeAvatar = formData => this._post(routes.USER_AVATAR_UPLOAD, formData);
+    updateAvatar = formData => this._post(routes.USER_AVATAR_UPLOAD, formData);
+
+    currentUserProfile = () =>
+        this._get(routes.USER_PROFILE).then(response => response.body.user);
 
     getAvatarPreviewUrl = name =>
         this._get(routes.USER_AVATAR_PREVIEW + "?name=" + name).then(
             response => response.body.avatar_url
         );
-
-    currentUserProfile = () =>
-        this._get(routes.USER_PROFILE).then(response => response.body.user);
 
     listUsers = () =>
         this._get(routes.USER_LIST).then(response => response.body.users);
