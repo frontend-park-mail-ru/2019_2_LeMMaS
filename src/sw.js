@@ -1,4 +1,4 @@
-import { cache as urlsToCache } from "./urlsToCache";
+import { cache as urlsToCache } from "./sw-urls-to-cache";
 
 const CACHE_NAME = "lemmas-cache-v1";
 

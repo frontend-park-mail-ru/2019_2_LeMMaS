@@ -3,9 +3,10 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "node server/index.js",
-        "generateCacheList": "node src/scripts/generateSWUrlsToCache.js",
-        "build": "npm run generateCacheList && webpack --config webpack.config.js"
+        "server": "node dev/server.js",
+        "build": "npm run sw && webpack --config webpack.config.js",
+        "sw": "node dev/sw/generateUrlsToCache.js",
+        "dev": "npm run build & npm run server"
     },
     "dependencies": {
         "autoprefixer": "^9.7.1",
@@ -14,8 +15,7 @@
         "postcss-import": "^12.0.1",
         "postcss-preset-env": "^6.7.0",
         "sugarss": "^2.0.0",
-        "common-tags": "^1.8.0",
-        "recursive-readdir": "latest"
+        "common-tags": "^1.8.0"
     },
     "devDependencies": {
         "@babel/core": "^7.6.0",
