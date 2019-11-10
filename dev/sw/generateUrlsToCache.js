@@ -9,7 +9,9 @@ async function generateUrlsToCache() {
         files.push("/");
         fs.writeFileSync(
             "./src/sw-urls-to-cache.json",
-            JSON.stringify({ cache: files.map(filename => filename.replace("public", "")) })
+            JSON.stringify({
+                cache: files.map(filename => filename.replace("public", "")),
+            })
         );
     } catch (error) {
         console.error(error);
