@@ -1,7 +1,7 @@
 import Router from "./modules/router";
-import registerSW from "./utils/registerSW";
+import registerServiceWorker from "./modules/sw";
 
-registerSW(); // запуск sw
+registerServiceWorker();
 
 window.onpopstate = () => {
     Router.renderPage();

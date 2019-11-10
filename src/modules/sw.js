@@ -1,9 +1,9 @@
-export default () => {
+const registerServiceWorker = () => {
     if ("serviceWorker" in navigator) {
         // проверка поддерживает ли браузер sw
         window.addEventListener("load", function() {
             // sw будет работать на всем сайте, а не на отдельном урле
-            navigator.serviceWorker.register("./src/sw.js").then(
+            navigator.serviceWorker.register("/sw.js").then(
                 function(registration) {
                     // регистрация sw для одного устройства - 1 раз (до следующего обновления sw.js)
                     console.log(
@@ -18,3 +18,5 @@ export default () => {
         });
     }
 };
+
+export default registerServiceWorker;
