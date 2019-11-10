@@ -70,6 +70,10 @@ export default class ProfileForm extends Form {
             "input",
             this._onNameTyped
         );
+        form.querySelector(".avatar-input").addEventListener(
+            "input",
+            this._onAvatarLoaded
+        );
         form.querySelector(".form__field.password").autocomplete =
             "new-password";
         form.querySelector(".form__field.password-repeat").autocomplete =
@@ -89,4 +93,9 @@ export default class ProfileForm extends Form {
             this.avatarSelect.previewByName(name);
         }, AVATAR_PREVIEW_TIMEOUT);
     };
+
+    _onAvatarLoaded = e =>
+        (document.querySelector(
+            ".avatar-input-wrapper img.avatar"
+        ).src = URL.createObjectURL(e.target.files[0]));
 }

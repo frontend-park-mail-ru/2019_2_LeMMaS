@@ -2,126 +2,90 @@ import httpNetwork from "./http";
 import User from "../modules/user";
 
 const BACKEND_URL = "http://95.163.212.121";
-const API_V1_PATH_PREFIX = "api/v1";
+const API_V1_PREFIX = "api/v1";
+const API_PUBLIC_PREFIX = "public";
+const API_PRIVATE_PREFIX = "private";
 
 const routes = {
-    USER_LIST_PATH: "user/list",
-    USER_SETTINGS_PATH: "user/update",
-    CURRENT_USER_PROFILE_PATH: "user/me",
-    USER_LOGIN_PATH: "user/login",
-    USER_LOGOUT_PATH: "user/logout",
-    USER_REGISTER_PATH: "user/register",
-    USER_AVATAR_UPLOAD_PATH: "user/avatar/upload",
-    USER_AVATAR_PREVIEW_PATH: "user/avatar/getByName",
+    USER_LIST: API_PUBLIC_PREFIX + "/user/list",
+    USER_LOGIN: API_PUBLIC_PREFIX + "/user/login",
+    USER_REGISTER: API_PUBLIC_PREFIX + "/user/register",
+    USER_UPDATE: API_PRIVATE_PREFIX + "/user/update",
+    USER_PROFILE: API_PRIVATE_PREFIX + "/user/me",
+    USER_LOGOUT: API_PRIVATE_PREFIX + "/user/logout",
+    USER_AVATAR_UPLOAD: API_PRIVATE_PREFIX + "/user/avatar/upload",
+    USER_AVATAR_PREVIEW: API_PRIVATE_PREFIX + "/user/avatar/getByName",
+
+    ACCESS_CSRF_TOKEN: API_PUBLIC_PREFIX + "/access/csrf",
 };
 
-export default class API {
-    static registerUser(email, name, password) {
-        return httpNetwork.post(
-            [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_REGISTER_PATH].join(
-                "/"
-            ),
-            {
-                email,
-                name,
-                password,
-            }
-        );
-    }
+class API {
+    registerUser = (email, name, password) =>
+        httpNetwork.post(this._getUrl(routes.USER_REGISTER), {
+            email,
+            name,
+            password,
+        });
 
-    static loginUser(email, password) {
-        return httpNetwork
-            .post(
-                [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LOGIN_PATH].join(
-                    "/"
-                ),
-                {
-                    email,
-                    password,
-                }
-            )
+    loginUser = (email, password) =>
+        httpNetwork
+            .post(this._getUrl(routes.USER_LOGIN), {
+                email,
+                password,
+            })
             .then(response => {
                 if (response.status === 200) {
                     User.setLogin(true);
+                    User.updateCurrentUser();
                     return response;
                 }
+                return response;
             });
-    }
 
-    static logoutUser() {
-        return httpNetwork
-            .post(
-                [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LOGOUT_PATH].join(
-                    "/"
-                )
-            )
-            .then(response => {
-                if (response.status === 200) {
-                    User.setLogin(false);
-                    return response;
-                }
-            });
-    }
-
-    static changeUserData(name, password) {
-        return httpNetwork.post(
-            [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_SETTINGS_PATH].join(
-                "/"
-            ),
-            {
-                name,
-                password,
+    logoutUser = () =>
+        httpNetwork.post(this._getUrl(routes.USER_LOGOUT)).then(response => {
+            if (response.status === 200) {
+                User.setLogin(false);
+                User.reset();
+                return response;
             }
-        );
-    }
+            return response;
+        });
 
-    static changeAvatar(formData) {
-        return httpNetwork.post(
-            [
-                BACKEND_URL,
-                API_V1_PATH_PREFIX,
-                routes.USER_AVATAR_UPLOAD_PATH,
-            ].join("/"),
-            formData
-        );
-    }
+    changeUserData = (name, password) =>
+        httpNetwork.post(this._getUrl(routes.USER_UPDATE), {
+            name,
+            password,
+        });
 
-    static getAvatarPreviewUrl(name) {
-        const path =
-            [
-                BACKEND_URL,
-                API_V1_PATH_PREFIX,
-                routes.USER_AVATAR_PREVIEW_PATH,
-            ].join("/") +
-            "?name=" +
-            name;
-        return httpNetwork
-            .get(path)
+    changeAvatar = formData =>
+        httpNetwork.post(this._getUrl(routes.USER_AVATAR_UPLOAD), formData);
+
+    getAvatarPreviewUrl = name =>
+        httpNetwork
+            .get(this._getUrl(routes.USER_AVATAR_PREVIEW + "?name=" + name))
             .then(response => response.json())
             .then(response => response.body.avatar_url);
-    }
 
-    static currentUserProfile() {
-        return httpNetwork
-            .get(
-                [
-                    BACKEND_URL,
-                    API_V1_PATH_PREFIX,
-                    routes.CURRENT_USER_PROFILE_PATH,
-                ].join("/")
-            )
+    currentUserProfile = () =>
+        httpNetwork
+            .get(this._getUrl(routes.USER_PROFILE))
             .then(response => response.json())
             .then(response => response.body.user);
-    }
 
-    static listUsers() {
-        return httpNetwork
-            .get(
-                [BACKEND_URL, API_V1_PATH_PREFIX, routes.USER_LIST_PATH].join(
-                    "/"
-                )
-            )
+    listUsers = () =>
+        httpNetwork
+            .get(this._getUrl(routes.USER_LIST))
             .then(response => response.json())
             .then(response => response.body.users);
-    }
+
+    getCSRFToken = () =>
+        httpNetwork
+            .get(this._getUrl(routes.ACCESS_CSRF_TOKEN))
+            .then(response => response.json())
+            .then(response => response.body.token);
+
+    _getUrl = route => [BACKEND_URL, API_V1_PREFIX, route].join("/");
 }
+
+export default new API();

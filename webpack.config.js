@@ -18,10 +18,6 @@ module.exports = [{
             },
             {
                 test: /\.css$/,
-                use: ["style-loader", "css-loader"]
-            },
-            {
-                test: /\.scss$/,
                 use: [
                     "style-loader",
                     { loader: "css-loader", options: { importLoaders: 1 } },

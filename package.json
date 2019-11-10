@@ -14,7 +14,8 @@
         "express": "~4.16.1",
         "postcss-import": "^12.0.1",
         "postcss-preset-env": "^6.7.0",
-        "sugarss": "^2.0.0"
+        "sugarss": "^2.0.0",
+        "common-tags": "^1.8.0"
     },
     "devDependencies": {
         "@babel/core": "^7.6.0",
