@@ -1,4 +1,5 @@
 import { html } from "common-tags";
+import classNames from "classnames";
 
 import BaseComponent from "../baseComponent";
 import BaseStringComponent from "../baseStringComponent";
@@ -6,16 +7,20 @@ import BaseStringComponent from "../baseStringComponent";
 import "./style.css";
 
 export class LinkButton extends BaseStringComponent {
-    constructor({ text, href = "", extraClass = "" }) {
+    constructor({ text, href = "", extraClass = "", disabled = false }) {
         super();
         this.text = text;
         this.href = href;
         this.extraClass = extraClass;
+        this.disabled = disabled;
     }
 
     renderString() {
+        const buttonClass = classNames(this.extraClass, {
+            "button__type-disabled": this.disabled,
+        });
         return html`
-            <a class="button ${this.extraClass}" href="${this.href}">
+            <a class="button ${buttonClass}" href="${this.href}">
                 ${this.text}
             </a>
         `;

@@ -14,6 +14,9 @@ document.addEventListener("click", e => {
         return;
     }
     e.preventDefault();
+    if (link.classList.contains("button__type-disabled")) {
+        return;
+    }
     const { href } = link;
     if (!href || href === location.pathname) {
         return;

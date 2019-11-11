@@ -25,14 +25,9 @@ export default class Index extends BasePage {
                             "button__size-big button__transparency-transparent",
                     }).renderString()}
                     ${new LinkButton({
-                        text: "Мультиплеер",
-                        extraClass:
-                            "button__size-big button__color-yellow button__type-disabled",
-                    }).renderString()}
-                    ${new LinkButton({
-                        text: "Экспериментальная",
-                        extraClass:
-                            "button__size-big button__color-red button__type-disabled",
+                        text: "Мультиплеер (в разработке)",
+                        disabled: true,
+                        extraClass: "button__size-big button__color-red",
                     }).renderString()}
                 </div>
             </div>
