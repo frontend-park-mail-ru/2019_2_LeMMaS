@@ -145,7 +145,7 @@ export default class GamePlay {
             this._end();
             document.removeEventListener("keydown", this._modalWindowHandler);
             this.modalWindow.start(
-                "You win. Do you want to play again?",
+                "Вы выиграли! Хотите сыграть еще раз?",
                 this._playAgain,
                 () => {
                     this.exit();
@@ -182,7 +182,7 @@ export default class GamePlay {
                     this._modalWindowHandler
                 );
                 this.modalWindow.start(
-                    "You lost. Do you want to play again?",
+                    "Вы проиграли. Хотите сыграть еще раз?",
                     this._playAgain,
                     () => {
                         this.exit();
@@ -335,18 +335,11 @@ export default class GamePlay {
         if (event.key === "Escape" || event.keyCode === 27) {
             document.removeEventListener("keydown", this._modalWindowHandler);
             this._pause();
-            this.modalWindow.start(
-                "Do you really want to exit?",
-                this.exit,
-                () => {
-                    this.modalWindow.close();
-                    document.addEventListener(
-                        "keydown",
-                        this._modalWindowHandler
-                    );
-                    this._resume();
-                }
-            );
+            this.modalWindow.start("Покинуть игру?", this.exit, () => {
+                this.modalWindow.close();
+                document.addEventListener("keydown", this._modalWindowHandler);
+                this._resume();
+            });
         }
     };
 }

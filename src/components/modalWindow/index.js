@@ -30,12 +30,12 @@ export default class ModalWindow {
         const modalWindow = modalWindowWrapper.querySelector(".modalWindow");
 
         const yesButton = new Button(modalWindow, {
-            text: "Yes",
+            text: "Да",
             onClick: this.clickYes,
             extraClass: "",
         });
         const noButton = new Button(modalWindow, {
-            text: "No",
+            text: "Нет",
             onClick: this.clickNo,
             extraClass: "button__transparency-transparent",
         });
