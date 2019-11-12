@@ -38,20 +38,16 @@ export default class Profile extends BasePage {
         const passwordRepeat = this.profileForm.getValue("password-repeat");
         const userPic = document.querySelector('input[type="file"]');
 
-        const error = document.querySelector(".form__error");
-        error.style.visibility = "hidden";
-        error.style.color = "red";
-
-        if (password.length < 6 && password.length > 1) {
-            error.innerText = "Пароль должен содержать не менее 6 символов";
-            error.style.visibility = "visible";
+        if (password.length < 6 && password.length > 0) {
+            this.profileForm.showError(
+                "Пароль не должен быть короче 6 символов"
+            );
             loader.hide();
             return;
         }
 
         if (password !== passwordRepeat) {
-            error.innerText = "Пароли не совпадают";
-            error.style.visibility = "visible";
+            this.profileForm.showError("Пароли не совпадают");
             loader.hide();
             return;
         }
@@ -62,12 +58,9 @@ export default class Profile extends BasePage {
         ) {
             User.update(name, password).then(response => {
                 if (response.status !== 200) {
-                    error.innerText = "Произошла ошибка";
-                    error.style.visibility = "visible";
+                    this.profileForm.showError("Произошла ошибка");
                 } else {
-                    error.innerText = "Изменения сохранены";
-                    error.style.color = "green";
-                    error.style.visibility = "visible";
+                    this.profileForm.showOK("Изменения сохранены");
                 }
             });
         }
@@ -78,17 +71,11 @@ export default class Profile extends BasePage {
 
             User.updateAvatar(formData)
                 .then(response => {
-                    if (response.status !== 200) {
-                        error.innerText = "Произошла ошибка";
-                        error.style.visibility = "visible";
-                    } else if (response.status === 403) {
-                        error.innerText += "\nАватарка слишком большая";
-                        error.style.visibility = "visible";
-                    } else if (response.status === 200) {
-                        error.innerText = "Изменения сохранены";
-                        error.style.color = "green";
-                        error.style.visibility = "visible";
+                    if (!response.ok) {
+                        this.profileForm.showError("Произошла ошибка");
+                        return;
                     }
+                    this.profileForm.showOK("Изменения сохранены");
                 })
                 .finally(() => loader.hide())
                 .catch(error =>

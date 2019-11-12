@@ -56,30 +56,26 @@ export default class Login extends BasePage {
 
         const email = this.loginForm.getValue("email");
         const password = this.loginForm.getValue("password");
-        const error = document.querySelector(".form__error");
 
         if (password.length < 6) {
-            error.innerText = "Неверная почта или пароль";
-            error.style.visibility = "visible";
+            this.loginForm.showError("Слишком короткий пароль");
             return;
         }
-
-        this.login(email, password, error);
+        this.login(email, password);
     }
 
-    login(email, password, error) {
+    login(email, password) {
         const loader = new Loader();
         loader.show();
 
         User.login(email, password)
             .then(response => {
-                if (response.status !== 200) {
-                    error.innerText = "Неверная почта или пароль";
-                    error.style.visibility = "visible";
-                } else {
-                    window.history.pushState({}, document.title, "/");
-                    Router.renderPage();
+                if (!response.ok) {
+                    this.loginForm.showError("Неверная почта или пароль");
+                    return;
                 }
+                window.history.pushState({}, document.title, "/");
+                Router.renderPage();
             })
             .finally(loader.hide())
             .catch(error => console.log(error));

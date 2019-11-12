@@ -53,34 +53,41 @@ export default class Register extends BasePage {
         this.registerForm.render();
     }
 
-    onRegisterFormSubmit(e) {
+    async onRegisterFormSubmit(e) {
         e.preventDefault();
 
         const email = this.registerForm.getValue("email");
         const name = this.registerForm.getValue("name");
         const password = this.registerForm.getValue("password");
         const passwordRepeat = this.registerForm.getValue("password-repeat");
-        const error = document.querySelector(".form__error");
 
         if (password.length < 6) {
-            error.innerText = "Пароль должен содержать не менее 6 символов";
-            error.style.visibility = "visible";
+            this.registerForm.showError(
+                "Пароль не должен быть короче 6 символов"
+            );
             return;
         }
 
         if (password !== passwordRepeat) {
-            error.innerText = "Пароли не совпадают";
-            error.style.visibility = "visible";
+            this.registerForm.showError("Пароли не совпадают");
             return;
         }
 
-        User.register(email, name, password).then(response => {
-            if (response.status !== 200) {
-                error.innerText = "Введены неверные данные!";
-                error.style.visibility = "visible";
-            } else {
-                Login.prototype.login(email, password, error);
-            }
-        });
+        const response = await User.register(email, name, password);
+        if (response.ok) {
+            Login.prototype.login(email, password);
+            return;
+        }
+        const responseJSON = await response.json();
+        if (
+            responseJSON.body.message ===
+            "user with this email already registered"
+        ) {
+            this.registerForm.showError(
+                "Пользователь с таким email уже существует"
+            );
+        } else {
+            this.registerForm.showError("Произошла неизвестная ошибка");
+        }
     }
 }
