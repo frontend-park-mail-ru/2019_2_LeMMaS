@@ -4,9 +4,9 @@
     "private": true,
     "scripts": {
         "server": "node dev/server.js",
-        "build": "npm run sw && webpack --config webpack.config.js",
+        "build": "npm run sw && webpack",
         "sw": "node dev/sw/generateUrlsToCache.js",
-        "dev": "npm run build & npm run server"
+        "dev": "npm run server & npm run sw && webpack --watch"
     },
     "dependencies": {
         "autoprefixer": "^9.7.1",
