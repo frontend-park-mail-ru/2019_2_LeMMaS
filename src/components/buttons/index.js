@@ -47,12 +47,12 @@ export class Button extends BaseComponent {
 
 export default class HomeButton {
     static renderString() {
+        const buttonClass = classNames("button button__type-home", {
+            hidden: location.pathname === "/",
+        });
         return html`
-            <a
-                class="button button__position-absolute button__type-home"
-                href="/"
-            >
-                <i class="fa fa-home"></i>
+            <a class="${buttonClass}" href="/">
+                <i class="fas fa-arrow-left"></i>
             </a>
         `;
     }

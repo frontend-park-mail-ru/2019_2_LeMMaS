@@ -6,7 +6,6 @@ import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 import User from "../../modules/user";
 import Login from "./login";
-import HomeButton from "../../components/buttons/index";
 
 export default class Register extends BasePage {
     constructor() {
@@ -18,7 +17,6 @@ export default class Register extends BasePage {
         document.title = "Register | LeMMaS";
 
         parent.innerHTML = html`
-            ${HomeButton.renderString()}
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Регистрация</h2>
                 <div class="form-wrapper"></div>

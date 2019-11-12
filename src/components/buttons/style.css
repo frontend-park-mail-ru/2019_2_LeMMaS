@@ -74,10 +74,13 @@
 }
 
 .button__type-home {
-    font-size: 4em;
+    font-size: 2em;
     background: none;
-    color: $plateBackground;
-    padding: 0.5em;
+    color: white;
+    padding: 0 0.3em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .button__type-home:hover {

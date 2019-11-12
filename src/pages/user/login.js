@@ -8,7 +8,6 @@ import SubmitButton from "../../components/form/elements/submitButton";
 import User from "../../modules/user";
 import Router from "../../modules/router";
 import Loader from "../../components/loader/index";
-import HomeButton from "../../components/buttons/index";
 
 export default class Login extends BasePage {
     constructor() {
@@ -19,7 +18,6 @@ export default class Login extends BasePage {
     renderContent(parent) {
         document.title = "Login | LeMMaS";
         parent.innerHTML = html`
-            ${HomeButton.renderString()}
             <div class="plate plate__size-big">
                 <h2 class="text__align-center text__size-big">Войти</h2>
                 <div class="form-wrapper"></div>
