@@ -8,7 +8,7 @@ export default class Page404 extends BasePage {
             <div class="plate plate__size-big">
                 <p class="text__size-big text__align-center">404</p>
                 <p class="text__size-big text__align-center">
-                    Такой страницы не существует
+                    Такой страницы нет
                 </p>
             </div>
         `;

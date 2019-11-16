@@ -4,6 +4,7 @@ import BasePage from "../basePage";
 import User from "../../modules/user";
 import ProfileForm from "../../components/profileForm";
 import Loader from "../../components/loader/index";
+import router from "../../modules/router";
 
 export default class Profile extends BasePage {
     constructor() {
@@ -13,6 +14,10 @@ export default class Profile extends BasePage {
     }
 
     async renderContent(parent) {
+        if (!User.isLoggedIn()) {
+            router.render404();
+            return;
+        }
         document.title = "Мой профиль | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-big profile-wrapper">

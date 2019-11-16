@@ -2,9 +2,8 @@ import { html } from "common-tags";
 
 import BaseComponent from "../baseComponent";
 import { LinkButton, Button } from "../buttons";
-import { routes } from "../../modules/router";
 import User from "../../modules/user";
-import router from "../../modules/router";
+import router, { routes } from "../../modules/router";
 
 import "./style.css";
 
@@ -46,6 +45,6 @@ export default class Menu extends BaseComponent {
 
     async _onLogoutButtonClick() {
         await User.logout();
-        router.renderPage("/");
+        router.redirect(routes.INDEX);
     }
 }

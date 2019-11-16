@@ -6,7 +6,9 @@ import Router from "./modules/router";
 window.onpopstate = () => {
     Router.renderPage();
 };
-window.addEventListener("DOMContentLoaded", Router.renderPage);
+window.addEventListener("DOMContentLoaded", () => {
+    Router.renderPage();
+});
 
 document.addEventListener("click", e => {
     const link = findParent("A", e.target || e.srcElement);
