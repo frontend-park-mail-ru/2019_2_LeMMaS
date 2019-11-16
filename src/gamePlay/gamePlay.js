@@ -1,5 +1,6 @@
 import ModalWindow from "../components/modalWindow";
 import router from "../modules/router";
+import User from "../modules/user";
 
 export default class GamePlay {
     constructor(parent) {
@@ -17,7 +18,6 @@ export default class GamePlay {
             x: 0,
             y: 0,
             radius: 20,
-            color: "green",
             strokeStyle: "rgba(0, 0, 255, 0.5)",
             easing: 0.01,
             alive: true,
@@ -26,6 +26,15 @@ export default class GamePlay {
 
         this.ball.x = this.ball.canvas.width / 2;
         this.ball.y = this.ball.canvas.height / 2;
+
+        const user = User.getCurrentUser();
+        if (user.avatar_path) {
+            const backgroundImage = new Image();
+            backgroundImage.src = user.avatar_path;
+            this.ball.backgroundImage = backgroundImage;
+        } else {
+            this.ball.color = "green";
+        }
 
         this.enemies = [];
         this.modalWindow = new ModalWindow(document.body);
@@ -71,7 +80,7 @@ export default class GamePlay {
         window.addEventListener("resize", this._onWindowResize);
 
         this._drawFood();
-        this.interval = setInterval(this._redrawAllBalls, 1000 / 60);
+        requestAnimationFrame(this._redrawAllBalls);
 
         this.timeouts = [];
 
@@ -210,6 +219,8 @@ export default class GamePlay {
                 }
             })
         );
+
+        requestAnimationFrame(this._redrawAllBalls);
     };
 
     _detectBallEating = (ball1, ball2) => {
@@ -246,20 +257,32 @@ export default class GamePlay {
 
     _drawOneBall = ball => {
         const ballCtx = ball.canvas.getContext("2d");
+        ballCtx.restore();
+        ballCtx.save();
         ballCtx.clearRect(0, 0, ball.canvas.width, ball.canvas.height);
-
         if (!ball.alive) {
-            ballCtx.clearRect(0, 0, ball.canvas.width, ball.canvas.height);
             return;
         }
-
         ballCtx.beginPath();
         ballCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
-        ballCtx.fillStyle = ball.color;
-        ballCtx.strokeStyle = ball.strokeStyle;
-        ballCtx.fill();
-        ballCtx.stroke();
-        ballCtx.closePath();
+        ballCtx.clip();
+        if (ball.color) {
+            ballCtx.fillStyle = ball.color;
+            ballCtx.fill();
+        }
+        if (ball.strokeStyle) {
+            ballCtx.strokeStyle = ball.strokeStyle;
+            ballCtx.stroke();
+        }
+        if (ball.backgroundImage) {
+            ballCtx.drawImage(
+                ball.backgroundImage,
+                ball.x - ball.radius,
+                ball.y - ball.radius,
+                ball.radius * 2,
+                ball.radius * 2
+            );
+        }
 
         this._detectFoodEating(ball);
     };
@@ -280,10 +303,6 @@ export default class GamePlay {
             this.timeouts.forEach(timer => {
                 clearTimeout(timer);
             });
-        }
-
-        if (this.interval) {
-            clearInterval(this.interval);
         }
         if (this.ball) {
             delete this.ball;
