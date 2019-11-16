@@ -19,6 +19,7 @@ export default class GamePlay {
             y: 0,
             radius: 20,
             strokeStyle: "rgba(0, 0, 255, 0.5)",
+            color: "green",
             easing: 0.01,
             alive: true,
             canvas: document.querySelector(".ballCanvas"),
@@ -28,14 +29,13 @@ export default class GamePlay {
         this.ball.y = this.ball.canvas.height / 2;
 
         const user = User.getCurrentUser();
-        if (user.avatar_path) {
-            const backgroundImage = new Image();
-            backgroundImage.src = user.avatar_path;
-            this.ball.backgroundImage = backgroundImage;
-        } else {
-            this.ball.color = "green";
+        if (user) {
+            if (user.avatar_path) {
+                const backgroundImage = new Image();
+                backgroundImage.src = user.avatar_path;
+                this.ball.backgroundImage = backgroundImage;
+            }
         }
-
         this.enemies = [];
         this.modalWindow = new ModalWindow(document.body);
 
@@ -266,14 +266,9 @@ export default class GamePlay {
         ballCtx.beginPath();
         ballCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
         ballCtx.clip();
-        if (ball.color) {
-            ballCtx.fillStyle = ball.color;
-            ballCtx.fill();
-        }
-        if (ball.strokeStyle) {
-            ballCtx.strokeStyle = ball.strokeStyle;
-            ballCtx.stroke();
-        }
+        ballCtx.strokeStyle = ball.strokeStyle;
+        ballCtx.stroke();
+
         if (ball.backgroundImage) {
             ballCtx.drawImage(
                 ball.backgroundImage,
@@ -282,8 +277,10 @@ export default class GamePlay {
                 ball.radius * 2,
                 ball.radius * 2
             );
+        } else {
+            ballCtx.fillStyle = ball.color;
+            ballCtx.fill();
         }
-
         this._detectFoodEating(ball);
     };
 

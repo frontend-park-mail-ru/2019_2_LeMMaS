@@ -21,8 +21,8 @@ views[routes.USER_PROFILE] = Profile;
 views[routes.SINGLEPLAYER] = GamePage;
 
 class Router {
-    renderPage() {
-        const url = location.pathname;
+    renderPage(newUrl) {
+        const url = newUrl ? newUrl : location.pathname;
         const view = views[url] ? new views[url]() : new Page404();
         view.render();
     }

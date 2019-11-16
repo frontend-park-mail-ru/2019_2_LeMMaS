@@ -46,6 +46,6 @@ export default class Menu extends BaseComponent {
 
     async _onLogoutButtonClick() {
         await User.logout();
-        router.renderPage();
+        router.renderPage("/");
     }
 }
