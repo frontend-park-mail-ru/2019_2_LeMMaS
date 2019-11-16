@@ -266,10 +266,9 @@ export default class GamePlay {
         ballCtx.beginPath();
         ballCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
         ballCtx.clip();
-        ballCtx.strokeStyle = ball.strokeStyle;
-        ballCtx.stroke();
-
         if (ball.backgroundImage) {
+            ballCtx.fillStyle = "white";
+            ballCtx.fill();
             ballCtx.drawImage(
                 ball.backgroundImage,
                 ball.x - ball.radius,
@@ -281,6 +280,10 @@ export default class GamePlay {
             ballCtx.fillStyle = ball.color;
             ballCtx.fill();
         }
+        ballCtx.strokeStyle = ball.strokeStyle;
+        ballCtx.lineWidth = 2;
+        ballCtx.stroke();
+
         this._detectFoodEating(ball);
     };
 
