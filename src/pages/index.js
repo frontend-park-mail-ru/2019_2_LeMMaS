@@ -13,7 +13,7 @@ export default class Index extends BasePage {
             <div class="plate start-game-menu">
                 <div class="plate__innerContent">
                     <h2 class="text__size-big text__align-center">
-                        <i class="fas fa-play-circle"></i> Играть
+                        Играть
                     </h2>
                     <div class="start-game-buttons-wrapper">
                         ${new LinkButton({
