@@ -6,6 +6,7 @@ import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 import User from "../../modules/user";
 import Login from "./login";
+import {STATUS_OK} from "../../modules/api";
 
 export default class Register extends BasePage {
     constructor() {
@@ -73,7 +74,7 @@ export default class Register extends BasePage {
         }
 
         const response = await User.register(email, name, password);
-        if (response.ok) {
+        if (response.status === STATUS_OK) {
             Login.prototype.login(email, password);
             return;
         }

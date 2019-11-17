@@ -18,6 +18,8 @@ const routes = {
     ACCESS_CSRF_TOKEN: API_PUBLIC_PREFIX + "/access/csrf",
 };
 
+export const STATUS_OK = "ok";
+
 const CSRF_TOKEN_HEADER = "X-CSRF-Token";
 
 class API {
@@ -67,7 +69,6 @@ class API {
     _get = route =>
         httpNetwork
             .get(this._getUrlByRoute(route))
-            .then(response => response.json());
 
     _post = async (route, body) => {
         const headers = {};
@@ -77,7 +78,13 @@ class API {
             }
             headers[CSRF_TOKEN_HEADER] = this.csrfToken;
         }
-        return httpNetwork.post(this._getUrlByRoute(route), body, headers);
+        const response = await httpNetwork.post(this._getUrlByRoute(route), body, headers);
+        if (!response.ok && response.body && response.body.message === "incorrect CSRF token") {
+            this.csrfToken = await this._getCSRFToken();
+            headers[CSRF_TOKEN_HEADER] = this.csrfToken;
+            return await httpNetwork.post(this._getUrlByRoute(route), body, headers);
+        }
+        return response;
     };
 
     _getUrlByRoute = route => [BACKEND_URL, API_V1_PREFIX, route].join("/");

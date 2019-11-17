@@ -5,6 +5,7 @@ import User from "../../modules/user";
 import ProfileForm from "../../components/profileForm";
 import Loader from "../../components/loader/index";
 import router from "../../modules/router";
+import { STATUS_OK } from "../../modules/api";
 
 export default class Profile extends BasePage {
     constructor() {
@@ -33,7 +34,7 @@ export default class Profile extends BasePage {
         await this.profileForm.start();
     }
 
-    onEditProfileFormSubmit(e) {
+    async onEditProfileFormSubmit(e) {
         e.preventDefault();
         const loader = new Loader();
         loader.show();
@@ -61,33 +62,20 @@ export default class Profile extends BasePage {
             (name !== "" && name !== User.getCurrentUser().name) ||
             password !== ""
         ) {
-            User.update(name, password).then(response => {
-                if (response.status !== 200) {
-                    this.profileForm.showError("Произошла ошибка");
-                } else {
-                    this.profileForm.showOK("Изменения сохранены");
-                }
-            });
+            const response = await User.update(name, password);
+            response.status === STATUS_OK
+                ? this.profileForm.showOK("Изменения сохранены")
+                : this.profileForm.showError("Произошла ошибка");
         }
 
         if (userPic.files[0]) {
             const formData = new FormData();
             formData.append("avatar", userPic.files[0]);
-
-            User.updateAvatar(formData)
-                .then(response => {
-                    if (!response.ok) {
-                        this.profileForm.showError("Произошла ошибка");
-                        return;
-                    }
-                    this.profileForm.showOK("Изменения сохранены");
-                })
-                .finally(() => loader.hide())
-                .catch(error =>
-                    error ? console.log(error) : console.log("errorr")
-                );
-        } else {
-            loader.hide();
+            const response = await User.updateAvatar(formData);
+            response.status === STATUS_OK
+                ? this.profileForm.showOK("Изменения сохранены")
+                : this.profileForm.showError("Произошла ошибка");
         }
+        loader.hide();
     }
 }

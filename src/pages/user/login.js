@@ -8,6 +8,7 @@ import SubmitButton from "../../components/form/elements/submitButton";
 import User from "../../modules/user";
 import Router from "../../modules/router";
 import Loader from "../../components/loader/index";
+import { STATUS_OK } from "../../modules/api";
 
 export default class Login extends BasePage {
     constructor() {
@@ -63,20 +64,16 @@ export default class Login extends BasePage {
         this.login(email, password);
     }
 
-    login(email, password) {
+    async login(email, password) {
         const loader = new Loader();
         loader.show();
-
-        User.login(email, password)
-            .then(response => {
-                if (!response.ok) {
-                    this.loginForm.showError("Неверная почта или пароль");
-                    return;
-                }
-                window.history.pushState({}, document.title, "/");
-                Router.renderPage();
-            })
-            .finally(loader.hide())
-            .catch(error => console.log(error));
+        const response = await User.login(email, password);
+        if (response.status === STATUS_OK) {
+            window.history.pushState({}, document.title, "/");
+            Router.renderPage();
+        } else {
+            this.loginForm.showError("Неверная почта или пароль");
+        }
+        loader.hide();
     }
 }

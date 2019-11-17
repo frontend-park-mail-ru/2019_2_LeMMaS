@@ -27,19 +27,19 @@ class HttpNetwork {
             headers
         );
 
-    _request = (url, options, headers = {}) => {
+    async _request(url, options, headers = {}) {
         const { body } = options;
         const isFormData = body instanceof FormData;
         if (!isFormData) {
             headers[HEADER_CONTENT_TYPE] = CONTENT_TYPE_JSON;
         }
-
-        return fetch(url, {
+        const response = await fetch(url, {
             ...options,
             headers,
             body: isFormData ? body : JSON.stringify(body),
         });
-    };
+        return await response.json();
+    }
 }
 
 export default new HttpNetwork();

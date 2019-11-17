@@ -1,6 +1,6 @@
-import ModalWindow from "../components/modalWindow";
-import router from "../modules/router";
-import User from "../modules/user";
+import ModalWindow from "../modalWindow";
+import router from "../../modules/router";
+import User from "../../modules/user";
 
 export default class GamePlay {
     constructor(parent) {

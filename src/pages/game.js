@@ -4,8 +4,7 @@ import "../static/css/common.css";
 import "../components/gameCanvas/style.css";
 import "../components/gameScore/style.css";
 import "../components/infoLeft/style.css";
-
-import GamePlay from "../gamePlay/gamePlay";
+import GamePlay from "../components/gamePlay/gamePlay";
 
 export default class GamePage {
     render() {

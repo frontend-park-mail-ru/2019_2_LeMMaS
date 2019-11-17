@@ -1,7 +1,8 @@
 import { html } from "common-tags";
-import "./style.css";
-import "../../static/css/common.css";
+
 import { Button } from "../../components/buttons/index";
+
+import "./style.css";
 
 export default class ModalWindow {
     constructor(parent) {
