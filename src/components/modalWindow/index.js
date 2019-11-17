@@ -28,7 +28,9 @@ export default class ModalWindow {
             </div>
         `;
 
-        const buttonsWrapper = modalWindowWrapper.querySelector(".modalWindow__buttons-wrapper");
+        const buttonsWrapper = modalWindowWrapper.querySelector(
+            ".modalWindow__buttons-wrapper"
+        );
 
         const yesButton = new Button(buttonsWrapper, {
             text: "Да",
