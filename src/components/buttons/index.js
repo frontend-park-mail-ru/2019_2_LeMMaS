@@ -6,7 +6,13 @@ import BaseStringComponent from "../baseStringComponent";
 import "./style.css";
 
 export class LinkButton extends BaseStringComponent {
-    constructor({ text, href = "", icon = null, extraClass = "", disabled = false }) {
+    constructor({
+        text,
+        href = "",
+        icon = null,
+        extraClass = "",
+        disabled = false,
+    }) {
         super();
         this.text = text;
         this.href = href;
@@ -19,7 +25,9 @@ export class LinkButton extends BaseStringComponent {
         const buttonClass = classNames(this.extraClass, {
             "button__type-disabled": this.disabled,
         });
-        const icon = this.icon ? `<span class="button-icon">${this.icon}</span>` : "";
+        const icon = this.icon
+            ? `<span class="button-icon">${this.icon}</span>`
+            : "";
         return `
             <a class="button ${buttonClass}" href="${this.href}">
                 ${icon}

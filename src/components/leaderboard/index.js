@@ -27,7 +27,9 @@ export default class Leaderboard extends BaseComponent {
     };
 
     render = (currentUser, userList) => {
-        const leaderboardClass = classNames("leaderboard", {"leaderboard__type-with-me": currentUser !== null});
+        const leaderboardClass = classNames("leaderboard", {
+            "leaderboard__type-with-me": currentUser !== null,
+        });
         let i = 1;
         this.parent.innerHTML += html`
             <div class="${leaderboardClass}">

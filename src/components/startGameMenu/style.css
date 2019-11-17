@@ -8,7 +8,7 @@
 
 .start-game-menu .button {
     font-size: 1.3em;
-    margin: .5em;
+    margin: 0.5em;
     width: 50%;
     display: flex;
     flex-direction: column;

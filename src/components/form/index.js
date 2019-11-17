@@ -8,12 +8,7 @@ const SUCCESS_MESSAGE_CLASS = "form__message_success";
 const ERROR_MESSAGE_CLASS = "form__message_error";
 
 export default class Form extends BaseComponent {
-    constructor({
-        parent,
-        elements,
-        onSubmit = null,
-        extraClass = null,
-    }) {
+    constructor({ parent, elements, onSubmit = null, extraClass = null }) {
         super(parent);
         this.elements = elements;
         this.onSubmit = onSubmit;

@@ -3,11 +3,12 @@
 .button {
     text-align: center;
     padding: 1em;
-    transition: .2s ease-in-out;
+    transition: 0.2s ease-in-out;
     text-decoration: none;
     cursor: pointer;
     font-size: 1em;
     border-radius: 3px;
+    user-select: none;
 }
 
 .button:active {
@@ -18,7 +19,12 @@
 .button__type-primary {
     border: none;
     color: white !important;
-    background-image: linear-gradient(to right, #4776E6 0%, #a95ae9 51%, #4776E6 100%);
+    background-image: linear-gradient(
+        to right,
+        #4776e6 0%,
+        #a95ae9 51%,
+        #4776e6 100%
+    );
     background-position: right center;
     background-size: 200% auto;
     font-size: 1.1em;
@@ -62,11 +68,12 @@
 .button__transparency-transparent {
     background-color: transparent;
     color: white;
-    border-color: white;
+    border: 1px solid white;
 }
 
 .button__transparency-transparent:hover {
-    border-color: transparent;
+    background: white;
+    color: black;
 }
 
 .button__type-disabled {

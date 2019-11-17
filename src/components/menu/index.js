@@ -1,11 +1,10 @@
-import { html } from "common-tags";
-
 import BaseComponent from "../baseComponent";
 import { LinkButton, Button } from "../buttons";
 import User from "../../modules/user";
 import router, { routes } from "../../modules/router";
 
 import "./style.css";
+import UserInfo from "../userInfo";
 
 export default class Menu extends BaseComponent {
     constructor(parent) {
@@ -22,15 +21,23 @@ export default class Menu extends BaseComponent {
     };
 
     _render = async () => {
-        if (User.isLoggedIn()) {
-            new Button(this.parent, {
-                text: "Выйти",
-                onClick: this._onLogoutButtonClick,
-                extraClass: "button__type-secondary",
-            }).render();
-            return;
-        }
-        this.parent.innerHTML = html`
+        User.isLoggedIn() ? this._renderForLoggedIn() : this._renderForNoUser();
+    };
+
+    _renderForLoggedIn() {
+        this.parent.innerHTML = `
+            <span class="userinfo-wrapper"></span>
+        `;
+        new Button(this.parent, {
+            text: "Выйти",
+            onClick: this._onLogoutButtonClick,
+            extraClass: "button__transparency-transparent",
+        }).render();
+        new UserInfo(this.parent.querySelector(".userinfo-wrapper")).start();
+    }
+
+    _renderForNoUser() {
+        this.parent.innerHTML = `
             ${new LinkButton({
                 text: "Войти",
                 href: routes.USER_LOGIN,
@@ -42,7 +49,7 @@ export default class Menu extends BaseComponent {
                 extraClass: "button__type-secondary",
             }).renderString()}
         `;
-    };
+    }
 
     async _onLogoutButtonClick() {
         await User.logout();
