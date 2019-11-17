@@ -21,15 +21,11 @@ export default class UserInfo extends BaseComponent {
 
     async render(currentUser) {
         if (currentUser === null) {
-            this.parent.innerHTML = html`
-                <p>
-                    <a href="${routes.USER_LOGIN}">Войдите</a>, чтобы начать
-                    игру
-                </p>
-            `;
             return;
         }
         this.parent.innerHTML = html`
+            <div class="plate">
+                <div class="plate__innerContent ">
             <h2 class="text__align-center">Профиль</h2>
             <div class="userPicName">
                 <a href="${routes.USER_PROFILE}">
@@ -42,6 +38,8 @@ export default class UserInfo extends BaseComponent {
                     </div>
                     ${safeHtml`${currentUser.name}`}
                 </a>
+            </div>
+            </div>
             </div>
         `;
     }

@@ -11,12 +11,6 @@ export default class Index extends BasePage {
     renderContent(parent) {
         document.title = "LeMMaS";
         parent.innerHTML = html`
-            <div class="plate leaderboard-plate">
-                <div class="plate__innerContent">
-                    <h2 class="text__align-center">Лучшие игроки</h2>
-                    <div class="leaderboard-wrapper"></div>
-                </div>
-            </div>
             <div class="plate start-game-menu">
                 <div class="plate__innerContent">
                     <h2 class="text__size-big text__align-center"><i class="fas fa-play-circle"></i> Играть</h2>
@@ -36,9 +30,13 @@ export default class Index extends BasePage {
                     </div>
                 </div>
             </div>
-            <div class="plate">
-                <div class="plate__innerContent user-info-wrapper"></div>
+            <div class="plate leaderboard-plate">
+                <div class="plate__innerContent">
+                    <h2 class="text__align-center"><i class="fas fa-trophy"></i> Лучшие игроки</h2>
+                    <div class="leaderboard-wrapper"></div>
+                </div>
             </div>
+            <div class="user-info-wrapper"></div>
         `;
 
         const leaderboardWrapper = parent.querySelector(".leaderboard-wrapper");

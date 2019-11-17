@@ -38,10 +38,10 @@ export default class Leaderboard extends BaseComponent {
                             ? "leaderboard__player_me"
                             : ""
                     }">
-                        ${i++}. 
                         <span class="leaderboard__player-name">${
                             player.name
                         }</span>
+                        <span class="leaderboard__player-position">${i++}</span>
                     </div>
                     `
                 )}
