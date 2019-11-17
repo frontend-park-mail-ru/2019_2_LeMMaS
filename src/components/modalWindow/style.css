@@ -10,4 +10,18 @@
 
 .modalWindow {
     margin: auto;
+    text-align: center;
+}
+
+.modalWindow__text {
+    font-size: 1.4em;
+}
+
+.modalWindow__buttons-wrapper {
+margin-top: 3em;
+    margin-bottom: 1em;
+}
+
+.modalWindow__buttons-wrapper .button:not(:last-child) {
+    margin-right: 1em;
 }
