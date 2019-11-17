@@ -25,8 +25,7 @@ button {
     color: white;
 }
 
-a:hover,
-button:hover {
+a:not(.button):hover {
     color: gold;
     transition: all 0.3s ease-in-out;
 }

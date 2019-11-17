@@ -20,12 +20,12 @@ export default class Index extends BasePage {
                             text: "Одиночная",
                             href: "/game/singleplayer",
                             icon: "😎",
-                            extraClass: "button__size-big button__type-primary",
+                            extraClass: "button__type-primary",
                         }).renderString()}
                         ${new LinkButton({
                             text: "Мультиплеер",
                             icon: "👨‍👩‍👧‍👦",
-                            extraClass: "button__size-big button__color-red",
+                            extraClass: "button__type-danger",
                         }).renderString()}
                     </div>
                 </div>
