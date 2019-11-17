@@ -13,18 +13,15 @@ export default class Form extends BaseComponent {
         elements,
         onSubmit = null,
         extraClass = null,
-        big = false,
     }) {
         super(parent);
         this.elements = elements;
         this.onSubmit = onSubmit;
         this.extraClass = extraClass;
-        this.big = big;
     }
 
     async render() {
         let formClass = "";
-        formClass += this.big ? "form__size-big" : "";
         formClass += this.extraClass ? this.extraClass : "";
 
         this.parent.innerHTML = html`

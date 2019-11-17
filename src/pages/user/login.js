@@ -18,7 +18,7 @@ export default class Login extends BasePage {
     renderContent(parent) {
         document.title = "Login | LeMMaS";
         parent.innerHTML = html`
-            <div class="plate plate__size-big">
+            <div class="plate plate__size-m">
                 <h2 class="text__align-center text__size-big">Войти</h2>
                 <div class="form-wrapper"></div>
                 <p>
@@ -40,13 +40,12 @@ export default class Login extends BasePage {
                 type: "password",
                 required: true,
             }),
-            new SubmitButton("Войти", "yellow"),
+            new SubmitButton("Войти"),
         ];
         this.loginForm = new Form({
             parent: parent.querySelector(".form-wrapper"),
             elements: formElements,
             onSubmit: this.onLoginFormSubmit,
-            big: true,
         });
         this.loginForm.render();
     }

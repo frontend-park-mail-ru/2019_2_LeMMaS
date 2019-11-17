@@ -1,9 +1,12 @@
 .leaderboard {
-    border: 1px solid;
     overflow: scroll;
     padding: 0 1em;
     position: relative;
     max-height: 50vh;
+}
+
+.leaderboard-plate {
+    padding: 2em 1em;
 }
 
 .leaderboard__player {
@@ -15,19 +18,17 @@
     font-size: 1.1em;
     font-weight: bold;
     position: relative;
-}
-
-.leaderboard__player_me::after {
-    content: "You";
-    display: inline-block;
-    position: absolute;
-    font-size: 0.8em;
-    color: #154167;
+    color: black;
+    border-radius: 2px;
     background: #e8d62b;
-    margin: 3px 10px;
 }
 
 .leaderboard__player-email {
     opacity: 0.5;
     font-size: 0.8em;
+}
+
+.leaderboard__type-with-me .leaderboard__player:not(.leaderboard__player_me) {
+    opacity: .8;
+    font-size: .8em;
 }

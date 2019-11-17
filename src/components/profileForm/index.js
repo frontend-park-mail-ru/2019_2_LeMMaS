@@ -17,7 +17,6 @@ export default class ProfileForm extends Form {
             elements: [],
             onSubmit,
             extraClass: "profile-form",
-            big: true,
         });
         this.parent = parent;
         this.onSubmit = onSubmit;
@@ -43,7 +42,7 @@ export default class ProfileForm extends Form {
                         label: "Имя",
                         value: user.name,
                         tip:
-                            'Попробуйте "trump", "cat", чтобы получить спец. аватар',
+                            'Попробуйте "trump", "lebedev", чтобы получить аватар',
                     }).renderString()}
                 </div>
             </div>
@@ -57,7 +56,7 @@ export default class ProfileForm extends Form {
                 label: "Повторите пароль",
                 type: "password",
             }).renderString()}
-            ${new SubmitButton("Сохранить", "yellow").renderString()}
+            ${new SubmitButton("Сохранить").renderString()}
         `;
 
         this.avatarSelect = new AvatarSelect(

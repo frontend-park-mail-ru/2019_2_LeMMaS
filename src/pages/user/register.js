@@ -17,7 +17,7 @@ export default class Register extends BasePage {
         document.title = "Register | LeMMaS";
 
         parent.innerHTML = html`
-            <div class="plate plate__size-big">
+            <div class="plate plate__size-m">
                 <h2 class="text__align-center text__size-big">Регистрация</h2>
                 <div class="form-wrapper"></div>
             </div>
@@ -42,13 +42,12 @@ export default class Register extends BasePage {
                 type: "password",
                 required: true,
             }),
-            new SubmitButton("Зарегистрироваться", "yellow"),
+            new SubmitButton("Зарегистрироваться"),
         ];
         this.registerForm = new Form({
             parent: parent.querySelector(".form-wrapper"),
             elements: formElements,
             onSubmit: this.onRegisterFormSubmit,
-            big: true,
         });
         this.registerForm.render();
     }

@@ -1,4 +1,3 @@
-import { html } from "common-tags";
 import classNames from "classnames";
 
 import BaseComponent from "../baseComponent";
@@ -7,10 +6,11 @@ import BaseStringComponent from "../baseStringComponent";
 import "./style.css";
 
 export class LinkButton extends BaseStringComponent {
-    constructor({ text, href = "", extraClass = "", disabled = false }) {
+    constructor({ text, href = "", icon = null, extraClass = "", disabled = false }) {
         super();
         this.text = text;
         this.href = href;
+        this.icon = icon;
         this.extraClass = extraClass;
         this.disabled = disabled;
     }
@@ -19,8 +19,10 @@ export class LinkButton extends BaseStringComponent {
         const buttonClass = classNames(this.extraClass, {
             "button__type-disabled": this.disabled,
         });
-        return html`
+        const icon = this.icon ? `<span class="button-icon">${this.icon}</span>` : "";
+        return `
             <a class="button ${buttonClass}" href="${this.href}">
+                ${icon}
                 ${this.text}
             </a>
         `;
@@ -50,7 +52,7 @@ export default class HomeButton {
         const buttonClass = classNames("button button__type-home", {
             hidden: location.pathname === "/",
         });
-        return html`
+        return `
             <a class="${buttonClass}" href="/">
                 <i class="fas fa-arrow-left"></i>
             </a>

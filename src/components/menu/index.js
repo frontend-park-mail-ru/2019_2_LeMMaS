@@ -25,8 +25,8 @@ export default class Menu extends BaseComponent {
         if (User.isLoggedIn()) {
             new Button(this.parent, {
                 text: "Выйти",
-                extraClass: "button__transparency-transparent",
                 onClick: this._onLogoutButtonClick,
+                extraClass: "button__type-secondary",
             }).render();
             return;
         }
@@ -39,6 +39,7 @@ export default class Menu extends BaseComponent {
             ${new LinkButton({
                 text: "Регистрация",
                 href: routes.USER_REGISTER,
+                extraClass: "button__type-secondary",
             }).renderString()}
         `;
     };

@@ -5,30 +5,35 @@ import Leaderboard from "../components/leaderboard";
 import { LinkButton } from "../components/buttons";
 import UserInfo from "../components/userInfo";
 
+import "../components/startGameMenu/style.css";
+
 export default class Index extends BasePage {
     renderContent(parent) {
         document.title = "LeMMaS";
         parent.innerHTML = html`
-            <div class="plate">
+            <div class="plate leaderboard-plate">
                 <div class="plate__innerContent">
                     <h2 class="text__align-center">Лучшие игроки</h2>
                     <div class="leaderboard-wrapper"></div>
                 </div>
             </div>
-            <div class="plate plate__size-big start-game-menu">
+            <div class="plate start-game-menu">
                 <div class="plate__innerContent">
-                    <h2 class="text__size-big text__align-center">Играть</h2>
+                    <h2 class="text__size-big text__align-center"><i class="fas fa-play-circle"></i> Играть</h2>
+                    <div class="start-game-buttons-wrapper">
                     ${new LinkButton({
                         text: "Одиночная",
                         href: "/game/singleplayer",
+                        icon: "😎",
                         extraClass:
-                            "button__size-big button__transparency-transparent",
+                            "button__size-big button__type-primary",
                     }).renderString()}
                     ${new LinkButton({
-                        text: "Мультиплеер (в разработке)",
-                        disabled: true,
+                        text: "Мультиплеер",
+                        icon: "👨‍👩‍👧‍👦",
                         extraClass: "button__size-big button__color-red",
                     }).renderString()}
+                    </div>
                 </div>
             </div>
             <div class="plate">

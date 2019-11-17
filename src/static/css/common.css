@@ -5,10 +5,10 @@ $plateBackground: #250823bf;
 * {
     outline: none !important;
     box-sizing: border-box;
+    font-family: "Play", sans-serif;
 }
 
 body {
-    font-family: "Play", sans-serif;
     margin: 0;
     height: 100vh;
     background-image: url("/assets/img/back.jpg");
@@ -41,7 +41,8 @@ button:hover {
     position: relative;
     width: 20%;
     background: #250823bf;
-    border: 1px solid white;
+    box-shadow: 0 5px 17px 0px #00000087;
+    border-radius: 3px;
     padding: 2em;
     color: white;
     margin: auto;
@@ -55,10 +56,14 @@ button:hover {
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 
-.plate__size-big {
+.plate__size-m {
+    width: 30%;
+}
+
+.plate__size-l {
     width: 35%;
 }
 
@@ -66,10 +71,6 @@ button:hover {
 h2,
 h3 {
     margin-top: 0;
-}
-
-.start-game-menu {
-    height: 80vh;
 }
 
 .hidden {

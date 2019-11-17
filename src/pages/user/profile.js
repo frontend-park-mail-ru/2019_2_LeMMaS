@@ -20,7 +20,7 @@ export default class Profile extends BasePage {
         }
         document.title = "Мой профиль | LeMMaS";
         parent.innerHTML = html`
-            <div class="plate plate__size-big profile-wrapper">
+            <div class="plate plate__size-l profile-wrapper">
                 <h2 class="text__align-center text__size-big">Мой профиль</h2>
                 <div class="form-wrapper"></div>
             </div>

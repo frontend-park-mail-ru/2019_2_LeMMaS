@@ -13,7 +13,10 @@ export default class SubmitButton extends BaseStringComponent {
         const colorClass = this.color ? "button__color-" + this.color : "";
         return html`
             <div class="form__field-wrapper">
-                <button type="submit" class="form__field button ${colorClass}">
+                <button
+                    type="submit"
+                    class="form__field button button__type-primary ${colorClass}"
+                >
                     ${this.text}
                 </button>
             </div>
