@@ -8,13 +8,16 @@ import "./style.css";
 
 export default class Logo extends BaseStringComponent {
     renderString() {
+
+        const logo_src = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+            ? "/assets/img/lemmaslogo_mobile.png" : "/assets/img/lemmaslogo.png";
         return html`
             ${HomeButton.renderString()}
             <div class="logo anchorImg__wrapper">
                 <img
                     class="logo__image"
                     alt="Lemmas logo"
-                    src="/assets/img/lemmaslogo.png"
+                    src=${logo_src}
                 />
                 <a href="${routes.INDEX}" class="anchorImg__position-absolute">
                 </a>

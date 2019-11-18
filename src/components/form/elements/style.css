@@ -53,3 +53,14 @@ input.form__field:focus {
     font-size: 0.8em;
     opacity: 0.8;
 }
+
+@media (max-width: 320px) {
+    .form__field {
+        padding: 0.4em;
+        font-size: .8em;
+    }
+
+    .form__field__label {
+        font-size: .8em;
+    }
+}
