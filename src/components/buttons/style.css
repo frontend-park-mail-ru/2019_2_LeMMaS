@@ -97,3 +97,13 @@
     background: none;
     color: white;
 }
+
+
+@media (max-width: 320px) {
+    .button {
+        padding: 0.5em;
+    }
+    .button__type-home {
+        font-size: 1em;
+    }
+}

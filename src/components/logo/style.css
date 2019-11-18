@@ -5,3 +5,15 @@
 .logo__image {
     width: 250px;
 }
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .logo__image {
+        max-height: 6vh;
+    }
+
+}
+@media (max-width: 320px){
+    .logo {
+        padding: 0.5em;
+    }
+}

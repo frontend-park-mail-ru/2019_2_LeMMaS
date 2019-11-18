@@ -23,3 +23,10 @@
 .userinfo:hover .userinfo__avatar {
     border-color: gold;
 }
+
+@media (max-width: 320px) {
+    .userinfo__avatar {
+        width: 35px;
+        height: 35px;
+    }
+}
