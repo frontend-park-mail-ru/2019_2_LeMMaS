@@ -3,7 +3,7 @@
 }
 
 .logo__image {
-    width: 250px;
+    max-height: 10vh;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
