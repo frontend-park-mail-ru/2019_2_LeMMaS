@@ -68,7 +68,7 @@ class API {
 
     _get = route =>
         httpNetwork
-            .get(this._getUrlByRoute(route))
+            .get(this._getUrlByRoute(route));
 
     _post = async (route, body) => {
         const headers = {};

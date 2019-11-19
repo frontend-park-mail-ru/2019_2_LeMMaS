@@ -4,7 +4,7 @@ import "../static/css/common.css";
 import "../components/gameCanvas/style.css";
 import "../components/gameScore/style.css";
 import "../components/infoLeft/style.css";
-import GamePlay from "../components/gamePlay/gamePlay";
+import GamePlay from "../components/gamePlay/gamePlaySocket";
 
 export default class GamePage {
     render() {
@@ -38,5 +38,6 @@ export default class GamePage {
             document.body.querySelector(".game__wrapper")
         );
         this.gamePlay.start();
+
     }
 }

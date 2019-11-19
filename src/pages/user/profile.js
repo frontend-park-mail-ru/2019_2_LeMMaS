@@ -19,6 +19,7 @@ export default class Profile extends BasePage {
             router.render404();
             return;
         }
+
         document.title = "Мой профиль | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-l profile-wrapper">
