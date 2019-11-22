@@ -4,3 +4,6 @@ public/bundle.js
 public/sw.js
 public/assets/fonts
 src/sw-urls-to-cache.json
+v8-compile-cache-0
+nvm
+.nvm

@@ -3,7 +3,7 @@ const registerServiceWorker = () => {
         // проверка поддерживает ли браузер sw
         window.addEventListener("load", () => {
             // sw будет работать на всем сайте, а не на отдельном урле
-            navigator.serviceWorker.register("/sw.js").then(
+            navigator.serviceWorker.register("./sw.js").then(
                 registration => {
                     // регистрация sw для одного устройства - 1 раз (до следующего обновления sw.js)
                     console.log(

@@ -5,7 +5,7 @@
     "scripts": {
         "server": "node dev/server.js",
         "build": "npm run sw && webpack",
-        "sw": "node dev/sw/generateUrlsToCache.js",
+        "sw": "node dev/sw/generateUrlsToCache.js && cp src/sw.js public/  && cp src/urlsToCache.json public/",
         "dev": "npm run server & npm run sw && webpack --watch"
     },
     "dependencies": {
