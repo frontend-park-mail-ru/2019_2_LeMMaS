@@ -4,9 +4,10 @@ import "../static/css/common.css";
 import "../components/gameCanvas/style.css";
 import "../components/gameScore/style.css";
 import "../components/infoLeft/style.css";
-import GamePlay from "../components/gamePlay/gamePlaySocket";
+import MultiPlayer from "../components/gamePlay/multiPlayer";
+import User from "../modules/user";
 
-export default class GamePage {
+export default class MultiPlayerPage {
     render() {
         const width = window.innerWidth;
         const height = window.innerHeight;
@@ -24,20 +25,19 @@ export default class GamePage {
                     height="${height}"
                     class="foodCanvas"
                 ></canvas>
-                <canvas
-                    width="${width}"
-                    height="${height}"
-                    class="ballCanvas"
-                ></canvas>
             </div>
         `;
 
         document.body.style.background = "white";
 
-        this.gamePlay = new GamePlay(
+        this.gamePlay = new MultiPlayer(
             document.body.querySelector(".game__wrapper")
         );
-        this.gamePlay.start();
-
+        const interval = setInterval(() => {
+            if (User.getCurrentUser() !== undefined) {
+                this.gamePlay.start();
+                clearInterval(interval);
+            }
+        }, 200);
     }
 }

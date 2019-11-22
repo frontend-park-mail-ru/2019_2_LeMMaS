@@ -2,7 +2,7 @@ import ModalWindow from "../modalWindow";
 import router from "../../modules/router";
 import User from "../../modules/user";
 
-export default class GamePlay {
+export default class SinglePlayer {
     constructor(parent) {
         this.parent = parent;
     }

@@ -24,6 +24,7 @@ export default class Index extends BasePage {
                         }).renderString()}
                         ${new LinkButton({
                             text: "Мультиплеер",
+                            href: "/game/multiplayer",
                             icon: "👨‍👩‍👧‍👦",
                             extraClass: "button__type-danger",
                         }).renderString()}
