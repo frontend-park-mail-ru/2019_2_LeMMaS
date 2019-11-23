@@ -136,10 +136,10 @@ export default class SinglePlayer {
     _detectFoodEating = ball =>
         this.food.forEach(foodElement => {
             if (
-                ball.x > foodElement.x - this.ball.radius &&
-                ball.x < foodElement.x + this.ball.radius &&
-                ball.y > foodElement.y - this.ball.radius &&
-                ball.y < foodElement.y + this.ball.radius
+                ball.x > foodElement.x - ball.radius &&
+                ball.x < foodElement.x + ball.radius &&
+                ball.y > foodElement.y - ball.radius &&
+                ball.y < foodElement.y + ball.radius
             ) {
                 if (foodElement.status === 1) {
                     foodElement.status = 0;
@@ -186,6 +186,8 @@ export default class SinglePlayer {
         this.enemies.forEach(enemy => {
             const eatenBall = this._detectBallEating(enemy, this.ball);
             if (eatenBall === this.ball) {
+                console.log(this.enemies);
+
                 document.removeEventListener(
                     "keydown",
                     this._modalWindowHandler
@@ -199,6 +201,8 @@ export default class SinglePlayer {
                 );
             }
             if (eatenBall === enemy) {
+                console.log(this.enemies);
+
                 this.parent.removeChild(enemy.canvas);
                 this.enemies.splice(this.enemies.indexOf(enemy), 1);
             }
@@ -310,8 +314,10 @@ export default class SinglePlayer {
         if (this.enemies) {
             this.enemies.forEach(enemy => {
                 this.parent.removeChild(enemy.canvas);
+                enemy.dx = 0;
+                enemy.dy = 0;
             });
-            delete this.enemies;
+            this.enemies.length = 0;
         }
         if (this.food) {
             delete this.food;
