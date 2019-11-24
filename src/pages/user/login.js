@@ -13,7 +13,6 @@ import { STATUS_OK } from "../../modules/api";
 export default class Login extends BasePage {
     constructor() {
         super();
-        this.onLoginFormSubmit = this.onLoginFormSubmit.bind(this);
     }
 
     renderContent(parent) {
@@ -51,7 +50,7 @@ export default class Login extends BasePage {
         this.loginForm.render();
     }
 
-    onLoginFormSubmit(e) {
+    onLoginFormSubmit = (e) => {
         e.preventDefault();
 
         const email = this.loginForm.getValue("email");
@@ -62,7 +61,7 @@ export default class Login extends BasePage {
             return;
         }
         this.login(email, password);
-    }
+    };
 
     async login(email, password) {
         const loader = new Loader();

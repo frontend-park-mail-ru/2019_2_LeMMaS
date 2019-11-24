@@ -11,7 +11,6 @@ import {STATUS_OK} from "../../modules/api";
 export default class Register extends BasePage {
     constructor() {
         super();
-        this.onRegisterFormSubmit = this.onRegisterFormSubmit.bind(this);
     }
 
     renderContent(parent) {
@@ -53,7 +52,7 @@ export default class Register extends BasePage {
         this.registerForm.render();
     }
 
-    async onRegisterFormSubmit(e) {
+    onRegisterFormSubmit = async e => {
         e.preventDefault();
 
         const email = this.registerForm.getValue("email");
