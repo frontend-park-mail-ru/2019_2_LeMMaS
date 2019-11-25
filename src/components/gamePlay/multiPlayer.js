@@ -192,7 +192,15 @@ export default class MultiPlayer {
             }
             case "stop": {
                 this.balls.get(data.user_id).delete();
-                this.balls.delete(data.user_id);
+                if(data.user_id === this.currentUserID){
+                    this.modalWindow.start(
+                        "Вы проиграли. Хотите сыграть еще раз?",
+                        this._playAgain,
+                        () => {
+                            this.exit();
+                        }
+                    );
+                }
             }
         }
     };
