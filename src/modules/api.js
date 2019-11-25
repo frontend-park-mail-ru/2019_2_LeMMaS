@@ -72,7 +72,7 @@ class API {
         this._get(routes.USER_LIST).then(response => response.body.users);
 
     openGameWebSocket = () =>
-        new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, "ws"))
+        new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, "ws"));
 
     _getCSRFToken = () =>
         this._get(routes.ACCESS_CSRF_TOKEN).then(

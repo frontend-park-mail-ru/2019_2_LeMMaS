@@ -9,6 +9,8 @@
         "dev": "npm run server & npm run sw && webpack --watch"
     },
     "dependencies": {
+        "@typescript-eslint/eslint-plugin": "^2.8.0",
+        "@typescript-eslint/parser": "^2.8.0",
         "autoprefixer": "^9.7.1",
         "classnames": "^2.2.6",
         "common-tags": "^1.8.0",
@@ -16,7 +18,9 @@
         "express": "~4.16.1",
         "postcss-import": "^12.0.1",
         "postcss-preset-env": "^6.7.0",
-        "sugarss": "^2.0.0"
+        "sugarss": "^2.0.0",
+        "ts-loader": "^6.2.1",
+        "typescript": "^3.7.2"
     },
     "devDependencies": {
         "@babel/core": "^7.6.0",

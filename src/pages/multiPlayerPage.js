@@ -4,7 +4,7 @@ import "../static/css/common.css";
 import "../components/gameCanvas/style.css";
 import "../components/gameScore/style.css";
 import "../components/infoLeft/style.css";
-import MultiPlayer from "../components/gamePlay/multiPlayer";
+import MultiPlayer from "../components/gamePlay/multiPlayer.ts";
 import User from "../modules/user";
 
 export default class MultiPlayerPage {

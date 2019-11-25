@@ -5,6 +5,19 @@ import API from "../../modules/api";
 import Ball from "./ball/ball";
 
 export default class MultiPlayer {
+    parent: Element;
+    private foodCanvas: Element;
+    private score: Element;
+    private balls: Map<number, Ball>;
+    private food: Map<number, Ball>;
+    private mouseCoordinates: { x: number; y: number };
+    private userBackgroundImage: HTMLImageElement;
+    private currentUserID: number;
+    private socket: WebSocket;
+    private modalWindow: ModalWindow;
+    private timeouts: any;
+    private gameEnded: boolean;
+
     constructor(parent) {
         this.parent = parent;
     }
@@ -54,7 +67,6 @@ export default class MultiPlayer {
         this.socket.onerror = (error) => {
             console.log(`[error] ${error.message}`);
         };
-
 
         this.modalWindow = new ModalWindow(document.body);
 
@@ -191,6 +203,18 @@ export default class MultiPlayer {
                 break;
             }
             case "stop": {
+                console.log(data.user_id);
+                console.log(this.currentUserID);
+                if(data.user_id === this.currentUserID){
+                    console.log("все");
+                    this.modalWindow.start(
+                        "Вы проиграли. Хотите сыграть еще раз?",
+                        this._playAgain,
+                        () => {
+                            this.exit();
+                        }
+                    );
+                }
                 this.balls.get(data.user_id).delete();
                 this.balls.delete(data.user_id);
             }
@@ -202,10 +226,6 @@ export default class MultiPlayer {
         this.balls.get(this.currentUserID).canvas.height = window.innerHeight;
         this.foodCanvas.width = window.innerWidth;
         this.foodCanvas.height = window.innerHeight;
-        this.enemies.forEach(enemy => {
-            enemy.canvas.height = window.innerHeight;
-            enemy.canvas.width = window.innerWidth;
-        });
     };
 
     _handleMouseMove = event => {
@@ -226,9 +246,9 @@ export default class MultiPlayer {
 
     _countAndSendDirection = (x, y) => {
         const dis = Math.sqrt( Math.pow(x - this.balls.get(this.currentUserID).x, 2) + Math.pow(y - this.balls.get(this.currentUserID).y,2) );
-        let angle = 180 - Math.round(Math.acos((event.clientY - this.balls.get(this.currentUserID).y) / dis) / Math.PI * 180);
+        let angle = 180 - Math.round(Math.acos((y - this.balls.get(this.currentUserID).y) / dis) / Math.PI * 180);
 
-        if ((event.clientX - this.balls.get(this.currentUserID).x > 0 && event.clientY - this.balls.get(this.currentUserID).y < 0) || (event.clientX - this.balls.get(this.currentUserID).x > 0 && event.clientY - this.balls.get(this.currentUserID).y > 0)) {
+        if ((x - this.balls.get(this.currentUserID).x > 0 && y - this.balls.get(this.currentUserID).y < 0) || (x - this.balls.get(this.currentUserID).x > 0 && y - this.balls.get(this.currentUserID).y > 0)) {
             angle = 180 + (180 - angle);
         }
 
@@ -304,15 +324,6 @@ export default class MultiPlayer {
             this.timeouts.forEach(timer => {
                 clearTimeout(timer);
             });
-        }
-        if (this.ball) {
-            delete this.ball;
-        }
-        if (this.enemies) {
-            this.enemies.forEach(enemy => {
-                this.parent.removeChild(enemy.canvas);
-            });
-            delete this.enemies;
         }
         if (this.food) {
             delete this.food;
