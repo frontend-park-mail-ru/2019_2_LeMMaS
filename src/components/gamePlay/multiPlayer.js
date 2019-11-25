@@ -1,6 +1,7 @@
 import ModalWindow from "../modalWindow";
 import router from "../../modules/router";
 import User from "../../modules/user";
+import API from "../../modules/api";
 import Ball from "./ball/ball";
 
 export default class MultiPlayer {
@@ -33,7 +34,7 @@ export default class MultiPlayer {
             this.currentUserID = user.id;
         }
 
-        this.socket = new WebSocket("ws://95.163.212.121/api/v1/private/game");
+        this.socket = API.openGameWebSocket();
         this.socket.onopen = () => {
             console.log("[open] Соединение установлено");
             console.log("Отправляем данные на сервер");
@@ -73,8 +74,8 @@ export default class MultiPlayer {
             data.foods.forEach(element => {
                 this.food.set(element.id, {
                     id: element.id,
-                    x: element.x,
-                    y: element.y,
+                    x: element.position.x,
+                    y: element.position.y,
                     status: 1,
                     color:
                         "#" +
@@ -89,9 +90,9 @@ export default class MultiPlayer {
             if (data && data.players) {
                 data.players.forEach(player => {
                     const ball = new Ball(
-                        player.id,
-                        player.x,
-                        player.y,
+                        player.user_id,
+                        player.position.x,
+                        player.position.y,
                         "yellow",
                     );
 
@@ -99,7 +100,7 @@ export default class MultiPlayer {
                         ball.backgroundImage = this.userBackgroundImage;
                     }
 
-                    this.balls.set(player.id, ball);
+                    this.balls.set(player.user_id, ball);
                 });
             }
 

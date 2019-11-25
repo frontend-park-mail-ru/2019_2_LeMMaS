@@ -1,6 +1,6 @@
 import httpNetwork from "./http";
 
-const BACKEND_URL = "http://95.163.212.121";
+const BACKEND_URL = "localhost:8080";
 const API_V1_PREFIX = "api/v1";
 const API_PUBLIC_PREFIX = "public";
 const API_PRIVATE_PREFIX = "private";
@@ -16,6 +16,8 @@ const routes = {
     USER_AVATAR_PREVIEW: API_PRIVATE_PREFIX + "/user/avatar/getByName",
 
     ACCESS_CSRF_TOKEN: API_PUBLIC_PREFIX + "/access/csrf",
+
+    GAME_SOCKET: API_PRIVATE_PREFIX + "/game",
 };
 
 export const STATUS_OK = "ok";
@@ -61,6 +63,9 @@ class API {
     listUsers = () =>
         this._get(routes.USER_LIST).then(response => response.body.users);
 
+    openGameWebSocket = () =>
+        new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, "ws"))
+
     _getCSRFToken = () =>
         this._get(routes.ACCESS_CSRF_TOKEN).then(
             response => response.body.token
@@ -87,7 +92,7 @@ class API {
         return response;
     };
 
-    _getUrlByRoute = route => [BACKEND_URL, API_V1_PREFIX, route].join("/");
+    _getUrlByRoute = (route, protocol = "http") => protocol + "://" + [BACKEND_URL, API_V1_PREFIX, route].join("/");
 
     _isPrivateRoute = route => route.startsWith(API_PRIVATE_PREFIX);
 }
