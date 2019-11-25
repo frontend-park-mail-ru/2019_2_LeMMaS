@@ -50,7 +50,7 @@ export default class Login extends BasePage {
         this.loginForm.render();
     }
 
-    onLoginFormSubmit = (e) => {
+    onLoginFormSubmit = e => {
         e.preventDefault();
 
         const email = this.loginForm.getValue("email");

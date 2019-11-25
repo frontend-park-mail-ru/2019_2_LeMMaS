@@ -4,16 +4,19 @@ const BACKEND_URL = "95.163.212.121";
 const API_V1_PREFIX = "api/v1";
 const API_PUBLIC_PREFIX = "public";
 const API_PRIVATE_PREFIX = "private";
+const USER_PREFIX = "/user/";
+const PUBLIC_USER = API_PUBLIC_PREFIX + USER_PREFIX;
+const PRIVATE_USER = API_PRIVATE_PREFIX + USER_PREFIX;
 
 const routes = {
-    USER_LIST: API_PUBLIC_PREFIX + "/user/list",
-    USER_LOGIN: API_PUBLIC_PREFIX + "/user/login",
-    USER_REGISTER: API_PUBLIC_PREFIX + "/user/register",
-    USER_UPDATE: API_PRIVATE_PREFIX + "/user/update",
-    USER_PROFILE: API_PRIVATE_PREFIX + "/user/me",
-    USER_LOGOUT: API_PRIVATE_PREFIX + "/user/logout",
-    USER_AVATAR_UPLOAD: API_PRIVATE_PREFIX + "/user/avatar/upload",
-    USER_AVATAR_PREVIEW: API_PRIVATE_PREFIX + "/user/avatar/getByName",
+    USER_LIST: PUBLIC_USER + "list",
+    USER_LOGIN: PUBLIC_USER + "login",
+    USER_REGISTER: PUBLIC_USER + "register",
+    USER_UPDATE: PRIVATE_USER + "update",
+    USER_PROFILE: PRIVATE_USER + "me",
+    USER_LOGOUT: PRIVATE_USER + "logout",
+    USER_AVATAR_UPLOAD: PRIVATE_USER + "avatar/upload",
+    USER_AVATAR_PREVIEW: PRIVATE_USER + "avatar/getByName",
 
     ACCESS_CSRF_TOKEN: API_PUBLIC_PREFIX + "/access/csrf",
 
@@ -57,7 +60,12 @@ class API {
 
     getAvatarPreviewUrl = name =>
         this._get(routes.USER_AVATAR_PREVIEW + "?name=" + name).then(
-            response => response.body.avatar_url
+            response => response.body
+        );
+
+    getAvatarById = id =>
+        this._get(PUBLIC_USER + id).then(
+            response => response.body.user
         );
 
     listUsers = () =>

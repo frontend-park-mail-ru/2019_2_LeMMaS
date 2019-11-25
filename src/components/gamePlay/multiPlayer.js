@@ -60,58 +60,92 @@ export default class MultiPlayer {
 
         //window.addEventListener("resize", this._onWindowResize);
 
-
         this.timeouts = [];
-
-        document.addEventListener("mousemove", this._handleMouseMove);
     };
 
     _messageHandler = event => {
-        //console.log(`[message] Данные получены с сервера: ${event.data}`);
         const data = JSON.parse(event.data);
-
-        if(data.type === "start") {
-            data.foods.forEach(element => {
-                this.food.set(element.id, {
-                    id: element.id,
-                    x: element.position.x,
-                    y: element.position.y,
-                    status: 1,
-                    color:
-                        "#" +
-                        (0x1000000 + Math.random() * 0xffffff)
-                            .toString(16)
-                            .substr(1, 6),
+        switch (data.type) {
+            case "start" : {
+                data.foods.forEach(element => {
+                    this.food.set(element.id, {
+                        id: element.id,
+                        x: element.position.x,
+                        y: element.position.y,
+                        status: 1,
+                        color:
+                            "#" +
+                            (0x1000000 + Math.random() * 0xffffff)
+                                .toString(16)
+                                .substr(1, 6),
+                    });
                 });
-            });
 
-            this._drawFood();
+                this._drawFood();
 
-            if (data && data.players) {
-                data.players.forEach(player => {
-                    const ball = new Ball(
-                        player.user_id,
-                        player.position.x,
-                        player.position.y,
-                        "yellow",
-                    );
+                if (data && data.players) {
+                    data.players.forEach(player => {
+                        const ball = new Ball(
+                            player.user_id,
+                            player.position.x,
+                            player.position.y,
+                            player.size / 2,
+                            "yellow",
+                        );
 
-                    if(ball.id === this.currentUserID) {
-                        ball.backgroundImage = this.userBackgroundImage;
-                    }
+                        if(ball.id === this.currentUserID) {
+                            ball.backgroundImage = this.userBackgroundImage;
+                        }
 
-                    this.balls.set(player.user_id, ball);
-                });
+                        API.getAvatarById(player.user_id).then(user => {
+                            if (user.avatar_path) {
+                                const backgroundImage = new Image();
+                                backgroundImage.src = user.avatar_path;
+                                const currentBall = this.balls.get(player.user_id);
+                                if(currentBall) {
+                                    currentBall.backgroundImage = backgroundImage;
+                                } else {
+                                    ball.backgroundImage = backgroundImage;
+                                }
+                            }
+                        });
+
+                        if(!this.balls.get(player.user_id)) {
+                            this.balls.set(player.user_id, ball);
+                        }
+                    });
+                }
+                document.addEventListener("mousemove", this._handleMouseMove);
+
+                requestAnimationFrame(this._redrawAllBalls);
+                break;
             }
+            case "move": {
+                const ballToMove = this.balls.get(data.player.id);
 
-            requestAnimationFrame(this._redrawAllBalls);
-        }
-        if(data.type === "move") {
-            if(!this.balls.get(data.player.id)) {
+                ballToMove.easingTargetX = data.player.x;
+                ballToMove.easingTargetY = data.player.y;
+                if(data.player.size / 2 - ballToMove.radius > 0) {
+                    this._scoreIncrement(ballToMove);
+                }
+                ballToMove.radius = data.player.size / 2;
+                this._moveBall(ballToMove);
+
+                if (data.eatenFood.length > 0) {
+                    data.eatenFood.forEach(id => {
+                        this.food.get(id).status = 0;
+                        this._drawFood();
+                    });
+                }
+                break;
+            }
+            case "new_player": {
+                const player = data.player;
                 const ball = new Ball(
-                    data.player.id,
-                    data.player.x,
-                    data.player.y,
+                    player.user_id,
+                    player.position.x,
+                    player.position.y,
+                    player.size / 2,
                     "yellow",
                 );
 
@@ -119,19 +153,46 @@ export default class MultiPlayer {
                     ball.backgroundImage = this.userBackgroundImage;
                 }
 
-                this.balls.set(data.player.id, ball);
-            }
-            const ballToMove = this.balls.get(data.player.id);
-
-            ballToMove.easingTargetX = data.player.x;
-            ballToMove.easingTargetY = data.player.y;
-            this._moveBall(ballToMove);
-
-            if (data.eatenFood.length > 0) {
-                data.eatenFood.forEach(id => {
-                    this.food.get(id).status = 0;
-                    this._drawFood();
+                API.getAvatarById(player.user_id).then(user => {
+                    if (user.avatar_path) {
+                        const backgroundImage = new Image();
+                        backgroundImage.src = user.avatar_path;
+                        const currentBall = this.balls.get(player.user_id);
+                        if(currentBall) {
+                            currentBall.backgroundImage = backgroundImage;
+                        } else {
+                            ball.backgroundImage = backgroundImage;
+                        }
+                    }
                 });
+
+                if(!this.balls.get(player.user_id)) {
+                    this.balls.set(player.user_id, ball);
+                }
+                break;
+            }
+            case "new_food": {
+                data.food.forEach(element => {
+                    this.food.set(element.id, {
+                        id: element.id,
+                        x: element.position.x,
+                        y: element.position.y,
+                        status: 1,
+                        color:
+                            "#" +
+                            (0x1000000 + Math.random() * 0xffffff)
+                                .toString(16)
+                                .substr(1, 6),
+                    });
+                });
+
+                this._drawFood();
+
+                break;
+            }
+            case "stop": {
+                this.balls.get(data.user_id).delete();
+                this.balls.delete(data.user_id);
             }
         }
     };
@@ -189,14 +250,15 @@ export default class MultiPlayer {
             if (ball.x > this.mouseCoordinates.x - ball.radius &&
                 ball.x < this.mouseCoordinates.x + ball.radius &&
                 ball.y > this.mouseCoordinates.y - ball.radius &&
-                ball.y < this.mouseCoordinates.y + ball.radius ) {
+                ball.y < this.mouseCoordinates.y + ball.radius) {
                 this.socket.send(`{"type":"speed", "speed":0}`);
             } else {
                 this._countAndSendSpeed(this.mouseCoordinates.x, this.mouseCoordinates.y);
+                this.timeouts.push(setTimeout(() => this._moveBall(ball), 100));
             }
+        } else {
+            this.timeouts.push(setTimeout(() => this._moveBall(ball), 100));
         }
-
-        this.timeouts.push(setTimeout(() => this._moveBall(ball), 100));
     };
 
     _drawFood = () => {
@@ -210,8 +272,6 @@ export default class MultiPlayer {
                 ctx.fillStyle = foodElement.color;
                 ctx.fill();
                 ctx.closePath();
-                /*ctx.font = "30px Arial";
-                ctx.fillText(foodElement.id, foodElement.x, foodElement.y);*/
             }
         });
     };
@@ -220,23 +280,25 @@ export default class MultiPlayer {
         if (this.balls) {
             this.balls.forEach(ball => {
                 ball.draw();
-
             });
         }
-        requestAnimationFrame(this._redrawAllBalls);
+        requestAnimationFrame(() => {
+            if(!this.gameEnded) {
+                this._redrawAllBalls();
+            }
+        });
     };
 
     _scoreIncrement = ball => {
-        ball.radius++;
-        ball.canvas.style.zIndex++;
-        ball.easing /= 1.06;
-        if (ball === this.ball) {
+        if(ball.id === this.currentUserID) {
             this.score.innerText = parseInt(this.score.innerText) + 1;
         }
     };
 
     _end = () => {
-        document.removeEventListener("mousedown", this._handleMouseMove);
+        this.socket.close(1000, "endGame");
+
+        document.removeEventListener("mousemove", this._handleMouseMove);
         window.removeEventListener("resize", this._onWindowResize);
         if (this.timeouts) {
             this.timeouts.forEach(timer => {
@@ -258,14 +320,15 @@ export default class MultiPlayer {
     };
 
     _pause = () => {
-        document.removeEventListener("mousedown", this._handleMouseMove);
+        document.removeEventListener("mousemove", this._handleMouseMove);
     };
 
     _resume = () => {
-        document.addEventListener("mousedown", this._handleMouseMove);
+        document.addEventListener("mousemove", this._handleMouseMove);
     };
 
     exit = () => {
+        this.gameEnded = true;
         this._end();
 
         document.body.style.background = null;

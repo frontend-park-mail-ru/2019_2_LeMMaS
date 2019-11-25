@@ -1,16 +1,16 @@
 export default class Ball {
-    constructor(id, x, y, color) {
+    constructor(id, x, y, radius, color) {
         this.id = id;
         this.alive = true;
 
-        this.x = 0;
-        this.y = 0;
+        this.x = x;
+        this.y = y;
         this.easingTargetX = 0;
         this.easingTargetY = 0;
         this.easing = 0.01;
 
-        this.radius = 20;
-        this.strokeStyle = "rgba(0; 0; 255; 0.5)";
+        this.radius = radius;
+        this.strokeStyle = "rgba(128, 0, 0, 0.5)";
         this.color = color ? color : "green";
         this.backgroundImage = undefined;
 
@@ -18,6 +18,7 @@ export default class Ball {
         ballCanvas.width =  window.innerWidth;
         ballCanvas.height =  window.innerHeight;
         ballCanvas.classList.add("id_" + id, "ballCanvas");
+        ballCanvas.style.zIndex = radius;
 
         this.canvas = ballCanvas;
 
@@ -50,7 +51,12 @@ export default class Ball {
             ballCtx.fill();
         }
         ballCtx.strokeStyle = this.strokeStyle;
-        ballCtx.lineWidth = 2;
+        ballCtx.lineWidth = 5;
         ballCtx.stroke();
+        this.canvas.style.zIndex = this.radius;
+    };
+
+    delete = () => {
+        this.canvas.parentNode.removeChild(this.canvas);
     };
 }

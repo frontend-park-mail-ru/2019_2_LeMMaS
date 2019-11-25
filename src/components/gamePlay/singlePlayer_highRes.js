@@ -17,7 +17,7 @@ export default class SinglePlayer {
         this.ball = {
             x: 0,
             y: 0,
-            radius: 20,
+            radius: 40,
             strokeStyle: "rgba(0, 0, 255, 0.5)",
             color: "green",
             easing: 0.01,
@@ -36,10 +36,10 @@ export default class SinglePlayer {
                 this.ball.backgroundImage = backgroundImage;
             }
         }
-        this.enemies = [];
+        //this.enemies = [];
         this.modalWindow = new ModalWindow(document.body);
 
-        for (let count = 0; count < 3; count++) {
+       /* for (let count = 0; count < 3; count++) {
             const canvas = document.createElement("canvas");
             canvas.className = "enemyCanvas";
             canvas.width = window.innerWidth;
@@ -58,7 +58,7 @@ export default class SinglePlayer {
                 canvas: canvas,
             };
         }
-
+*/
         this.easingTargetX = 0;
         this.easingTargetY = 0;
 
@@ -66,8 +66,8 @@ export default class SinglePlayer {
 
         for (let count = 0; count < 100; count++) {
             this.food[count] = {
-                x: Math.round(Math.random() * window.innerWidth),
-                y: Math.round(Math.random() * window.innerHeight),
+                x: Math.round(Math.random() * window.innerWidth * 2),
+                y: Math.round(Math.random() * window.innerHeight * 2),
                 status: 1,
                 color:
                     "#" +
@@ -92,10 +92,10 @@ export default class SinglePlayer {
         this.ball.canvas.height = window.innerHeight;
         this.foodCanvas.width = window.innerWidth;
         this.foodCanvas.height = window.innerHeight;
-        this.enemies.forEach(enemy => {
+        /*this.enemies.forEach(enemy => {
             enemy.canvas.height = window.innerHeight;
             enemy.canvas.width = window.innerWidth;
-        });
+        });*/
     };
 
     _handleMouseMove = event => {
@@ -150,7 +150,7 @@ export default class SinglePlayer {
         });
 
     _redrawAllBalls = () => {
-        if (!this.enemies.length) {
+        /*if (!this.enemies.length) {
             this._end();
             document.removeEventListener("keydown", this._modalWindowHandler);
             this.modalWindow.start(
@@ -162,9 +162,9 @@ export default class SinglePlayer {
             );
             return;
         }
-
+*/
         this._drawOneBall(this.ball);
-        this.enemies.forEach(enemy => {
+        /*this.enemies.forEach(enemy => {
             this._drawOneBall(enemy, enemy.canvas);
             if (
                 enemy.x + enemy.dx > enemy.canvas.width - enemy.radius ||
@@ -218,7 +218,7 @@ export default class SinglePlayer {
                     }
                 }
             })
-        );
+        );*/
 
         requestAnimationFrame(() => {
             if(!this.gameEnded) {
@@ -227,7 +227,7 @@ export default class SinglePlayer {
         });
     };
 
-    _detectBallEating = (ball1, ball2) => {
+    /*_detectBallEating = (ball1, ball2) => {
         if (!ball1.alive || !ball2.alive) {
             return;
         }
@@ -258,7 +258,7 @@ export default class SinglePlayer {
             return small;
         }
     };
-
+*/
     _drawOneBall = ball => {
         const ballCtx = ball.canvas.getContext("2d");
         ballCtx.restore();
@@ -311,14 +311,14 @@ export default class SinglePlayer {
         if (this.ball) {
             delete this.ball;
         }
-        if (this.enemies) {
+        /*if (this.enemies) {
             this.enemies.forEach(enemy => {
                 this.parent.removeChild(enemy.canvas);
                 enemy.dx = 0;
                 enemy.dy = 0;
             });
             this.enemies.length = 0;
-        }
+        }*/
         if (this.food) {
             delete this.food;
         }
