@@ -192,7 +192,9 @@ export default class MultiPlayer {
             }
             case "stop": {
                 this.balls.get(data.user_id).delete();
+                this.balls.delete(data.user_id);
                 if(data.user_id === this.currentUserID){
+                    this._end();
                     this.modalWindow.start(
                         "Вы проиграли. Хотите сыграть еще раз?",
                         this._playAgain,
@@ -313,15 +315,10 @@ export default class MultiPlayer {
                 clearTimeout(timer);
             });
         }
-        if (this.ball) {
-            delete this.ball;
-        }
-        if (this.enemies) {
-            this.enemies.forEach(enemy => {
-                this.parent.removeChild(enemy.canvas);
-            });
-            delete this.enemies;
-        }
+
+        this.balls.forEach(ball => ball.delete());
+        this.balls.clear();
+
         if (this.food) {
             delete this.food;
         }

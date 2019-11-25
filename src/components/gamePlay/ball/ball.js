@@ -18,11 +18,11 @@ export default class Ball {
         ballCanvas.width =  window.innerWidth;
         ballCanvas.height =  window.innerHeight;
         ballCanvas.classList.add("id_" + id, "ballCanvas");
-        ballCanvas.style.zIndex = radius;
 
         this.canvas = ballCanvas;
 
         document.querySelector(".game__wrapper").appendChild(ballCanvas);
+        ballCanvas.style.zIndex = radius;
     }
 
     draw = () => {
@@ -56,7 +56,6 @@ export default class Ball {
         this.canvas.style.zIndex = this.radius;
     };
 
-    delete = () => {
-        this.canvas.parentNode.removeChild(this.canvas);
-    };
+    delete = () =>
+        this.canvas && this.canvas.parentNode && this.canvas.parentNode.removeChild(this.canvas);
 }
