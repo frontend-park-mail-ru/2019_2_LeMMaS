@@ -77,7 +77,7 @@ export default class Register extends BasePage {
             Login.prototype.login(email, password);
             return;
         }
-        const responseJSON = await response.json();
+        const responseJSON = await response;
         if (
             responseJSON.body.message ===
             "user with this email already registered"

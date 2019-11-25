@@ -7,7 +7,7 @@ export default class Ball {
         this.y = y;
         this.easingTargetX = 0;
         this.easingTargetY = 0;
-        this.easing = 0.01;
+        this.easing = 0.05;
 
         this.radius = radius;
         this.strokeStyle = "rgba(128, 0, 0, 0.5)";
@@ -44,7 +44,7 @@ export default class Ball {
                 this.x - this.radius,
                 this.y - this.radius,
                 this.radius * 2,
-                this.radius * 2
+                this.radius * 2,
             );
         } else {
             ballCtx.fillStyle = this.color;

@@ -236,9 +236,9 @@ export default class MultiPlayer {
 
     _countAndSendDirection = (x, y) => {
         const dis = Math.sqrt( Math.pow(x - this.balls.get(this.currentUserID).x, 2) + Math.pow(y - this.balls.get(this.currentUserID).y,2) );
-        let angle = 180 - Math.round(Math.acos((event.clientY - this.balls.get(this.currentUserID).y) / dis) / Math.PI * 180);
+        let angle = 180 - Math.round(Math.acos((y - this.balls.get(this.currentUserID).y) / dis) / Math.PI * 180);
 
-        if ((event.clientX - this.balls.get(this.currentUserID).x > 0 && event.clientY - this.balls.get(this.currentUserID).y < 0) || (event.clientX - this.balls.get(this.currentUserID).x > 0 && event.clientY - this.balls.get(this.currentUserID).y > 0)) {
+        if ((x - this.balls.get(this.currentUserID).x > 0 && y - this.balls.get(this.currentUserID).y < 0) || (x - this.balls.get(this.currentUserID).x > 0 && y - this.balls.get(this.currentUserID).y > 0)) {
             angle = 180 + (180 - angle);
         }
 
@@ -247,8 +247,8 @@ export default class MultiPlayer {
 
     _moveBall = ball => {
         if (
-            ball.easingTargetX === ball.x + ball.radius &&
-            ball.easingTargetY === ball.y + ball.radius
+            ball.easingTargetX === ball.x &&
+            ball.easingTargetY === ball.y
         ) {
             return;
         }
@@ -257,10 +257,10 @@ export default class MultiPlayer {
         ball.y += (ball.easingTargetY - ball.y) * ball.easing;
 
         if(ball.id === this.currentUserID) {
-            if (ball.x > this.mouseCoordinates.x - ball.radius &&
-                ball.x < this.mouseCoordinates.x + ball.radius &&
-                ball.y > this.mouseCoordinates.y - ball.radius &&
-                ball.y < this.mouseCoordinates.y + ball.radius) {
+            if (ball.x > this.mouseCoordinates.x - ball.radius / 2 &&
+                ball.x < this.mouseCoordinates.x + ball.radius / 2 &&
+                ball.y > this.mouseCoordinates.y - ball.radius / 2 &&
+                ball.y < this.mouseCoordinates.y + ball.radius / 2) {
                 this.socket.send(`{"type":"speed", "speed":0}`);
             } else {
                 this._countAndSendSpeed(this.mouseCoordinates.x, this.mouseCoordinates.y);
