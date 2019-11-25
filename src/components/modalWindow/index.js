@@ -1,7 +1,8 @@
 import { html } from "common-tags";
-import "./style.css";
-import "../../static/css/common.css";
+
 import { Button } from "../../components/buttons/index";
+
+import "./style.css";
 
 export default class ModalWindow {
     constructor(parent) {
@@ -23,19 +24,22 @@ export default class ModalWindow {
 
         modalWindowWrapper.innerHTML = html`
             <div class="modalWindow plate">
-                <p>${this.info}</p>
+                <div class="modalWindow__text">${this.info}</div>
+                <div class="modalWindow__buttons-wrapper"></div>
             </div>
         `;
 
-        const modalWindow = modalWindowWrapper.querySelector(".modalWindow");
+        const buttonsWrapper = modalWindowWrapper.querySelector(
+            ".modalWindow__buttons-wrapper"
+        );
 
-        const yesButton = new Button(modalWindow, {
-            text: "Yes",
+        const yesButton = new Button(buttonsWrapper, {
+            text: "Да",
             onClick: this.clickYes,
-            extraClass: "",
+            extraClass: "button__type-primary",
         });
-        const noButton = new Button(modalWindow, {
-            text: "No",
+        const noButton = new Button(buttonsWrapper, {
+            text: "Нет",
             onClick: this.clickNo,
             extraClass: "button__transparency-transparent",
         });

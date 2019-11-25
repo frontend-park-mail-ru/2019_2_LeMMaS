@@ -4,13 +4,13 @@ import "../static/css/common.css";
 import "../components/gameCanvas/style.css";
 import "../components/gameScore/style.css";
 import "../components/infoLeft/style.css";
+import SinglePlayer from "../components/gamePlay/singlePlayer_highRes";
+import User from "../modules/user";
 
-import GamePlay from "../gamePlay/gamePlay";
-
-export default class GamePage {
+export default class SinglePlayerPage {
     render() {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        const width = window.innerWidth * 2;
+        const height = window.innerHeight * 2;
 
         document.body.innerHTML = html`
             <div class="game__wrapper">
@@ -35,9 +35,14 @@ export default class GamePage {
 
         document.body.style.background = "white";
 
-        this.gamePlay = new GamePlay(
+        this.gamePlay = new SinglePlayer(
             document.body.querySelector(".game__wrapper")
         );
-        this.gamePlay.start();
+        const interval = setInterval(() => {
+            if (User.getCurrentUser() !== undefined) {
+                this.gamePlay.start();
+                clearInterval(interval);
+            }
+        }, 200);
     }
 }

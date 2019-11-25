@@ -1,4 +1,4 @@
-import { html } from "common-tags";
+import classNames from "classnames";
 
 import BaseComponent from "../baseComponent";
 import BaseStringComponent from "../baseStringComponent";
@@ -6,16 +6,31 @@ import BaseStringComponent from "../baseStringComponent";
 import "./style.css";
 
 export class LinkButton extends BaseStringComponent {
-    constructor({ text, href = "", extraClass = "" }) {
+    constructor({
+        text,
+        href = "",
+        icon = null,
+        extraClass = "",
+        disabled = false,
+    }) {
         super();
         this.text = text;
         this.href = href;
+        this.icon = icon;
         this.extraClass = extraClass;
+        this.disabled = disabled;
     }
 
     renderString() {
-        return html`
-            <a class="button ${this.extraClass}" href="${this.href}">
+        const buttonClass = classNames(this.extraClass, {
+            "button__type-disabled": this.disabled,
+        });
+        const icon = this.icon
+            ? `<span class="button-icon">${this.icon}</span>`
+            : "";
+        return `
+            <a class="button ${buttonClass}" href="${this.href}">
+                ${icon}
                 ${this.text}
             </a>
         `;
@@ -42,12 +57,12 @@ export class Button extends BaseComponent {
 
 export default class HomeButton {
     static renderString() {
-        return html`
-            <a
-                class="button button__position-absolute button__type-home"
-                href="/"
-            >
-                <i class="fa fa-home"></i>
+        const buttonClass = classNames("button button__type-home", {
+            hidden: location.pathname === "/",
+        });
+        return `
+            <a class="${buttonClass}" href="/">
+                <i class="fas fa-arrow-left"></i>
             </a>
         `;
     }

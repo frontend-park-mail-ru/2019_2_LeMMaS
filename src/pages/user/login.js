@@ -5,22 +5,20 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
-import API from "../../modules/api";
+import User from "../../modules/user";
 import Router from "../../modules/router";
 import Loader from "../../components/loader/index";
-import HomeButton from "../../components/buttons/index";
+import { STATUS_OK } from "../../modules/api";
 
 export default class Login extends BasePage {
     constructor() {
         super();
-        this.onLoginFormSubmit = this.onLoginFormSubmit.bind(this);
     }
 
     renderContent(parent) {
         document.title = "Login | LeMMaS";
         parent.innerHTML = html`
-            ${HomeButton.renderString()}
-            <div class="plate plate__size-big">
+            <div class="plate plate__size-m">
                 <h2 class="text__align-center text__size-big">Войти</h2>
                 <div class="form-wrapper"></div>
                 <p>
@@ -42,48 +40,39 @@ export default class Login extends BasePage {
                 type: "password",
                 required: true,
             }),
-            new SubmitButton("Войти", "yellow"),
+            new SubmitButton("Войти"),
         ];
         this.loginForm = new Form({
             parent: parent.querySelector(".form-wrapper"),
             elements: formElements,
             onSubmit: this.onLoginFormSubmit,
-            big: true,
         });
         this.loginForm.render();
     }
 
-    onLoginFormSubmit(e) {
+    onLoginFormSubmit = e => {
         e.preventDefault();
 
         const email = this.loginForm.getValue("email");
         const password = this.loginForm.getValue("password");
-        const error = document.querySelector(".form__error");
 
         if (password.length < 6) {
-            error.innerText = "Неверная почта или пароль";
-            error.style.visibility = "visible";
+            this.loginForm.showError("Слишком короткий пароль");
             return;
         }
+        this.login(email, password);
+    };
 
-        this.login(email, password, error);
-    }
-
-    login(email, password, error) {
+    async login(email, password) {
         const loader = new Loader();
         loader.show();
-
-        API.loginUser(email, password)
-            .then(response => {
-                if (response.status !== 200) {
-                    error.innerText = "Неверная почта или пароль";
-                    error.style.visibility = "visible";
-                } else {
-                    window.history.pushState({}, document.title, "/");
-                    Router.renderPage();
-                }
-            })
-            .finally(loader.hide())
-            .catch(error => console.log(error));
+        const response = await User.login(email, password);
+        if (response.status === STATUS_OK) {
+            window.history.pushState({}, document.title, "/");
+            Router.renderPage();
+        } else {
+            this.loginForm.showError("Неверная почта или пароль");
+        }
+        loader.hide();
     }
 }

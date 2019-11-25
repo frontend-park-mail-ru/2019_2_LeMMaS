@@ -5,26 +5,28 @@
     height: auto;
 }
 
-.form__size-big input,
-.form__size-big button {
-    font-size: 1.1em;
-}
-
-.form__error {
-    color: red;
-    font-size: 0.8em;
-    margin-top: 0.1em;
-    margin-bottom: 1em;
-    visibility: hidden;
+.form__message {
+    height: 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    margin-top: 1em;
+    text-align: center;
+    color: white;
+    font-size: 1em;
     transition: all 0.3s ease-in-out;
+    border-radius: 3px;
 }
 
-.form__error_success {
-    visibility: visible;
-    color: green;
-    background: white;
-    padding: 4px;
-    margin: auto;
-    margin-top: 15px;
-    display: inline-block;
+.form__message_success {
+    height: auto;
+    transform: scaleY(1);
+    padding: 1em 2em;
+    background: #529024;
+}
+
+.form__message_error {
+    height: auto;
+    transform: scaleY(1);
+    padding: 1em 2em;
+    background: #ad3434;
 }

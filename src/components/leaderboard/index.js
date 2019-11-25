@@ -1,4 +1,5 @@
 import { html, safeHtml } from "common-tags";
+import classNames from "classnames";
 
 import API from "../../modules/api";
 import User from "../../modules/user";
@@ -26,9 +27,12 @@ export default class Leaderboard extends BaseComponent {
     };
 
     render = (currentUser, userList) => {
+        const leaderboardClass = classNames("leaderboard", {
+            "leaderboard__type-with-me": currentUser !== null,
+        });
         let i = 1;
         this.parent.innerHTML += html`
-            <div class="leaderboard">
+            <div class="${leaderboardClass}">
                 ${userList.map(
                     player => safeHtml`
                     <div class="leaderboard__player ${
@@ -36,13 +40,10 @@ export default class Leaderboard extends BaseComponent {
                             ? "leaderboard__player_me"
                             : ""
                     }">
-                        ${i++}. 
                         <span class="leaderboard__player-name">${
                             player.name
                         }</span>
-                        <span class="leaderboard__player-email">${
-                            player.email
-                        }</span>
+                        <span class="leaderboard__player-position">${i++}</span>
                     </div>
                     `
                 )}

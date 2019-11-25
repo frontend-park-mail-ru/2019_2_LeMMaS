@@ -1,7 +1,8 @@
-import ModalWindow from "../components/modalWindow";
-import router from "../modules/router";
+import ModalWindow from "../modalWindow";
+import router from "../../modules/router";
+import User from "../../modules/user";
 
-export default class GamePlay {
+export default class SinglePlayer {
     constructor(parent) {
         this.parent = parent;
     }
@@ -16,9 +17,9 @@ export default class GamePlay {
         this.ball = {
             x: 0,
             y: 0,
-            radius: 20,
-            color: "green",
+            radius: 40,
             strokeStyle: "rgba(0, 0, 255, 0.5)",
+            color: "green",
             easing: 0.01,
             alive: true,
             canvas: document.querySelector(".ballCanvas"),
@@ -27,10 +28,18 @@ export default class GamePlay {
         this.ball.x = this.ball.canvas.width / 2;
         this.ball.y = this.ball.canvas.height / 2;
 
-        this.enemies = [];
+        const user = User.getCurrentUser();
+        if (user) {
+            if (user.avatar_path) {
+                const backgroundImage = new Image();
+                backgroundImage.src = user.avatar_path;
+                this.ball.backgroundImage = backgroundImage;
+            }
+        }
+        //this.enemies = [];
         this.modalWindow = new ModalWindow(document.body);
 
-        for (let count = 0; count < 3; count++) {
+       /* for (let count = 0; count < 3; count++) {
             const canvas = document.createElement("canvas");
             canvas.className = "enemyCanvas";
             canvas.width = window.innerWidth;
@@ -49,7 +58,7 @@ export default class GamePlay {
                 canvas: canvas,
             };
         }
-
+*/
         this.easingTargetX = 0;
         this.easingTargetY = 0;
 
@@ -57,8 +66,8 @@ export default class GamePlay {
 
         for (let count = 0; count < 100; count++) {
             this.food[count] = {
-                x: Math.round(Math.random() * window.innerWidth),
-                y: Math.round(Math.random() * window.innerHeight),
+                x: Math.round(Math.random() * window.innerWidth * 2),
+                y: Math.round(Math.random() * window.innerHeight * 2),
                 status: 1,
                 color:
                     "#" +
@@ -71,7 +80,7 @@ export default class GamePlay {
         window.addEventListener("resize", this._onWindowResize);
 
         this._drawFood();
-        this.interval = setInterval(this._redrawAllBalls, 1000 / 60);
+        requestAnimationFrame(this._redrawAllBalls);
 
         this.timeouts = [];
 
@@ -83,10 +92,10 @@ export default class GamePlay {
         this.ball.canvas.height = window.innerHeight;
         this.foodCanvas.width = window.innerWidth;
         this.foodCanvas.height = window.innerHeight;
-        this.enemies.forEach(enemy => {
+        /*this.enemies.forEach(enemy => {
             enemy.canvas.height = window.innerHeight;
             enemy.canvas.width = window.innerWidth;
-        });
+        });*/
     };
 
     _handleMouseMove = event => {
@@ -127,10 +136,10 @@ export default class GamePlay {
     _detectFoodEating = ball =>
         this.food.forEach(foodElement => {
             if (
-                ball.x > foodElement.x - this.ball.radius &&
-                ball.x < foodElement.x + this.ball.radius &&
-                ball.y > foodElement.y - this.ball.radius &&
-                ball.y < foodElement.y + this.ball.radius
+                ball.x > foodElement.x - ball.radius &&
+                ball.x < foodElement.x + ball.radius &&
+                ball.y > foodElement.y - ball.radius &&
+                ball.y < foodElement.y + ball.radius
             ) {
                 if (foodElement.status === 1) {
                     foodElement.status = 0;
@@ -141,11 +150,11 @@ export default class GamePlay {
         });
 
     _redrawAllBalls = () => {
-        if (!this.enemies.length) {
+        /*if (!this.enemies.length) {
             this._end();
             document.removeEventListener("keydown", this._modalWindowHandler);
             this.modalWindow.start(
-                "You win. Do you want to play again?",
+                "Вы выиграли! Хотите сыграть еще раз?",
                 this._playAgain,
                 () => {
                     this.exit();
@@ -153,9 +162,9 @@ export default class GamePlay {
             );
             return;
         }
-
+*/
         this._drawOneBall(this.ball);
-        this.enemies.forEach(enemy => {
+        /*this.enemies.forEach(enemy => {
             this._drawOneBall(enemy, enemy.canvas);
             if (
                 enemy.x + enemy.dx > enemy.canvas.width - enemy.radius ||
@@ -182,7 +191,7 @@ export default class GamePlay {
                     this._modalWindowHandler
                 );
                 this.modalWindow.start(
-                    "You lost. Do you want to play again?",
+                    "Вы проиграли. Хотите сыграть еще раз?",
                     this._playAgain,
                     () => {
                         this.exit();
@@ -209,10 +218,16 @@ export default class GamePlay {
                     }
                 }
             })
-        );
+        );*/
+
+        requestAnimationFrame(() => {
+            if(!this.gameEnded) {
+                this._redrawAllBalls();
+            }
+        });
     };
 
-    _detectBallEating = (ball1, ball2) => {
+    /*_detectBallEating = (ball1, ball2) => {
         if (!ball1.alive || !ball2.alive) {
             return;
         }
@@ -243,23 +258,35 @@ export default class GamePlay {
             return small;
         }
     };
-
+*/
     _drawOneBall = ball => {
         const ballCtx = ball.canvas.getContext("2d");
+        ballCtx.restore();
+        ballCtx.save();
         ballCtx.clearRect(0, 0, ball.canvas.width, ball.canvas.height);
-
         if (!ball.alive) {
-            ballCtx.clearRect(0, 0, ball.canvas.width, ball.canvas.height);
             return;
         }
-
         ballCtx.beginPath();
         ballCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2, false);
-        ballCtx.fillStyle = ball.color;
+        ballCtx.clip();
+        if (ball.backgroundImage) {
+            ballCtx.fillStyle = "white";
+            ballCtx.fill();
+            ballCtx.drawImage(
+                ball.backgroundImage,
+                ball.x - ball.radius,
+                ball.y - ball.radius,
+                ball.radius * 2,
+                ball.radius * 2
+            );
+        } else {
+            ballCtx.fillStyle = ball.color;
+            ballCtx.fill();
+        }
         ballCtx.strokeStyle = ball.strokeStyle;
-        ballCtx.fill();
+        ballCtx.lineWidth = 2;
         ballCtx.stroke();
-        ballCtx.closePath();
 
         this._detectFoodEating(ball);
     };
@@ -281,19 +308,17 @@ export default class GamePlay {
                 clearTimeout(timer);
             });
         }
-
-        if (this.interval) {
-            clearInterval(this.interval);
-        }
         if (this.ball) {
             delete this.ball;
         }
-        if (this.enemies) {
+        /*if (this.enemies) {
             this.enemies.forEach(enemy => {
                 this.parent.removeChild(enemy.canvas);
+                enemy.dx = 0;
+                enemy.dy = 0;
             });
-            delete this.enemies;
-        }
+            this.enemies.length = 0;
+        }*/
         if (this.food) {
             delete this.food;
         }
@@ -308,6 +333,7 @@ export default class GamePlay {
     };
 
     exit = () => {
+        this.gameEnded = true;
         this._end();
 
         document.body.style.background = null;
@@ -335,18 +361,11 @@ export default class GamePlay {
         if (event.key === "Escape" || event.keyCode === 27) {
             document.removeEventListener("keydown", this._modalWindowHandler);
             this._pause();
-            this.modalWindow.start(
-                "Do you really want to exit?",
-                this.exit,
-                () => {
-                    this.modalWindow.close();
-                    document.addEventListener(
-                        "keydown",
-                        this._modalWindowHandler
-                    );
-                    this._resume();
-                }
-            );
+            this.modalWindow.start("Покинуть игру?", this.exit, () => {
+                this.modalWindow.close();
+                document.addEventListener("keydown", this._modalWindowHandler);
+                this._resume();
+            });
         }
     };
 }

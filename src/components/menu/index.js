@@ -1,13 +1,10 @@
-import { html } from "common-tags";
-
 import BaseComponent from "../baseComponent";
 import { LinkButton, Button } from "../buttons";
-import { routes } from "../../modules/router";
 import User from "../../modules/user";
-import API from "../../modules/api";
-import router from "../../modules/router";
+import router, { routes } from "../../modules/router";
 
 import "./style.css";
+import UserInfo from "../userInfo";
 
 export default class Menu extends BaseComponent {
     constructor(parent) {
@@ -24,29 +21,38 @@ export default class Menu extends BaseComponent {
     };
 
     _render = async () => {
-        if (User.isLoggedIn()) {
-            new Button(this.parent, {
-                text: "Выйти",
-                extraClass: "button__transparency-transparent",
-                onClick: this._onLogoutButtonClick,
-            }).render();
-            return;
-        }
-        this.parent.innerHTML = html`
+        User.isLoggedIn() ? this._renderForLoggedIn() : this._renderForNoUser();
+    };
+
+    _renderForLoggedIn() {
+        this.parent.innerHTML = `
+            <span class="userinfo-wrapper"></span>
+        `;
+        new Button(this.parent, {
+            text: "Выйти",
+            onClick: this._onLogoutButtonClick,
+            extraClass: "button__transparency-transparent",
+        }).render();
+        new UserInfo(this.parent.querySelector(".userinfo-wrapper")).start();
+    }
+
+    _renderForNoUser() {
+        this.parent.innerHTML = `
             ${new LinkButton({
                 text: "Войти",
                 href: routes.USER_LOGIN,
-                extraClass: "button__transparency-transparent",
+                extraClass: "button__color-violet",
             }).renderString()}
             ${new LinkButton({
                 text: "Регистрация",
                 href: routes.USER_REGISTER,
+                extraClass: "button__type-secondary",
             }).renderString()}
         `;
-    };
+    }
 
-    _onLogoutButtonClick = async () =>
-        API.logoutUser().then(() => {
-            router.renderPage();
-        });
+    async _onLogoutButtonClick() {
+        await User.logout();
+        router.redirect(routes.INDEX);
+    }
 }

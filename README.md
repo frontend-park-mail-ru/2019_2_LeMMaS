@@ -20,8 +20,7 @@ git clone https://github.com/frontend-park-mail-ru/2019_2_LeMMaS
 cd 2019_2_LeMMaS
 
 npm install
-npm run start
-npm run build
+npm run dev
 ```
 
 ## Авторы

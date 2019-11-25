@@ -4,22 +4,20 @@ import BasePage from "../basePage";
 import Form from "../../components/form";
 import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
-import API from "../../modules/api";
+import User from "../../modules/user";
 import Login from "./login";
-import HomeButton from "../../components/buttons/index";
+import {STATUS_OK} from "../../modules/api";
 
 export default class Register extends BasePage {
     constructor() {
         super();
-        this.onRegisterFormSubmit = this.onRegisterFormSubmit.bind(this);
     }
 
     renderContent(parent) {
         document.title = "Register | LeMMaS";
 
         parent.innerHTML = html`
-            ${HomeButton.renderString()}
-            <div class="plate plate__size-big">
+            <div class="plate plate__size-m">
                 <h2 class="text__align-center text__size-big">Регистрация</h2>
                 <div class="form-wrapper"></div>
             </div>
@@ -44,45 +42,51 @@ export default class Register extends BasePage {
                 type: "password",
                 required: true,
             }),
-            new SubmitButton("Зарегистрироваться", "yellow"),
+            new SubmitButton("Зарегистрироваться"),
         ];
         this.registerForm = new Form({
             parent: parent.querySelector(".form-wrapper"),
             elements: formElements,
             onSubmit: this.onRegisterFormSubmit,
-            big: true,
         });
         this.registerForm.render();
     }
 
-    onRegisterFormSubmit(e) {
+    onRegisterFormSubmit = async e => {
         e.preventDefault();
 
         const email = this.registerForm.getValue("email");
         const name = this.registerForm.getValue("name");
         const password = this.registerForm.getValue("password");
         const passwordRepeat = this.registerForm.getValue("password-repeat");
-        const error = document.querySelector(".form__error");
 
         if (password.length < 6) {
-            error.innerText = "Пароль должен содержать не менее 6 символов";
-            error.style.visibility = "visible";
+            this.registerForm.showError(
+                "Пароль не должен быть короче 6 символов"
+            );
             return;
         }
 
         if (password !== passwordRepeat) {
-            error.innerText = "Пароли не совпадают";
-            error.style.visibility = "visible";
+            this.registerForm.showError("Пароли не совпадают");
             return;
         }
 
-        API.registerUser(email, name, password).then(response => {
-            if (response.status !== 200) {
-                error.innerText = "Введены неверные данные!";
-                error.style.visibility = "visible";
-            } else {
-                Login.prototype.login(email, password, error);
-            }
-        });
+        const response = await User.register(email, name, password);
+        if (response.status === STATUS_OK) {
+            Login.prototype.login(email, password);
+            return;
+        }
+        const responseJSON = await response.json();
+        if (
+            responseJSON.body.message ===
+            "user with this email already registered"
+        ) {
+            this.registerForm.showError(
+                "Пользователь с таким email уже существует"
+            );
+        } else {
+            this.registerForm.showError("Произошла неизвестная ошибка");
+        }
     }
 }

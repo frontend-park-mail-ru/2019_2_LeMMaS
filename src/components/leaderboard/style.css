@@ -1,9 +1,12 @@
 .leaderboard {
-    border: 1px solid;
     overflow: scroll;
     padding: 0 1em;
     position: relative;
     max-height: 50vh;
+}
+
+.leaderboard-plate {
+    padding: 2em 1em;
 }
 
 .leaderboard__player {
@@ -11,23 +14,59 @@
     margin-bottom: 0.2em;
 }
 
+.leaderboard__player-position {
+    float: right;
+    opacity: 0.7;
+}
+
 .leaderboard__player_me {
     font-size: 1.1em;
     font-weight: bold;
     position: relative;
-}
-
-.leaderboard__player_me::after {
-    content: "You";
-    display: inline-block;
-    position: absolute;
-    font-size: 0.8em;
-    color: #154167;
+    color: black;
+    border-radius: 2px;
     background: #e8d62b;
-    margin: 3px 10px;
 }
 
 .leaderboard__player-email {
     opacity: 0.5;
     font-size: 0.8em;
+}
+
+.leaderboard__type-with-me .leaderboard__player:not(.leaderboard__player_me) {
+    opacity: 0.8;
+    font-size: 0.8em;
+}
+
+@media  (max-width: 1024px) {
+
+    .leaderboard-plate {
+        width: 60%;
+    }
+
+    .leaderboard {
+        max-height: 20vh;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .leaderboard-plate {
+        width: 80%;
+    }
+
+}
+
+@media (max-width: 320px) {
+    .leaderboard__player_me {
+        font-size: .8em;
+    }
+
+    .leaderboard__type-with-me .leaderboard__player:not(.leaderboard__player_me) {
+        font-size: .5em;
+    }
+
+    .leaderboard-plate {
+        padding: 1em;
+    }
 }

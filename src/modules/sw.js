@@ -1,4 +1,4 @@
-export default () => {
+const registerServiceWorker = () => {
     if ("serviceWorker" in navigator) {
         // проверка поддерживает ли браузер sw
         window.addEventListener("load", () => {
@@ -18,3 +18,5 @@ export default () => {
         });
     }
 };
+
+export default registerServiceWorker;

@@ -1,12 +1,14 @@
 import Router from "./modules/router";
-import registerSW from "./utils/registerSW";
-
-registerSW(); // запуск sw
+// import registerServiceWorker from "./modules/sw";
+//
+// registerServiceWorker();
 
 window.onpopstate = () => {
     Router.renderPage();
 };
-window.addEventListener("DOMContentLoaded", Router.renderPage);
+window.addEventListener("DOMContentLoaded", () => {
+    Router.renderPage();
+});
 
 document.addEventListener("click", e => {
     const link = findParent("A", e.target || e.srcElement);
@@ -14,6 +16,9 @@ document.addEventListener("click", e => {
         return;
     }
     e.preventDefault();
+    if (link.classList.contains("button__type-disabled")) {
+        return;
+    }
     const { href } = link;
     if (!href || href === location.pathname) {
         return;
