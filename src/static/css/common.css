@@ -46,7 +46,7 @@ a:not(.button):hover {
     position: relative;
     width: 20%;
     background: $plateBackground;
-    box-shadow: 0 5px 17px 0px #00000087;
+    box-shadow: 0 5px 17px 0 #00000087;
     border-radius: 3px;
     padding: 2em;
     color: white;
@@ -64,8 +64,13 @@ a:not(.button):hover {
     justify-content: center;
 }
 
+.plate__size-auto {
+    width: auto;
+}
+
 .plate__size-m {
-    width: 30%;
+    min-width: 30%;
+    width: auto;
 }
 
 .plate__size-l {

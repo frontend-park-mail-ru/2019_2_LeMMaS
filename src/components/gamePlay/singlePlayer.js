@@ -17,7 +17,7 @@ export default class SinglePlayer {
         this.ball = {
             x: 0,
             y: 0,
-            radius: 20,
+            radius: 40,
             strokeStyle: "rgba(0, 0, 255, 0.5)",
             color: "green",
             easing: 0.01,
@@ -42,14 +42,14 @@ export default class SinglePlayer {
         for (let count = 0; count < 3; count++) {
             const canvas = document.createElement("canvas");
             canvas.className = "enemyCanvas";
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth * 2;
+            canvas.height = window.innerHeight * 2;
             this.parent.appendChild(canvas);
 
             this.enemies[count] = {
                 x: (Math.random() * window.innerWidth) / 2,
                 y: (Math.random() * window.innerHeight) / 2,
-                radius: 20,
+                radius: 40,
                 color: "#ffff00",
                 dx: 2,
                 dy: -1,
@@ -66,8 +66,8 @@ export default class SinglePlayer {
 
         for (let count = 0; count < 100; count++) {
             this.food[count] = {
-                x: Math.round(Math.random() * window.innerWidth),
-                y: Math.round(Math.random() * window.innerHeight),
+                x: Math.round(Math.random() * window.innerWidth * 2),
+                y: Math.round(Math.random() * window.innerHeight * 2),
                 status: 1,
                 color:
                     "#" +
@@ -88,19 +88,19 @@ export default class SinglePlayer {
     };
 
     _onWindowResize = () => {
-        this.ball.canvas.width = window.innerWidth;
-        this.ball.canvas.height = window.innerHeight;
-        this.foodCanvas.width = window.innerWidth;
-        this.foodCanvas.height = window.innerHeight;
+        this.ball.canvas.width = window.innerWidth * 2;
+        this.ball.canvas.height = window.innerHeight * 2;
+        this.foodCanvas.width = window.innerWidth * 2;
+        this.foodCanvas.height = window.innerHeight * 2;
         this.enemies.forEach(enemy => {
-            enemy.canvas.height = window.innerHeight;
-            enemy.canvas.width = window.innerWidth;
+            enemy.canvas.height = window.innerHeight * 2;
+            enemy.canvas.width = window.innerWidth * 2;
         });
     };
 
     _handleMouseMove = event => {
-        this.easingTargetX = event.clientX;
-        this.easingTargetY = event.clientY;
+        this.easingTargetX = event.clientX * 2;
+        this.easingTargetY = event.clientY * 2;
         this._moveMyBall();
     };
 
@@ -125,7 +125,7 @@ export default class SinglePlayer {
         this.food.forEach(foodElement => {
             if (foodElement.status === 1) {
                 ctx.beginPath();
-                ctx.arc(foodElement.x, foodElement.y, 5, 0, Math.PI * 2, false);
+                ctx.arc(foodElement.x, foodElement.y, 10, 0, Math.PI * 2, false);
                 ctx.fillStyle = foodElement.color;
                 ctx.fill();
                 ctx.closePath();
@@ -179,8 +179,8 @@ export default class SinglePlayer {
                 enemy.dy = -enemy.dy;
             }
 
-            enemy.x += enemy.dx;
-            enemy.y += enemy.dy;
+            enemy.x += enemy.dx * 2;
+            enemy.y += enemy.dy * 2;
         });
 
         this.enemies.forEach(enemy => {

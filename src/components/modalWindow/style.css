@@ -13,6 +13,12 @@
     text-align: center;
 }
 
+.modalWindow__button-close {
+    font-size: 2.5em;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 .modalWindow__text {
     font-size: 1.4em;
 }

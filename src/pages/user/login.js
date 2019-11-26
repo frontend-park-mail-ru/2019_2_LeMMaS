@@ -16,7 +16,7 @@ export default class Login extends BasePage {
     }
 
     renderContent(parent) {
-        document.title = "Login | LeMMaS";
+        document.title = "Войти | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-m">
                 <h2 class="text__align-center text__size-big">Войти</h2>

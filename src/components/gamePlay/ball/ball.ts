@@ -1,5 +1,5 @@
 import API from "../../../modules/api";
-
+import { koeff } from "../resolution";
 
 export default class Ball {
     public backgroundImage: HTMLImageElement;
@@ -26,14 +26,14 @@ export default class Ball {
         this.easingTargetY = 0;
         this.easing = 0.01;
 
-        this.radius = radius;
+        this.radius = radius * koeff;
         this.strokeStyle = "rgba(128, 0, 0, 0.5)";
         this.color = color ? color : "green";
         this.backgroundImage = undefined;
 
         const ballCanvas: HTMLCanvasElement = document.createElement("canvas");
-        ballCanvas.width =  window.innerWidth;
-        ballCanvas.height =  window.innerHeight;
+        ballCanvas.width =  window.innerWidth * koeff;
+        ballCanvas.height =  window.innerHeight * koeff;
         ballCanvas.classList.add("id_" + id, "ballCanvas");
         ballCanvas.style.zIndex = String(radius);
 

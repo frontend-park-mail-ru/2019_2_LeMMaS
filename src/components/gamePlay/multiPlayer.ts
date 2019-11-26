@@ -4,12 +4,13 @@ import User from "../../modules/user";
 import API from "../../modules/api";
 import Ball from "./ball/ball";
 import Food from "./food/food";
+import { koeff } from "./resolution";
 
 export default class MultiPlayer {
     private parent: Element;
     private score: HTMLParagraphElement;
     private balls: Map<number, Ball>;
-    private food: Map<number, Food>;
+    private food: Food;
     private mouseCoordinates: { x: number; y: number };
     private userBackgroundImage: HTMLImageElement;
     private currentUserID: number;
@@ -23,13 +24,14 @@ export default class MultiPlayer {
     }
 
     public start = (): void => {
-        document.addEventListener("keydown", this._modalWindowHandler);
+        document.addEventListener("keydown", this._escapeKeyHandler);
+        document.querySelector(".infoLeft a").addEventListener("click", this._modalWindowHandler);
 
         window.addEventListener("pushstate", this._onPageChange);
         this.score = document.querySelector<HTMLParagraphElement>(".gameScore__number");
 
         this.balls = new Map<number, Ball>();
-        this.food = new Map<number, Food>();
+        this.food = new Food(document.querySelector(".foodCanvas"));
 
         this.mouseCoordinates = {
             x: 0,
@@ -59,6 +61,7 @@ export default class MultiPlayer {
             if (event.wasClean) {
                 console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
             } else {
+                this._end();
                 console.log('[close] Соединение прервано');
             }
         };
@@ -79,13 +82,12 @@ export default class MultiPlayer {
         switch (data.type) {
             case "start" : {
                 data.food.forEach(element => {
-                    const foodEl: Food = new Food(element.id, element.position.x, element.position.y, document.querySelector(".foodCanvas"));
-                    this.food.set(element.id, foodEl);
+                    this.food.add(element.id, element.position.x, element.position.y);
                 });
 
-                this._drawFood();
+                this.food.draw();
 
-                    if (data && data.players) {
+                if (data && data.players) {
                     data.players.forEach(player => {
                         const ball: Ball = new Ball(
                             player.user_id,
@@ -107,20 +109,21 @@ export default class MultiPlayer {
             }
             case "move": {
                 const ballToMove = this.balls.get(data.player.id);
-                ballToMove.setTarget(data.player.x, data.player.y);
+                ballToMove.setTarget(data.player.x * koeff, data.player.y * koeff);
 
-                if(data.player.size / 2 - ballToMove.radius > 0) {
+                if(data.player.size / 2 * koeff - ballToMove.radius > 0) {
                     this._scoreIncrement(ballToMove);
                 }
-                ballToMove.radius = data.player.size / 2;
+                ballToMove.radius = data.player.size / 2 * koeff;
                 this._moveBall(ballToMove);
 
                 if (data.eatenFood.length > 0) {
                     data.eatenFood.forEach(id => {
-                        this.food.get(id).delete();
-                        this._drawFood();
+                        this.food.delete(id);
                     });
                 }
+                this.food.draw();
+
                 break;
             }
             case "new_player": {
@@ -157,22 +160,20 @@ export default class MultiPlayer {
             }
             case "new_food": {
                 data.food.forEach(element => {
-                    this.food.set(element.id,
-                        new Food(element.id, element.position.x, element.position.x, document.querySelector(".foodCanvas")));
+                    this.food.add(element.id, element.position.x, element.position.y);
                 });
 
-                this._drawFood();
+                this.food.draw();
 
                 break;
             }
             case "stop": {
                 if(data.user_id === this.currentUserID){
+                    this._pause();
                     this.modalWindow.start(
                         "Вы проиграли. Хотите сыграть еще раз?",
                         this._playAgain,
-                        () => {
-                            this._exit();
-                        }
+                        this._exit, null
                     );
                 }
                 this.balls.get(data.user_id).delete();
@@ -187,11 +188,11 @@ export default class MultiPlayer {
     };
 
     private _handleMouseMove = event => {
-        this._countAndSendSpeed(event.clientX, event.clientY);
-        this._countAndSendDirection(event.clientX, event.clientY);
+        this._countAndSendSpeed(event.clientX * koeff, event.clientY * koeff);
+        this._countAndSendDirection(event.clientX * koeff, event.clientY * koeff);
 
-        this.mouseCoordinates.x = event.clientX;
-        this.mouseCoordinates.y = event.clientY;
+        this.mouseCoordinates.x = event.clientX * koeff;
+        this.mouseCoordinates.y = event.clientY * koeff;
     };
 
     private _countAndSendSpeed = (x, y) => {
@@ -239,16 +240,6 @@ export default class MultiPlayer {
         }
     };
 
-    private _drawFood = () => {
-        const foodCanvas: HTMLCanvasElement = document.querySelector(".foodCanvas");
-        const ctx: CanvasRenderingContext2D = foodCanvas.getContext("2d");
-        ctx.clearRect(0, 0, foodCanvas.width, foodCanvas.height);
-
-        this.food.forEach(foodElement => {
-            foodElement.draw();
-        });
-    };
-
     private _redrawAllBalls = () => {
         if (this.balls) {
             this.balls.forEach(ball => {
@@ -270,6 +261,8 @@ export default class MultiPlayer {
 
     private _end = () => {
         this.socket.close(1000, "endGame");
+        document.removeEventListener("keydown", this._escapeKeyHandler);
+        document.querySelector(".infoLeft a").removeEventListener("click", this._modalWindowHandler);
 
         document.removeEventListener("mousemove", this._handleMouseMove);
         window.removeEventListener("resize", this._onWindowResize);
@@ -277,9 +270,6 @@ export default class MultiPlayer {
             this.timeouts.forEach(timer => {
                 clearTimeout(timer);
             });
-        }
-        if (this.food) {
-            delete this.food;
         }
     };
 
@@ -312,19 +302,26 @@ export default class MultiPlayer {
     };
 
     private _onPageChange = () => {
-        document.removeEventListener("keydown", this._modalWindowHandler);
+        document.removeEventListener("keydown", this._escapeKeyHandler);
         window.removeEventListener("popstate", this._onPageChange);
     };
 
-    private _modalWindowHandler = event => {
+    private _escapeKeyHandler = event => {
         if (event.key === "Escape" || event.keyCode === 27) {
-            document.removeEventListener("keydown", this._modalWindowHandler);
-            this._pause();
-            this.modalWindow.start("Покинуть игру?", this._exit, () => {
-                this.modalWindow.close();
-                document.addEventListener("keydown", this._modalWindowHandler);
-                this._resume();
-            });
+            this._modalWindowHandler();
         }
+    };
+
+    private _modalWindowHandler = () => {
+        document.removeEventListener("keydown", this._escapeKeyHandler);
+        this._pause();
+        this.modalWindow.start("Покинуть игру?", () => {
+            this.modalWindow.close();
+            this._exit();
+        }, () => {
+            this.modalWindow.close();
+            document.addEventListener("keydown", this._escapeKeyHandler);
+            this._resume();
+        });
     };
 }

@@ -3,12 +3,26 @@ import { html } from "common-tags";
 import BasePage from "./basePage";
 import Leaderboard from "../components/leaderboard";
 import { LinkButton } from "../components/buttons";
+import User from "../modules/user";
+import ModalWindow from "../components/modalWindow";
+import Login from "./user/login";
 
 import "../components/startGameMenu/style.css";
 
 export default class Index extends BasePage {
-    renderContent(parent) {
+    renderContent = parent => {
+        const interval = setInterval(() => {
+            if (User.getCurrentUser() !== undefined) {
+                this._render(parent);
+                clearInterval(interval);
+            }
+        }, 200);
+    };
+
+    _render(parent) {
         document.title = "LeMMaS";
+
+        const multiHref = User.getCurrentUser() ? "/game/multiplayer" : null;
         parent.innerHTML = html`
             <div class="plate start-game-menu">
                 <div class="plate__innerContent">
@@ -24,9 +38,9 @@ export default class Index extends BasePage {
                         }).renderString()}
                         ${new LinkButton({
                             text: "Мультиплеер",
-                            href: "/game/multiplayer",
+                            href: multiHref,
                             icon: "👨‍👩‍👧‍👦",
-                            extraClass: "button__type-danger",
+                            extraClass: "button__type-danger multiplayer",
                         }).renderString()}
                     </div>
                 </div>
@@ -40,6 +54,13 @@ export default class Index extends BasePage {
                 </div>
             </div>
         `;
+
+        if(!User.getCurrentUser()) {
+            document.querySelector(".multiplayer").addEventListener("click", () => {
+                const loginWindow = new ModalWindow(document.body);
+                loginWindow.start("Сначала нужно войти", null, null, new Login());
+            });
+        }
 
         const leaderboardWrapper = parent.querySelector(".leaderboard-wrapper");
         new Leaderboard(leaderboardWrapper).start();
