@@ -3,13 +3,13 @@ import router from "../../modules/router";
 import User from "../../modules/user";
 import API from "../../modules/api";
 import Ball from "./ball/ball";
+import Food from "./food/food";
 
 export default class MultiPlayer {
-    parent: Element;
-    private foodCanvas: Element;
-    private score: Element;
+    private parent: Element;
+    private score: HTMLParagraphElement;
     private balls: Map<number, Ball>;
-    private food: Map<number, Ball>;
+    private food: Map<number, Food>;
     private mouseCoordinates: { x: number; y: number };
     private userBackgroundImage: HTMLImageElement;
     private currentUserID: number;
@@ -22,15 +22,14 @@ export default class MultiPlayer {
         this.parent = parent;
     }
 
-    start = () => {
+    public start = (): void => {
         document.addEventListener("keydown", this._modalWindowHandler);
 
         window.addEventListener("pushstate", this._onPageChange);
-        this.foodCanvas = document.querySelector(".foodCanvas");
-        this.score = document.querySelector(".gameScore__number");
+        this.score = document.querySelector<HTMLParagraphElement>(".gameScore__number");
 
-        this.balls = new Map();
-        this.food = new Map();
+        this.balls = new Map<number, Ball>();
+        this.food = new Map<number, Food>();
 
         this.mouseCoordinates = {
             x: 0,
@@ -40,7 +39,7 @@ export default class MultiPlayer {
         const user = User.getCurrentUser();
         if (user) {
             if (user.avatar_path) {
-                const backgroundImage = new Image();
+                const backgroundImage: HTMLImageElement = new Image();
                 backgroundImage.src = user.avatar_path;
                 this.userBackgroundImage = backgroundImage;
             }
@@ -56,7 +55,7 @@ export default class MultiPlayer {
 
         this.socket.onmessage = this._messageHandler;
 
-        this.socket.onclose = (event) => {
+        this.socket.onclose = (event: CloseEvent) => {
             if (event.wasClean) {
                 console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
             } else {
@@ -64,7 +63,7 @@ export default class MultiPlayer {
             }
         };
 
-        this.socket.onerror = (error) => {
+        this.socket.onerror = (error: ErrorEvent) => {
             console.log(`[error] ${error.message}`);
         };
 
@@ -75,52 +74,28 @@ export default class MultiPlayer {
         this.timeouts = [];
     };
 
-    _messageHandler = event => {
+    private _messageHandler = (event: MessageEvent) => {
         const data = JSON.parse(event.data);
         switch (data.type) {
             case "start" : {
+                console.log(data);
+                // как отсюда передать объект?
                 data.foods.forEach(element => {
-                    this.food.set(element.id, {
-                        id: element.id,
-                        x: element.position.x,
-                        y: element.position.y,
-                        status: 1,
-                        color:
-                            "#" +
-                            (0x1000000 + Math.random() * 0xffffff)
-                                .toString(16)
-                                .substr(1, 6),
-                    });
+                    const foodEl: Food = new Food(element.id, element.position.x, element.position.y, document.querySelector(".foodCanvas"));
+                    this.food.set(element.id, foodEl);
                 });
 
                 this._drawFood();
 
-                if (data && data.players) {
+                    if (data && data.players) {
                     data.players.forEach(player => {
-                        const ball = new Ball(
+                        const ball: Ball = new Ball(
                             player.user_id,
                             player.position.x,
                             player.position.y,
                             player.size / 2,
                             "yellow",
                         );
-
-                        if(ball.id === this.currentUserID) {
-                            ball.backgroundImage = this.userBackgroundImage;
-                        }
-
-                        API.getAvatarById(player.user_id).then(user => {
-                            if (user.avatar_path) {
-                                const backgroundImage = new Image();
-                                backgroundImage.src = user.avatar_path;
-                                const currentBall = this.balls.get(player.user_id);
-                                if(currentBall) {
-                                    currentBall.backgroundImage = backgroundImage;
-                                } else {
-                                    ball.backgroundImage = backgroundImage;
-                                }
-                            }
-                        });
 
                         if(!this.balls.get(player.user_id)) {
                             this.balls.set(player.user_id, ball);
@@ -134,9 +109,8 @@ export default class MultiPlayer {
             }
             case "move": {
                 const ballToMove = this.balls.get(data.player.id);
+                ballToMove.setTarget(data.player.x, data.player.y);
 
-                ballToMove.easingTargetX = data.player.x;
-                ballToMove.easingTargetY = data.player.y;
                 if(data.player.size / 2 - ballToMove.radius > 0) {
                     this._scoreIncrement(ballToMove);
                 }
@@ -145,7 +119,7 @@ export default class MultiPlayer {
 
                 if (data.eatenFood.length > 0) {
                     data.eatenFood.forEach(id => {
-                        this.food.get(id).status = 0;
+                        this.food.get(id).delete();
                         this._drawFood();
                     });
                 }
@@ -161,7 +135,7 @@ export default class MultiPlayer {
                     "yellow",
                 );
 
-                if(ball.id === this.currentUserID) {
+                if(ball.getId() === this.currentUserID) {
                     ball.backgroundImage = this.userBackgroundImage;
                 }
 
@@ -185,17 +159,8 @@ export default class MultiPlayer {
             }
             case "new_food": {
                 data.food.forEach(element => {
-                    this.food.set(element.id, {
-                        id: element.id,
-                        x: element.position.x,
-                        y: element.position.y,
-                        status: 1,
-                        color:
-                            "#" +
-                            (0x1000000 + Math.random() * 0xffffff)
-                                .toString(16)
-                                .substr(1, 6),
-                    });
+                    this.food.set(element.id,
+                        new Food(element.id, element.position.x, element.position.x, document.querySelector(".foodCanvas")));
                 });
 
                 this._drawFood();
@@ -211,7 +176,7 @@ export default class MultiPlayer {
                         "Вы проиграли. Хотите сыграть еще раз?",
                         this._playAgain,
                         () => {
-                            this.exit();
+                            this._exit();
                         }
                     );
                 }
@@ -221,14 +186,12 @@ export default class MultiPlayer {
         }
     };
 
-    _onWindowResize = () => {
-        this.balls.get(this.currentUserID).canvas.width = window.innerWidth;
-        this.balls.get(this.currentUserID).canvas.height = window.innerHeight;
-        this.foodCanvas.width = window.innerWidth;
-        this.foodCanvas.height = window.innerHeight;
+    private _onWindowResize = () => {
+        /*this.balls.get(this.currentUserID).canvas.width = window.innerWidth;
+        this.balls.get(this.currentUserID).canvas.height = window.innerHeight;*/
     };
 
-    _handleMouseMove = event => {
+    private _handleMouseMove = event => {
         this._countAndSendSpeed(event.clientX, event.clientY);
         this._countAndSendDirection(event.clientX, event.clientY);
 
@@ -236,7 +199,7 @@ export default class MultiPlayer {
         this.mouseCoordinates.y = event.clientY;
     };
 
-    _countAndSendSpeed = (x, y) => {
+    private _countAndSendSpeed = (x, y) => {
         const dis = Math.sqrt( Math.pow(x - this.balls.get(this.currentUserID).x, 2) + Math.pow(y - this.balls.get(this.currentUserID).y,2) );
         const diagonal = Math.sqrt(Math.pow(window.innerHeight, 2) + Math.pow(window.innerWidth, 2));
         const speed = Math.floor(Math.sqrt(dis / diagonal * 100)) * 10;
@@ -244,7 +207,7 @@ export default class MultiPlayer {
         this.socket.send(`{"type":"speed", "speed":${speed}}`);
     };
 
-    _countAndSendDirection = (x, y) => {
+    private _countAndSendDirection = (x, y) => {
         const dis = Math.sqrt( Math.pow(x - this.balls.get(this.currentUserID).x, 2) + Math.pow(y - this.balls.get(this.currentUserID).y,2) );
         let angle = 180 - Math.round(Math.acos((y - this.balls.get(this.currentUserID).y) / dis) / Math.PI * 180);
 
@@ -255,7 +218,7 @@ export default class MultiPlayer {
         this.socket.send(`{"type":"direction", "direction":${360 - angle}}`);
     };
 
-    _moveBall = ball => {
+    private _moveBall = ball => {
         if (
             ball.easingTargetX === ball.x + ball.radius &&
             ball.easingTargetY === ball.y + ball.radius
@@ -281,22 +244,13 @@ export default class MultiPlayer {
         }
     };
 
-    _drawFood = () => {
-        const ctx = this.foodCanvas.getContext("2d");
-        ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
-
+    private _drawFood = () => {
         this.food.forEach(foodElement => {
-            if (foodElement.status === 1) {
-                ctx.beginPath();
-                ctx.arc(foodElement.x, foodElement.y, 5, 0, Math.PI * 2, false);
-                ctx.fillStyle = foodElement.color;
-                ctx.fill();
-                ctx.closePath();
-            }
+            foodElement.draw();
         });
     };
 
-    _redrawAllBalls = () => {
+    private _redrawAllBalls = () => {
         if (this.balls) {
             this.balls.forEach(ball => {
                 ball.draw();
@@ -309,13 +263,13 @@ export default class MultiPlayer {
         });
     };
 
-    _scoreIncrement = ball => {
+    private _scoreIncrement = ball => {
         if(ball.id === this.currentUserID) {
-            this.score.innerText = parseInt(this.score.innerText) + 1;
+            this.score.innerText = String(parseInt(this.score.innerText) + 1);
         }
     };
 
-    _end = () => {
+    private _end = () => {
         this.socket.close(1000, "endGame");
 
         document.removeEventListener("mousemove", this._handleMouseMove);
@@ -330,15 +284,15 @@ export default class MultiPlayer {
         }
     };
 
-    _pause = () => {
+    private _pause = () => {
         document.removeEventListener("mousemove", this._handleMouseMove);
     };
 
-    _resume = () => {
+    private _resume = () => {
         document.addEventListener("mousemove", this._handleMouseMove);
     };
 
-    exit = () => {
+    private _exit = () => {
         this.gameEnded = true;
         this._end();
 
@@ -352,22 +306,22 @@ export default class MultiPlayer {
         router.renderPage();
     };
 
-    _playAgain = () => {
+    private _playAgain = () => {
         this.modalWindow.close();
         this._end();
         this.start();
     };
 
-    _onPageChange = () => {
+    private _onPageChange = () => {
         document.removeEventListener("keydown", this._modalWindowHandler);
         window.removeEventListener("popstate", this._onPageChange);
     };
 
-    _modalWindowHandler = event => {
+    private _modalWindowHandler = event => {
         if (event.key === "Escape" || event.keyCode === 27) {
             document.removeEventListener("keydown", this._modalWindowHandler);
             this._pause();
-            this.modalWindow.start("Покинуть игру?", this.exit, () => {
+            this.modalWindow.start("Покинуть игру?", this._exit, () => {
                 this.modalWindow.close();
                 document.addEventListener("keydown", this._modalWindowHandler);
                 this._resume();

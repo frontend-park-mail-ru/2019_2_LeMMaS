@@ -46,6 +46,10 @@ module.exports = [
             fs: "empty",
             net: "empty",
         },
+        resolve: {
+            extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
+            modules: ['./node_modules', './static'],
+        },
     },
     {
         mode: "production",
