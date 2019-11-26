@@ -17,12 +17,18 @@ body {
 body {
     margin: 0;
     height: 100vh;
-    background-image: url("/assets/img/back.jpg");
+    background-color: blueviolet;
     max-height: 100vh;
     overflow: hidden;
     background-position: center;
     background-size: cover;
     transition: filter 0.2s;
+}
+
+.veg {
+    position: absolute;
+    font-size: 50px;
+    z-index: -1000;
 }
 
 a,

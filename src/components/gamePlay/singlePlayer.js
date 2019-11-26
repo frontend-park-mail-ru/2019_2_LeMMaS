@@ -1,6 +1,7 @@
 import ModalWindow from "../modalWindow";
 import router from "../../modules/router";
 import User from "../../modules/user";
+import Food from "./food/food";
 
 export default class SinglePlayer {
     constructor(parent) {
@@ -62,24 +63,15 @@ export default class SinglePlayer {
         this.easingTargetX = 0;
         this.easingTargetY = 0;
 
-        this.food = [];
+        this.food = new Food(this.foodCanvas);
 
         for (let count = 0; count < 100; count++) {
-            this.food[count] = {
-                x: Math.round(Math.random() * window.innerWidth * 2),
-                y: Math.round(Math.random() * window.innerHeight * 2),
-                status: 1,
-                color:
-                    "#" +
-                    (0x1000000 + Math.random() * 0xffffff)
-                        .toString(16)
-                        .substr(1, 6),
-            };
+            this.food.add(count, Math.round(Math.random() * window.innerWidth * 2), Math.round(Math.random() * window.innerHeight * 2));
         }
 
         window.addEventListener("resize", this._onWindowResize);
 
-        this._drawFood();
+        this.food.draw();
         requestAnimationFrame(this._redrawAllBalls);
 
         this.timeouts = [];
@@ -118,36 +110,22 @@ export default class SinglePlayer {
         this.timeouts.push(setTimeout(() => this._moveMyBall(), 100));
     };
 
-    _drawFood = () => {
-        const ctx = this.foodCanvas.getContext("2d");
-        ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
 
-        this.food.forEach(foodElement => {
-            if (foodElement.status === 1) {
-                ctx.beginPath();
-                ctx.arc(foodElement.x, foodElement.y, 10, 0, Math.PI * 2, false);
-                ctx.fillStyle = foodElement.color;
-                ctx.fill();
-                ctx.closePath();
-            }
-        });
-    };
 
-    _detectFoodEating = ball =>
-        this.food.forEach(foodElement => {
+    _detectFoodEating = ball => {
+        this.food.getFood().forEach(foodElement => {
             if (
                 ball.x > foodElement.x - ball.radius &&
                 ball.x < foodElement.x + ball.radius &&
                 ball.y > foodElement.y - ball.radius &&
                 ball.y < foodElement.y + ball.radius
             ) {
-                if (foodElement.status === 1) {
-                    foodElement.status = 0;
-                    this._drawFood();
-                    this._scoreIncrement(ball);
-                }
+                this.food.delete(foodElement.id);
+                this.food.draw();
+                this._scoreIncrement(ball);
             }
         });
+    };
 
     _redrawAllBalls = () => {
         if (!this.enemies.length) {

@@ -1,10 +1,36 @@
 import { koeff } from "../resolution";
 
 interface FoodElement {
+    id: number,
     x: number,
     y: number,
     color: string,
+    emoji: string,
 }
+
+const emojis = [
+    "🍅",
+    "🍆",
+    "🍇",
+    "🍈",
+    "🍉",
+    "🍊",
+    "🍌",
+    "🍍",
+    "🍎",
+    "🍒",
+    "🍓",
+    "🥑",
+    "🥕",
+    "🌽",
+    "🥦",
+    "🥔",
+    "🍄",
+    "🥥",
+    "🍑",
+    "🍐",
+    "🥒",
+];
 
 export default class Food {
     private foodCanvas: HTMLCanvasElement;
@@ -18,10 +44,11 @@ export default class Food {
     }
 
     public add(id: number, x_: number, y_: number) {
+        const emoji = emojis[Math.round(Math.random() * 20)];
         const color: string = "#" + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
         const x = x_ * koeff;
         const y = y_ * koeff;
-        this.food.set(id, {x, y, color});
+        this.food.set(id, {id, x, y, color, emoji});
     }
 
     public delete(id: number) {
@@ -34,10 +61,13 @@ export default class Food {
 
         this.food.forEach(foodElement => {
             ctx.beginPath();
-            ctx.arc(foodElement.x, foodElement.y, this.radius, 0, Math.PI * 2, false);
-            ctx.fillStyle = foodElement.color;
-            ctx.fill();
+            ctx.font = `${20 * koeff}px serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(foodElement.emoji, foodElement.x, foodElement.y);
             ctx.closePath();
         });
     };
+
+    getFood = () => this.food;
 }
