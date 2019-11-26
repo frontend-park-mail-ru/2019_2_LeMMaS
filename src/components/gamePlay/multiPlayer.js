@@ -86,21 +86,7 @@ export default class MultiPlayer {
     };
 
     _handleEventStart = data => {
-        data.foods.forEach(element => {
-            this.food.set(element.id, {
-                id: element.id,
-                x: element.position.x,
-                y: element.position.y,
-                status: 1,
-                color:
-                    "#" +
-                    (0x1000000 + Math.random() * 0xffffff)
-                        .toString(16)
-                        .substr(1, 6),
-            });
-        });
-
-        this._drawFood();
+        this._addFood(data.food);
 
         if (data && data.players) {
             data.players.forEach(player => {
@@ -191,21 +177,7 @@ export default class MultiPlayer {
     };
 
     _handleEventNewFood = data => {
-        data.food.forEach(element => {
-            this.food.set(element.id, {
-                id: element.id,
-                x: element.position.x,
-                y: element.position.y,
-                status: 1,
-                color:
-                    "#" +
-                    (0x1000000 + Math.random() * 0xffffff)
-                        .toString(16)
-                        .substr(1, 6),
-            });
-        });
-
-        this._drawFood();
+        this._addFood(data.food);
     };
 
     _handleEventStop = data => {
@@ -306,6 +278,24 @@ export default class MultiPlayer {
         } else {
             this.timeouts.push(setTimeout(() => this._moveBall(ball), 100));
         }
+    };
+
+    _addFood = food => {
+        food.forEach(element => {
+            this.food.set(element.id, {
+                id: element.id,
+                x: element.position.x,
+                y: element.position.y,
+                status: 1,
+                color:
+                    "#" +
+                    (0x1000000 + Math.random() * 0xffffff)
+                        .toString(16)
+                        .substr(1, 6)
+            });
+        });
+
+        this._drawFood();
     };
 
     _drawFood = () => {
