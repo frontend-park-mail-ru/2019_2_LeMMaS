@@ -18,7 +18,6 @@ export default class Food {
 
     public draw = () => {
         const ctx: CanvasRenderingContext2D = this.foodCanvas.getContext("2d");
-        ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
         if (this.status === true) {
             ctx.beginPath();
             ctx.arc(this.x, this.y, 5, 0, Math.PI * 2, false);

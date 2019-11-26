@@ -78,9 +78,7 @@ export default class MultiPlayer {
         const data = JSON.parse(event.data);
         switch (data.type) {
             case "start" : {
-                console.log(data);
-                // как отсюда передать объект?
-                data.foods.forEach(element => {
+                data.food.forEach(element => {
                     const foodEl: Food = new Food(element.id, element.position.x, element.position.y, document.querySelector(".foodCanvas"));
                     this.food.set(element.id, foodEl);
                 });
@@ -168,10 +166,7 @@ export default class MultiPlayer {
                 break;
             }
             case "stop": {
-                console.log(data.user_id);
-                console.log(this.currentUserID);
                 if(data.user_id === this.currentUserID){
-                    console.log("все");
                     this.modalWindow.start(
                         "Вы проиграли. Хотите сыграть еще раз?",
                         this._playAgain,
@@ -245,6 +240,10 @@ export default class MultiPlayer {
     };
 
     private _drawFood = () => {
+        const foodCanvas: HTMLCanvasElement = document.querySelector(".foodCanvas");
+        const ctx: CanvasRenderingContext2D = foodCanvas.getContext("2d");
+        ctx.clearRect(0, 0, foodCanvas.width, foodCanvas.height);
+
         this.food.forEach(foodElement => {
             foodElement.draw();
         });
