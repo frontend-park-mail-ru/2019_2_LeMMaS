@@ -86,59 +86,57 @@ export default class MultiPlayer {
     };
 
     _handleEventStart = data => {
-        {
-            data.foods.forEach(element => {
-                this.food.set(element.id, {
-                    id: element.id,
-                    x: element.position.x,
-                    y: element.position.y,
-                    status: 1,
-                    color:
-                        "#" +
-                        (0x1000000 + Math.random() * 0xffffff)
-                            .toString(16)
-                            .substr(1, 6),
-                });
+        data.foods.forEach(element => {
+            this.food.set(element.id, {
+                id: element.id,
+                x: element.position.x,
+                y: element.position.y,
+                status: 1,
+                color:
+                    "#" +
+                    (0x1000000 + Math.random() * 0xffffff)
+                        .toString(16)
+                        .substr(1, 6),
             });
+        });
 
-            this._drawFood();
+        this._drawFood();
 
-            if (data && data.players) {
-                data.players.forEach(player => {
-                    const ball = new Ball(
-                        player.user_id,
-                        player.position.x,
-                        player.position.y,
-                        player.size / 2,
-                        "yellow"
-                    );
+        if (data && data.players) {
+            data.players.forEach(player => {
+                const ball = new Ball(
+                    player.user_id,
+                    player.position.x,
+                    player.position.y,
+                    player.size / 2,
+                    "yellow"
+                );
 
-                    if (ball.id === this.currentUserID) {
-                        ball.backgroundImage = this.userBackgroundImage;
-                    }
+                if (ball.id === this.currentUserID) {
+                    ball.backgroundImage = this.userBackgroundImage;
+                }
 
-                    API.getAvatarById(player.user_id).then(user => {
-                        if (user.avatar_path) {
-                            const backgroundImage = new Image();
-                            backgroundImage.src = user.avatar_path;
-                            const currentBall = this.balls.get(player.user_id);
-                            if (currentBall) {
-                                currentBall.backgroundImage = backgroundImage;
-                            } else {
-                                ball.backgroundImage = backgroundImage;
-                            }
+                API.getAvatarById(player.user_id).then(user => {
+                    if (user.avatar_path) {
+                        const backgroundImage = new Image();
+                        backgroundImage.src = user.avatar_path;
+                        const currentBall = this.balls.get(player.user_id);
+                        if (currentBall) {
+                            currentBall.backgroundImage = backgroundImage;
+                        } else {
+                            ball.backgroundImage = backgroundImage;
                         }
-                    });
-
-                    if (!this.balls.get(player.user_id)) {
-                        this.balls.set(player.user_id, ball);
                     }
                 });
-            }
-            document.addEventListener("mousemove", this._handleMouseMove);
 
-            requestAnimationFrame(this._redrawAllBalls);
+                if (!this.balls.get(player.user_id)) {
+                    this.balls.set(player.user_id, ball);
+                }
+            });
         }
+        document.addEventListener("mousemove", this._handleMouseMove);
+
+        requestAnimationFrame(this._redrawAllBalls);
     };
 
     _handleEventMove = data => {
