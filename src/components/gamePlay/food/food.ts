@@ -1,4 +1,5 @@
 import { koeff } from "../resolution";
+import { emojis } from "../../emojis";
 
 interface FoodElement {
     id: number,
@@ -7,30 +8,6 @@ interface FoodElement {
     color: string,
     emoji: string,
 }
-
-const emojis = [
-    "🍅",
-    "🍆",
-    "🍇",
-    "🍈",
-    "🍉",
-    "🍊",
-    "🍌",
-    "🍍",
-    "🍎",
-    "🍒",
-    "🍓",
-    "🥑",
-    "🥕",
-    "🌽",
-    "🥦",
-    "🥔",
-    "🍄",
-    "🥥",
-    "🍑",
-    "🍐",
-    "🥒",
-];
 
 export default class Food {
     private foodCanvas: HTMLCanvasElement;
