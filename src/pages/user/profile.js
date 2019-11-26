@@ -77,5 +77,5 @@ export default class Profile extends BasePage {
                 : this.profileForm.showError("Произошла ошибка");
         }
         loader.hide();
-    }
+    };
 }

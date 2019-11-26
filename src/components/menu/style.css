@@ -13,9 +13,8 @@
 
 @media (max-width: 320px) {
     .menu {
-        padding: .5em;
+        padding: 0.5em;
         min-width: 14em;
         margin: auto;
     }
-
 }

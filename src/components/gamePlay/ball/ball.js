@@ -15,8 +15,8 @@ export default class Ball {
         this.backgroundImage = undefined;
 
         const ballCanvas = document.createElement("canvas");
-        ballCanvas.width =  window.innerWidth;
-        ballCanvas.height =  window.innerHeight;
+        ballCanvas.width = window.innerWidth;
+        ballCanvas.height = window.innerHeight;
         ballCanvas.classList.add("id_" + id, "ballCanvas");
 
         this.canvas = ballCanvas;
@@ -44,7 +44,7 @@ export default class Ball {
                 this.x - this.radius,
                 this.y - this.radius,
                 this.radius * 2,
-                this.radius * 2,
+                this.radius * 2
             );
         } else {
             ballCtx.fillStyle = this.color;
@@ -57,5 +57,7 @@ export default class Ball {
     };
 
     delete = () =>
-        this.canvas && this.canvas.parentNode && this.canvas.parentNode.removeChild(this.canvas);
+        this.canvas &&
+        this.canvas.parentNode &&
+        this.canvas.parentNode.removeChild(this.canvas);
 }

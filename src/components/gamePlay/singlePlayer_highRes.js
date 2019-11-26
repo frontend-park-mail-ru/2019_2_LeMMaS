@@ -39,7 +39,7 @@ export default class SinglePlayer {
         //this.enemies = [];
         this.modalWindow = new ModalWindow(document.body);
 
-       /* for (let count = 0; count < 3; count++) {
+        /* for (let count = 0; count < 3; count++) {
             const canvas = document.createElement("canvas");
             canvas.className = "enemyCanvas";
             canvas.width = window.innerWidth;
@@ -221,7 +221,7 @@ export default class SinglePlayer {
         );*/
 
         requestAnimationFrame(() => {
-            if(!this.gameEnded) {
+            if (!this.gameEnded) {
                 this._redrawAllBalls();
             }
         });

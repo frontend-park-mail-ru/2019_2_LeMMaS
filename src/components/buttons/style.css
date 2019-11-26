@@ -37,7 +37,7 @@
     background-position: right center;
     background-size: 200% auto;
     color: white;
-    background-image: linear-gradient(90deg,#dc143c 0,#de6822 51%,#dc143c);
+    background-image: linear-gradient(90deg, #dc143c 0, #de6822 51%, #dc143c);
 }
 
 .button__type-danger:hover {
@@ -97,7 +97,6 @@
     background: none;
     color: white;
 }
-
 
 @media (max-width: 320px) {
     .button {

@@ -4,7 +4,7 @@
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid transparent;
-    transition: .2s;
+    transition: 0.2s;
 }
 
 .avatar-input-wrapper {
@@ -13,7 +13,7 @@
 
 .avatar-input-wrapper:hover .avatar {
     border-color: #000;
-    transition: .2s;
+    transition: 0.2s;
 }
 
 .avatar-input {
@@ -63,7 +63,7 @@
         margin: -22px auto auto;
         padding: 5px;
         z-index: 10;
-        font-size: .6em;
+        font-size: 0.6em;
     }
     .avatar {
         width: 80px;

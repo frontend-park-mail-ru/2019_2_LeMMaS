@@ -64,24 +64,20 @@ class API {
         );
 
     getAvatarById = id =>
-        this._get(PUBLIC_USER + id).then(
-            response => response.body.user
-        );
+        this._get(PUBLIC_USER + id).then(response => response.body.user);
 
     listUsers = () =>
         this._get(routes.USER_LIST).then(response => response.body.users);
 
     openGameWebSocket = () =>
-        new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, "ws"))
+        new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, "ws"));
 
     _getCSRFToken = () =>
         this._get(routes.ACCESS_CSRF_TOKEN).then(
             response => response.body.token
         );
 
-    _get = route =>
-        httpNetwork
-            .get(this._getUrlByRoute(route));
+    _get = route => httpNetwork.get(this._getUrlByRoute(route));
 
     _post = async (route, body) => {
         const headers = {};
@@ -91,16 +87,29 @@ class API {
             }
             headers[CSRF_TOKEN_HEADER] = this.csrfToken;
         }
-        const response = await httpNetwork.post(this._getUrlByRoute(route), body, headers);
-        if (!response.ok && response.body && response.body.message === "incorrect CSRF token") {
+        const response = await httpNetwork.post(
+            this._getUrlByRoute(route),
+            body,
+            headers
+        );
+        if (
+            !response.ok &&
+            response.body &&
+            response.body.message === "incorrect CSRF token"
+        ) {
             this.csrfToken = await this._getCSRFToken();
             headers[CSRF_TOKEN_HEADER] = this.csrfToken;
-            return await httpNetwork.post(this._getUrlByRoute(route), body, headers);
+            return await httpNetwork.post(
+                this._getUrlByRoute(route),
+                body,
+                headers
+            );
         }
         return response;
     };
 
-    _getUrlByRoute = (route, protocol = "http") => protocol + "://" + [BACKEND_URL, API_V1_PREFIX, route].join("/");
+    _getUrlByRoute = (route, protocol = "http") =>
+        protocol + "://" + [BACKEND_URL, API_V1_PREFIX, route].join("/");
 
     _isPrivateRoute = route => route.startsWith(API_PRIVATE_PREFIX);
 }

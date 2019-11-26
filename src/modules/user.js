@@ -1,4 +1,4 @@
-import API, {STATUS_OK} from "./api";
+import API, { STATUS_OK } from "./api";
 
 class User {
     constructor() {

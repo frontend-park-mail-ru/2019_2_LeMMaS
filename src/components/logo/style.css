@@ -10,9 +10,8 @@
     .logo__image {
         max-height: 6vh;
     }
-
 }
-@media (max-width: 320px){
+@media (max-width: 320px) {
     .logo {
         padding: 0.5em;
     }

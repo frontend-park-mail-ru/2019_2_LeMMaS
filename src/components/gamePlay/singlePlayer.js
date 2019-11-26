@@ -221,7 +221,7 @@ export default class SinglePlayer {
         );
 
         requestAnimationFrame(() => {
-            if(!this.gameEnded) {
+            if (!this.gameEnded) {
                 this._redrawAllBalls();
             }
         });
