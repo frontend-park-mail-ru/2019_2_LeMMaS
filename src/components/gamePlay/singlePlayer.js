@@ -21,7 +21,7 @@ export default class SinglePlayer {
             radius: 40,
             strokeStyle: "rgba(0, 0, 255, 0.5)",
             color: "green",
-            easing: 0.01,
+            easing: 0.01 * 2,
             alive: true,
             canvas: document.querySelector(".ballCanvas"),
         };
