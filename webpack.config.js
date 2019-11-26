@@ -16,6 +16,11 @@ module.exports = [
                     use: ["babel-loader", "eslint-loader"],
                 },
                 {
+                    test: /\.ts$/,
+                    exclude: /node_modules/,
+                    use: ["ts-loader", "eslint-loader"],
+                },
+                {
                     test: /\.css$/,
                     use: [
                         "style-loader",
@@ -40,6 +45,10 @@ module.exports = [
         node: {
             fs: "empty",
             net: "empty",
+        },
+        resolve: {
+            extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
+            modules: ['./node_modules', './static'],
         },
     },
     {
