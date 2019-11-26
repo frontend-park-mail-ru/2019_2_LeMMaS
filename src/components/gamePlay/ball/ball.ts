@@ -1,13 +1,16 @@
 import API from "../../../modules/api";
 import { koeff } from "../resolution";
 
+const DEFAULT_COLOR = "green";
+const DEFAULT_STROKE = "rgba(128, 0, 0, 0.5)";
+const EASING = 0.01;
+
 export default class Ball {
     public backgroundImage: HTMLImageElement;
     public radius: number;
     public x: number;
     public y: number;
 
-    private alive: boolean;
     private id: number;
     private easingTargetX: number;
     private easingTargetY: number;
@@ -18,24 +21,23 @@ export default class Ball {
 
     constructor(id: number, x: number, y: number, radius: number, color: string) {
         this.id = id;
-        this.alive = true;
 
         this.x = x;
         this.y = y;
         this.easingTargetX = 0;
         this.easingTargetY = 0;
-        this.easing = 0.01;
+        this.easing = EASING;
 
-        this.radius = radius * koeff;
-        this.strokeStyle = "rgba(128, 0, 0, 0.5)";
-        this.color = color ? color : "green";
+        this.radius = this._countWithKoeff(radius);
+        this.strokeStyle = DEFAULT_STROKE;
+        this.color = color || DEFAULT_COLOR;
         this.backgroundImage = undefined;
 
         const ballCanvas: HTMLCanvasElement = document.createElement("canvas");
-        ballCanvas.width =  window.innerWidth * koeff;
-        ballCanvas.height =  window.innerHeight * koeff;
+        ballCanvas.width = this._countWithKoeff(window.innerWidth);
+        ballCanvas.height = this._countWithKoeff(window.innerHeight);
         ballCanvas.classList.add("id_" + id, "ballCanvas");
-        ballCanvas.style.zIndex = String(radius);
+        ballCanvas.style.zIndex = `${radius}`;
 
         this.canvas = ballCanvas;
 
@@ -49,9 +51,6 @@ export default class Ball {
         ballCtx.restore();
         ballCtx.save();
         ballCtx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        if (!this.alive) {
-            return;
-        }
         ballCtx.beginPath();
         ballCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         ballCtx.clip();
@@ -95,4 +94,6 @@ export default class Ball {
             }
         });
     }
+
+    private _countWithKoeff = (toCount: number) => toCount * koeff;
 }

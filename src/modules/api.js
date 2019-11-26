@@ -64,7 +64,7 @@ class API {
         );
 
     getAvatarById = id =>
-        this._get(PUBLIC_USER + id).then(response => response.body.user);
+        this._get(`${PUBLIC_USER}/${id}`).then(response => response.body.user);
 
     listUsers = () =>
         this._get(routes.USER_LIST).then(response => response.body.users);

@@ -7,12 +7,12 @@ import "./style.css";
 
 export class LinkButton extends BaseStringComponent {
     constructor({
-        text,
-        href = null,
-        icon = null,
-        extraClass = "",
-        disabled = false,
-    }) {
+                    text,
+                    href,
+                    icon = null,
+                    extraClass = "",
+                    disabled = false,
+                }) {
         super();
         this.text = text;
         this.href = href;
@@ -22,7 +22,7 @@ export class LinkButton extends BaseStringComponent {
     }
 
     _makeHref = () => {
-        if(this.href) {
+        if (this.href) {
             return `href="${this.href}"`;
         }
         return "notLoggedIn";

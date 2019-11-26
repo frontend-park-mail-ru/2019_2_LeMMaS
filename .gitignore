@@ -4,3 +4,4 @@ public/bundle.js
 public/sw.js
 public/assets/fonts
 src/sw-urls-to-cache.json
+package-lock.json
