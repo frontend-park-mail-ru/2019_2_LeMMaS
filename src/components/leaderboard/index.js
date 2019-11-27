@@ -8,7 +8,7 @@ import BaseComponent from "../baseComponent";
 import "./style.css";
 import Loader from "../loader";
 
-export default class Leaderboard extends BaseComponent {
+export class Leaderboard extends BaseComponent {
     start = () => {
         const loader = new Loader(
             this.parent.parentElement,
@@ -49,5 +49,64 @@ export default class Leaderboard extends BaseComponent {
                 )}
             </div>
         `;
+    };
+}
+
+
+export class GameLeaderboard extends BaseComponent {
+    constructor(props) {
+        super(props);
+        this.players = new Map();
+    }
+
+    addPlayer = (username, id, isCurrentUser, size) => {
+        this.players.set(id, {id, username, isCurrentUser, size});
+        this.update();
+    };
+
+    update = (id, size) => {
+        this.parent.innerHTML = "";
+        if(this.players.get(id)) {
+            this.players.get(id).size = size;
+        }
+        const sortedPlayers = [...this.players.values()].sort(this.compare);
+        sortedPlayers.forEach(player => {
+           this._renderOnePlayer(player);
+        });
+    };
+
+    compare = (a, b) => {
+        if (a.size >= b.size) return -1; // если первое значение больше второго
+        if (a.size < b.size) return 1;
+    };
+
+    _renderOnePlayer = (player) => {
+        const { username } = player;
+        const { isCurrentUser } = player;
+        const { id } = player;
+
+        this.parent.innerHTML +=
+            safeHtml`
+                    <div class="leaderboard__player id_${id} ${
+                isCurrentUser
+                    ? "leaderboard__player_me"
+                    : ""
+            }">
+                        <span class="leaderboard__player-name">${
+                username
+            }</span>
+                    </div>
+                    `
+        ;
+    };
+
+    removePlayer = (id) => {
+
+        this.players.delete(id);
+        this._removeOnePlayer(id);
+    };
+
+    _removeOnePlayer = (id) => {
+        this.parent.removeChild(this.parent.querySelector(`.id_${id}`));
     };
 }

@@ -5,6 +5,7 @@ import API from "../../modules/api";
 import Ball from "./ball/ball";
 import Food from "./food/food";
 import { koeff } from "./resolution";
+import { GameLeaderboard } from "../leaderboard";
 
 export default class MultiPlayer {
     private parent: Element;
@@ -18,6 +19,7 @@ export default class MultiPlayer {
     private modalWindow: ModalWindow;
     private timeouts: any;
     private gameEnded: boolean;
+    private leaderBoard: GameLeaderboard;
 
     constructor(parent) {
         this.parent = parent;
@@ -75,6 +77,11 @@ export default class MultiPlayer {
         //window.addEventListener("resize", this._onWindowResize);
 
         this.timeouts = [];
+
+
+        const leaderboardWrapper = document.querySelector(".leaderboard-wrapper");
+        this.leaderBoard = new GameLeaderboard(leaderboardWrapper);
+
     };
 
     private _messageHandler = (event: MessageEvent) => {
@@ -89,6 +96,13 @@ export default class MultiPlayer {
 
                 if (data && data.players) {
                     data.players.forEach(player => {
+                        API.getUserInfoById(player.user_id).then(user => {
+
+                            if (user.name) {
+                                this.leaderBoard.addPlayer(user.name, user.id, this.currentUserID === user.id, player.size);
+                            }
+                        });
+
                         const ball: Ball = new Ball(
                             player.user_id,
                             player.position.x,
@@ -113,6 +127,7 @@ export default class MultiPlayer {
 
                 if(data.player.size / 2 * koeff - ballToMove.radius > 0) {
                     this._scoreIncrement(ballToMove);
+                    this.leaderBoard.update(data.player.id, data.player.size);
                 }
                 ballToMove.radius = data.player.size / 2 * koeff;
                 this._moveBall(ballToMove);
@@ -128,6 +143,12 @@ export default class MultiPlayer {
             }
             case "new_player": {
                 const player = data.player;
+                API.getUserInfoById(player.user_id).then(user => {
+                    if (user.name) {
+                        this.leaderBoard.addPlayer(user.name, user.id, this.currentUserID === user.id, player.size);
+                    }
+                });
+
                 const ball = new Ball(
                     player.user_id,
                     player.position.x,
@@ -140,7 +161,7 @@ export default class MultiPlayer {
                     ball.backgroundImage = this.userBackgroundImage;
                 }
 
-                API.getAvatarById(player.user_id).then(user => {
+                API.getUserInfoById(player.user_id).then(user => {
                     if (user.avatar_path) {
                         const backgroundImage = new Image();
                         backgroundImage.src = user.avatar_path;
@@ -168,6 +189,7 @@ export default class MultiPlayer {
                 break;
             }
             case "stop": {
+                this.leaderBoard.removePlayer(data.user_id);
                 if(data.user_id === this.currentUserID){
                     this._pause();
                     this.modalWindow.start(

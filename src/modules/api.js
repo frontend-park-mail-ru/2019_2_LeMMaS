@@ -63,7 +63,7 @@ class API {
             response => response.body
         );
 
-    getAvatarById = id =>
+    getUserInfoById = id =>
         this._get(`${PUBLIC_USER}/${id}`).then(response => response.body.user);
 
     listUsers = () =>

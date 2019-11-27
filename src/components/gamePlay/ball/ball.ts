@@ -86,7 +86,7 @@ export default class Ball {
     };
 
     private getAvatar() {
-        API.getAvatarById(this.id).then(user => {
+        API.getUserInfoById(this.id).then(user => {
             if (user.avatar_path) {
                 const backgroundImage = new Image();
                 backgroundImage.src = user.avatar_path;

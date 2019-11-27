@@ -2,7 +2,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 101;
+    z-index: 10000;
     margin: 1em;
     padding: 1em;
     font-size: 2em;

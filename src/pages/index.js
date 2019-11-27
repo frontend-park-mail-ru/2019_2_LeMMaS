@@ -1,7 +1,7 @@
 import { html } from "common-tags";
 
 import BasePage from "./basePage";
-import Leaderboard from "../components/leaderboard";
+import { Leaderboard } from "../components/leaderboard";
 import { LinkButton } from "../components/buttons";
 import User from "../modules/user";
 import ModalWindow from "../components/modalWindow";

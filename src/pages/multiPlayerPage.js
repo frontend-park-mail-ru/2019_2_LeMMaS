@@ -17,6 +17,14 @@ export default class MultiPlayerPage {
             <div class="game__wrapper">
                 <div class="gameScore plate plate__size-auto">
                     <p>Счет: <span class="gameScore__number">0</span></p>
+                    <div class="plate leaderboard-plate plate__size-auto">
+                <div class="plate__innerContent">
+                    <h2 class="text__align-center">
+                        <i class="fas fa-trophy"></i> Лучшие игроки
+                    </h2>
+                    <div class="leaderboard-wrapper"></div>
+                </div>
+            </div>
                 </div>
                 <div class="infoLeft plate plate__size-auto">
                     <a><i class="fas fa-times"></i></a>
