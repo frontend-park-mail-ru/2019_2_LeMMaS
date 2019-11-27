@@ -20,6 +20,8 @@ export default class MultiPlayer {
     private timeouts: any;
     private gameEnded: boolean;
     private leaderBoard: GameLeaderboard;
+    private prevSpeed: number;
+    private prevDirection: number;
 
     constructor(parent) {
         this.parent = parent;
@@ -39,6 +41,8 @@ export default class MultiPlayer {
             x: 0,
             y: 0,
         };
+
+        this.prevSpeed = 0;
 
         const user = User.getCurrentUser();
         if (user) {
@@ -218,11 +222,13 @@ export default class MultiPlayer {
     };
 
     private _countAndSendSpeed = (x, y) => {
-        const dis = Math.sqrt( Math.pow(x - this.balls.get(this.currentUserID).x, 2) + Math.pow(y - this.balls.get(this.currentUserID).y,2) );
-        const diagonal = Math.sqrt(Math.pow(window.innerHeight, 2) + Math.pow(window.innerWidth, 2));
-        const speed = Math.floor(Math.sqrt(dis / diagonal * 100)) * 10;
-
-        this.socket.send(`{"type":"speed", "speed":${speed}}`);
+        const dis = Math.sqrt( Math.pow(x - this.balls.get(this.currentUserID).x, 2) + Math.pow(y - this.balls.get(this.currentUserID).y,2));
+        const diagonal = Math.sqrt(Math.pow(window.innerHeight * koeff, 2) + Math.pow(window.innerWidth * koeff, 2));
+        const speed = Math.floor(dis / diagonal * 100);
+        if(this.prevSpeed !== speed) {
+            this.prevSpeed = speed;
+            this.socket.send(`{"type":"speed", "speed":${speed}}`);
+        }
     };
 
     private _countAndSendDirection = (x, y) => {
@@ -232,8 +238,10 @@ export default class MultiPlayer {
         if ((x - this.balls.get(this.currentUserID).x > 0 && y - this.balls.get(this.currentUserID).y < 0) || (x - this.balls.get(this.currentUserID).x > 0 && y - this.balls.get(this.currentUserID).y > 0)) {
             angle = 180 + (180 - angle);
         }
-
-        this.socket.send(`{"type":"direction", "direction":${360 - angle}}`);
+        if(this.prevDirection !== angle) {
+            this.prevDirection = angle;
+            this.socket.send(`{"type":"direction", "direction":${360 - angle}}`);
+        }
     };
 
     private _moveBall = ball => {
