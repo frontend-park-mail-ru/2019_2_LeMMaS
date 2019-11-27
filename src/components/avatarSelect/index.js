@@ -27,7 +27,7 @@ export default class AvatarSelect extends BaseComponent {
                     <img
                         class="avatar"
                         src="${avatarUrl ? avatarUrl : this.userAvatarUrl}"
-                    />
+                        alt="avatar"/>
                     <span class="avatar-input__tip">Изменить</span>
                     <i class="avatar-input__upload-icon fas fa-upload"></i>
                 </label>
@@ -37,11 +37,10 @@ export default class AvatarSelect extends BaseComponent {
             .querySelector("input[type=file]")
             .addEventListener("change", e => {
                 const filename = e.target.value.split("\\").pop();
-                const tip = TextUtils.cutIfLong(
+                this.parent.querySelector(".avatar-input__tip").innerHTML = TextUtils.cutIfLong(
                     filename,
                     FILE_NAME_DISPLAY_LIMIT
                 );
-                this.parent.querySelector(".avatar-input__tip").innerHTML = tip;
                 this.parent
                     .querySelector(".avatar-input-wrapper")
                     .classList.add("avatar-input-wrapper_file-selected");
@@ -50,6 +49,6 @@ export default class AvatarSelect extends BaseComponent {
 
     async previewByName(name) {
         const avatarUrl = name ? await API.getAvatarPreviewUrl(name) : null;
-        this.render(avatarUrl);
+        this.render(avatarUrl.avatar_url);
     }
 }

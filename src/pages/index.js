@@ -1,7 +1,6 @@
 import { html } from "common-tags";
 
 import BasePage from "./basePage";
-import { Leaderboard } from "../components/leaderboard";
 import { LinkButton } from "../components/buttons";
 import User from "../modules/user";
 import ModalWindow from "../components/modalWindow";
@@ -45,14 +44,6 @@ export default class Index extends BasePage {
                     </div>
                 </div>
             </div>
-            <div class="plate leaderboard-plate">
-                <div class="plate__innerContent">
-                    <h2 class="text__align-center">
-                        <i class="fas fa-trophy"></i> Лучшие игроки
-                    </h2>
-                    <div class="leaderboard-wrapper"></div>
-                </div>
-            </div>
         `;
 
         if(!User.getCurrentUser()) {
@@ -61,8 +52,5 @@ export default class Index extends BasePage {
                 loginWindow.start("Сначала нужно войти", null, null, new Login());
             });
         }
-
-        const leaderboardWrapper = parent.querySelector(".leaderboard-wrapper");
-        new Leaderboard(leaderboardWrapper).start();
     }
 }

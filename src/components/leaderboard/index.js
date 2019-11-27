@@ -76,7 +76,7 @@ export class GameLeaderboard extends BaseComponent {
     };
 
     compare = (a, b) => {
-        if (a.size >= b.size) return -1; // если первое значение больше второго
+        if (a.size >= b.size) return -1;
         if (a.size < b.size) return 1;
     };
 
@@ -84,6 +84,7 @@ export class GameLeaderboard extends BaseComponent {
         const { username } = player;
         const { isCurrentUser } = player;
         const { id } = player;
+        const { size } = player;
 
         this.parent.innerHTML +=
             safeHtml`
@@ -95,6 +96,7 @@ export class GameLeaderboard extends BaseComponent {
                         <span class="leaderboard__player-name">${
                 username
             }</span>
+                                                <span class="leaderboard__player-position">${(size - 40) / 2}</span>
                     </div>
                     `
         ;
