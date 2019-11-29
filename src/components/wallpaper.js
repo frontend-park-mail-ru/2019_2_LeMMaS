@@ -1,6 +1,6 @@
 export default class Wallpaper {
-    render () {
-        this.veg = document.querySelectorAll('.veg');
+    render() {
+        this.veg = document.querySelectorAll(".veg");
 
         this.speed = 1.5;
 
@@ -18,7 +18,7 @@ export default class Wallpaper {
     _moveAllVegs = () => {
         this.veg.forEach(veg => {
             let position = parseInt(veg.style.top.replace("px", ""));
-            if(position > (window.innerHeight + 50)) {
+            if (position > window.innerHeight + 50) {
                 position = -75;
                 veg.style.left = `${Math.random() * window.innerWidth}px`;
             }

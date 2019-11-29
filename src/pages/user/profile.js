@@ -10,10 +10,9 @@ import { STATUS_OK } from "../../modules/api";
 export default class Profile extends BasePage {
     constructor() {
         super();
-
     }
 
-    renderContent (parent) {
+    renderContent(parent) {
         const interval = setInterval(() => {
             if (User.getCurrentUser() !== undefined) {
                 this._render(parent);

@@ -7,6 +7,8 @@ import Food from "./food/food";
 import { koeff } from "./resolution";
 import { GameLeaderboard } from "../leaderboard";
 
+import "./style.css";
+
 export default class MultiPlayer {
     private parent: Element;
     private score: HTMLParagraphElement;
@@ -29,10 +31,14 @@ export default class MultiPlayer {
 
     public start = (): void => {
         document.addEventListener("keydown", this._escapeKeyHandler);
-        document.querySelector(".infoLeft a").addEventListener("click", this._modalWindowHandler);
+        document
+            .querySelector(".game__finish-button")
+            .addEventListener("click", this._modalWindowHandler);
 
         window.addEventListener("pushstate", this._onPageChange);
-        this.score = document.querySelector<HTMLParagraphElement>(".gameScore__number");
+        this.score = document.querySelector<HTMLParagraphElement>(
+            ".gameScore__number"
+        );
 
         this.balls = new Map<number, Ball>();
         this.food = new Food(document.querySelector(".foodCanvas"));
@@ -65,10 +71,12 @@ export default class MultiPlayer {
 
         this.socket.onclose = (event: CloseEvent) => {
             if (event.wasClean) {
-                console.log(`[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`);
+                console.log(
+                    `[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`
+                );
             } else {
                 this._end();
-                console.log('[close] Соединение прервано');
+                console.log("[close] Соединение прервано");
             }
         };
 
@@ -82,18 +90,22 @@ export default class MultiPlayer {
 
         this.timeouts = [];
 
-
-        const leaderboardWrapper = document.querySelector(".leaderboard-wrapper");
+        const leaderboardWrapper = document.querySelector(
+            ".leaderboard-wrapper"
+        );
         this.leaderBoard = new GameLeaderboard(leaderboardWrapper);
-
     };
 
     private _messageHandler = (event: MessageEvent) => {
         const data = JSON.parse(event.data);
         switch (data.type) {
-            case "start" : {
+            case "start": {
                 data.food.forEach(element => {
-                    this.food.add(element.id, element.position.x, element.position.y);
+                    this.food.add(
+                        element.id,
+                        element.position.x,
+                        element.position.y
+                    );
                 });
 
                 this.food.draw();
@@ -101,9 +113,13 @@ export default class MultiPlayer {
                 if (data && data.players) {
                     data.players.forEach(player => {
                         API.getUserInfoById(player.user_id).then(user => {
-
                             if (user.name) {
-                                this.leaderBoard.addPlayer(user.name, user.id, this.currentUserID === user.id, player.size);
+                                this.leaderBoard.addPlayer(
+                                    user.name,
+                                    user.id,
+                                    this.currentUserID === user.id,
+                                    player.size
+                                );
                             }
                         });
 
@@ -112,10 +128,10 @@ export default class MultiPlayer {
                             player.position.x,
                             player.position.y,
                             player.size / 2,
-                            "yellow",
+                            "yellow"
                         );
 
-                        if(!this.balls.get(player.user_id)) {
+                        if (!this.balls.get(player.user_id)) {
                             this.balls.set(player.user_id, ball);
                         }
                     });
@@ -127,13 +143,15 @@ export default class MultiPlayer {
             }
             case "move": {
                 const ballToMove = this.balls.get(data.player.id);
-                ballToMove.setTarget(data.player.x * koeff, data.player.y * koeff);
+                ballToMove.setTarget(
+                    data.player.x * koeff,
+                    data.player.y * koeff
+                );
 
-                if(data.player.size / 2 * koeff - ballToMove.radius > 0) {
-                    this._scoreIncrement(ballToMove);
+                if ((data.player.size / 2) * koeff - ballToMove.radius > 0) {
                     this.leaderBoard.update(data.player.id, data.player.size);
                 }
-                ballToMove.radius = data.player.size / 2 * koeff;
+                ballToMove.radius = (data.player.size / 2) * koeff;
                 this._moveBall(ballToMove);
 
                 if (data.eatenFood.length > 0) {
@@ -149,7 +167,12 @@ export default class MultiPlayer {
                 const player = data.player;
                 API.getUserInfoById(player.user_id).then(user => {
                     if (user.name) {
-                        this.leaderBoard.addPlayer(user.name, user.id, this.currentUserID === user.id, player.size);
+                        this.leaderBoard.addPlayer(
+                            user.name,
+                            user.id,
+                            this.currentUserID === user.id,
+                            player.size
+                        );
                     }
                 });
 
@@ -158,10 +181,10 @@ export default class MultiPlayer {
                     player.position.x,
                     player.position.y,
                     player.size / 2,
-                    "yellow",
+                    "yellow"
                 );
 
-                if(ball.getId() === this.currentUserID) {
+                if (ball.getId() === this.currentUserID) {
                     ball.backgroundImage = this.userBackgroundImage;
                 }
 
@@ -170,7 +193,7 @@ export default class MultiPlayer {
                         const backgroundImage = new Image();
                         backgroundImage.src = user.avatar_path;
                         const currentBall = this.balls.get(player.user_id);
-                        if(currentBall) {
+                        if (currentBall) {
                             currentBall.backgroundImage = backgroundImage;
                         } else {
                             ball.backgroundImage = backgroundImage;
@@ -178,14 +201,18 @@ export default class MultiPlayer {
                     }
                 });
 
-                if(!this.balls.get(player.user_id)) {
+                if (!this.balls.get(player.user_id)) {
                     this.balls.set(player.user_id, ball);
                 }
                 break;
             }
             case "new_food": {
                 data.food.forEach(element => {
-                    this.food.add(element.id, element.position.x, element.position.y);
+                    this.food.add(
+                        element.id,
+                        element.position.x,
+                        element.position.y
+                    );
                 });
 
                 this.food.draw();
@@ -194,12 +221,13 @@ export default class MultiPlayer {
             }
             case "stop": {
                 this.leaderBoard.removePlayer(data.user_id);
-                if(data.user_id === this.currentUserID){
+                if (data.user_id === this.currentUserID) {
                     this._pause();
                     this.modalWindow.start(
                         "Вы проиграли. Хотите сыграть еще раз?",
                         this._playAgain,
-                        this._exit, null
+                        this._exit,
+                        null
                     );
                 }
                 this.balls.get(data.user_id).delete();
@@ -215,32 +243,57 @@ export default class MultiPlayer {
 
     private _handleMouseMove = event => {
         this._countAndSendSpeed(event.clientX * koeff, event.clientY * koeff);
-        this._countAndSendDirection(event.clientX * koeff, event.clientY * koeff);
+        this._countAndSendDirection(
+            event.clientX * koeff,
+            event.clientY * koeff
+        );
 
         this.mouseCoordinates.x = event.clientX * koeff;
         this.mouseCoordinates.y = event.clientY * koeff;
     };
 
     private _countAndSendSpeed = (x, y) => {
-        const dis = Math.sqrt( Math.pow(x - this.balls.get(this.currentUserID).x, 2) + Math.pow(y - this.balls.get(this.currentUserID).y,2));
-        const diagonal = Math.sqrt(Math.pow(window.innerHeight * koeff, 2) + Math.pow(window.innerWidth * koeff, 2));
-        const speed = Math.floor(dis / diagonal * 100);
-        if(this.prevSpeed !== speed) {
+        const dis = Math.sqrt(
+            Math.pow(x - this.balls.get(this.currentUserID).x, 2) +
+                Math.pow(y - this.balls.get(this.currentUserID).y, 2)
+        );
+        const diagonal = Math.sqrt(
+            Math.pow(window.innerHeight * koeff, 2) +
+                Math.pow(window.innerWidth * koeff, 2)
+        );
+        const speed = Math.floor((dis / diagonal) * 100);
+        if (this.prevSpeed !== speed) {
             this.prevSpeed = speed;
             this.socket.send(`{"type":"speed", "speed":${speed}}`);
         }
     };
 
     private _countAndSendDirection = (x, y) => {
-        const dis = Math.sqrt( Math.pow(x - this.balls.get(this.currentUserID).x, 2) + Math.pow(y - this.balls.get(this.currentUserID).y,2) );
-        let angle = 180 - Math.round(Math.acos((y - this.balls.get(this.currentUserID).y) / dis) / Math.PI * 180);
+        const dis = Math.sqrt(
+            Math.pow(x - this.balls.get(this.currentUserID).x, 2) +
+                Math.pow(y - this.balls.get(this.currentUserID).y, 2)
+        );
+        let angle =
+            180 -
+            Math.round(
+                (Math.acos((y - this.balls.get(this.currentUserID).y) / dis) /
+                    Math.PI) *
+                    180
+            );
 
-        if ((x - this.balls.get(this.currentUserID).x > 0 && y - this.balls.get(this.currentUserID).y < 0) || (x - this.balls.get(this.currentUserID).x > 0 && y - this.balls.get(this.currentUserID).y > 0)) {
+        if (
+            (x - this.balls.get(this.currentUserID).x > 0 &&
+                y - this.balls.get(this.currentUserID).y < 0) ||
+            (x - this.balls.get(this.currentUserID).x > 0 &&
+                y - this.balls.get(this.currentUserID).y > 0)
+        ) {
             angle = 180 + (180 - angle);
         }
-        if(this.prevDirection !== angle) {
+        if (this.prevDirection !== angle) {
             this.prevDirection = angle;
-            this.socket.send(`{"type":"direction", "direction":${360 - angle}}`);
+            this.socket.send(
+                `{"type":"direction", "direction":${360 - angle}}`
+            );
         }
     };
 
@@ -255,14 +308,19 @@ export default class MultiPlayer {
         ball.x += (ball.easingTargetX - ball.x) * ball.easing;
         ball.y += (ball.easingTargetY - ball.y) * ball.easing;
 
-        if(ball.id === this.currentUserID) {
-            if (ball.x > this.mouseCoordinates.x - ball.radius &&
+        if (ball.id === this.currentUserID) {
+            if (
+                ball.x > this.mouseCoordinates.x - ball.radius &&
                 ball.x < this.mouseCoordinates.x + ball.radius &&
                 ball.y > this.mouseCoordinates.y - ball.radius &&
-                ball.y < this.mouseCoordinates.y + ball.radius) {
+                ball.y < this.mouseCoordinates.y + ball.radius
+            ) {
                 this.socket.send(`{"type":"speed", "speed":0}`);
             } else {
-                this._countAndSendSpeed(this.mouseCoordinates.x, this.mouseCoordinates.y);
+                this._countAndSendSpeed(
+                    this.mouseCoordinates.x,
+                    this.mouseCoordinates.y
+                );
                 this.timeouts.push(setTimeout(() => this._moveBall(ball), 100));
             }
         } else {
@@ -277,22 +335,18 @@ export default class MultiPlayer {
             });
         }
         requestAnimationFrame(() => {
-            if(!this.gameEnded) {
+            if (!this.gameEnded) {
                 this._redrawAllBalls();
             }
         });
     };
 
-    private _scoreIncrement = ball => {
-        if(ball.id === this.currentUserID) {
-            this.score.innerText = String(parseInt(this.score.innerText) + 1);
-        }
-    };
-
     private _end = () => {
         this.socket.close(1000, "endGame");
         document.removeEventListener("keydown", this._escapeKeyHandler);
-        document.querySelector(".infoLeft a").removeEventListener("click", this._modalWindowHandler);
+        document
+            .querySelector(".game__finish-button")
+            .removeEventListener("click", this._modalWindowHandler);
 
         document.removeEventListener("mousemove", this._handleMouseMove);
         window.removeEventListener("resize", this._onWindowResize);
@@ -345,13 +399,17 @@ export default class MultiPlayer {
     private _modalWindowHandler = () => {
         document.removeEventListener("keydown", this._escapeKeyHandler);
         this._pause();
-        this.modalWindow.start("Покинуть игру?", () => {
-            this.modalWindow.close();
-            this._exit();
-        }, () => {
-            this.modalWindow.close();
-            document.addEventListener("keydown", this._escapeKeyHandler);
-            this._resume();
-        });
+        this.modalWindow.start(
+            "Покинуть игру?",
+            () => {
+                this.modalWindow.close();
+                this._exit();
+            },
+            () => {
+                this.modalWindow.close();
+                document.addEventListener("keydown", this._escapeKeyHandler);
+                this._resume();
+            }
+        );
     };
 }

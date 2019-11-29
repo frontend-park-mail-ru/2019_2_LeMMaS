@@ -1,3 +1,27 @@
+.game__info {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10000;
+    margin: 1em;
+    padding: 1em;
+}
+
+.game__finish-button {
+    cursor: pointer;
+    width: auto;
+    position: absolute;
+    margin: 1rem;
+    font-size: 1.6em;
+    padding: 1.5rem;
+    z-index: 10000;
+    transition: color .2s;
+}
+
+.game__finish-button:hover {
+    color: gold;
+}
+
 .foodCanvas {
     position: absolute;
     top: 0;
@@ -37,3 +61,4 @@ canvas {
     width: 100vw;
     height: 100vh;
 }
+

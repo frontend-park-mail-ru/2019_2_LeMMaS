@@ -7,12 +7,12 @@ import "./style.css";
 
 export class LinkButton extends BaseStringComponent {
     constructor({
-                    text,
-                    href,
-                    icon = null,
-                    extraClass = "",
-                    disabled = false,
-                }) {
+        text,
+        href,
+        icon = null,
+        extraClass = "",
+        disabled = false,
+    }) {
         super();
         this.text = text;
         this.href = href;

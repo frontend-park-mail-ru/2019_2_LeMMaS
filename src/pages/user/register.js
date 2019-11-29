@@ -19,6 +19,10 @@ export default class Register extends BasePage {
         parent.innerHTML = html`
             <div class="plate plate__size-m">
                 <h2 class="text__align-center text__size-big">Регистрация</h2>
+                <p class="form__caption">
+                    Зарегистрируйтесь, чтобы играть с друзьями и <br />сохранять
+                    игровой прогресс
+                </p>
                 <div class="form-wrapper"></div>
             </div>
         `;
@@ -29,7 +33,7 @@ export default class Register extends BasePage {
                 type: "email",
                 required: true,
             }),
-            new Input({ name: "name", label: "Name", required: true }),
+            new Input({ name: "name", label: "Имя", required: true }),
             new Input({
                 name: "password",
                 label: "Пароль",

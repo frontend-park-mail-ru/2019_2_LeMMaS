@@ -28,7 +28,9 @@ export default class ModalWindow {
 
         modalWindowWrapper.innerHTML = html`
             <div class="modalWindow plate plate__size-auto">
-                <a class="modalWindow__button-close"><i class="fas fa-times"></i></a>
+                <a class="modalWindow__button-close"
+                    ><i class="fas fa-times"></i
+                ></a>
                 <div class="modalWindow__text">${this.info}</div>
                 <div class="modalWindow__buttons-wrapper"></div>
             </div>
@@ -52,7 +54,9 @@ export default class ModalWindow {
 
         yesButton.render();
         noButton.render();
-        document.querySelector(".modalWindow__button-close").addEventListener("click", () => this.closeWithX());
+        document
+            .querySelector(".modalWindow__button-close")
+            .addEventListener("click", () => this.closeWithX());
     };
 
     _renderInside = () => {
@@ -62,13 +66,19 @@ export default class ModalWindow {
 
         modalWindowWrapper.innerHTML = html`
             <div class="modalWindow plate plate__size-auto">
-                <a class="modalWindow__button-close"><i class="fas fa-times"></i></a>
+                <a class="modalWindow__button-close"
+                    ><i class="fas fa-times"></i
+                ></a>
                 <div class="modalWindow__text">${this.info}</div>
                 <div class="modalWindow__buttons-wrapper"></div>
             </div>
         `;
-        document.querySelector(".modalWindow__button-close").addEventListener("click", () => this.closeWithX());
-        this.inside.renderContent(modalWindowWrapper.querySelector(".modalWindow__buttons-wrapper"));
+        document
+            .querySelector(".modalWindow__button-close")
+            .addEventListener("click", () => this.closeWithX());
+        this.inside.renderContent(
+            modalWindowWrapper.querySelector(".modalWindow__buttons-wrapper")
+        );
     };
 
     _keyDownHandler = event => {
@@ -78,8 +88,10 @@ export default class ModalWindow {
     };
 
     closeWithX = () => {
-        if(this.onclose) {
-            document.querySelector(".modalWindow__button-close").removeEventListener("click", () => this.close());
+        if (this.onclose) {
+            document
+                .querySelector(".modalWindow__button-close")
+                .removeEventListener("click", () => this.close());
             document.removeEventListener("keydown", this._keyDownHandler);
             this.parent.removeChild(
                 document.body.querySelector(".modalWindow__wrapper")
@@ -93,7 +105,9 @@ export default class ModalWindow {
     };
 
     close = () => {
-        document.querySelector(".modalWindow__button-close").removeEventListener("click", () => this.close());
+        document
+            .querySelector(".modalWindow__button-close")
+            .removeEventListener("click", () => this.close());
         document.removeEventListener("keydown", this._keyDownHandler);
         this.parent.removeChild(
             document.body.querySelector(".modalWindow__wrapper")

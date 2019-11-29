@@ -52,7 +52,6 @@ export class Leaderboard extends BaseComponent {
     };
 }
 
-
 export class GameLeaderboard extends BaseComponent {
     constructor(props) {
         super(props);
@@ -60,18 +59,18 @@ export class GameLeaderboard extends BaseComponent {
     }
 
     addPlayer = (username, id, isCurrentUser, size) => {
-        this.players.set(id, {id, username, isCurrentUser, size});
+        this.players.set(id, { id, username, isCurrentUser, size });
         this.update();
     };
 
     update = (id, size) => {
         this.parent.innerHTML = "";
-        if(this.players.get(id)) {
+        if (this.players.get(id)) {
             this.players.get(id).size = size;
         }
         const sortedPlayers = [...this.players.values()].sort(this.compare);
         sortedPlayers.forEach(player => {
-           this._renderOnePlayer(player);
+            this._renderOnePlayer(player);
         });
     };
 
@@ -80,35 +79,30 @@ export class GameLeaderboard extends BaseComponent {
         if (a.size < b.size) return 1;
     };
 
-    _renderOnePlayer = (player) => {
+    _renderOnePlayer = player => {
         const { username } = player;
         const { isCurrentUser } = player;
         const { id } = player;
         const { size } = player;
 
-        this.parent.innerHTML +=
-            safeHtml`
+        this.parent.innerHTML += safeHtml`
                     <div class="leaderboard__player id_${id} ${
-                isCurrentUser
-                    ? "leaderboard__player_me"
-                    : ""
-            }">
-                        <span class="leaderboard__player-name">${
-                username
-            }</span>
-                                                <span class="leaderboard__player-position">${(size - 40) / 2}</span>
+            isCurrentUser ? "leaderboard__player_me" : ""
+        }">
+                        <span class="leaderboard__player-name">${username}</span>
+                                                <span class="leaderboard__player-position">${(size -
+                                                    40) /
+                                                    2}</span>
                     </div>
-                    `
-        ;
+                    `;
     };
 
-    removePlayer = (id) => {
-
+    removePlayer = id => {
         this.players.delete(id);
         this._removeOnePlayer(id);
     };
 
-    _removeOnePlayer = (id) => {
+    _removeOnePlayer = id => {
         this.parent.removeChild(this.parent.querySelector(`.id_${id}`));
     };
 }

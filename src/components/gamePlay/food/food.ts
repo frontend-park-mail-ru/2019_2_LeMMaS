@@ -2,11 +2,11 @@ import { koeff } from "../resolution";
 import { emojis } from "../../emojis";
 
 interface FoodElement {
-    id: number,
-    x: number,
-    y: number,
-    color: string,
-    emoji: string,
+    id: number;
+    x: number;
+    y: number;
+    color: string;
+    emoji: string;
 }
 
 export default class Food {
@@ -22,10 +22,12 @@ export default class Food {
 
     public add(id: number, x_: number, y_: number) {
         const emoji = emojis[Math.round(Math.random() * 20)];
-        const color: string = "#" + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
+        const color: string =
+            "#" +
+            (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
         const x = x_ * koeff;
         const y = y_ * koeff;
-        this.food.set(id, {id, x, y, color, emoji});
+        this.food.set(id, { id, x, y, color, emoji });
     }
 
     public delete(id: number) {

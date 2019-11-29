@@ -3,13 +3,18 @@ import router from "../../modules/router";
 import User from "../../modules/user";
 import Food from "./food/food";
 
+import "./style.css";
+
 export default class SinglePlayer {
     constructor(parent) {
         this.parent = parent;
     }
 
     start = () => {
-        document.addEventListener("keydown", this._modalWindowHandler);
+        document.addEventListener("keydown", this._escapeKeyHandler);
+        document
+            .querySelector(".game__finish-button")
+            .addEventListener("click", this._modalWindowHandler);
 
         window.addEventListener("pushstate", this._onPageChange);
 
@@ -66,7 +71,11 @@ export default class SinglePlayer {
         this.food = new Food(this.foodCanvas);
 
         for (let count = 0; count < 100; count++) {
-            this.food.add(count, Math.round(Math.random() * window.innerWidth * 2), Math.round(Math.random() * window.innerHeight * 2));
+            this.food.add(
+                count,
+                Math.round(Math.random() * window.innerWidth * 2),
+                Math.round(Math.random() * window.innerHeight * 2)
+            );
         }
 
         window.addEventListener("resize", this._onWindowResize);
@@ -109,8 +118,6 @@ export default class SinglePlayer {
 
         this.timeouts.push(setTimeout(() => this._moveMyBall(), 100));
     };
-
-
 
     _detectFoodEating = ball => {
         this.food.getFood().forEach(foodElement => {
@@ -335,15 +342,19 @@ export default class SinglePlayer {
         window.removeEventListener("popstate", this._onPageChange);
     };
 
-    _modalWindowHandler = event => {
+    _escapeKeyHandler = event => {
         if (event.key === "Escape" || event.keyCode === 27) {
-            document.removeEventListener("keydown", this._modalWindowHandler);
-            this._pause();
-            this.modalWindow.start("Покинуть игру?", this.exit, () => {
-                this.modalWindow.close();
-                document.addEventListener("keydown", this._modalWindowHandler);
-                this._resume();
-            });
+            this._modalWindowHandler();
         }
+    };
+
+    _modalWindowHandler = () => {
+        document.removeEventListener("keydown", this._escapeKeyHandler);
+        this._pause();
+        this.modalWindow.start("Покинуть игру?", this.exit, () => {
+            this.modalWindow.close();
+            document.addEventListener("keydown", this._escapeKeyHandler);
+            this._resume();
+        });
     };
 }

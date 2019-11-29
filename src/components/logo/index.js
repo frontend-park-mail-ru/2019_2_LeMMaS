@@ -8,11 +8,6 @@ import "./style.css";
 
 export default class Logo extends BaseStringComponent {
     renderString() {
-        const logo_src = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-            navigator.userAgent
-        )
-            ? "/assets/img/lemmaslogo_mobile.png"
-            : "/assets/img/lemmaslogo.png";
         return html`
             ${HomeButton.renderString()}
             <div class="logo">
@@ -20,7 +15,12 @@ export default class Logo extends BaseStringComponent {
                     <img
                         class="logo__image"
                         alt="Lemmas logo"
-                        src=${logo_src}
+                        src="/assets/img/lemmaslogo.png"
+                    />
+                    <img
+                        class="logo__image logo__image_mobile"
+                        alt="Lemmas logo"
+                        src="/assets/img/lemmaslogo_mobile.png"
                     />
                 </a>
             </div>

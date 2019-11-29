@@ -1,11 +1,9 @@
 {
-  "compilerOptions": {
-    //    "strict": true,
-    "module": "commonjs",
-    "target": "es5",
-    "sourceMap": true
-  },
-  "exclude": [
-    "node_modules"
-  ]
+    "compilerOptions": {
+        //    "strict": true,
+        "module": "commonjs",
+        "target": "es5",
+        "sourceMap": true
+    },
+    "exclude": ["node_modules"]
 }

@@ -25,9 +25,6 @@ export default class Index extends BasePage {
         parent.innerHTML = html`
             <div class="plate start-game-menu">
                 <div class="plate__innerContent">
-                    <h2 class="text__size-big text__align-center">
-                        Играть
-                    </h2>
                     <div class="start-game-buttons-wrapper">
                         ${new LinkButton({
                             text: "Одиночная",
@@ -46,11 +43,18 @@ export default class Index extends BasePage {
             </div>
         `;
 
-        if(!User.getCurrentUser()) {
-            document.querySelector(".multiplayer").addEventListener("click", () => {
-                const loginWindow = new ModalWindow(document.body);
-                loginWindow.start("Сначала нужно войти", null, null, new Login());
-            });
+        if (!User.getCurrentUser()) {
+            document
+                .querySelector(".multiplayer")
+                .addEventListener("click", () => {
+                    const loginWindow = new ModalWindow(document.body);
+                    loginWindow.start(
+                        "Сначала нужно войти",
+                        null,
+                        null,
+                        new Login()
+                    );
+                });
         }
     }
 }

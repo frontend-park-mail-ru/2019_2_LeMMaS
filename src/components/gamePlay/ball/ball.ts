@@ -19,7 +19,13 @@ export default class Ball {
     private color: string;
     private canvas: HTMLCanvasElement;
 
-    constructor(id: number, x: number, y: number, radius: number, color: string) {
+    constructor(
+        id: number,
+        x: number,
+        y: number,
+        radius: number,
+        color: string
+    ) {
         this.id = id;
 
         this.x = x;

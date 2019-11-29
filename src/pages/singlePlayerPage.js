@@ -1,9 +1,6 @@
 import { html } from "common-tags";
 
 import "../static/css/common.css";
-import "../components/gameCanvas/style.css";
-import "../components/gameScore/style.css";
-import "../components/infoLeft/style.css";
 import SinglePlayer from "../components/gamePlay/singlePlayer";
 import User from "../modules/user";
 
@@ -13,12 +10,12 @@ export default class SinglePlayerPage {
         const height = window.innerHeight * 2;
 
         document.body.innerHTML = html`
-             <div class="game__wrapper">
-                <div class="gameScore plate plate__size-auto">
-                    <p>Счет: <span class="gameScore__number">0</span></p>
+            <div class="game__wrapper">
+                <div class="game__finish-button plate plate__size-auto">
+                    <i class="fas fa-times"></i>
                 </div>
-                <div class="infoLeft plate plate__size-auto">
-                    <a><i class="fas fa-times"></i></a>
+                <div class="game__info plate plate__size-auto">
+                    <p>Счет: <span class="gameScore__number">0</span></p>
                 </div>
                 <canvas
                     width="${width}"

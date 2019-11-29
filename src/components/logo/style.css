@@ -3,14 +3,23 @@
 }
 
 .logo__image {
-    max-height: 10vh;
+    max-height: 8vh;
+}
+
+.logo__image_mobile {
+    display: none;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
     .logo__image {
-        max-height: 6vh;
+        display: none;
+    }
+
+    .logo__image_mobile {
+        display: initial;
     }
 }
+
 @media (max-width: 320px) {
     .logo {
         padding: 0.5em;

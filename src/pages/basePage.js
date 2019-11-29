@@ -32,7 +32,7 @@ export default class BasePage {
                 <div class="veg">🍑</div>
                 <div class="veg">🍐</div>
                 <div class="veg">🥒</div>
-           </div>
+            </div>
             <header class="header"></header>
             <div class="content"></div>
         `;

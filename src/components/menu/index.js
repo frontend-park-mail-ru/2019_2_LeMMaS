@@ -41,7 +41,7 @@ export default class Menu extends BaseComponent {
             ${new LinkButton({
                 text: "Войти",
                 href: routes.USER_LOGIN,
-                extraClass: "button__color-violet",
+                extraClass: "button__color-gold",
             }).renderString()}
             ${new LinkButton({
                 text: "Регистрация",
