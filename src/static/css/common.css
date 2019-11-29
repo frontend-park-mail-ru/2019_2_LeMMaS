@@ -25,12 +25,6 @@ body {
     transition: filter 0.2s;
 }
 
-.veg {
-    position: absolute;
-    font-size: 50px;
-    z-index: -1000;
-}
-
 a,
 button {
     transition: all 0.3s ease-in-out;

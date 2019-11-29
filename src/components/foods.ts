@@ -1,4 +1,4 @@
-export const emojis: Array<string> = [
+export const foods: Array<string> = [
     "🍅",
     "🍆",
     "🍇",

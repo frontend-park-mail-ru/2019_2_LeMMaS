@@ -1,5 +1,5 @@
 import { koeff } from "../resolution";
-import { emojis } from "../../emojis";
+import { foods } from "../../foods";
 
 interface FoodElement {
     id: number;
@@ -21,13 +21,13 @@ export default class Food {
     }
 
     public add(id: number, x_: number, y_: number) {
-        const emoji = emojis[Math.round(Math.random() * 20)];
+        const food = foods[Math.round(Math.random() * 20)];
         const color: string =
             "#" +
             (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
         const x = x_ * koeff;
         const y = y_ * koeff;
-        this.food.set(id, { id, x, y, color, emoji });
+        this.food.set(id, { id, x, y, color, emoji: food });
     }
 
     public delete(id: number) {

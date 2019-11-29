@@ -1,0 +1,5 @@
+.wallpaper .food {
+    position: absolute;
+    font-size: 50px;
+    z-index: -1000;
+}
