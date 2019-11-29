@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 
-import BaseComponent from "../baseComponent";
+import BaseComponent from "components/baseComponent";
 
 import "./style.css";
 

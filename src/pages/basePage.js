@@ -1,11 +1,11 @@
 import { html } from "common-tags";
 
-import Header from "../components/header";
-import Wallpaper from "../components/wallpaper/wallpaper";
+import Header from "components/header";
+import Wallpaper from "components/wallpaper/wallpaper";
 
+import "static/css/common.css";
 import "@fortawesome/fontawesome-free/css/solid.min.css";
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
-import "../static/css/common.css";
 
 export default class BasePage {
     render() {

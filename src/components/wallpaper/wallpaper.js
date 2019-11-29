@@ -1,7 +1,7 @@
 import { html } from "common-tags";
 
-import BaseComponent from "../baseComponent";
-import { foods} from "../foods";
+import BaseComponent from "components/baseComponent";
+import { foods} from "components/foods";
 
 import "./style.css";
 

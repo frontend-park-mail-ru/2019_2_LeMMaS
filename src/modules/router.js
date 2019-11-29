@@ -1,10 +1,10 @@
-import Index from "../pages";
-import Login from "../pages/user/login";
-import Register from "../pages/user/register";
-import Profile from "../pages/user/profile";
-import Page404 from "../pages/page404";
-import SinglePlayerPage from "../pages/singlePlayerPage";
-import MultiPlayerPage from "../pages/multiPlayerPage";
+import Index from "pages";
+import Login from "pages/user/login";
+import Register from "pages/user/register";
+import Profile from "pages/user/profile";
+import Page404 from "pages/page404";
+import Singleplayer from "pages/game/singleplayer";
+import Multiplayer from "pages/game/multiplayer";
 
 export const routes = {
     INDEX: "/",
@@ -20,8 +20,8 @@ views[routes.INDEX] = Index;
 views[routes.USER_LOGIN] = Login;
 views[routes.USER_REGISTER] = Register;
 views[routes.USER_PROFILE] = Profile;
-views[routes.SINGLEPLAYER] = SinglePlayerPage;
-views[routes.MULTIPLAYER] = MultiPlayerPage;
+views[routes.SINGLEPLAYER] = Singleplayer;
+views[routes.MULTIPLAYER] = Multiplayer;
 
 class Router {
     renderPage() {

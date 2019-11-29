@@ -1,14 +1,14 @@
 import { html } from "common-tags";
 
-import { routes } from "../../modules/router";
-import BasePage from "../basePage";
-import Form from "../../components/form";
-import Input from "../../components/form/elements/input";
-import SubmitButton from "../../components/form/elements/submitButton";
-import User from "../../modules/user";
-import Router from "../../modules/router";
-import Loader from "../../components/loader/index";
-import { STATUS_OK } from "../../modules/api";
+import { routes } from "modules/router";
+import BasePage from "pages/basePage";
+import Form from "components/form";
+import Input from "components/form/elements/input";
+import SubmitButton from "components/form/elements/submitButton";
+import User from "modules/user";
+import Router from "modules/router";
+import Loader from "components/loader/index";
+import { STATUS_OK } from "modules/api";
 
 export default class Login extends BasePage {
     constructor() {

@@ -1,8 +1,8 @@
 import { html } from "common-tags";
 
-import { routes } from "../../modules/router";
-import BaseStringComponent from "../baseStringComponent";
-import HomeButton from "../buttons";
+import { routes } from "modules/router";
+import BaseStringComponent from "components/baseStringComponent";
+import HomeButton from "components/buttons";
 
 import "./style.css";
 

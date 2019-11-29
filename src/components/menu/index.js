@@ -1,10 +1,10 @@
-import BaseComponent from "../baseComponent";
-import { LinkButton, Button } from "../buttons";
-import User from "../../modules/user";
-import router, { routes } from "../../modules/router";
+import BaseComponent from "components/baseComponent";
+import { LinkButton, Button } from "components/buttons";
+import UserInfo from "components/userInfo";
+import User from "modules/user";
+import router, { routes } from "modules/router";
 
 import "./style.css";
-import UserInfo from "../userInfo";
 
 export default class Menu extends BaseComponent {
     constructor(parent) {

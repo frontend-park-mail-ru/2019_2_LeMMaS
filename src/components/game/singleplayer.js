@@ -1,11 +1,11 @@
-import ModalWindow from "../modalWindow";
-import router from "../../modules/router";
-import User from "../../modules/user";
+import ModalWindow from "components/modalWindow";
+import router from "modules/router";
+import User from "modules/user";
 import Food from "./food/food";
 
 import "./style.css";
 
-export default class SinglePlayer {
+export default class Singleplayer {
     constructor(parent) {
         this.parent = parent;
     }

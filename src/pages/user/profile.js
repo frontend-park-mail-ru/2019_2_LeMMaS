@@ -1,11 +1,11 @@
 import { html } from "common-tags";
 
-import BasePage from "../basePage";
-import User from "../../modules/user";
-import ProfileForm from "../../components/profileForm";
-import Loader from "../../components/loader/index";
-import router from "../../modules/router";
-import { STATUS_OK } from "../../modules/api";
+import BasePage from "pages/basePage";
+import User from "modules/user";
+import ProfileForm from "components/profileForm";
+import Loader from "components/loader/index";
+import router from "modules/router";
+import { STATUS_OK } from "modules/api";
 
 export default class Profile extends BasePage {
     constructor() {

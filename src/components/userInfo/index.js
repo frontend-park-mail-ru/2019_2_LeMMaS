@@ -1,8 +1,8 @@
 import { safeHtml } from "common-tags";
 
-import BaseComponent from "../baseComponent";
-import { routes } from "../../modules/router";
-import User from "../../modules/user";
+import BaseComponent from "components/baseComponent";
+import { routes } from "modules/router";
+import User from "modules/user";
 
 import "./style.css";
 

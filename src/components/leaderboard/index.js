@@ -1,12 +1,12 @@
 import { html, safeHtml } from "common-tags";
 import classNames from "classnames";
 
-import API from "../../modules/api";
-import User from "../../modules/user";
-import BaseComponent from "../baseComponent";
+import API from "modules/api";
+import User from "modules/user";
+import BaseComponent from "components/baseComponent";
+import Loader from "components/loader";
 
 import "./style.css";
-import Loader from "../loader";
 
 export class Leaderboard extends BaseComponent {
     start = () => {

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 
-import BaseComponent from "../baseComponent";
-import BaseStringComponent from "../baseStringComponent";
+import BaseComponent from "components/baseComponent";
+import BaseStringComponent from "components/baseStringComponent";
 
 import "./style.css";
 

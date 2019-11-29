@@ -1,10 +1,11 @@
 import { html } from "common-tags";
 
-import "../static/css/common.css";
-import SinglePlayer from "../components/gamePlay/singlePlayer";
-import User from "../modules/user";
+import SinglePlayer from "components/game/singleplayer";
+import User from "modules/user";
 
-export default class SinglePlayerPage {
+import "static/css/common.css";
+
+export default class Singleplayer {
     render() {
         const width = window.innerWidth * 2;
         const height = window.innerHeight * 2;

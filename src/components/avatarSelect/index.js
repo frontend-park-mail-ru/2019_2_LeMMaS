@@ -1,8 +1,8 @@
 import { html } from "common-tags";
 
-import API from "../../modules/api";
-import TextUtils from "../../modules/textUtils";
-import BaseComponent from "../baseComponent";
+import API from "modules/api";
+import TextUtils from "modules/textUtils";
+import BaseComponent from "components/baseComponent";
 
 import "./style.css";
 

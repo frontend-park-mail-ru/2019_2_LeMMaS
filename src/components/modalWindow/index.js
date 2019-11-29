@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 
-import { Button } from "../../components/buttons/index";
+import { Button } from "components/buttons/index";
 
 import "./style.css";
 

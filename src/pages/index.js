@@ -1,12 +1,12 @@
 import { html } from "common-tags";
 
-import BasePage from "./basePage";
-import { LinkButton } from "../components/buttons";
-import User from "../modules/user";
-import ModalWindow from "../components/modalWindow";
-import Login from "./user/login";
+import BasePage from "pages/basePage";
+import Login from "pages/user/login";
+import { LinkButton } from "components/buttons";
+import User from "modules/user";
+import ModalWindow from "components/modalWindow";
 
-import "../components/startGameMenu/style.css";
+import "components/startGameMenu/style.css";
 
 export default class Index extends BasePage {
     renderContent = parent => {

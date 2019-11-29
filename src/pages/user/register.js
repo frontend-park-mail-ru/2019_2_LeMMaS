@@ -1,12 +1,12 @@
 import { html } from "common-tags";
 
-import BasePage from "../basePage";
-import Form from "../../components/form";
-import Input from "../../components/form/elements/input";
-import SubmitButton from "../../components/form/elements/submitButton";
-import User from "../../modules/user";
-import Login from "./login";
-import { STATUS_OK } from "../../modules/api";
+import BasePage from "pages/basePage";
+import Form from "components/form";
+import Input from "components/form/elements/input";
+import SubmitButton from "components/form/elements/submitButton";
+import User from "modules/user";
+import Login from "pages/user/login";
+import { STATUS_OK } from "modules/api";
 
 export default class Register extends BasePage {
     constructor() {

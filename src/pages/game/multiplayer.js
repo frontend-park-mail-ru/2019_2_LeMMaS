@@ -1,12 +1,12 @@
 import { html } from "common-tags";
 
-import MultiPlayer from "../components/gamePlay/multiPlayer.ts";
-import User from "../modules/user";
-import { koeff } from "../components/gamePlay/resolution";
+import User from "modules/user";
+import MultiPlayer from "components/game/multiplayer";
+import { koeff } from "components/game/resolution";
 
-import "../static/css/common.css";
+import "static/css/common.css";
 
-export default class MultiPlayerPage {
+export default class Multiplayer {
     render() {
         const width = window.innerWidth * koeff;
         const height = window.innerHeight * koeff;

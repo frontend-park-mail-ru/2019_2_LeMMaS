@@ -1,15 +1,15 @@
-import ModalWindow from "../modalWindow";
-import router from "../../modules/router";
-import User from "../../modules/user";
-import API from "../../modules/api";
+import ModalWindow from "components/modalWindow";
+import { GameLeaderboard } from "components/leaderboard";
+import router from "modules/router";
+import User from "modules/user";
+import API from "modules/api";
 import Ball from "./ball/ball";
 import Food from "./food/food";
 import { koeff } from "./resolution";
-import { GameLeaderboard } from "../leaderboard";
 
 import "./style.css";
 
-export default class MultiPlayer {
+export default class Multiplayer {
     private parent: Element;
     private balls: Map<number, Ball>;
     private food: Food;

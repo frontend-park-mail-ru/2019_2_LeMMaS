@@ -1,5 +1,5 @@
 import { koeff } from "../resolution";
-import { foods } from "../../foods";
+import { foods } from "components/foods";
 
 interface FoodElement {
     id: number;

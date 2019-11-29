@@ -1,10 +1,10 @@
 import { html } from "common-tags";
 
-import Form from "../form";
-import Input from "../form/elements/input";
-import SubmitButton from "../form/elements/submitButton";
-import AvatarSelect from "../avatarSelect";
-import User from "../../modules/user";
+import Form from "components/form";
+import Input from "components/form/elements/input";
+import SubmitButton from "components/form/elements/submitButton";
+import AvatarSelect from "components/avatarSelect";
+import User from "modules/user";
 
 import "./style.css";
 

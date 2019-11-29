@@ -1,4 +1,4 @@
-import API from "../../../modules/api";
+import API from "modules/api";
 import { koeff } from "../resolution";
 
 const DEFAULT_COLOR = "green";

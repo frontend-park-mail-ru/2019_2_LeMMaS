@@ -1,8 +1,8 @@
 import { html } from "common-tags";
 
-import BaseComponent from "../baseComponent";
-import Logo from "../logo";
-import Menu from "../menu";
+import BaseComponent from "components/baseComponent";
+import Logo from "components/logo";
+import Menu from "components/menu";
 
 import "./style.css";
 

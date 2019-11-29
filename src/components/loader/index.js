@@ -1,4 +1,4 @@
-import BaseComponent from "../baseComponent";
+import BaseComponent from "components/baseComponent";
 
 import "./style.css";
 

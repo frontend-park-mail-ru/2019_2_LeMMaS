@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 
-import BaseStringComponent from "../../baseStringComponent";
+import BaseStringComponent from "components/baseStringComponent";
 
 import "./style.css";
 
