@@ -1,5 +1,5 @@
 .logo {
-    padding: 1em 0.5em;
+    margin-top: 0.5em;
 }
 
 .logo__image {
@@ -10,7 +10,7 @@
     display: none;
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (max-width: 700px) {
     .logo__image {
         display: none;
     }

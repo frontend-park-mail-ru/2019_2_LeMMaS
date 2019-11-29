@@ -2,12 +2,14 @@
     padding: 1em;
     display: flex;
     margin: auto 30px auto auto;
-    justify-content: space-between;
-    min-width: 17em;
+    justify-content: flex-end;
 }
 
 .menu .button {
     text-transform: uppercase;
+}
+
+.menu .button:not(:last-child) {
     margin-right: 1em;
 }
 
@@ -20,5 +22,11 @@
         padding: 0.5em;
         min-width: 14em;
         margin: auto;
+    }
+}
+
+@media (max-width: 520px) {
+    .userinfo__name {
+        display: none;
     }
 }

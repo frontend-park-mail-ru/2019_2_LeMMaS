@@ -11,7 +11,6 @@ import "./style.css";
 
 export default class MultiPlayer {
     private parent: Element;
-    private score: HTMLParagraphElement;
     private balls: Map<number, Ball>;
     private food: Food;
     private mouseCoordinates: { x: number; y: number };
@@ -36,9 +35,6 @@ export default class MultiPlayer {
             .addEventListener("click", this._modalWindowHandler);
 
         window.addEventListener("pushstate", this._onPageChange);
-        this.score = document.querySelector<HTMLParagraphElement>(
-            ".gameScore__number"
-        );
 
         this.balls = new Map<number, Ball>();
         this.food = new Food(document.querySelector(".foodCanvas"));

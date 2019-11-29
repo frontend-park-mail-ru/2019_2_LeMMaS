@@ -12,6 +12,7 @@
 .leaderboard__player {
     font-size: 0.9em;
     margin-bottom: 0.2em;
+    padding: 0 0.3em;
 }
 
 .leaderboard__player-position {
@@ -39,18 +40,8 @@
 }
 
 @media (max-width: 1024px) {
-    .leaderboard-plate {
-        width: 60%;
-    }
-
     .leaderboard {
         max-height: 20vh;
-    }
-}
-
-@media (min-width: 320px) and (max-width: 480px) {
-    .leaderboard-plate {
-        width: 80%;
     }
 }
 
