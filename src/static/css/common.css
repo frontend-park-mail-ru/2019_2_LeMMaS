@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Play&display=swap");
 
+:root {
+    --headerHeight: 100px;
+}
+
 * {
     outline: none !important;
     box-sizing: border-box;
@@ -14,10 +18,7 @@ body {
 
 body {
     margin: 0;
-    height: 100vh;
     background-color: blueviolet;
-    max-height: 100vh;
-    overflow: hidden;
     background-position: center;
     background-size: cover;
     transition: filter 0.2s;
@@ -35,9 +36,9 @@ a:not(.button):hover {
 }
 
 .content {
-    position: relative;
-    height: 86vh;
     display: flex;
+    min-height: calc(100vh - var(--headerHeight));
+    padding-bottom: 3em;
 }
 
 .plate {
@@ -106,9 +107,9 @@ h3 {
 }
 
 /*
-  ##Device = Tablets, Ipads (portrait)
-  ##Screen = B/w 768px to 1024px
-*/
+      ##Device = Tablets, Ipads (portrait)
+      ##Screen = B/w 768px to 1024px
+    */
 
 @media (max-width: 1024px) {
     .text__size-normal {
@@ -121,9 +122,9 @@ h3 {
 }
 
 /*
-  ##Device = Most of the Smartphones Mobiles (Portrait)
-  ##Screen = B/w 320px to 479px
-*/
+      ##Device = Most of the Smartphones Mobiles (Portrait)
+      ##Screen = B/w 320px to 479px
+    */
 
 @media (max-width: 480px) {
     .content {
