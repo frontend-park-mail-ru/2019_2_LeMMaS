@@ -56,7 +56,7 @@ export default class ModalWindow {
         noButton.render();
         document
             .querySelector(".modalWindow__button-close")
-            .addEventListener("click", () => this.closeWithX());
+            .addEventListener("click", this.closeWithX);
     };
 
     _renderInside = () => {
@@ -75,7 +75,7 @@ export default class ModalWindow {
         `;
         document
             .querySelector(".modalWindow__button-close")
-            .addEventListener("click", () => this.closeWithX());
+            .addEventListener("click", this.closeWithX);
         this.inside.renderContent(
             modalWindowWrapper.querySelector(".modalWindow__buttons-wrapper")
         );
@@ -91,7 +91,7 @@ export default class ModalWindow {
         if (this.onclose) {
             document
                 .querySelector(".modalWindow__button-close")
-                .removeEventListener("click", () => this.close());
+                .removeEventListener("click", this.close);
             document.removeEventListener("keydown", this._keyDownHandler);
             this.parent.removeChild(
                 document.body.querySelector(".modalWindow__wrapper")
@@ -107,7 +107,7 @@ export default class ModalWindow {
     close = () => {
         document
             .querySelector(".modalWindow__button-close")
-            .removeEventListener("click", () => this.close());
+            .removeEventListener("click", this.close);
         document.removeEventListener("keydown", this._keyDownHandler);
         this.parent.removeChild(
             document.body.querySelector(".modalWindow__wrapper")
