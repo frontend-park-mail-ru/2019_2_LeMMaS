@@ -7,8 +7,8 @@ import HomeButton from "../buttons";
 import "./style.css";
 
 export default class Logo extends BaseStringComponent {
-    renderString() {
-        const logo_src = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    renderString = () => {
+        const logoSrc = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
             navigator.userAgent
         )
             ? "/assets/img/lemmaslogo_mobile.png"
@@ -20,10 +20,10 @@ export default class Logo extends BaseStringComponent {
                     <img
                         class="logo__image"
                         alt="Lemmas logo"
-                        src=${logo_src}
+                        src=${logoSrc}
                     />
                 </a>
             </div>
         `;
-    }
+    };
 }

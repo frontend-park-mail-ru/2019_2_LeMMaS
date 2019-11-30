@@ -4,7 +4,7 @@
 
 [![image](https://user-images.githubusercontent.com/6276455/69713801-3a1aa980-1116-11ea-82db-902277aefbe3.png)](http://95.163.212.121/)
 
-[Документация по API](https://go-park-mail-ru.github.io/2019_2_LeMMaS).
+[Документация по Api](https://go-park-mail-ru.github.io/2019_2_LeMMaS).
 
 ## Технологии
 

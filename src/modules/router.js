@@ -15,7 +15,7 @@ export const routes = {
     MULTIPLAYER: "/game/multiplayer",
 };
 
-let views = {};
+const views = {};
 views[routes.INDEX] = Index;
 views[routes.USER_LOGIN] = Login;
 views[routes.USER_REGISTER] = Register;
@@ -24,25 +24,23 @@ views[routes.SINGLEPLAYER] = SinglePlayerPage;
 views[routes.MULTIPLAYER] = MultiPlayerPage;
 
 class Router {
-    renderPage() {
+    renderPage = () => {
         this._renderView(location.pathname);
-    }
+    };
 
-    redirect(route) {
+    redirect = (route) => {
         window.history.pushState({}, document.title, route);
         this._renderView(route);
-    }
+    };
 
-    render404() {
+    render404 = () => {
         new Page404().render();
-    }
+    };
 
-    _renderView(route) {
+    _renderView = (route) => {
         const view = views[route] ? new views[route]() : new Page404();
         view.render();
-    }
+    };
 }
 
-const router = new Router();
-
-export default router;
+export default new Router();

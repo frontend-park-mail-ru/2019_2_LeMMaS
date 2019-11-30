@@ -1,5 +1,5 @@
 export default class Wallpaper {
-    render () {
+    render = () => {
         this.veg = document.querySelectorAll('.veg');
 
         this.speed = 1.5;
@@ -13,7 +13,7 @@ export default class Wallpaper {
         });
 
         this._moveAllVegs();
-    }
+    };
 
     _moveAllVegs = () => {
         this.veg.forEach(veg => {

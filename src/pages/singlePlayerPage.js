@@ -8,7 +8,7 @@ import SinglePlayer from "../components/gamePlay/singlePlayer";
 import User from "../modules/user";
 
 export default class SinglePlayerPage {
-    render() {
+    render = () => {
         const width = window.innerWidth * 2;
         const height = window.innerHeight * 2;
 
@@ -44,5 +44,5 @@ export default class SinglePlayerPage {
                 clearInterval(interval);
             }
         }, 200);
-    }
+    };
 }

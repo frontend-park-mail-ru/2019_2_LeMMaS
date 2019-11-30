@@ -8,7 +8,7 @@ import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
 import "../static/css/common.css";
 
 export default class BasePage {
-    render() {
+    render = () => {
         document.body.innerHTML = html`
             <div class="vegWrapper">
                 <div class="veg">🍅</div>
@@ -39,7 +39,7 @@ export default class BasePage {
         new Header(document.querySelector(".header")).render();
         this.renderContent(document.querySelector(".content"));
         new Wallpaper().render();
-    }
+    };
 
-    renderContent() {}
+    renderContent = () => {};
 }

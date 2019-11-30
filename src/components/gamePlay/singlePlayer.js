@@ -110,8 +110,6 @@ export default class SinglePlayer {
         this.timeouts.push(setTimeout(() => this._moveMyBall(), 100));
     };
 
-
-
     _detectFoodEating = ball => {
         this.food.getFood().forEach(foodElement => {
             if (

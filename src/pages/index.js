@@ -18,7 +18,7 @@ export default class Index extends BasePage {
         }, 200);
     };
 
-    _render(parent) {
+    _render = (parent) => {
         document.title = "LeMMaS";
 
         const multiHref = User.getCurrentUser() ? "/game/multiplayer" : null;
@@ -52,5 +52,5 @@ export default class Index extends BasePage {
                 loginWindow.start("Сначала нужно войти", null, null, new Login());
             });
         }
-    }
+    };
 }

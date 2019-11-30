@@ -8,7 +8,7 @@ import User from "../../modules/user";
 import "./style.css";
 
 export default class UserInfo extends BaseComponent {
-    start() {
+    start = () => {
         const loader = new Loader(this.parent, this.parent.parentElement);
         loader.show();
         const interval = setInterval(() => {
@@ -17,9 +17,9 @@ export default class UserInfo extends BaseComponent {
                 clearInterval(interval);
             }
         }, 200);
-    }
+    };
 
-    async render(currentUser) {
+    render = async (currentUser) => {
         if (currentUser === null) {
             return;
         }
@@ -32,5 +32,5 @@ export default class UserInfo extends BaseComponent {
                 />
             </a>
         `;
-    }
+    };
 }

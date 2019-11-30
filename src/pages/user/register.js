@@ -13,7 +13,7 @@ export default class Register extends BasePage {
         super();
     }
 
-    renderContent(parent) {
+    renderContent = (parent) => {
         document.title = "Register | LeMMaS";
 
         parent.innerHTML = html`
@@ -50,7 +50,7 @@ export default class Register extends BasePage {
             onSubmit: this.onRegisterFormSubmit,
         });
         this.registerForm.render();
-    }
+    };
 
     onRegisterFormSubmit = async e => {
         e.preventDefault();

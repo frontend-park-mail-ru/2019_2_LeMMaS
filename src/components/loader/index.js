@@ -11,7 +11,7 @@ export default class Loader extends BaseComponent {
         this.blurElement = blurElement ? blurElement : document.body;
     }
 
-    show() {
+    show = () => {
         this.blurElement.classList.add(LOADER_SHOWN_CLASS);
 
         this.loader = document.createElement("div");
@@ -23,10 +23,10 @@ export default class Loader extends BaseComponent {
         this.loader.appendChild(loaderInner);
 
         this.parent.appendChild(this.loader);
-    }
+    };
 
-    hide() {
+    hide = () => {
         this.parent.removeChild(this.loader);
         this.blurElement.classList.remove(LOADER_SHOWN_CLASS);
-    }
+    };
 }

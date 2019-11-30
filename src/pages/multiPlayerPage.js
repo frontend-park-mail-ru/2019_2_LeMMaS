@@ -9,7 +9,7 @@ import User from "../modules/user";
 import { koeff } from "../components/gamePlay/resolution";
 
 export default class MultiPlayerPage {
-    render() {
+    render = () => {
         const width = window.innerWidth * koeff;
         const height = window.innerHeight * koeff;
 
@@ -48,5 +48,5 @@ export default class MultiPlayerPage {
                 clearInterval(interval);
             }
         }, 200);
-    }
+    };
 }
