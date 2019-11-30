@@ -3,5 +3,5 @@ export default class BaseComponent {
         this.parent = parent;
     }
 
-    render() {}
+    render = () => {};
 }

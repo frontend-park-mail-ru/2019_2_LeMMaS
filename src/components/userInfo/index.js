@@ -7,16 +7,16 @@ import User from "modules/user";
 import "./style.css";
 
 export default class UserInfo extends BaseComponent {
-    start() {
+    start = () => {
         const interval = setInterval(() => {
             if (User.getCurrentUser() !== undefined) {
                 this.render(User.getCurrentUser());
                 clearInterval(interval);
             }
         }, 200);
-    }
+    };
 
-    async render(currentUser) {
+    render = async (currentUser) => {
         if (currentUser === null) {
             return;
         }
@@ -29,5 +29,5 @@ export default class UserInfo extends BaseComponent {
                 />
             </a>
         `;
-    }
+    };
 }

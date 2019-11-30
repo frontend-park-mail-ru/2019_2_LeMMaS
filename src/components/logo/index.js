@@ -7,7 +7,7 @@ import HomeButton from "components/buttons";
 import "./style.css";
 
 export default class Logo extends BaseStringComponent {
-    renderString() {
+    renderString = () => {
         return html`
             ${HomeButton.renderString()}
             <div class="logo">
@@ -25,5 +25,5 @@ export default class Logo extends BaseStringComponent {
                 </a>
             </div>
         `;
-    }
+    };
 }

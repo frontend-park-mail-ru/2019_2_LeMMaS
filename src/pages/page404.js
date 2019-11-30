@@ -3,7 +3,7 @@ import { html } from "common-tags";
 import BasePage from "./basePage";
 
 export default class Page404 extends BasePage {
-    renderContent(parent) {
+    renderContent = (parent) => {
         parent.innerHTML = html`
             <div class="plate plate__size-l">
                 <p class="text__size-big text__align-center">404</p>
@@ -12,5 +12,5 @@ export default class Page404 extends BasePage {
                 </p>
             </div>
         `;
-    }
+    };
 }

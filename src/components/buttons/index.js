@@ -28,7 +28,7 @@ export class LinkButton extends BaseStringComponent {
         return "notLoggedIn";
     };
 
-    renderString() {
+    renderString = () => {
         const buttonClass = classNames(this.extraClass, {
             "button__type-disabled": this.disabled,
         });
@@ -41,7 +41,7 @@ export class LinkButton extends BaseStringComponent {
                 ${this.text}
             </a>
         `;
-    }
+    };
 }
 
 export class Button extends BaseComponent {
@@ -52,18 +52,18 @@ export class Button extends BaseComponent {
         this.extraClass = extraClass;
     }
 
-    render() {
+    render = () => {
         const button = document.createElement("a");
         button.className = "button " + this.extraClass;
         button.innerText = this.text;
         button.addEventListener("click", this.onClick);
 
         this.parent.appendChild(button);
-    }
+    };
 }
 
 export default class HomeButton {
-    static renderString() {
+    static renderString = () => {
         const buttonClass = classNames("button button__type-home", {
             hidden: location.pathname === "/",
         });
@@ -72,5 +72,5 @@ export default class HomeButton {
                 <i class="fas fa-arrow-left"></i>
             </a>
         `;
-    }
+    };
 }

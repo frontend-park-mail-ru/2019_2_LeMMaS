@@ -12,16 +12,16 @@ export default class Profile extends BasePage {
         super();
     }
 
-    renderContent(parent) {
+    renderContent = (parent) => {
         const interval = setInterval(() => {
             if (User.getCurrentUser() !== undefined) {
                 this._render(parent);
                 clearInterval(interval);
             }
         }, 200);
-    }
+    };
 
-    async _render(parent) {
+    _render = async (parent) => {
         if (!User.isLoggedIn()) {
             router.render404();
             return;
@@ -40,7 +40,7 @@ export default class Profile extends BasePage {
             this.onEditProfileFormSubmit
         );
         await this.profileForm.start();
-    }
+    };
 
     onEditProfileFormSubmit = async e => {
         e.preventDefault();

@@ -8,7 +8,7 @@ import "@fortawesome/fontawesome-free/css/solid.min.css";
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
 
 export default class BasePage {
-    render() {
+    render = () => {
         document.body.innerHTML = html`
             <div class="wallpaper"></div>
             <header class="header"></header>
@@ -17,7 +17,7 @@ export default class BasePage {
         new Header(document.querySelector(".header")).render();
         this.renderContent(document.querySelector(".content"));
         new Wallpaper(document.querySelector(".wallpaper")).render();
-    }
+    };
 
-    renderContent() {}
+    renderContent = () => {};
 }

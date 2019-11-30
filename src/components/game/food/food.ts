@@ -35,17 +35,18 @@ export default class Food {
     }
 
     public draw = () => {
-        const ctx: CanvasRenderingContext2D = this.foodCanvas.getContext("2d");
-        ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
-
-        this.food.forEach(foodElement => {
-            ctx.beginPath();
-            ctx.font = `${20 * koeff}px serif`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(foodElement.emoji, foodElement.x, foodElement.y);
-            ctx.closePath();
-        });
+        const ctx: CanvasRenderingContext2D | null = this.foodCanvas.getContext("2d");
+        if(ctx) {
+            ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
+            this.food.forEach(foodElement => {
+                ctx.beginPath();
+                ctx.font = `${20 * koeff}px serif`;
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(foodElement.emoji, foodElement.x, foodElement.y);
+                ctx.closePath();
+            });
+        }
     };
 
     getFood = () => this.food;

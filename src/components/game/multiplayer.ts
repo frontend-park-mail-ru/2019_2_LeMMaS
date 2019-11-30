@@ -6,6 +6,8 @@ import API from "modules/api";
 import Ball from "./ball/ball";
 import Food from "./food/food";
 import { koeff } from "./resolution";
+import { GameLeaderboard } from "../leaderboard";
+import { ResponseUser } from "../../modules/responseBody";
 
 import "./style.css";
 
@@ -30,9 +32,7 @@ export default class Multiplayer {
 
     public start = (): void => {
         document.addEventListener("keydown", this._escapeKeyHandler);
-        document
-            .querySelector(".game__finish-button")
-            .addEventListener("click", this._modalWindowHandler);
+        document.querySelector(".infoLeft a").addEventListener("click", this._modalWindowHandler);
 
         window.addEventListener("pushstate", this._onPageChange);
 
@@ -108,7 +108,7 @@ export default class Multiplayer {
 
                 if (data && data.players) {
                     data.players.forEach(player => {
-                        API.getUserInfoById(player.user_id).then(user => {
+                        API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
                             if (user.name) {
                                 this.leaderBoard.addPlayer(
                                     user.name,
@@ -161,7 +161,7 @@ export default class Multiplayer {
             }
             case "new_player": {
                 const player = data.player;
-                API.getUserInfoById(player.user_id).then(user => {
+                API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
                     if (user.name) {
                         this.leaderBoard.addPlayer(
                             user.name,
@@ -184,7 +184,7 @@ export default class Multiplayer {
                     ball.backgroundImage = this.userBackgroundImage;
                 }
 
-                API.getUserInfoById(player.user_id).then(user => {
+                API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
                     if (user.avatar_path) {
                         const backgroundImage = new Image();
                         backgroundImage.src = user.avatar_path;

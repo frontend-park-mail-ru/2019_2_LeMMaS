@@ -6,10 +6,11 @@
         "server": "node dev/server.js",
         "build": "npm run sw && webpack",
         "sw": "node dev/sw/generateUrlsToCache.js",
-        "dev": "npm run server & npm run sw && webpack --watch --config webpack.config.js"
+        "dev": "npm run server & npm run sw && webpack --watch --config webpack.config.js",
+        "lintjs": "./node_modules/.bin/eslint -c .eslintrc.js './src/**/*?(.*).js?(x)'",
+        "lintts": "./node_modules/.bin/eslint -c .eslintrc.js './src/**/*?(.*).ts?(x)'"
     },
     "dependencies": {
-        "@typescript-eslint/eslint-plugin": "^2.8.0",
         "@typescript-eslint/parser": "^2.8.0",
         "classnames": "^2.2.6",
         "common-tags": "^1.8.0",
@@ -21,6 +22,9 @@
         "@babel/plugin-proposal-class-properties": "^7.7.4",
         "@babel/preset-env": "^7.7.4",
         "@fortawesome/fontawesome-free": "^5.11.2",
+        "@now/node": "^1.0.0",
+        "@now/node-server": "^0.8.2",
+        "@typescript-eslint/eslint-plugin": "^2.9.0",
         "awesome-typescript-loader": "^5.2.1",
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
@@ -41,6 +45,7 @@
         "pretty-quick": "^1.11.1",
         "recursive-readdir": "^2.2.2",
         "style-loader": "^0.13.1",
+        "swig": "^1.4.2",
         "ts-loader": "^6.2.1",
         "typescript": "^3.7.2",
         "webpack": "^4.41.2",
@@ -50,5 +55,9 @@
         "hooks": {
             "pre-commit": "pretty-quick --staged"
         }
-    }
+    },
+    "pre-commit": [
+        "lintjs",
+        "lintts"
+    ]
 }
