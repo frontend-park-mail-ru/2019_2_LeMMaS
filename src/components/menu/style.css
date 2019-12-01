@@ -17,15 +17,11 @@
     box-shadow: 0 3px 6px 0 #4a4a4ab0;
 }
 
-@media (max-width: 320px) {
-    .menu {
-        padding: 0.5em;
-        min-width: 14em;
-        margin: auto;
-    }
-}
-
 @media (max-width: 520px) {
+    .menu {
+        margin-right: 0;
+    }
+
     .userinfo__name {
         display: none;
     }

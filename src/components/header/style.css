@@ -2,4 +2,14 @@
     height: var(--headerHeight);
     display: flex;
     padding-top: 1em;
+
+    &_show-home-button {
+        .home-button {
+            visibility: visible;
+        }
+
+        .logo__image_mobile {
+            display: none;
+        }
+    }
 }
