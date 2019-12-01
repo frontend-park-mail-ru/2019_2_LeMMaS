@@ -55,12 +55,10 @@ class API {
 
     updateUser = (name: string, password: string): Promise<Response> => {
         const body: Partial<Body> = { name, password };
-        return this._post<Partial<Body>>(routes.USER_UPDATE, body).then((response: Response) => {
-            return response;
-        });
+        return this._post<Partial<Body>>(routes.USER_UPDATE, body);
     };
 
-    updateAvatar = (formData: FormData): Promise<Response> => this._post<FormData>(routes.USER_AVATAR_UPLOAD, formData).then((response: Response) => response);
+    updateAvatar = (formData: FormData): Promise<Response> => this._post<FormData>(routes.USER_AVATAR_UPLOAD, formData);
 
     currentUserProfile = (): Promise<Response | unknown> =>
         this._get(routes.USER_PROFILE).then((response: Response) => response.json())
