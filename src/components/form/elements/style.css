@@ -11,10 +11,12 @@
 }
 
 .form__caption {
-    margin: .3em 0 .5em;
     font-size: .9em;
     opacity: .8;
     text-align: center;
+    max-width: 280px;
+    margin: auto;
+    margin-bottom: 10px;
 }
 
 .form__field {

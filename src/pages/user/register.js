@@ -20,7 +20,7 @@ export default class Register extends BasePage {
             <div class="plate plate__size-m">
                 <h2 class="text__align-center text__size-big">Регистрация</h2>
                 <p class="form__caption">
-                    Зарегистрируйтесь, чтобы играть с друзьями и <br />сохранять
+                    Зарегистрируйтесь, чтобы играть с друзьями и сохранять
                     игровой прогресс
                 </p>
                 <div class="form-wrapper"></div>
