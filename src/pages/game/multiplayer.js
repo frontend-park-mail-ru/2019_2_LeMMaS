@@ -7,7 +7,7 @@ import { koeff } from "components/game/resolution";
 import "static/css/common.css";
 
 export default class Multiplayer {
-    render() {
+    render = () => {
         const width = window.innerWidth * koeff;
         const height = window.innerHeight * koeff;
 

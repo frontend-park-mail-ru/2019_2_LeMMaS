@@ -6,7 +6,6 @@ import API from "modules/api";
 import Ball from "./ball/ball";
 import Food from "./food/food";
 import { koeff } from "./resolution";
-import { GameLeaderboard } from "../leaderboard";
 import { ResponseUser } from "../../modules/responseBody";
 
 import "./style.css";
@@ -32,7 +31,9 @@ export default class Multiplayer {
 
     public start = (): void => {
         document.addEventListener("keydown", this._escapeKeyHandler);
-        document.querySelector(".infoLeft a").addEventListener("click", this._modalWindowHandler);
+        document
+            .querySelector(".game__finish-button")
+            .addEventListener("click", this._modalWindowHandler);
 
         window.addEventListener("pushstate", this._onPageChange);
 

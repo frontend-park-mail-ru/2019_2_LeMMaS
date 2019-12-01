@@ -11,10 +11,10 @@ export default class BasePage {
     render = () => {
         document.body.innerHTML = html`
             <div class="wallpaper"></div>
-            <header class="header"></header>
+            <div class="header-wrapper"></div>
             <div class="content"></div>
         `;
-        new Header(document.querySelector(".header")).render();
+        new Header(document.querySelector(".header-wrapper")).render();
         this.renderContent(document.querySelector(".content"));
         new Wallpaper(document.querySelector(".wallpaper")).render();
     };

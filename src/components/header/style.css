@@ -2,4 +2,5 @@
     height: var(--headerHeight);
     display: flex;
     padding-top: 1em;
+    width: 100%;
 }

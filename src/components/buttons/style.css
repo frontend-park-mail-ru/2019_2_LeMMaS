@@ -75,26 +75,8 @@
     }
 }
 
-.button__type-home {
-    font-size: 2em;
-    background: none;
-    color: white;
-    padding: 0 0.3em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    &:hover {
-        background: none;
-        color: white;
-    }
-}
-
 @media (max-width: 320px) {
     .button {
         padding: 0.5em;
-    }
-    .button__type-home {
-        font-size: 1em;
     }
 }

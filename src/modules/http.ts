@@ -38,13 +38,13 @@ class HttpNetwork {
         }
 
         if (body instanceof FormData) {
-            headers.set(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON);
             return fetch(url, {
                 ...options,
                 headers,
                 body: body,
             });
-        } else if (body instanceof Object) {
+        } else if (body) {
+            headers.set(HEADER_CONTENT_TYPE, CONTENT_TYPE_JSON);
             return fetch(url, {
                 ...options,
                 headers,

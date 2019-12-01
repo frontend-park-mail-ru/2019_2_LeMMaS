@@ -1,5 +1,7 @@
 .logo {
-    margin-top: 0.5em;
+    position: absolute;
+    top: 1.6em;
+    left: 2.5em;
 }
 
 .logo__image {
@@ -10,7 +12,42 @@
     display: none;
 }
 
+.home-button {
+    display: flex;
+    visibility: hidden;
+    position: absolute;
+    top: 1.7rem;
+    padding: 1rem;
+    font-size: 2em;
+    background: none;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+    text-decoration: none;
+
+    &:hover {
+        background: none;
+        color: white !important;
+    }
+}
+
 @media (max-width: 700px) {
+    :root {
+        --logoTopPosition: 1.5rem;
+        --logoLeftPosition: 2.5rem;
+    }
+
+    .logo {
+        top: var(--logoTopPosition);
+        left: var(--logoLeftPosition);
+    }
+
+    .home-button {
+        top: var(--logoTopPosition);
+        left: var(--logoLeftPosition);
+        padding-left: 0;
+    }
+
     .logo__image {
         display: none;
     }
@@ -20,8 +57,8 @@
     }
 }
 
-@media (max-width: 320px) {
-    .logo {
-        padding: 0.5em;
+@media (max-width: 520px) {
+    :root {
+        --logoLeftPosition: 1rem;
     }
 }

@@ -29,6 +29,11 @@ export const STATUS_OK = "ok";
 
 const CSRF_TOKEN_HEADER = "X-CSRF-Token";
 
+interface Body {
+    name: string;
+    email: string;
+    password: string;
+}
 
 class API {
     private csrfToken: string | null;
@@ -38,24 +43,24 @@ class API {
     }
 
     registerUser = (email: string, name: string, password: string): Promise<Response> => {
-        return this._post<object>(routes.USER_REGISTER, {email, name, password});
+        return this._post<Partial<Body>>(routes.USER_REGISTER, { email, name, password });
     };
 
     loginUser = (email: string, password: string): Promise<Response> => {
-        const body = [];
-        body.push(email, password);
-        return this._post<Array<string>>(routes.USER_LOGIN, body);
+        const body: Partial<Body> = { email, password };
+        return this._post<Partial<Body>>(routes.USER_LOGIN, body);
     };
 
     logoutUser = (): Promise<Response> => this._post(routes.USER_LOGOUT);
 
     updateUser = (name: string, password: string): Promise<Response> => {
-        const body = [];
-        body.push(name, password);
-        return this._post<Array<string>>(routes.USER_UPDATE, body).then((response: Response) => response.json());
+        const body: Partial<Body> = { name, password };
+        return this._post<Partial<Body>>(routes.USER_UPDATE, body).then((response: Response) => {
+            return response;
+        });
     };
 
-    updateAvatar = (formData: FormData): Promise<Response> => this._post<FormData>(routes.USER_AVATAR_UPLOAD, formData).then((response: Response) => response.json());
+    updateAvatar = (formData: FormData): Promise<Response> => this._post<FormData>(routes.USER_AVATAR_UPLOAD, formData).then((response: Response) => response);
 
     currentUserProfile = (): Promise<Response | unknown> =>
         this._get(routes.USER_PROFILE).then((response: Response) => response.json())
@@ -64,9 +69,10 @@ class API {
             });
 
     getAvatarPreviewUrl = (name: string): Promise<unknown> =>
-        this._get(routes.USER_AVATAR_PREVIEW + "?name=" + name).then(
-            response => response.body
-        );
+        this._get(routes.USER_AVATAR_PREVIEW + "?name=" + name).then((response: Response) => response.json())
+            .then((response: StandartJSONResponse<MyResponse>) => {
+                return response.body;
+            });
 
     getUserInfoById = (id: number): Promise<unknown> =>
         this._get(`${PUBLIC_USER}/${id}`)

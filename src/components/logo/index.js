@@ -2,14 +2,15 @@ import { html } from "common-tags";
 
 import { routes } from "modules/router";
 import BaseStringComponent from "components/baseStringComponent";
-import HomeButton from "components/buttons";
 
 import "./style.css";
 
 export default class Logo extends BaseStringComponent {
     renderString = () => {
         return html`
-            ${HomeButton.renderString()}
+            <a class="home-button" href="${routes.INDEX}">
+                <i class="fas fa-arrow-left"></i>
+            </a>
             <div class="logo">
                 <a href="${routes.INDEX}">
                     <img

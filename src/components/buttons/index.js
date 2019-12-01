@@ -61,16 +61,3 @@ export class Button extends BaseComponent {
         this.parent.appendChild(button);
     };
 }
-
-export default class HomeButton {
-    static renderString = () => {
-        const buttonClass = classNames("button button__type-home", {
-            hidden: location.pathname === "/",
-        });
-        return `
-            <a class="${buttonClass}" href="/">
-                <i class="fas fa-arrow-left"></i>
-            </a>
-        `;
-    };
-}
