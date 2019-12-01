@@ -43,7 +43,7 @@ class User {
 
     getAvatarUrl = () =>
         !this.currentUser.avatar_path
-            ? "/assets/img/userpic.png"
+            ? "/assets/img/userpic.jpeg"
             : this.currentUser.avatar_path;
 
     _setLogin = loggedIn => (this.loggedIn = loggedIn);
