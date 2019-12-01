@@ -118,7 +118,7 @@ h3 {
 
 @media (max-width: 520px) {
     .plate {
-        max-width: 93%;
+        max-width: 93% !important;
     }
 
     .text__size-big {
