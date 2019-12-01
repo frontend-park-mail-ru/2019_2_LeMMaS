@@ -6,7 +6,7 @@ import BaseStringComponent from "components/baseStringComponent";
 import "./style.css";
 
 export default class Logo extends BaseStringComponent {
-    renderString() {
+    renderString = () => {
         return html`
             <a class="home-button" href="${routes.INDEX}">
                 <i class="fas fa-arrow-left"></i>
@@ -26,5 +26,5 @@ export default class Logo extends BaseStringComponent {
                 </a>
             </div>
         `;
-    }
+    };
 }

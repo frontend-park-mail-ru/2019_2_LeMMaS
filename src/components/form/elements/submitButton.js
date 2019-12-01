@@ -9,7 +9,7 @@ export default class SubmitButton extends BaseStringComponent {
         this.color = color;
     }
 
-    renderString() {
+    renderString = () => {
         const colorClass = this.color ? "button__color-" + this.color : "";
         return html`
             <div class="form__field-wrapper">
@@ -21,5 +21,5 @@ export default class SubmitButton extends BaseStringComponent {
                 </button>
             </div>
         `;
-    }
+    };
 }

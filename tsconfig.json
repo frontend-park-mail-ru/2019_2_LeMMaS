@@ -1,9 +1,19 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "baseUrl": "src",
-        "target": "es2015",
-        "sourceMap": true
-    },
-    "exclude": ["node_modules"]
+  "compilerOptions": {
+    //"strict": false,
+    "module": "commonjs",
+    "baseUrl": "src",
+    "target": "es2015",
+    "sourceMap": true,
+   // "moduleResolution": "node"
+    "lib": [
+      "dom",
+      "es2015",
+      "scripthost",
+      "es2015.collection"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

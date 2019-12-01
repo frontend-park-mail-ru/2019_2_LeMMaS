@@ -7,8 +7,8 @@ import Menu from "components/menu";
 
 import "./style.css";
 
-export default class Header extends BaseComponent {
-    public render() {
+export default class Header extends BaseComponent{
+    public render = () => {
         const headerClass = classNames("header", {
             "header_show-home-button": this._isShowHomeButton(),
         });
@@ -19,7 +19,7 @@ export default class Header extends BaseComponent {
             </header>
         `;
         new Menu(this.parent.querySelector(".menu")).start();
-    }
+    };
 
     private _isShowHomeButton(): boolean {
         return location.pathname !== "/";

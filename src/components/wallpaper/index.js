@@ -8,7 +8,7 @@ import "./style.css";
 const FOOD_SPEED = 1;
 
 export default class Wallpaper extends BaseComponent {
-    render() {
+    render = () => {
         this.parent.innerHTML = html`
             ${foods.map(food => `<span class="food">${food}</span>`)}
         `;
@@ -21,7 +21,7 @@ export default class Wallpaper extends BaseComponent {
         });
 
         this._moveFoods();
-    }
+    };
 
     _moveFoods = () => {
         this.foods.forEach(food => {

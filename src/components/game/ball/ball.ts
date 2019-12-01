@@ -1,5 +1,6 @@
 import API from "modules/api";
 import { koeff } from "../resolution";
+import { ResponseUser } from "../../../modules/responseBody";
 
 const DEFAULT_COLOR = "green";
 const DEFAULT_STROKE = "rgba(128, 0, 0, 0.5)";
@@ -52,7 +53,7 @@ export default class Ball {
         this.getAvatar();
     }
 
-    public draw = () => {
+    public draw = (): void => {
         const ballCtx: CanvasRenderingContext2D = this.canvas.getContext("2d");
         ballCtx.restore();
         ballCtx.save();
@@ -82,24 +83,23 @@ export default class Ball {
 
     public getId = (): number => this.id;
 
-    public setTarget = (x: number, y: number) => {
+    public setTarget = (x: number, y: number): void => {
         this.easingTargetX = x;
         this.easingTargetY = y;
     };
 
-    public delete = () => {
+    public delete = (): HTMLCanvasElement =>
         this.canvas.parentNode.removeChild(this.canvas);
-    };
 
-    private getAvatar() {
-        API.getUserInfoById(this.id).then(user => {
+    private getAvatar = (): void => {
+        API.getUserInfoById(this.id).then((user: ResponseUser)=> {
             if (user.avatar_path) {
                 const backgroundImage = new Image();
                 backgroundImage.src = user.avatar_path;
                 this.backgroundImage = backgroundImage;
             }
         });
-    }
+    };
 
     private _countWithKoeff = (toCount: number) => toCount * koeff;
 }

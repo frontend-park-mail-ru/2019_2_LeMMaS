@@ -6,7 +6,7 @@ import User from "modules/user";
 import "static/css/common.css";
 
 export default class Singleplayer {
-    render() {
+    render = () => {
         const width = window.innerWidth * 2;
         const height = window.innerHeight * 2;
 
@@ -42,5 +42,5 @@ export default class Singleplayer {
                 clearInterval(interval);
             }
         }, 200);
-    }
+    };
 }

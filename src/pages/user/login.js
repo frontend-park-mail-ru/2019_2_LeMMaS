@@ -15,7 +15,7 @@ export default class Login extends BasePage {
         super();
     }
 
-    renderContent(parent) {
+    renderContent = (parent) => {
         document.title = "Войти | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-m">
@@ -63,7 +63,7 @@ export default class Login extends BasePage {
         this.login(email, password);
     };
 
-    async login(email, password) {
+    login = async (email, password) => {
         const loader = new Loader();
         loader.show();
         const response = await User.login(email, password);
@@ -74,5 +74,5 @@ export default class Login extends BasePage {
             this.loginForm.showError("Неверная почта или пароль");
         }
         loader.hide();
-    }
+    };
 }

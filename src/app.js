@@ -10,6 +10,16 @@ window.addEventListener("DOMContentLoaded", () => {
     Router.renderPage();
 });
 
+const findParent = (tag, element) => {
+    while (element) {
+        if ((element.nodeName || element.tagName) === tag) {
+            return element;
+        }
+        element = element.parentNode;
+    }
+    return null;
+};
+
 document.addEventListener("click", e => {
     const link = findParent("A", e.target || e.srcElement);
     if (link === null) {
@@ -26,13 +36,3 @@ document.addEventListener("click", e => {
     window.history.pushState({}, document.title, href);
     Router.renderPage();
 });
-
-function findParent(tag, element) {
-    while (element) {
-        if ((element.nodeName || element.tagName) === tag) {
-            return element;
-        }
-        element = element.parentNode;
-    }
-    return null;
-}

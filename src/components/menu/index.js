@@ -24,7 +24,7 @@ export default class Menu extends BaseComponent {
         User.isLoggedIn() ? this._renderForLoggedIn() : this._renderForNoUser();
     };
 
-    _renderForLoggedIn() {
+    _renderForLoggedIn = () => {
         this.parent.innerHTML = `
             <span class="userinfo-wrapper"></span>
         `;
@@ -34,9 +34,9 @@ export default class Menu extends BaseComponent {
             extraClass: "button__transparency-transparent",
         }).render();
         new UserInfo(this.parent.querySelector(".userinfo-wrapper")).start();
-    }
+    };
 
-    _renderForNoUser() {
+    _renderForNoUser = () => {
         this.parent.innerHTML = `
             ${new LinkButton({
                 text: "Войти",
@@ -49,10 +49,10 @@ export default class Menu extends BaseComponent {
                 extraClass: "button__type-secondary",
             }).renderString()}
         `;
-    }
+    };
 
-    async _onLogoutButtonClick() {
+    _onLogoutButtonClick = async () => {
         await User.logout();
         router.redirect(routes.INDEX);
-    }
+    };
 }

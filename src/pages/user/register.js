@@ -7,13 +7,14 @@ import SubmitButton from "components/form/elements/submitButton";
 import User from "modules/user";
 import Login from "pages/user/login";
 import { STATUS_OK } from "modules/api";
+import Router from "../../modules/router";
 
 export default class Register extends BasePage {
     constructor() {
         super();
     }
 
-    renderContent(parent) {
+    renderContent = (parent) => {
         document.title = "Register | LeMMaS";
 
         parent.innerHTML = html`
@@ -54,7 +55,7 @@ export default class Register extends BasePage {
             onSubmit: this.onRegisterFormSubmit,
         });
         this.registerForm.render();
-    }
+    };
 
     onRegisterFormSubmit = async e => {
         e.preventDefault();
@@ -78,7 +79,13 @@ export default class Register extends BasePage {
 
         const response = await User.register(email, name, password);
         if (response.status === STATUS_OK) {
-            Login.prototype.login(email, password);
+            const response = await User.login(email, password);
+            if (response.status === STATUS_OK) {
+                window.history.pushState({}, document.title, "/");
+                Router.renderPage();
+            } else {
+                this.registerForm.showError("Неизвестная ошибка");
+            }
             return;
         }
         const responseJSON = await response;

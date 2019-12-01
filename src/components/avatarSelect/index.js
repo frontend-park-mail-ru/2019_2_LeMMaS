@@ -14,7 +14,7 @@ export default class AvatarSelect extends BaseComponent {
         this.userAvatarUrl = userAvatarUrl;
     }
 
-    render(avatarUrl = "") {
+    render = (avatarUrl = "") => {
         this.parent.innerHTML = html`
             <div class="avatar-input-wrapper">
                 <input
@@ -48,10 +48,10 @@ export default class AvatarSelect extends BaseComponent {
                     .querySelector(".avatar-input-wrapper")
                     .classList.add("avatar-input-wrapper_file-selected");
             });
-    }
+    };
 
-    async previewByName(name) {
+    previewByName = async (name) => {
         const avatarUrl = name ? await API.getAvatarPreviewUrl(name) : null;
         this.render(avatarUrl.avatar_url);
-    }
+    };
 }

@@ -6,6 +6,7 @@ import API from "modules/api";
 import Ball from "./ball/ball";
 import Food from "./food/food";
 import { koeff } from "./resolution";
+import { ResponseUser } from "../../modules/responseBody";
 
 import "./style.css";
 
@@ -108,7 +109,7 @@ export default class Multiplayer {
 
                 if (data && data.players) {
                     data.players.forEach(player => {
-                        API.getUserInfoById(player.user_id).then(user => {
+                        API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
                             if (user.name) {
                                 this.leaderBoard.addPlayer(
                                     user.name,
@@ -161,7 +162,7 @@ export default class Multiplayer {
             }
             case "new_player": {
                 const player = data.player;
-                API.getUserInfoById(player.user_id).then(user => {
+                API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
                     if (user.name) {
                         this.leaderBoard.addPlayer(
                             user.name,
@@ -184,7 +185,7 @@ export default class Multiplayer {
                     ball.backgroundImage = this.userBackgroundImage;
                 }
 
-                API.getUserInfoById(player.user_id).then(user => {
+                API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
                     if (user.avatar_path) {
                         const backgroundImage = new Image();
                         backgroundImage.src = user.avatar_path;
