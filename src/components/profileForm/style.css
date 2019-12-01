@@ -1,0 +1,9 @@
+.profile-wrapper {
+    width: auto;
+    min-width: 35%;
+    max-width: 440px;
+
+    @media (max-width: 520px) {
+        max-width: 93%;
+    }
+}

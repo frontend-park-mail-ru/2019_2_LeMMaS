@@ -42,8 +42,8 @@ a:not(.button):hover {
 }
 
 .plate {
-    position: relative;
     width: 20%;
+    position: relative;
     background: #250823bf;
     box-shadow: 0 14px 37px 0px rgba(0, 0, 0, 0.58);
     border-radius: 14px;
@@ -106,11 +106,6 @@ h3 {
     }
 }
 
-/*
-      ##Device = Tablets, Ipads (portrait)
-      ##Screen = B/w 768px to 1024px
-    */
-
 @media (max-width: 1024px) {
     .text__size-normal {
         font-size: 1em;
@@ -121,22 +116,15 @@ h3 {
     }
 }
 
-/*
-      ##Device = Most of the Smartphones Mobiles (Portrait)
-      ##Screen = B/w 320px to 479px
-    */
+@media (max-width: 520px) {
+    .text__size-big {
+        font-size: 2.5em;
+    }
+}
 
 @media (max-width: 480px) {
     .content {
         flex-direction: column;
-    }
-
-    .header {
-        height: 10vh;
-    }
-
-    .text__size-big {
-        font-size: 2em;
     }
 }
 
