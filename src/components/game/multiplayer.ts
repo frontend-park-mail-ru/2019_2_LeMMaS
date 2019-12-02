@@ -5,6 +5,7 @@ import User from "modules/user";
 import API from "modules/api";
 import Ball from "./ball/ball";
 import Food from "./food/food";
+import Offset from "./Offset";
 import { koeff } from "./resolution";
 import { ResponseUser } from "../../modules/responseBody";
 
@@ -15,7 +16,6 @@ export default class Multiplayer {
     private balls: Map<number, Ball>;
     private food: Food;
     private mouseCoordinates: { x: number; y: number };
-    private userBackgroundImage: HTMLImageElement;
     private currentUserID: number;
     private socket: WebSocket;
     private modalWindow: ModalWindow;
@@ -24,6 +24,7 @@ export default class Multiplayer {
     private leaderBoard: GameLeaderboard;
     private prevSpeed: number;
     private prevDirection: number;
+    private foodCanvas: HTMLCanvasElement;
 
     constructor(parent) {
         this.parent = parent;
@@ -38,7 +39,10 @@ export default class Multiplayer {
         window.addEventListener("pushstate", this._onPageChange);
 
         this.balls = new Map<number, Ball>();
-        this.food = new Food(document.querySelector(".foodCanvas"));
+        this.foodCanvas = document.querySelector(".foodCanvas");
+        this.food = new Food(this.foodCanvas);
+        const ctx = this.foodCanvas.getContext("2d");
+        ctx.scale(2, 2);
 
         this.mouseCoordinates = {
             x: 0,
@@ -49,16 +53,11 @@ export default class Multiplayer {
 
         const user = User.getCurrentUser();
         if (user) {
-            if (user.avatar_path) {
-                const backgroundImage: HTMLImageElement = new Image();
-                backgroundImage.src = user.avatar_path;
-                this.userBackgroundImage = backgroundImage;
-            }
             this.currentUserID = user.id;
         }
 
         this.socket = API.openGameWebSocket();
-        this.socket.onopen = () => {
+        this.socket.onopen = (): void => {
             console.log("[open] Соединение установлено");
             console.log("Отправляем данные на сервер");
             this.socket.send(`{"type" : "start"}`);
@@ -66,7 +65,7 @@ export default class Multiplayer {
 
         this.socket.onmessage = this._messageHandler;
 
-        this.socket.onclose = (event: CloseEvent) => {
+        this.socket.onclose = (event: CloseEvent): void => {
             if (event.wasClean) {
                 console.log(
                     `[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`
@@ -77,7 +76,7 @@ export default class Multiplayer {
             }
         };
 
-        this.socket.onerror = (error: ErrorEvent) => {
+        this.socket.onerror = (error: ErrorEvent): void=> {
             console.log(`[error] ${error.message}`);
         };
 
@@ -93,7 +92,7 @@ export default class Multiplayer {
         this.leaderBoard = new GameLeaderboard(leaderboardWrapper);
     };
 
-    private _messageHandler = (event: MessageEvent) => {
+    private _messageHandler = (event: MessageEvent): void => {
         const data = JSON.parse(event.data);
         switch (data.type) {
             case "start": {
@@ -104,8 +103,6 @@ export default class Multiplayer {
                         element.position.y
                     );
                 });
-
-                this.food.draw();
 
                 if (data && data.players) {
                     data.players.forEach(player => {
@@ -139,7 +136,17 @@ export default class Multiplayer {
                 break;
             }
             case "move": {
+                console.log(`offx: ${Offset.x}; offy: ${Offset.y}`);
+
                 const ballToMove = this.balls.get(data.player.id);
+
+                console.log(`x: ${ballToMove.x}; y: ${ballToMove.y}`);
+
+                if (data.player.id == this.currentUserID) {
+                    Offset.setX(ballToMove.x - data.player.x + Offset.x);
+                    Offset.setY(ballToMove.y - data.player.y + Offset.y);
+                }
+
                 ballToMove.setTarget(
                     data.player.x * koeff,
                     data.player.y * koeff
@@ -180,10 +187,6 @@ export default class Multiplayer {
                     player.size / 2,
                     "yellow"
                 );
-
-                if (ball.getId() === this.currentUserID) {
-                    ball.backgroundImage = this.userBackgroundImage;
-                }
 
                 API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
                     if (user.avatar_path) {
@@ -233,12 +236,12 @@ export default class Multiplayer {
         }
     };
 
-    private _onWindowResize = () => {
+    private _onWindowResize = (): void => {
         /*this.balls.get(this.currentUserID).canvas.width = window.innerWidth;
         this.balls.get(this.currentUserID).canvas.height = window.innerHeight;*/
     };
 
-    private _handleMouseMove = event => {
+    private _handleMouseMove = (event): void => {
         this._countAndSendSpeed(event.clientX * koeff, event.clientY * koeff);
         this._countAndSendDirection(
             event.clientX * koeff,
@@ -249,7 +252,7 @@ export default class Multiplayer {
         this.mouseCoordinates.y = event.clientY * koeff;
     };
 
-    private _countAndSendSpeed = (x, y) => {
+    private _countAndSendSpeed = (x, y): void => {
         const dis = Math.sqrt(
             Math.pow(x - this.balls.get(this.currentUserID).x, 2) +
                 Math.pow(y - this.balls.get(this.currentUserID).y, 2)
@@ -261,11 +264,11 @@ export default class Multiplayer {
         const speed = Math.floor((dis / diagonal) * 100);
         if (this.prevSpeed !== speed) {
             this.prevSpeed = speed;
-            this.socket.send(`{"type":"speed", "speed":${speed}}`);
+            this.socket.send(`{"type":"speed", "speed":50}`);
         }
     };
 
-    private _countAndSendDirection = (x, y) => {
+    private _countAndSendDirection = (x, y): void => {
         const dis = Math.sqrt(
             Math.pow(x - this.balls.get(this.currentUserID).x, 2) +
                 Math.pow(y - this.balls.get(this.currentUserID).y, 2)
@@ -294,17 +297,7 @@ export default class Multiplayer {
         }
     };
 
-    private _moveBall = ball => {
-        if (
-            ball.easingTargetX === ball.x + ball.radius &&
-            ball.easingTargetY === ball.y + ball.radius
-        ) {
-            return;
-        }
-
-        ball.x += (ball.easingTargetX - ball.x) * ball.easing;
-        ball.y += (ball.easingTargetY - ball.y) * ball.easing;
-
+    private _moveBall = (ball): void => {
         if (ball.id === this.currentUserID) {
             if (
                 ball.x > this.mouseCoordinates.x - ball.radius &&
@@ -325,8 +318,13 @@ export default class Multiplayer {
         }
     };
 
-    private _redrawAllBalls = () => {
+    private _redrawAllBalls = (): void=> {
         if (this.balls) {
+            const ballCtx: CanvasRenderingContext2D = this.foodCanvas.getContext("2d");
+            ballCtx.restore();
+            ballCtx.save();
+            ballCtx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
+            this.food.draw();
             this.balls.forEach(ball => {
                 ball.draw();
             });
@@ -338,7 +336,7 @@ export default class Multiplayer {
         });
     };
 
-    private _end = () => {
+    private _end = (): void => {
         this.socket.close(1000, "endGame");
         document.removeEventListener("keydown", this._escapeKeyHandler);
         document
@@ -354,15 +352,15 @@ export default class Multiplayer {
         }
     };
 
-    private _pause = () => {
+    private _pause = (): void => {
         document.removeEventListener("mousemove", this._handleMouseMove);
     };
 
-    private _resume = () => {
+    private _resume = (): void => {
         document.addEventListener("mousemove", this._handleMouseMove);
     };
 
-    private _exit = () => {
+    private _exit = (): void => {
         this.gameEnded = true;
         this._end();
 
@@ -376,24 +374,24 @@ export default class Multiplayer {
         router.renderPage();
     };
 
-    private _playAgain = () => {
+    private _playAgain = (): void => {
         this.modalWindow.close();
         this._end();
         this.start();
     };
 
-    private _onPageChange = () => {
+    private _onPageChange = (): void=> {
         document.removeEventListener("keydown", this._escapeKeyHandler);
         window.removeEventListener("popstate", this._onPageChange);
     };
 
-    private _escapeKeyHandler = event => {
+    private _escapeKeyHandler = (event): void => {
         if (event.key === "Escape" || event.keyCode === 27) {
             this._modalWindowHandler();
         }
     };
 
-    private _modalWindowHandler = () => {
+    private _modalWindowHandler = (): void => {
         document.removeEventListener("keydown", this._escapeKeyHandler);
         this._pause();
         this.modalWindow.start(
