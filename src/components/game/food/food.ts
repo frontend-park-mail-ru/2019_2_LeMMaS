@@ -51,5 +51,5 @@ export default class Food {
         }
     };
 
-    getFood = (): Food => this.food;
+    getFood = (): Map<number, FoodElement> => this.food;
 }
