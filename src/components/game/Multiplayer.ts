@@ -237,7 +237,7 @@ export default class Multiplayer {
     };
 
     private _handleMouseMove = (event: MouseEvent): void => {
-        Socket.send(`{"type":"speed", "speed":20}`);
+        Socket.send(`{"type":"speed", "speed":100}`);
 
         this._countAndSendDirection(
             event.clientX,
@@ -270,7 +270,7 @@ export default class Multiplayer {
         const speed = Math.floor((dis / diagonal) * 100);
         if (this.prevSpeed !== speed) {
             this.prevSpeed = speed;
-            Socket.send(`{"type":"speed", "speed":20}`);
+            Socket.send(`{"type":"speed", "speed":100}`);
         }
     };
 

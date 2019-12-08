@@ -91,7 +91,7 @@ export class GameLeaderboard extends BaseComponent {
         }">
                         <span class="leaderboard__player-name">${username}</span>
                                                 <span class="leaderboard__player-position">${(size -
-                                                    40) /
+                                                    20) /
                                                     2}</span>
                     </div>
                     `;

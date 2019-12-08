@@ -34,7 +34,7 @@ export default class Food {
         if(ctx) {
             this.food.forEach(foodElement => {
                 ctx.beginPath();
-                ctx.font = `${Scale.countWithScale(20)}px serif`;
+                ctx.font = `${Scale.countWithScale(15)}px serif`;
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
                 ctx.fillText(foodElement.emoji, foodElement.x + Offset.x, foodElement.y + Offset.y);

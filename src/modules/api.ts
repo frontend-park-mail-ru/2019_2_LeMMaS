@@ -2,7 +2,7 @@ import httpNetwork from "./http";
 import { MyResponse, ResponseUser } from "./responseBody";
 import { StandartJSONResponse } from "common-api";
 
-const BACKEND_URL = "95.163.212.121";
+const BACKEND_URL = "localhost:8080";
 const API_V1_PREFIX = "api/v1";
 const API_PUBLIC_PREFIX = "public";
 const API_PRIVATE_PREFIX = "private";
@@ -16,6 +16,7 @@ const routes = {
     USER_REGISTER: PUBLIC_USER + "register",
     USER_UPDATE: PRIVATE_USER + "update",
     USER_PROFILE: PRIVATE_USER + "me",
+    USER_BY_ID: PUBLIC_USER,
     USER_LOGOUT: PRIVATE_USER + "logout",
     USER_AVATAR_UPLOAD: PRIVATE_USER + "avatar/upload",
     USER_AVATAR_PREVIEW: PRIVATE_USER + "avatar/getByName",
@@ -79,7 +80,7 @@ class API {
             });
 
     getUserInfoById = (id: number): Promise<ResponseUser> =>
-        this._get(`${PUBLIC_USER}/${id}`)
+        this._get(routes.USER_BY_ID + id)
             .then((response: Response) => response.json())
             .then((response: StandartJSONResponse<MyResponse>): ResponseUser => response.body.user as ResponseUser);
 
