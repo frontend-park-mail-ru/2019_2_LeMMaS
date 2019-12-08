@@ -1,40 +1,41 @@
 import { html } from "common-tags";
 
+import SinglePlayer from "components/game/singleplayer";
 import User from "modules/user";
-import MultiPlayer from "components/game/multiplayer";
-import { koeff } from "components/game/resolution";
 
 import "static/css/common.css";
 
-export default class Multiplayer {
+export default class Singleplayer {
+    private gamePlay: SinglePlayer;
+
     render = () => {
-        const width = window.innerWidth * koeff;
-        const height = window.innerHeight * koeff;
+        const width = window.innerWidth * 2;
+        const height = window.innerHeight * 2;
 
         document.body.innerHTML = html`
             <div class="game__wrapper">
-                <div class="game__info plate leaderboard-plate plate__size-auto">
-                    <div class="plate__innerContent">
-                        <h2 class="text__align-center">
-                            <i class="fas fa-trophy"></i> Лучшие игроки
-                        </h2>
-                        <div class="leaderboard-wrapper"></div>
-                    </div>
-                </div>
                 <div class="game__finish-button plate plate__size-auto">
                     <i class="fas fa-times"></i>
+                </div>
+                <div class="game__info plate plate__size-auto">
+                    <p>Счет: <span class="gameScore__number">0</span></p>
                 </div>
                 <canvas
                     width="${width}"
                     height="${height}"
                     class="foodCanvas"
                 ></canvas>
+                <canvas
+                    width="${width}"
+                    height="${height}"
+                    class="ballCanvas"
+                ></canvas>
             </div>
         `;
 
         document.body.style.background = "white";
 
-        this.gamePlay = new MultiPlayer(
+        this.gamePlay = new SinglePlayer(
             document.body.querySelector(".game__wrapper")
         );
         const interval = setInterval(() => {
@@ -43,5 +44,5 @@ export default class Multiplayer {
                 clearInterval(interval);
             }
         }, 200);
-    }
+    };
 }

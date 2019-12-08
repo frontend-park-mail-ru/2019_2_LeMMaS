@@ -24,6 +24,8 @@
         "@fortawesome/fontawesome-free": "^5.11.2",
         "@now/node": "^1.0.0",
         "@now/node-server": "^0.8.2",
+        "@types/classnames": "^2.2.9",
+        "@types/common-tags": "^1.8.0",
         "@typescript-eslint/eslint-plugin": "^2.9.0",
         "awesome-typescript-loader": "^5.2.1",
         "babel-eslint": "^10.0.3",

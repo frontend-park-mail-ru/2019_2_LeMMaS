@@ -5,16 +5,16 @@ import Form from "components/form";
 import Input from "components/form/elements/input";
 import SubmitButton from "components/form/elements/submitButton";
 import User from "modules/user";
-import Login from "pages/user/login";
-import { STATUS_OK } from "modules/api";
 import Router from "../../modules/router";
 
 export default class Register extends BasePage {
+    private registerForm: HTMLFormElement | undefined;
+
     constructor() {
         super();
     }
 
-    renderContent = (parent) => {
+    renderContent = (parent: HTMLElement) => {
         document.title = "Register | LeMMaS";
 
         parent.innerHTML = html`
@@ -54,11 +54,15 @@ export default class Register extends BasePage {
             elements: formElements,
             onSubmit: this.onRegisterFormSubmit,
         });
-        this.registerForm.render();
+        this.registerForm && this.registerForm.render();
     };
 
-    onRegisterFormSubmit = async e => {
+    onRegisterFormSubmit = async (e: Event): Promise<void> => {
         e.preventDefault();
+
+        if (!this.registerForm) {
+            return;
+        }
 
         const email = this.registerForm.getValue("email");
         const name = this.registerForm.getValue("name");
@@ -78,9 +82,9 @@ export default class Register extends BasePage {
         }
 
         const response = await User.register(email, name, password);
-        if (response.status === STATUS_OK) {
+        if (response.ok) {
             const response = await User.login(email, password);
-            if (response.status === STATUS_OK) {
+            if (response.ok) {
                 window.history.pushState({}, document.title, "/");
                 Router.renderPage();
             } else {
@@ -88,9 +92,11 @@ export default class Register extends BasePage {
             }
             return;
         }
-        const responseJSON = await response;
+
+        const responseJson = await response.json();
+
         if (
-            responseJSON.body.message ===
+            responseJson.body.message ===
             "user with this email already registered"
         ) {
             this.registerForm.showError(

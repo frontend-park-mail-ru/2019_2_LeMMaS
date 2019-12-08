@@ -24,20 +24,20 @@ views[routes.SINGLEPLAYER] = Singleplayer;
 views[routes.MULTIPLAYER] = Multiplayer;
 
 class Router {
-    renderPage = () => {
+    renderPage = (): void => {
         this._renderView(location.pathname);
     };
 
-    redirect = (route) => {
+    redirect = (route: string): void => {
         window.history.pushState({}, document.title, route);
         this._renderView(route);
     };
 
-    render404 = () => {
+    render404 = (): void => {
         new Page404().render();
     };
 
-    _renderView = (route) => {
+    _renderView = (route: string): void => {
         const view = views[route] ? new views[route]() : new Page404();
         view.render();
     };

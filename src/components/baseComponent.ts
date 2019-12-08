@@ -1,7 +1,7 @@
 export default class BaseComponent {
-    protected parent: Element;
+    protected parent: HTMLElement;
 
-    constructor(parent: Element) {
+    constructor(parent: HTMLElement) {
         this.parent = parent;
     }
 

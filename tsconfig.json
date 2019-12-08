@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    //"strict": false,
+    //"strict": true,
     "module": "commonjs",
     "baseUrl": "src",
     "target": "es2015",

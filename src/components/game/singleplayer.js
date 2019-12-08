@@ -1,7 +1,7 @@
 import ModalWindow from "components/modalWindow";
 import router from "modules/router";
 import User from "modules/user";
-import Food from "./food/food";
+import Food from "./Food/food";
 
 import "./style.css";
 

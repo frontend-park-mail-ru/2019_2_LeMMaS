@@ -76,9 +76,7 @@ export default class ModalWindow {
         document
             .querySelector(".modalWindow__button-close")
             .addEventListener("click", this.closeWithX);
-        this.inside.renderContent(
-            modalWindowWrapper.querySelector(".modalWindow__buttons-wrapper")
-        );
+        this.inside.renderContent(document.querySelector(".content"));
     };
 
     _keyDownHandler = event => {

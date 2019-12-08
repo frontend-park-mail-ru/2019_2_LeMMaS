@@ -8,14 +8,15 @@ import SubmitButton from "components/form/elements/submitButton";
 import User from "modules/user";
 import Router from "modules/router";
 import Loader from "components/loader/index";
-import { STATUS_OK } from "modules/api";
 
 export default class Login extends BasePage {
+    private loginForm: HTMLFormElement | undefined;
+
     constructor() {
         super();
     }
 
-    renderContent = (parent) => {
+    renderContent = (parent: HTMLElement): void => {
         document.title = "Войти | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-m">
@@ -47,11 +48,15 @@ export default class Login extends BasePage {
             elements: formElements,
             onSubmit: this.onLoginFormSubmit,
         });
-        this.loginForm.render();
-    }
+        this.loginForm && this.loginForm.render();
+    };
 
-    onLoginFormSubmit = e => {
+    onLoginFormSubmit = (e: Event): void => {
         e.preventDefault();
+
+        if (!this.loginForm) {
+            return;
+        }
 
         const email = this.loginForm.getValue("email");
         const password = this.loginForm.getValue("password");
@@ -63,15 +68,15 @@ export default class Login extends BasePage {
         this.login(email, password);
     };
 
-    login = async (email, password) => {
+    login = async (email: string, password: string): Promise<void> => {
         const loader = new Loader();
         loader.show();
         const response = await User.login(email, password);
-        if (response.status === STATUS_OK) {
+        if (response.ok) {
             window.history.pushState({}, document.title, "/");
             Router.renderPage();
         } else {
-            this.loginForm.showError("Неверная почта или пароль");
+            this.loginForm && this.loginForm.showError("Неверная почта или пароль");
         }
         loader.hide();
     };

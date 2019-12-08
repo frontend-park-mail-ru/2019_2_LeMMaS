@@ -1,5 +1,5 @@
 import httpNetwork from "./http";
-import { MyResponse } from "./responseBody";
+import { MyResponse, ResponseUser } from "./responseBody";
 import { StandartJSONResponse } from "common-api";
 
 const BACKEND_URL = "95.163.212.121";
@@ -35,8 +35,12 @@ interface Body {
     password: string;
 }
 
+class PostHeader extends Headers {
+    "X-CSRF-Token": string | null | undefined;
+}
+
 class API {
-    private csrfToken: string | null;
+    private csrfToken: string | null | undefined;
 
     constructor() {
         this.csrfToken = null;
@@ -46,25 +50,27 @@ class API {
         return this._post<Partial<Body>>(routes.USER_REGISTER, { email, name, password });
     };
 
-    loginUser = (email: string, password: string): Promise<Response> => {
+    loginUser = async (email: string, password: string): Promise<Response> => {
         const body: Partial<Body> = { email, password };
-        return this._post<Partial<Body>>(routes.USER_LOGIN, body);
+        const response = await this._post<Partial<Body>>(routes.USER_LOGIN, body);
+        return response as Response;
     };
 
     logoutUser = (): Promise<Response> => this._post(routes.USER_LOGOUT);
 
-    updateUser = (name: string, password: string): Promise<Response> => {
+    updateUser = async (name: string, password: string): Promise<Response> => {
         const body: Partial<Body> = { name, password };
-        return this._post<Partial<Body>>(routes.USER_UPDATE, body);
+        return await this._post<Partial<Body>>(routes.USER_UPDATE, body);
     };
 
     updateAvatar = (formData: FormData): Promise<Response> => this._post<FormData>(routes.USER_AVATAR_UPLOAD, formData);
 
-    currentUserProfile = (): Promise<Response | unknown> =>
-        this._get(routes.USER_PROFILE).then((response: Response) => response.json())
+    currentUserProfile = async (): Promise<ResponseUser> => {
+        return await this._get(routes.USER_PROFILE).then((response: Response) => response.json())
             .then((response: StandartJSONResponse<MyResponse>) => {
-                return response.body && response.body.user;
+                return response.body && response.body.user as ResponseUser;
             });
+    };
 
     getAvatarPreviewUrl = (name: string): Promise<unknown> =>
         this._get(routes.USER_AVATAR_PREVIEW + "?name=" + name).then((response: Response) => response.json())
@@ -72,10 +78,10 @@ class API {
                 return response.body;
             });
 
-    getUserInfoById = (id: number): Promise<unknown> =>
+    getUserInfoById = (id: number): Promise<ResponseUser> =>
         this._get(`${PUBLIC_USER}/${id}`)
             .then((response: Response) => response.json())
-            .then((response: StandartJSONResponse<MyResponse>) => response.body.user);
+            .then((response: StandartJSONResponse<MyResponse>): ResponseUser => response.body.user as ResponseUser);
 
     listUsers = (): Promise<unknown> =>
         this._get(routes.USER_LIST).then((response: Response) => response.json())
@@ -84,7 +90,7 @@ class API {
     openGameWebSocket = (): WebSocket =>
         new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, "ws"));
 
-    _getCSRFToken = (): Promise<string> =>
+    _getCSRFToken = (): Promise<string | null | undefined> =>
         this._get(routes.ACCESS_CSRF_TOKEN).then((response: Response) => response.json())
             .then((response: StandartJSONResponse<MyResponse>) => response.body.token
         );
@@ -92,7 +98,8 @@ class API {
     _get = (route: string): Promise<Response> => httpNetwork.get(this._getUrlByRoute(route));
 
     _post = async <Body> (route: string, body?: Body): Promise<Response> => {
-        const headers = new Headers();
+        const headers = new PostHeader();
+
         if (this._isPrivateRoute(route)) {
             if (this.csrfToken === null) {
                 this.csrfToken = await this._getCSRFToken();
@@ -101,25 +108,12 @@ class API {
                 headers.set(CSRF_TOKEN_HEADER, this.csrfToken);
             }
         }
-        const response = await httpNetwork.post<Body>(
+
+        return await httpNetwork.post<Body>(
             this._getUrlByRoute(route),
             body,
             headers
-        ).then((response: Response) => response.json());
-        if (
-            !response.ok &&
-            response.body &&
-            response.body.message === "incorrect CSRF token"
-        ) {
-            this.csrfToken = await this._getCSRFToken();
-            headers[CSRF_TOKEN_HEADER] = this.csrfToken;
-            return await httpNetwork.post(
-                this._getUrlByRoute(route),
-                body,
-                headers
-            );
-        }
-        return response;
+        );
     };
 
     _getUrlByRoute = (route: string, protocol = "http"): string =>

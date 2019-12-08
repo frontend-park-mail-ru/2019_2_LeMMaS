@@ -3,100 +3,103 @@ import { GameLeaderboard } from "components/leaderboard";
 import router from "modules/router";
 import User from "modules/user";
 import API from "modules/api";
-import Ball from "./ball/ball";
-import Food from "./food/food";
+import Ball from "./Ball/Ball";
+import Balls from "./Ball/Balls";
+import Food from "./Food/Food";
+import { FoodElementResponse, SocketMessageData, PlayerResponse } from "./types";
 import Offset from "./Offset";
-import { koeff } from "./resolution";
+import Scale from "./Scale";
 import { ResponseUser } from "../../modules/responseBody";
-
+import Socket from "./Socket";
 import "./style.css";
+import Background from "./Background/Background";
 
 export default class Multiplayer {
-    private parent: Element;
-    private balls: Map<number, Ball>;
+    private parent: HTMLElement;
+    private balls: Balls;
     private food: Food;
     private mouseCoordinates: { x: number; y: number };
-    private currentUserID: number;
-    private socket: WebSocket;
+    private currentUserID: number | undefined;
     private modalWindow: ModalWindow;
-    private timeouts: any;
+    private timeouts: Array<any>;
     private gameEnded: boolean;
     private leaderBoard: GameLeaderboard;
     private prevSpeed: number;
-    private prevDirection: number;
-    private foodCanvas: HTMLCanvasElement;
+    private gameCanvas: HTMLCanvasElement;
+    private gameFinishButton: HTMLDivElement;
+    private background: Background;
 
-    constructor(parent) {
+    constructor(parent: HTMLElement) {
         this.parent = parent;
-    }
+        const gameCanvasTemp: HTMLCanvasElement | null = document.querySelector(".gameCanvas");
+        this.gameCanvas = gameCanvasTemp ? gameCanvasTemp : document.createElement("canvas");
 
-    public start = (): void => {
-        document.addEventListener("keydown", this._escapeKeyHandler);
-        document
-            .querySelector(".game__finish-button")
-            .addEventListener("click", this._modalWindowHandler);
+        const gameFinishButtonTemp: HTMLDivElement | null = document
+            .querySelector(".game__finish-button");
 
-        window.addEventListener("pushstate", this._onPageChange);
+        this.gameFinishButton = gameFinishButtonTemp ? gameFinishButtonTemp : document.createElement("div");
 
-        this.balls = new Map<number, Ball>();
-        this.foodCanvas = document.querySelector(".foodCanvas");
-        this.food = new Food(this.foodCanvas);
-        const ctx = this.foodCanvas.getContext("2d");
-        ctx.scale(2, 2);
+        this.food = new Food(this.gameCanvas);
+        this.balls = new Balls(this.gameCanvas);
 
         this.mouseCoordinates = {
             x: 0,
             y: 0,
         };
-
         this.prevSpeed = 0;
 
+        this.timeouts = [];
+
+        this.gameEnded = false;
+
         const user = User.getCurrentUser();
-        if (user) {
-            this.currentUserID = user.id;
+        if (!user) {
+            return;
         }
 
-        this.socket = API.openGameWebSocket();
-        this.socket.onopen = (): void => {
-            console.log("[open] Соединение установлено");
-            console.log("Отправляем данные на сервер");
-            this.socket.send(`{"type" : "start"}`);
-        };
+        this.currentUserID = user.id;
 
-        this.socket.onmessage = this._messageHandler;
+        this.background = new Background(this.gameCanvas);
+    }
 
-        this.socket.onclose = (event: CloseEvent): void => {
-            if (event.wasClean) {
-                console.log(
-                    `[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`
-                );
-            } else {
-                this._end();
-                console.log("[close] Соединение прервано");
-            }
-        };
+    public start = (): void => {
+        document.addEventListener("keydown", this._escapeKeyHandler);
 
-        this.socket.onerror = (error: ErrorEvent): void=> {
-            console.log(`[error] ${error.message}`);
-        };
+        this.gameFinishButton.addEventListener("click", this._modalWindowHandler);
+
+        window.addEventListener("pushstate", this._onPageChange);
+
+        Socket.open(this._messageHandler, this._end);
 
         this.modalWindow = new ModalWindow(document.body);
-
-        //window.addEventListener("resize", this._onWindowResize);
-
-        this.timeouts = [];
 
         const leaderboardWrapper = document.querySelector(
             ".leaderboard-wrapper"
         );
         this.leaderBoard = new GameLeaderboard(leaderboardWrapper);
+
+        window.addEventListener("resize", this._onWindowResize);
+    };
+
+    private _onWindowResize = (): void => {
+        const canvas: HTMLCanvasElement | null = document.querySelector(".gameCanvas");
+
+        if (!canvas) {
+            return;
+        }
+
+        Offset.x -= (canvas.width - window.innerWidth * 2) / 2;
+        Offset.y -= (canvas.height - window.innerHeight * 2) / 2;
+
+        canvas.width = window.innerWidth * 2;
+        canvas.height = window.innerHeight * 2;
     };
 
     private _messageHandler = (event: MessageEvent): void => {
-        const data = JSON.parse(event.data);
+        const data: SocketMessageData = JSON.parse(event.data);
         switch (data.type) {
             case "start": {
-                data.food.forEach(element => {
+                data.food.forEach((element: FoodElementResponse) => {
                     this.food.add(
                         element.id,
                         element.position.x,
@@ -105,7 +108,7 @@ export default class Multiplayer {
                 });
 
                 if (data && data.players) {
-                    data.players.forEach(player => {
+                    data.players.forEach((player: PlayerResponse) => {
                         API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
                             if (user.name) {
                                 this.leaderBoard.addPlayer(
@@ -130,41 +133,38 @@ export default class Multiplayer {
                         }
                     });
                 }
-                document.addEventListener("mousemove", this._handleMouseMove);
 
+                document.addEventListener("mousemove", this._handleMouseMove);
                 requestAnimationFrame(this._redrawAllBalls);
                 break;
             }
             case "move": {
-                console.log(`offx: ${Offset.x}; offy: ${Offset.y}`);
-
                 const ballToMove = this.balls.get(data.player.id);
-
-                console.log(`x: ${ballToMove.x}; y: ${ballToMove.y}`);
+                if (!ballToMove) {
+                    return;
+                }
 
                 if (data.player.id == this.currentUserID) {
-                    Offset.setX(ballToMove.x - data.player.x + Offset.x);
-                    Offset.setY(ballToMove.y - data.player.y + Offset.y);
+                    Offset.setX(ballToMove.x - Scale.countWithScale(data.player.x));
+                    Offset.setY(ballToMove.y - Scale.countWithScale(data.player.y));
                 }
 
                 ballToMove.setTarget(
-                    data.player.x * koeff,
-                    data.player.y * koeff
+                    Scale.countWithScale(data.player.x),
+                    Scale.countWithScale(data.player.y)
                 );
 
-                if ((data.player.size / 2) * koeff - ballToMove.radius > 0) {
+                if (Scale.countWithScale((data.player.size / 2) ) - ballToMove.radius > 0) {
                     this.leaderBoard.update(data.player.id, data.player.size);
                 }
-                ballToMove.radius = (data.player.size / 2) * koeff;
+                ballToMove.radius = Scale.countWithScale((data.player.size / 2) );
                 this._moveBall(ballToMove);
 
                 if (data.eatenFood.length > 0) {
-                    data.eatenFood.forEach(id => {
+                    data.eatenFood.forEach((id: number) => {
                         this.food.delete(id);
                     });
                 }
-                this.food.draw();
-
                 break;
             }
             case "new_player": {
@@ -207,6 +207,7 @@ export default class Multiplayer {
                 break;
             }
             case "new_food": {
+
                 data.food.forEach(element => {
                     this.food.add(
                         element.id,
@@ -230,74 +231,66 @@ export default class Multiplayer {
                         null
                     );
                 }
-                this.balls.get(data.user_id).delete();
                 this.balls.delete(data.user_id);
             }
         }
     };
 
-    private _onWindowResize = (): void => {
-        /*this.balls.get(this.currentUserID).canvas.width = window.innerWidth;
-        this.balls.get(this.currentUserID).canvas.height = window.innerHeight;*/
-    };
+    private _handleMouseMove = (event: MouseEvent): void => {
+        Socket.send(`{"type":"speed", "speed":20}`);
 
-    private _handleMouseMove = (event): void => {
-        this._countAndSendSpeed(event.clientX * koeff, event.clientY * koeff);
         this._countAndSendDirection(
-            event.clientX * koeff,
-            event.clientY * koeff
+            event.clientX,
+            event.clientY,
         );
 
-        this.mouseCoordinates.x = event.clientX * koeff;
-        this.mouseCoordinates.y = event.clientY * koeff;
+        this.mouseCoordinates.x = Scale.countWithScale(event.clientX);
+        this.mouseCoordinates.y = Scale.countWithScale(event.clientY);
     };
 
-    private _countAndSendSpeed = (x, y): void => {
+    private _countAndSendSpeed = (x: number, y: number): void => {
+        if (!this.balls || !this.currentUserID) {
+            return;
+        }
+
+        const currentBall = this.balls.get(this.currentUserID);
+
+        if (!currentBall) {
+            return;
+        }
+
         const dis = Math.sqrt(
-            Math.pow(x - this.balls.get(this.currentUserID).x, 2) +
-                Math.pow(y - this.balls.get(this.currentUserID).y, 2)
+            Math.pow(x - currentBall.x, 2) +
+                Math.pow(y - currentBall.y, 2)
         );
         const diagonal = Math.sqrt(
-            Math.pow(window.innerHeight * koeff, 2) +
-                Math.pow(window.innerWidth * koeff, 2)
+            Math.pow(Scale.countWithScale(window.innerHeight ), 2) +
+                Math.pow(Scale.countWithScale(window.innerWidth ), 2)
         );
         const speed = Math.floor((dis / diagonal) * 100);
         if (this.prevSpeed !== speed) {
             this.prevSpeed = speed;
-            this.socket.send(`{"type":"speed", "speed":50}`);
+            Socket.send(`{"type":"speed", "speed":20}`);
         }
     };
 
-    private _countAndSendDirection = (x, y): void => {
-        const dis = Math.sqrt(
-            Math.pow(x - this.balls.get(this.currentUserID).x, 2) +
-                Math.pow(y - this.balls.get(this.currentUserID).y, 2)
-        );
-        let angle =
-            180 -
-            Math.round(
-                (Math.acos((y - this.balls.get(this.currentUserID).y) / dis) /
-                    Math.PI) *
-                    180
-            );
+    private _countAndSendDirection = (x: number, y: number): void => {
+        const radians = Math.atan2(y - window.innerHeight / 2,x - window.innerWidth / 2);
+        let angle = Math.round(radians * (180 / Math.PI)) + 90;
 
         if (
-            (x - this.balls.get(this.currentUserID).x > 0 &&
-                y - this.balls.get(this.currentUserID).y < 0) ||
-            (x - this.balls.get(this.currentUserID).x > 0 &&
-                y - this.balls.get(this.currentUserID).y > 0)
+            (x - window.innerWidth / 2 < 0 &&
+                y - window.innerHeight / 2 < 0)
         ) {
-            angle = 180 + (180 - angle);
+            angle = (360 + angle);
         }
-        if (this.prevDirection !== angle) {
-            this.prevDirection = angle;
-            this.socket.send(
-                `{"type":"direction", "direction":${360 - angle}}`
-            );
-        }
+
+        Socket.send(
+            `{"type":"direction", "direction":${angle}}`
+        );
     };
 
-    private _moveBall = (ball): void => {
+    private _moveBall = (ball: Ball): void => {
         if (ball.id === this.currentUserID) {
             if (
                 ball.x > this.mouseCoordinates.x - ball.radius &&
@@ -305,7 +298,7 @@ export default class Multiplayer {
                 ball.y > this.mouseCoordinates.y - ball.radius &&
                 ball.y < this.mouseCoordinates.y + ball.radius
             ) {
-                this.socket.send(`{"type":"speed", "speed":0}`);
+               // this.socket.send(`{"type":"speed", "speed":0}`);
             } else {
                 this._countAndSendSpeed(
                     this.mouseCoordinates.x,
@@ -319,16 +312,10 @@ export default class Multiplayer {
     };
 
     private _redrawAllBalls = (): void=> {
-        if (this.balls) {
-            const ballCtx: CanvasRenderingContext2D = this.foodCanvas.getContext("2d");
-            ballCtx.restore();
-            ballCtx.save();
-            ballCtx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
-            this.food.draw();
-            this.balls.forEach(ball => {
-                ball.draw();
-            });
-        }
+        this.background.draw();
+        this.food.draw();
+        this.balls.draw();
+
         requestAnimationFrame(() => {
             if (!this.gameEnded) {
                 this._redrawAllBalls();
@@ -337,14 +324,12 @@ export default class Multiplayer {
     };
 
     private _end = (): void => {
-        this.socket.close(1000, "endGame");
+        Socket.close(1000, "endGame");
         document.removeEventListener("keydown", this._escapeKeyHandler);
-        document
-            .querySelector(".game__finish-button")
+        this.gameFinishButton
             .removeEventListener("click", this._modalWindowHandler);
 
         document.removeEventListener("mousemove", this._handleMouseMove);
-        window.removeEventListener("resize", this._onWindowResize);
         if (this.timeouts) {
             this.timeouts.forEach(timer => {
                 clearTimeout(timer);
@@ -364,11 +349,13 @@ export default class Multiplayer {
         this.gameEnded = true;
         this._end();
 
-        document.body.style.background = null;
+        document.body.style.background = "";
+
+        const title: HTMLTitleElement | null = document.querySelector("title");
 
         window.history.pushState(
             {},
-            document.querySelector("title").innerText,
+            title ? title.innerText : "",
             "/"
         );
         router.renderPage();
@@ -385,8 +372,8 @@ export default class Multiplayer {
         window.removeEventListener("popstate", this._onPageChange);
     };
 
-    private _escapeKeyHandler = (event): void => {
-        if (event.key === "Escape" || event.keyCode === 27) {
+    private _escapeKeyHandler = (event: KeyboardEvent): void => {
+        if (event.key === "Escape") {
             this._modalWindowHandler();
         }
     };

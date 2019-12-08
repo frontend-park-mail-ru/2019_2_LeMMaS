@@ -1,15 +1,8 @@
-import { koeff } from "../resolution";
+import Scale from "../Scale";
 import { foods } from "components/foods";
 
 import Offset from "../Offset";
-
-interface FoodElement {
-    id: number;
-    x: number;
-    y: number;
-    color: string;
-    emoji: string;
-}
+import { FoodElement } from "../types";
 
 export default class Food {
     private foodCanvas: HTMLCanvasElement;
@@ -19,7 +12,7 @@ export default class Food {
     constructor(canvas: HTMLCanvasElement) {
         this.foodCanvas = canvas;
         this.food = new Map<number, FoodElement>();
-        this.radius = 5 * koeff;
+        this.radius = Scale.countWithScale(5);
     }
 
     public add(id: number, x_: number, y_: number): void {
@@ -27,8 +20,8 @@ export default class Food {
         const color: string =
             "#" +
             (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
-        const x = x_ * koeff;
-        const y = y_ * koeff;
+        const x = Scale.countWithScale(x_);
+        const y = Scale.countWithScale(y_);
         this.food.set(id, { id, x, y, color, emoji: food });
     }
 
@@ -39,13 +32,12 @@ export default class Food {
     public draw = (): void => {
         const ctx: CanvasRenderingContext2D | null = this.foodCanvas.getContext("2d");
         if(ctx) {
-            //ctx.clearRect(0, 0, this.foodCanvas.width, this.foodCanvas.height);
             this.food.forEach(foodElement => {
                 ctx.beginPath();
-                ctx.font = `${20 * koeff}px serif`;
+                ctx.font = `${Scale.countWithScale(20)}px serif`;
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
-                ctx.fillText(foodElement.emoji, foodElement.x - Offset.x, foodElement.y - Offset.y);
+                ctx.fillText(foodElement.emoji, foodElement.x + Offset.x, foodElement.y + Offset.y);
                 ctx.closePath();
             });
         }

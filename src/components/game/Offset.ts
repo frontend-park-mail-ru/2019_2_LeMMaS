@@ -1,23 +1,19 @@
-import { koeff } from "./resolution";
-
 class OffSet {
     public x: number;
     public y: number;
 
-    constructor(x, y) {
-        this.x = this.countWithKoeff(x);
-        this.y = this.countWithKoeff(y);
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
     }
 
-    public setX = (x): void => {
-        this.x = this.countWithKoeff(x);
+    public setX = (x: number): void => {
+        this.x += x;
     };
 
-    public setY= (y): void => {
-        this.y = this.countWithKoeff(y);
+    public setY= (y: number): void => {
+        this.y += y;
     };
-
-    private countWithKoeff = (toCount): number => toCount / koeff;
 }
 
-export default new OffSet(window.innerWidth * koeff/4, window.innerWidth * koeff/4);
+export default new OffSet(-6000 + window.innerWidth, -6000 + window.innerHeight);

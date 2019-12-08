@@ -9,7 +9,7 @@ import ModalWindow from "components/modalWindow";
 import "components/startGameMenu/style.css";
 
 export default class Index extends BasePage {
-    renderContent = parent => {
+    renderContent = (parent: Element): void => {
         const interval = setInterval(() => {
             if (User.getCurrentUser() !== undefined) {
                 this._render(parent);
@@ -18,7 +18,7 @@ export default class Index extends BasePage {
         }, 200);
     };
 
-    _render = (parent) => {
+    _render = (parent: Element): void => {
         document.title = "LeMMaS";
 
         const multiHref = User.getCurrentUser() ? "/game/multiplayer" : null;
@@ -44,8 +44,10 @@ export default class Index extends BasePage {
         `;
 
         if (!User.getCurrentUser()) {
-            document
-                .querySelector(".multiplayer")
+            const multiplayer = document
+                .querySelector(".multiplayer");
+
+            multiplayer && multiplayer
                 .addEventListener("click", () => {
                     const loginWindow = new ModalWindow(document.body);
                     loginWindow.start(
