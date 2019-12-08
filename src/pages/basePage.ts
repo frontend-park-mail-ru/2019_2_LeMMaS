@@ -28,5 +28,5 @@ export default class BasePage {
         }
     };
 
-    renderContent = (element: HTMLElement): void => {};
+    public renderContent: (element: HTMLElement) => unknown;
 }
