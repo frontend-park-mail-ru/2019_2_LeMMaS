@@ -2,7 +2,7 @@ import httpNetwork from "./http";
 import { MyResponse, ResponseUser } from "./responseBody";
 import { StandartJSONResponse } from "common-api";
 
-const BACKEND_URL = "localhost:8080";
+const BACKEND_URL = "95.163.212.121";
 const API_V1_PREFIX = "api/v1";
 const API_PUBLIC_PREFIX = "public";
 const API_PRIVATE_PREFIX = "private";
