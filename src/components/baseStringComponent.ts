@@ -1,3 +1,3 @@
 export default class BaseStringComponent {
-    public renderString = () => {};
+    public renderString: () => unknown;
 }
