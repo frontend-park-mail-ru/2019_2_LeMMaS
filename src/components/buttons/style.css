@@ -37,7 +37,7 @@
     background-position: right center;
     background-size: 200% auto;
     color: white;
-    background-image: linear-gradient(90deg, #dc143c 0, #de6822 51%, #dc143c);
+    background-image: linear-gradient(90deg, #dd5228 0, #de6822 51%, #dd5228);
 
     &:hover {
         background-position: 0 0;
