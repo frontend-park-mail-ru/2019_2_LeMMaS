@@ -3,7 +3,7 @@ import { html } from "common-tags";
 import SinglePlayer from "components/game/singleplayer";
 import User from "modules/user";
 
-import "static/css/common.css";
+import "assets/css/common.css";
 
 export default class Singleplayer {
     private gamePlay: SinglePlayer;

@@ -4,6 +4,8 @@ import { routes } from "modules/router";
 import BaseStringComponent from "components/baseStringComponent";
 
 import "./style.css";
+import LogoImage from "assets/img/lemmaslogo.png";
+import LogoMobileImage from "assets/img/lemmaslogo_mobile.png";
 
 export default class Logo extends BaseStringComponent {
     renderString = () => {
@@ -16,12 +18,12 @@ export default class Logo extends BaseStringComponent {
                     <img
                         class="logo__image"
                         alt="Lemmas logo"
-                        src="/assets/img/lemmaslogo.png"
+                        src="${LogoImage}"
                     />
                     <img
                         class="logo__image logo__image_mobile"
                         alt="Lemmas logo"
-                        src="/assets/img/lemmaslogo_mobile.png"
+                        src="${LogoMobileImage}"
                     />
                 </a>
             </div>

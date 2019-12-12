@@ -3,7 +3,7 @@ import { html } from "common-tags";
 import User from "modules/user";
 import MultiPlayer from "components/game/Multiplayer";
 
-import "static/css/common.css";
+import "assets/css/common.css";
 
 export default class Multiplayer {
     private gamePlay: MultiPlayer;

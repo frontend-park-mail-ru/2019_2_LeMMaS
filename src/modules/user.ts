@@ -1,5 +1,6 @@
 import API from "./api";
 import { ResponseUser } from "./responseBody";
+import { DEFAULT_AVATAR } from "./consts";
 
 class User {
     private currentUser: ResponseUser | undefined | null;
@@ -9,7 +10,7 @@ class User {
         this._updateCurrentUser();
     }
 
-    login = async (email: string, password: string): Promise<Response>  => {
+    login = async (email: string, password: string): Promise<Response> => {
         const response = await API.loginUser(email, password);
         if (response.ok) {
             this._updateCurrentUser();
@@ -17,8 +18,11 @@ class User {
         return response;
     };
 
-    register = (email: string, name: string, password: string): Promise<Response>  =>
-        API.registerUser(email, name, password);
+    register = (
+        email: string,
+        name: string,
+        password: string
+    ): Promise<Response> => API.registerUser(email, name, password);
 
     logout = async (): Promise<Response> => {
         const response = await API.logoutUser();
@@ -38,7 +42,7 @@ class User {
         return response;
     };
 
-    updateAvatar = async (formData: FormData): Promise<Response>  => {
+    updateAvatar = async (formData: FormData): Promise<Response> => {
         const response = await API.updateAvatar(formData);
         if (response.ok) {
             this._updateCurrentUser();
@@ -49,9 +53,10 @@ class User {
     getAvatarUrl = (): string =>
         this.currentUser && this.currentUser.avatar_path
             ? this.currentUser.avatar_path
-            : "/assets/img/userpic.jpeg";
+            : DEFAULT_AVATAR;
 
-    _setLogin = (loggedIn: boolean | undefined): boolean | undefined => (this.loggedIn = loggedIn);
+    _setLogin = (loggedIn: boolean | undefined): boolean | undefined =>
+        (this.loggedIn = loggedIn);
 
     isLoggedIn = (): boolean | undefined => this.loggedIn;
 
@@ -63,7 +68,7 @@ class User {
         if (user) {
             this._setLogin(true);
         }
-    }
+    };
 }
 
 export default new User();

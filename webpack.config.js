@@ -1,11 +1,13 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = [
     {
         mode: "production",
         entry: ["./src/app.js"],
         output: {
-            filename: "bundle.js",
+            filename: "[name].[contenthash].js",
             path: path.resolve(__dirname, "public"),
         },
         module: {
@@ -40,6 +42,18 @@ module.exports = [
                         },
                     ],
                 },
+                {
+                    test: /\.(png|jpe?g|gif)$/,
+                    use: [
+                        {
+                            loader: "file-loader",
+                            options: {
+                                name: "[name].[ext]",
+                                outputPath: "/assets/img/",
+                            },
+                        },
+                    ],
+                },
             ],
         },
         node: {
@@ -50,6 +64,17 @@ module.exports = [
             extensions: [".js", ".ts", ".tsx", ".jsx", ".json"],
             modules: ["./node_modules", "./src"],
         },
+        plugins: [
+            new CleanWebpackPlugin(),
+            new HtmlWebpackPlugin({
+                title: "Lemmas",
+                favicon: "./src/assets/img/favicon.png",
+                meta: {
+                    viewport:
+                        "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0",
+                },
+            }),
+        ],
     },
     {
         mode: "production",
