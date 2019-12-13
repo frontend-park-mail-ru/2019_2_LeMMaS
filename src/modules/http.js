@@ -7,8 +7,6 @@ class HttpNetwork {
             url,
             {
                 method: "GET",
-                mode: "cors",
-                origin: true,
                 credentials: "include",
             },
             headers
@@ -19,8 +17,6 @@ class HttpNetwork {
             url,
             {
                 method: "POST",
-                mode: "cors",
-                origin: true,
                 credentials: "include",
                 body,
             },
