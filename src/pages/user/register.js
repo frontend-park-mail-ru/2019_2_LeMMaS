@@ -6,12 +6,11 @@ import Input from "../../components/form/elements/input";
 import SubmitButton from "../../components/form/elements/submitButton";
 import User from "../../modules/user";
 import Login from "./login";
-import {STATUS_OK} from "../../modules/api";
+import { STATUS_OK } from "../../modules/api";
 
 export default class Register extends BasePage {
     constructor() {
         super();
-        this.onRegisterFormSubmit = this.onRegisterFormSubmit.bind(this);
     }
 
     renderContent(parent) {
@@ -53,7 +52,7 @@ export default class Register extends BasePage {
         this.registerForm.render();
     }
 
-    async onRegisterFormSubmit(e) {
+    onRegisterFormSubmit = async e => {
         e.preventDefault();
 
         const email = this.registerForm.getValue("email");
@@ -89,5 +88,5 @@ export default class Register extends BasePage {
         } else {
             this.registerForm.showError("Произошла неизвестная ошибка");
         }
-    }
+    };
 }

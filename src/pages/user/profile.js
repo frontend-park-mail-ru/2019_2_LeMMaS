@@ -11,7 +11,6 @@ export default class Profile extends BasePage {
     constructor() {
         super();
         this.avatarPreviewTimeoutHandler = null;
-        this.onEditProfileFormSubmit = this.onEditProfileFormSubmit.bind(this);
     }
 
     async renderContent(parent) {
@@ -19,6 +18,7 @@ export default class Profile extends BasePage {
             router.render404();
             return;
         }
+
         document.title = "Мой профиль | LeMMaS";
         parent.innerHTML = html`
             <div class="plate plate__size-l profile-wrapper">
@@ -34,7 +34,7 @@ export default class Profile extends BasePage {
         await this.profileForm.start();
     }
 
-    async onEditProfileFormSubmit(e) {
+    onEditProfileFormSubmit = async e => {
         e.preventDefault();
         const loader = new Loader();
         loader.show();
@@ -77,5 +77,5 @@ export default class Profile extends BasePage {
                 : this.profileForm.showError("Произошла ошибка");
         }
         loader.hide();
-    }
+    };
 }

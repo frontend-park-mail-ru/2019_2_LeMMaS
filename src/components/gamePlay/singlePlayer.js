@@ -2,7 +2,7 @@ import ModalWindow from "../modalWindow";
 import router from "../../modules/router";
 import User from "../../modules/user";
 
-export default class GamePlay {
+export default class SinglePlayer {
     constructor(parent) {
         this.parent = parent;
     }
@@ -136,10 +136,10 @@ export default class GamePlay {
     _detectFoodEating = ball =>
         this.food.forEach(foodElement => {
             if (
-                ball.x > foodElement.x - this.ball.radius &&
-                ball.x < foodElement.x + this.ball.radius &&
-                ball.y > foodElement.y - this.ball.radius &&
-                ball.y < foodElement.y + this.ball.radius
+                ball.x > foodElement.x - ball.radius &&
+                ball.x < foodElement.x + ball.radius &&
+                ball.y > foodElement.y - ball.radius &&
+                ball.y < foodElement.y + ball.radius
             ) {
                 if (foodElement.status === 1) {
                     foodElement.status = 0;
@@ -220,7 +220,11 @@ export default class GamePlay {
             })
         );
 
-        requestAnimationFrame(this._redrawAllBalls);
+        requestAnimationFrame(() => {
+            if (!this.gameEnded) {
+                this._redrawAllBalls();
+            }
+        });
     };
 
     _detectBallEating = (ball1, ball2) => {
@@ -310,8 +314,10 @@ export default class GamePlay {
         if (this.enemies) {
             this.enemies.forEach(enemy => {
                 this.parent.removeChild(enemy.canvas);
+                enemy.dx = 0;
+                enemy.dy = 0;
             });
-            delete this.enemies;
+            this.enemies.length = 0;
         }
         if (this.food) {
             delete this.food;
@@ -327,6 +333,7 @@ export default class GamePlay {
     };
 
     exit = () => {
+        this.gameEnded = true;
         this._end();
 
         document.body.style.background = null;
