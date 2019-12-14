@@ -3,11 +3,15 @@ import { MyResponse, ResponseUser } from "./responseBody";
 import { StandartJSONResponse } from "common-api";
 
 const BACKEND_URL = "lemmas.ru";
-const DEFAULT_PROTOCOL = "https";
+
+const HTTP_PROTO = "https";
+const WS_PROTO = "wss";
+
 const API_PREFIX = "api/v1";
 const API_PUBLIC_PREFIX = "public";
 const API_PRIVATE_PREFIX = "private";
 const USER_PREFIX = "/user/";
+
 const PUBLIC_USER = API_PUBLIC_PREFIX + USER_PREFIX;
 const PRIVATE_USER = API_PRIVATE_PREFIX + USER_PREFIX;
 
@@ -111,7 +115,7 @@ class API {
             );
 
     openGameWebSocket = (): WebSocket =>
-        new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, "ws"));
+        new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, WS_PROTO));
 
     _getCSRFToken = (): Promise<string | null | undefined> =>
         this._get(routes.ACCESS_CSRF_TOKEN)
@@ -143,7 +147,7 @@ class API {
         );
     };
 
-    _getUrlByRoute = (route: string, protocol = DEFAULT_PROTOCOL): string =>
+    _getUrlByRoute = (route: string, protocol = HTTP_PROTO): string =>
         protocol + "://" + [BACKEND_URL, API_PREFIX, route].join("/");
 
     _isPrivateRoute = (route: string): boolean =>
