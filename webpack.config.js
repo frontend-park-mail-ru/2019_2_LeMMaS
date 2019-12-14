@@ -8,6 +8,7 @@ const config = development => [
         output: {
             filename: "[name].[contenthash].js",
             path: path.resolve(__dirname, "public"),
+            publicPath: "/",
         },
         module: {
             rules: [
@@ -36,7 +37,7 @@ const config = development => [
                             loader: "file-loader",
                             options: {
                                 name: "[name].[ext]",
-                                outputPath: "/assets/fonts/",
+                                outputPath: "assets/fonts/",
                             },
                         },
                     ],
@@ -48,7 +49,7 @@ const config = development => [
                             loader: "file-loader",
                             options: {
                                 name: "[name].[ext]",
-                                outputPath: "/assets/img/",
+                                outputPath: "assets/img/",
                             },
                         },
                     ],
