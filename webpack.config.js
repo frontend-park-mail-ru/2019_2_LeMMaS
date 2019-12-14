@@ -51,7 +51,6 @@ const config = development => [
                                 outputPath: "/assets/img/",
                             },
                         },
-                        "image-webpack-loader",
                     ],
                 },
             ],
