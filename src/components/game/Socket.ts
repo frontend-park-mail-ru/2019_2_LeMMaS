@@ -3,7 +3,10 @@ import api from "../../modules/api";
 class Socket {
     private socket: WebSocket | undefined;
 
-    open = (onMessage: (event: MessageEvent) => unknown, onClose: () => unknown): void => {
+    open = (
+        onMessage: (event: MessageEvent) => unknown,
+        onClose: () => unknown
+    ): void => {
         this.socket = api.openGameWebSocket();
         this.socket.onopen = (): void => {
             console.log("[open] Соединение установлено");

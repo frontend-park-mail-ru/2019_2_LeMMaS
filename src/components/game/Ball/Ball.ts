@@ -26,7 +26,7 @@ export default class Ball {
         x: number,
         y: number,
         radius: number,
-        color: string,
+        color: string
     ) {
         this.id = id;
 
@@ -46,10 +46,18 @@ export default class Ball {
     }
 
     public draw = (): void => {
-        const ballCtx: CanvasRenderingContext2D | null = this.canvas && this.canvas.getContext("2d");
+        const ballCtx: CanvasRenderingContext2D | null =
+            this.canvas && this.canvas.getContext("2d");
         if (ballCtx) {
             ballCtx.beginPath();
-            ballCtx.arc(this.x + Offset.x, this.y + Offset.y, this.radius, 0, Math.PI * 2, false);
+            ballCtx.arc(
+                this.x + Offset.x,
+                this.y + Offset.y,
+                this.radius,
+                0,
+                Math.PI * 2,
+                false
+            );
             ballCtx.clip();
 
             if (this.backgroundImage) {

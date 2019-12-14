@@ -48,13 +48,24 @@ class API {
         this.csrfToken = null;
     }
 
-    registerUser = (email: string, name: string, password: string): Promise<Response> => {
-        return this._post<Partial<Body>>(routes.USER_REGISTER, { email, name, password });
+    registerUser = (
+        email: string,
+        name: string,
+        password: string
+    ): Promise<Response> => {
+        return this._post<Partial<Body>>(routes.USER_REGISTER, {
+            email,
+            name,
+            password,
+        });
     };
 
     loginUser = async (email: string, password: string): Promise<Response> => {
         const body: Partial<Body> = { email, password };
-        const response = await this._post<Partial<Body>>(routes.USER_LOGIN, body);
+        const response = await this._post<Partial<Body>>(
+            routes.USER_LOGIN,
+            body
+        );
         return response as Response;
     };
 
@@ -65,17 +76,20 @@ class API {
         return await this._post<Partial<Body>>(routes.USER_UPDATE, body);
     };
 
-    updateAvatar = (formData: FormData): Promise<Response> => this._post<FormData>(routes.USER_AVATAR_UPLOAD, formData);
+    updateAvatar = (formData: FormData): Promise<Response> =>
+        this._post<FormData>(routes.USER_AVATAR_UPLOAD, formData);
 
     currentUserProfile = async (): Promise<ResponseUser> => {
-        return await this._get(routes.USER_PROFILE).then((response: Response) => response.json())
+        return await this._get(routes.USER_PROFILE)
+            .then((response: Response) => response.json())
             .then((response: StandartJSONResponse<MyResponse>) => {
-                return response.body && response.body.user as ResponseUser;
+                return response.body && (response.body.user as ResponseUser);
             });
     };
 
     getAvatarPreviewUrl = (name: string): Promise<unknown> =>
-        this._get(routes.USER_AVATAR_PREVIEW + "?name=" + name).then((response: Response) => response.json())
+        this._get(routes.USER_AVATAR_PREVIEW + "?name=" + name)
+            .then((response: Response) => response.json())
             .then((response: StandartJSONResponse<MyResponse>) => {
                 return response.body;
             });
@@ -83,23 +97,34 @@ class API {
     getUserInfoById = (id: number): Promise<ResponseUser> =>
         this._get(routes.USER_BY_ID + id)
             .then((response: Response) => response.json())
-            .then((response: StandartJSONResponse<MyResponse>): ResponseUser => response.body.user as ResponseUser);
+            .then(
+                (response: StandartJSONResponse<MyResponse>): ResponseUser =>
+                    response.body.user as ResponseUser
+            );
 
     listUsers = (): Promise<unknown> =>
-        this._get(routes.USER_LIST).then((response: Response) => response.json())
-            .then((response: StandartJSONResponse<MyResponse>) => response.body.users);
+        this._get(routes.USER_LIST)
+            .then((response: Response) => response.json())
+            .then(
+                (response: StandartJSONResponse<MyResponse>) =>
+                    response.body.users
+            );
 
     openGameWebSocket = (): WebSocket =>
         new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, "ws"));
 
     _getCSRFToken = (): Promise<string | null | undefined> =>
-        this._get(routes.ACCESS_CSRF_TOKEN).then((response: Response) => response.json())
-            .then((response: StandartJSONResponse<MyResponse>) => response.body.token
-        );
+        this._get(routes.ACCESS_CSRF_TOKEN)
+            .then((response: Response) => response.json())
+            .then(
+                (response: StandartJSONResponse<MyResponse>) =>
+                    response.body.token
+            );
 
-    _get = (route: string): Promise<Response> => httpNetwork.get(this._getUrlByRoute(route));
+    _get = (route: string): Promise<Response> =>
+        httpNetwork.get(this._getUrlByRoute(route));
 
-    _post = async <Body> (route: string, body?: Body): Promise<Response> => {
+    _post = async <Body>(route: string, body?: Body): Promise<Response> => {
         const headers = new PostHeader();
 
         if (this._isPrivateRoute(route)) {
@@ -121,7 +146,8 @@ class API {
     _getUrlByRoute = (route: string, protocol = DEFAULT_PROTOCOL): string =>
         protocol + "://" + [BACKEND_URL, API_PREFIX, route].join("/");
 
-    _isPrivateRoute = (route: string): boolean => route.startsWith(API_PRIVATE_PREFIX);
+    _isPrivateRoute = (route: string): boolean =>
+        route.startsWith(API_PRIVATE_PREFIX);
 }
 
 export default new API();

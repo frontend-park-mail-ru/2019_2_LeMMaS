@@ -55,7 +55,9 @@ export default class Profile extends BasePage {
         const name = this.profileForm.getValue("name");
         const password = this.profileForm.getValue("password");
         const passwordRepeat = this.profileForm.getValue("password-repeat");
-        const userPic: HTMLInputElement | null = document.querySelector('input[type="file"]');
+        const userPic: HTMLInputElement | null = document.querySelector(
+            'input[type="file"]'
+        );
 
         if (password.length < 6 && password.length > 0) {
             this.profileForm.showError(
@@ -74,10 +76,7 @@ export default class Profile extends BasePage {
         const user = User.getCurrentUser();
 
         if (user) {
-            if (
-                (name !== "" && name !== user.name) ||
-                password !== ""
-            ) {
+            if ((name !== "" && name !== user.name) || password !== "") {
                 const response = await User.update(name, password);
                 response.ok
                     ? this.profileForm.showOK("Изменения сохранены")

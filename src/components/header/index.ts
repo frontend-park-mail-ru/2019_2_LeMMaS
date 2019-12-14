@@ -7,7 +7,7 @@ import Menu from "components/menu";
 
 import "./style.css";
 
-export default class Header extends BaseComponent{
+export default class Header extends BaseComponent {
     public render = (): void => {
         const headerClass = classNames("header", {
             "header_show-home-button": Header._isShowHomeButton(),

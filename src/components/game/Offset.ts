@@ -11,9 +11,12 @@ class OffSet {
         this.x += x;
     };
 
-    public setY= (y: number): void => {
+    public setY = (y: number): void => {
         this.y += y;
     };
 }
 
-export default new OffSet(-6000 + window.innerWidth, -6000 + window.innerHeight);
+export default new OffSet(
+    -6000 + window.innerWidth,
+    -6000 + window.innerHeight
+);

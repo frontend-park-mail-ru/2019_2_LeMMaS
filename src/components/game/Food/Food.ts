@@ -30,14 +30,20 @@ export default class Food {
     }
 
     public draw = (): void => {
-        const ctx: CanvasRenderingContext2D | null = this.foodCanvas.getContext("2d");
-        if(ctx) {
+        const ctx: CanvasRenderingContext2D | null = this.foodCanvas.getContext(
+            "2d"
+        );
+        if (ctx) {
             this.food.forEach(foodElement => {
                 ctx.beginPath();
                 ctx.font = `${Scale.countWithScale(15)}px serif`;
                 ctx.textAlign = "center";
                 ctx.textBaseline = "middle";
-                ctx.fillText(foodElement.emoji, foodElement.x + Offset.x, foodElement.y + Offset.y);
+                ctx.fillText(
+                    foodElement.emoji,
+                    foodElement.x + Offset.x,
+                    foodElement.y + Offset.y
+                );
                 ctx.closePath();
             });
         }

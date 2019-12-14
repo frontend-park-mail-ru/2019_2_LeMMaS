@@ -76,7 +76,8 @@ export default class Login extends BasePage {
             window.history.pushState({}, document.title, "/");
             Router.renderPage();
         } else {
-            this.loginForm && this.loginForm.showError("Неверная почта или пароль");
+            this.loginForm &&
+                this.loginForm.showError("Неверная почта или пароль");
         }
         loader.hide();
     };

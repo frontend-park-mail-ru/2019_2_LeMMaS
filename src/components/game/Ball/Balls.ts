@@ -10,12 +10,14 @@ export default class Balls {
     }
 
     public get = (id: number): Ball => this.balls.get(id);
-    public set = (id: number, ball: Ball): Map<number, Ball> => this.balls.set(id, ball);
-    public delete = (id: number): boolean =>  this.balls.delete(id);
+    public set = (id: number, ball: Ball): Map<number, Ball> =>
+        this.balls.set(id, ball);
+    public delete = (id: number): boolean => this.balls.delete(id);
 
     public draw = () => {
         if (this.balls) {
-            const ballCtx: CanvasRenderingContext2D | null = this.canvas && this.canvas.getContext("2d");
+            const ballCtx: CanvasRenderingContext2D | null =
+                this.canvas && this.canvas.getContext("2d");
 
             if (!ballCtx) {
                 return;
@@ -25,5 +27,5 @@ export default class Balls {
                 ball.draw();
             });
         }
-    }
+    };
 }

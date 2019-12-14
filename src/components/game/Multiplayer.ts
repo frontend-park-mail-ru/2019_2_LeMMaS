@@ -6,7 +6,11 @@ import API from "modules/api";
 import Ball from "./Ball/Ball";
 import Balls from "./Ball/Balls";
 import Food from "./Food/Food";
-import { FoodElementResponse, SocketMessageData, PlayerResponse } from "./types";
+import {
+    FoodElementResponse,
+    SocketMessageData,
+    PlayerResponse,
+} from "./types";
 import Offset from "./Offset";
 import Scale from "./Scale";
 import { ResponseUser } from "../../modules/responseBody";
@@ -31,13 +35,20 @@ export default class Multiplayer {
 
     constructor(parent: HTMLElement) {
         this.parent = parent;
-        const gameCanvasTemp: HTMLCanvasElement | null = document.querySelector(".gameCanvas");
-        this.gameCanvas = gameCanvasTemp ? gameCanvasTemp : document.createElement("canvas");
+        const gameCanvasTemp: HTMLCanvasElement | null = document.querySelector(
+            ".gameCanvas"
+        );
+        this.gameCanvas = gameCanvasTemp
+            ? gameCanvasTemp
+            : document.createElement("canvas");
 
-        const gameFinishButtonTemp: HTMLDivElement | null = document
-            .querySelector(".game__finish-button");
+        const gameFinishButtonTemp: HTMLDivElement | null = document.querySelector(
+            ".game__finish-button"
+        );
 
-        this.gameFinishButton = gameFinishButtonTemp ? gameFinishButtonTemp : document.createElement("div");
+        this.gameFinishButton = gameFinishButtonTemp
+            ? gameFinishButtonTemp
+            : document.createElement("div");
 
         this.food = new Food(this.gameCanvas);
         this.balls = new Balls(this.gameCanvas);
@@ -65,7 +76,10 @@ export default class Multiplayer {
     public start = (): void => {
         document.addEventListener("keydown", this._escapeKeyHandler);
 
-        this.gameFinishButton.addEventListener("click", this._modalWindowHandler);
+        this.gameFinishButton.addEventListener(
+            "click",
+            this._modalWindowHandler
+        );
 
         window.addEventListener("pushstate", this._onPageChange);
 
@@ -82,7 +96,9 @@ export default class Multiplayer {
     };
 
     private _onWindowResize = (): void => {
-        const canvas: HTMLCanvasElement | null = document.querySelector(".gameCanvas");
+        const canvas: HTMLCanvasElement | null = document.querySelector(
+            ".gameCanvas"
+        );
 
         if (!canvas) {
             return;
@@ -109,16 +125,18 @@ export default class Multiplayer {
 
                 if (data && data.players) {
                     data.players.forEach((player: PlayerResponse) => {
-                        API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
-                            if (user.name) {
-                                this.leaderBoard.addPlayer(
-                                    user.name,
-                                    user.id,
-                                    this.currentUserID === user.id,
-                                    player.size
-                                );
+                        API.getUserInfoById(player.user_id).then(
+                            (user: ResponseUser) => {
+                                if (user.name) {
+                                    this.leaderBoard.addPlayer(
+                                        user.name,
+                                        user.id,
+                                        this.currentUserID === user.id,
+                                        player.size
+                                    );
+                                }
                             }
-                        });
+                        );
 
                         const ball: Ball = new Ball(
                             player.user_id,
@@ -145,8 +163,12 @@ export default class Multiplayer {
                 }
 
                 if (data.player.id == this.currentUserID) {
-                    Offset.setX(ballToMove.x - Scale.countWithScale(data.player.x));
-                    Offset.setY(ballToMove.y - Scale.countWithScale(data.player.y));
+                    Offset.setX(
+                        ballToMove.x - Scale.countWithScale(data.player.x)
+                    );
+                    Offset.setY(
+                        ballToMove.y - Scale.countWithScale(data.player.y)
+                    );
                 }
 
                 ballToMove.setTarget(
@@ -154,10 +176,14 @@ export default class Multiplayer {
                     Scale.countWithScale(data.player.y)
                 );
 
-                if (Scale.countWithScale((data.player.size / 2) ) - ballToMove.radius > 0) {
+                if (
+                    Scale.countWithScale(data.player.size / 2) -
+                        ballToMove.radius >
+                    0
+                ) {
                     this.leaderBoard.update(data.player.id, data.player.size);
                 }
-                ballToMove.radius = Scale.countWithScale((data.player.size / 2) );
+                ballToMove.radius = Scale.countWithScale(data.player.size / 2);
                 this._moveBall(ballToMove);
 
                 if (data.eatenFood.length > 0) {
@@ -169,16 +195,18 @@ export default class Multiplayer {
             }
             case "new_player": {
                 const player = data.player;
-                API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
-                    if (user.name) {
-                        this.leaderBoard.addPlayer(
-                            user.name,
-                            user.id,
-                            this.currentUserID === user.id,
-                            player.size
-                        );
+                API.getUserInfoById(player.user_id).then(
+                    (user: ResponseUser) => {
+                        if (user.name) {
+                            this.leaderBoard.addPlayer(
+                                user.name,
+                                user.id,
+                                this.currentUserID === user.id,
+                                player.size
+                            );
+                        }
                     }
-                });
+                );
 
                 const ball = new Ball(
                     player.user_id,
@@ -188,18 +216,20 @@ export default class Multiplayer {
                     "yellow"
                 );
 
-                API.getUserInfoById(player.user_id).then((user: ResponseUser) => {
-                    if (user.avatar_path) {
-                        const backgroundImage = new Image();
-                        backgroundImage.src = user.avatar_path;
-                        const currentBall = this.balls.get(player.user_id);
-                        if (currentBall) {
-                            currentBall.backgroundImage = backgroundImage;
-                        } else {
-                            ball.backgroundImage = backgroundImage;
+                API.getUserInfoById(player.user_id).then(
+                    (user: ResponseUser) => {
+                        if (user.avatar_path) {
+                            const backgroundImage = new Image();
+                            backgroundImage.src = user.avatar_path;
+                            const currentBall = this.balls.get(player.user_id);
+                            if (currentBall) {
+                                currentBall.backgroundImage = backgroundImage;
+                            } else {
+                                ball.backgroundImage = backgroundImage;
+                            }
                         }
                     }
-                });
+                );
 
                 if (!this.balls.get(player.user_id)) {
                     this.balls.set(player.user_id, ball);
@@ -207,7 +237,6 @@ export default class Multiplayer {
                 break;
             }
             case "new_food": {
-
                 data.food.forEach(element => {
                     this.food.add(
                         element.id,
@@ -239,10 +268,7 @@ export default class Multiplayer {
     private _handleMouseMove = (event: MouseEvent): void => {
         Socket.send(`{"type":"speed", "speed":100}`);
 
-        this._countAndSendDirection(
-            event.clientX,
-            event.clientY,
-        );
+        this._countAndSendDirection(event.clientX, event.clientY);
 
         this.mouseCoordinates.x = Scale.countWithScale(event.clientX);
         this.mouseCoordinates.y = Scale.countWithScale(event.clientY);
@@ -260,12 +286,11 @@ export default class Multiplayer {
         }
 
         const dis = Math.sqrt(
-            Math.pow(x - currentBall.x, 2) +
-                Math.pow(y - currentBall.y, 2)
+            Math.pow(x - currentBall.x, 2) + Math.pow(y - currentBall.y, 2)
         );
         const diagonal = Math.sqrt(
-            Math.pow(Scale.countWithScale(window.innerHeight ), 2) +
-                Math.pow(Scale.countWithScale(window.innerWidth ), 2)
+            Math.pow(Scale.countWithScale(window.innerHeight), 2) +
+                Math.pow(Scale.countWithScale(window.innerWidth), 2)
         );
         const speed = Math.floor((dis / diagonal) * 100);
         if (this.prevSpeed !== speed) {
@@ -275,19 +300,17 @@ export default class Multiplayer {
     };
 
     private _countAndSendDirection = (x: number, y: number): void => {
-        const radians = Math.atan2(y - window.innerHeight / 2,x - window.innerWidth / 2);
+        const radians = Math.atan2(
+            y - window.innerHeight / 2,
+            x - window.innerWidth / 2
+        );
         let angle = Math.round(radians * (180 / Math.PI)) + 90;
 
-        if (
-            (x - window.innerWidth / 2 < 0 &&
-                y - window.innerHeight / 2 < 0)
-        ) {
-            angle = (360 + angle);
+        if (x - window.innerWidth / 2 < 0 && y - window.innerHeight / 2 < 0) {
+            angle = 360 + angle;
         }
 
-        Socket.send(
-            `{"type":"direction", "direction":${angle}}`
-        );
+        Socket.send(`{"type":"direction", "direction":${angle}}`);
     };
 
     private _moveBall = (ball: Ball): void => {
@@ -298,7 +321,7 @@ export default class Multiplayer {
                 ball.y > this.mouseCoordinates.y - ball.radius &&
                 ball.y < this.mouseCoordinates.y + ball.radius
             ) {
-               // this.socket.send(`{"type":"speed", "speed":0}`);
+                // this.socket.send(`{"type":"speed", "speed":0}`);
             } else {
                 this._countAndSendSpeed(
                     this.mouseCoordinates.x,
@@ -311,7 +334,7 @@ export default class Multiplayer {
         }
     };
 
-    private _redrawAllBalls = (): void=> {
+    private _redrawAllBalls = (): void => {
         this.background.draw();
         this.food.draw();
         this.balls.draw();
@@ -326,8 +349,10 @@ export default class Multiplayer {
     private _end = (): void => {
         Socket.close(1000, "endGame");
         document.removeEventListener("keydown", this._escapeKeyHandler);
-        this.gameFinishButton
-            .removeEventListener("click", this._modalWindowHandler);
+        this.gameFinishButton.removeEventListener(
+            "click",
+            this._modalWindowHandler
+        );
 
         document.removeEventListener("mousemove", this._handleMouseMove);
         if (this.timeouts) {
@@ -353,11 +378,7 @@ export default class Multiplayer {
 
         const title: HTMLTitleElement | null = document.querySelector("title");
 
-        window.history.pushState(
-            {},
-            title ? title.innerText : "",
-            "/"
-        );
+        window.history.pushState({}, title ? title.innerText : "", "/");
         router.renderPage();
     };
 
@@ -367,7 +388,7 @@ export default class Multiplayer {
         this.start();
     };
 
-    private _onPageChange = (): void=> {
+    private _onPageChange = (): void => {
         document.removeEventListener("keydown", this._escapeKeyHandler);
         window.removeEventListener("popstate", this._onPageChange);
     };

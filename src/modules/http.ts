@@ -17,7 +17,11 @@ class HttpNetwork {
             headers
         );
 
-    post = <Body>(url: string, body: Body | undefined, headers: Headers): Promise<Response> =>
+    post = <Body>(
+        url: string,
+        body: Body | undefined,
+        headers: Headers
+    ): Promise<Response> =>
         this._request<Body>(
             url,
             {
@@ -30,7 +34,11 @@ class HttpNetwork {
             headers
         );
 
-    _request = <Body>(url: string, options: Partial<Options<Body>>, headers: Headers | undefined): Promise<Response> => {
+    _request = <Body>(
+        url: string,
+        options: Partial<Options<Body>>,
+        headers: Headers | undefined
+    ): Promise<Response> => {
         const { body } = options;
 
         if (!headers) {
@@ -54,9 +62,9 @@ class HttpNetwork {
         return fetch(url, {
             ...options,
             headers,
-            body: null
+            body: null,
         });
-    }
+    };
 }
 
 export default new HttpNetwork();

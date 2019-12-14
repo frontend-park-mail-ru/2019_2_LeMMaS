@@ -14,7 +14,9 @@ export default class Multiplayer {
 
         document.body.innerHTML = html`
             <div class="game__wrapper">
-                <div class="game__info plate leaderboard-plate plate__size-auto">
+                <div
+                    class="game__info plate leaderboard-plate plate__size-auto"
+                >
                     <div class="plate__innerContent">
                         <h2 class="text__align-center">
                             <i class="fas fa-trophy"></i> Лучшие игроки
@@ -45,5 +47,4 @@ export default class Multiplayer {
             }
         }, 200);
     };
-
 }

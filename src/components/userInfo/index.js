@@ -16,7 +16,7 @@ export default class UserInfo extends BaseComponent {
         }, 200);
     };
 
-    render = async (currentUser) => {
+    render = async currentUser => {
         if (currentUser === null) {
             return;
         }

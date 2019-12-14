@@ -31,7 +31,7 @@ export default class ProfileForm extends Form {
         }, 200);
     };
 
-    _renderElements = async (form) => {
+    _renderElements = async form => {
         const user = User.getCurrentUser();
         form.innerHTML = html`
             <div class="form__row">

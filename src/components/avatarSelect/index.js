@@ -50,7 +50,7 @@ export default class AvatarSelect extends BaseComponent {
             });
     };
 
-    previewByName = async (name) => {
+    previewByName = async name => {
         const avatarUrl = name ? await API.getAvatarPreviewUrl(name) : null;
         this.render(avatarUrl.avatar_url);
     };

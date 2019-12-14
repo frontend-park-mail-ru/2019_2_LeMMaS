@@ -44,11 +44,10 @@ export default class Index extends BasePage {
         `;
 
         if (!User.getCurrentUser()) {
-            const multiplayer = document
-                .querySelector(".multiplayer");
+            const multiplayer = document.querySelector(".multiplayer");
 
-            multiplayer && multiplayer
-                .addEventListener("click", () => {
+            multiplayer &&
+                multiplayer.addEventListener("click", () => {
                     const loginWindow = new ModalWindow(document.body);
                     loginWindow.start(
                         "Сначала нужно войти",

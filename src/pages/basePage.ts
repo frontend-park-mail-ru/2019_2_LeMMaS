@@ -14,15 +14,21 @@ export default class BasePage {
             <div class="header-wrapper"></div>
             <div class="content"></div>
         `;
-        const headerWrapper: HTMLDivElement | null = document.querySelector(".header-wrapper");
+        const headerWrapper: HTMLDivElement | null = document.querySelector(
+            ".header-wrapper"
+        );
         if (headerWrapper) {
             new Header(headerWrapper).render();
         }
-        const contentWrapper: HTMLDivElement | null = document.querySelector(".content");
+        const contentWrapper: HTMLDivElement | null = document.querySelector(
+            ".content"
+        );
         if (contentWrapper) {
             this.renderContent(contentWrapper);
         }
-        const wallpaperWrapper: HTMLDivElement | null = document.querySelector(".wallpaper");
+        const wallpaperWrapper: HTMLDivElement | null = document.querySelector(
+            ".wallpaper"
+        );
         if (wallpaperWrapper) {
             new Wallpaper(wallpaperWrapper).render();
         }
