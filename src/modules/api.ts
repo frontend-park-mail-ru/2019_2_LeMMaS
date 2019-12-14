@@ -3,7 +3,8 @@ import { MyResponse, ResponseUser } from "./responseBody";
 import { StandartJSONResponse } from "common-api";
 
 const BACKEND_URL = "lemmas.ru";
-const API_V1_PREFIX = "api/v1";
+const DEFAULT_PROTOCOL = "https";
+const API_PREFIX = "api/v1";
 const API_PUBLIC_PREFIX = "public";
 const API_PRIVATE_PREFIX = "private";
 const USER_PREFIX = "/user/";
@@ -117,8 +118,8 @@ class API {
         );
     };
 
-    _getUrlByRoute = (route: string, protocol = "http"): string =>
-        protocol + "://" + [BACKEND_URL, API_V1_PREFIX, route].join("/");
+    _getUrlByRoute = (route: string, protocol = DEFAULT_PROTOCOL): string =>
+        protocol + "://" + [BACKEND_URL, API_PREFIX, route].join("/");
 
     _isPrivateRoute = (route: string): boolean => route.startsWith(API_PRIVATE_PREFIX);
 }
