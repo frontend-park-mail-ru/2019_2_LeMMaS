@@ -13,7 +13,8 @@
     },
     "dependencies": {
         "classnames": "^2.2.6",
-        "common-tags": "^1.8.0"
+        "common-tags": "^1.8.0",
+        "uuid": "^3.3.3"
     },
     "devDependencies": {
         "@babel/core": "^7.7.4",

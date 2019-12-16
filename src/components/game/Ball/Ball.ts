@@ -6,6 +6,7 @@ import { ResponseUser } from "../../../modules/responseBody";
 const DEFAULT_COLOR = "green";
 const DEFAULT_STROKE = "rgba(128, 0, 0, 0.5)";
 const EASING = 1;
+const MAX_RADIUS = 100;
 
 export default class Ball {
     public backgroundImage: HTMLImageElement | undefined;
@@ -49,6 +50,8 @@ export default class Ball {
         const ballCtx: CanvasRenderingContext2D | null =
             this.canvas && this.canvas.getContext("2d");
         if (ballCtx) {
+            ballCtx.restore();
+            ballCtx.save();
             ballCtx.beginPath();
             ballCtx.arc(
                 this.x + Offset.x,
@@ -88,11 +91,19 @@ export default class Ball {
 
     private getAvatar = (): void => {
         API.getUserInfoById(this.id).then((user: ResponseUser) => {
-            if (user.avatar_path) {
+            if (user?.avatar_path) {
                 const backgroundImage = new Image();
-                backgroundImage.src = user.avatar_path;
+                backgroundImage.src = user?.avatar_path;
                 this.backgroundImage = backgroundImage;
             }
         });
+    };
+
+    public increaseRadius = (value: number) => {
+        if (this.radius + value > MAX_RADIUS) {
+            this.radius = MAX_RADIUS;
+            return;
+        }
+        this.radius += value;
     };
 }
