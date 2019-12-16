@@ -28,4 +28,7 @@ export default class Balls {
             });
         }
     };
+
+    public getAllBalls = () =>
+        this.balls;
 }

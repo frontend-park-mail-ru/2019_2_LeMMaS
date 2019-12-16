@@ -1,9 +1,10 @@
 import { html } from "common-tags";
 
-import SinglePlayer from "components/game/singleplayer";
+import SinglePlayer from "components/game/Singleplayer";
 import User from "modules/user";
 
 import "assets/css/common.css";
+import MultiPlayer from "../../components/game/Multiplayer";
 
 export default class Singleplayer {
     private gamePlay: SinglePlayer;
@@ -23,12 +24,7 @@ export default class Singleplayer {
                 <canvas
                     width="${width}"
                     height="${height}"
-                    class="foodCanvas"
-                ></canvas>
-                <canvas
-                    width="${width}"
-                    height="${height}"
-                    class="ballCanvas"
+                    class="gameCanvas"
                 ></canvas>
             </div>
         `;
@@ -38,11 +34,7 @@ export default class Singleplayer {
         this.gamePlay = new SinglePlayer(
             document.body.querySelector(".game__wrapper")
         );
-        const interval = setInterval(() => {
-            if (User.getCurrentUser() !== undefined) {
-                this.gamePlay.start();
-                clearInterval(interval);
-            }
-        }, 200);
+
+        this.gamePlay.start();
     };
 }

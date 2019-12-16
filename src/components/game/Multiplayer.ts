@@ -96,13 +96,9 @@ export default class Multiplayer {
     };
 
     private _onWindowResize = (): void => {
-        const canvas: HTMLCanvasElement | null = document.querySelector(
+        const canvas: HTMLCanvasElement = document.querySelector(
             ".gameCanvas"
         );
-
-        if (!canvas) {
-            return;
-        }
 
         Offset.x -= (canvas.width - window.innerWidth * 2) / 2;
         Offset.y -= (canvas.height - window.innerHeight * 2) / 2;
@@ -270,29 +266,22 @@ export default class Multiplayer {
 
         this._countAndSendDirection(event.clientX, event.clientY);
 
-        this.mouseCoordinates.x = Scale.countWithScale(event.clientX);
-        this.mouseCoordinates.y = Scale.countWithScale(event.clientY);
+        this.mouseCoordinates.x = event.clientX;
+        this.mouseCoordinates.y = event.clientY;
     };
 
     private _countAndSendSpeed = (x: number, y: number): void => {
         if (!this.balls || !this.currentUserID) {
             return;
         }
-
         const currentBall = this.balls.get(this.currentUserID);
 
-        if (!currentBall) {
-            return;
-        }
-
         const dis = Math.sqrt(
-            Math.pow(x - currentBall.x, 2) + Math.pow(y - currentBall.y, 2)
+            Math.pow(x - window.innerWidth / 2, 2) +
+                Math.pow(y - window.innerHeight / 2, 2)
         );
-        const diagonal = Math.sqrt(
-            Math.pow(Scale.countWithScale(window.innerHeight), 2) +
-                Math.pow(Scale.countWithScale(window.innerWidth), 2)
-        );
-        const speed = Math.floor((dis / diagonal) * 100);
+
+        const speed = Math.floor((dis / currentBall.radius) * 100);
         if (this.prevSpeed !== speed) {
             this.prevSpeed = speed;
             Socket.send(`{"type":"speed", "speed":100}`);
@@ -316,11 +305,12 @@ export default class Multiplayer {
     private _moveBall = (ball: Ball): void => {
         if (ball.id === this.currentUserID) {
             if (
-                ball.x > this.mouseCoordinates.x - ball.radius &&
-                ball.x < this.mouseCoordinates.x + ball.radius &&
-                ball.y > this.mouseCoordinates.y - ball.radius &&
-                ball.y < this.mouseCoordinates.y + ball.radius
+                window.innerWidth / 2 > this.mouseCoordinates.x - ball.radius &&
+                window.innerWidth / 2 < this.mouseCoordinates.x + ball.radius &&
+                window.innerHeight / 2 > this.mouseCoordinates.y - ball.radius &&
+                window.innerHeight / 2 < this.mouseCoordinates.y + ball.radius
             ) {
+                Socket.send(`{"type":"speed", "speed":0}`);
                 // this.socket.send(`{"type":"speed", "speed":0}`);
             } else {
                 this._countAndSendSpeed(

@@ -5,7 +5,7 @@ import Food from "./Food/Food";
 
 import "./style.css";
 
-export default class Singleplayer {
+export default class Oldsingleplayer {
     constructor(parent) {
         this.parent = parent;
     }
