@@ -78,14 +78,14 @@ const config = development => [
             }),
         ],
     },
-    {
+   /* {
         entry: ["./src/sw.js"],
         output: {
             filename: "sw.js",
             path: path.resolve(__dirname, "public"),
         },
         optimization: { minimize: true },
-    },
+    },*/
 ];
 
 module.exports = (env, argv) => {
