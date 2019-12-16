@@ -2,6 +2,14 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
+const sw = {
+    entry: ["./src/sw.js"],
+    output: {
+        filename: "sw.js",
+        path: path.resolve(__dirname, "public"),
+    }
+};
+
 const config = development => [
     {
         entry: ["./src/app.js"],
@@ -77,15 +85,7 @@ const config = development => [
                 },
             }),
         ],
-    },
-    {
-        entry: ["./src/sw.js"],
-        output: {
-            filename: "sw.js",
-            path: path.resolve(__dirname, "public"),
-        },
-        optimization: { minimize: true },
-    },
+    }
 ];
 
 module.exports = (env, argv) => {
