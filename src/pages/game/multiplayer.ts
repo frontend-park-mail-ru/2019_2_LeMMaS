@@ -4,11 +4,16 @@ import User from "modules/user";
 import MultiPlayer from "components/game/Multiplayer";
 
 import "assets/css/common.css";
+import router, { routes } from "../../modules/router";
 
 export default class Multiplayer {
     private gamePlay: MultiPlayer;
 
     render = () => {
+        if (!User.isLoggedIn()) {
+            router.redirect(routes.INDEX);
+            return;
+        }
         const width = window.innerWidth * 2;
         const height = window.innerHeight * 2;
 

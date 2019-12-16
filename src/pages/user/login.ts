@@ -12,10 +12,6 @@ import Loader from "components/loader/index";
 export default class Login extends BasePage {
     private loginForm: HTMLFormElement | undefined;
 
-    constructor() {
-        super();
-    }
-
     renderContent = (parent: HTMLElement): void => {
         document.title = "Войти | LeMMaS";
         parent.innerHTML = html`

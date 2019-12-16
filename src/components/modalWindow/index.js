@@ -71,12 +71,13 @@ export default class ModalWindow {
                 ></a>
                 <div class="modalWindow__text">${this.info}</div>
                 <div class="modalWindow__buttons-wrapper"></div>
+                <div class="modalWindow__inside"></div>
             </div>
         `;
         document
             .querySelector(".modalWindow__button-close")
             .addEventListener("click", this.closeWithX);
-        this.inside.renderContent(document.querySelector(".content"));
+        this.inside.renderContent(document.querySelector(".modalWindow__inside"));
     };
 
     _keyDownHandler = event => {
