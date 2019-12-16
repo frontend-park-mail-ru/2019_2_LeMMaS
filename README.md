@@ -1,5 +1,7 @@
 # LeMMaS Frontend
 
+[![Build Status](https://travis-ci.com/frontend-park-mail-ru/2019_2_LeMMaS.svg?branch=develope)](https://travis-ci.com/frontend-park-mail-ru/2019_2_LeMMaS)
+
 Игра про голодные шарики, вдохновленная Agar.io.
 
 [![image](https://user-images.githubusercontent.com/6276455/69713801-3a1aa980-1116-11ea-82db-902277aefbe3.png)](http://95.163.212.121/)
