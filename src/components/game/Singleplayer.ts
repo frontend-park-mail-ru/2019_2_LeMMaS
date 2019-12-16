@@ -140,33 +140,37 @@ export default class SinglePlayer {
 
 
     private _handleMouseMove = (event: MouseEvent): void => {
-        const newPosition = this.getNewPosition(this._countAndSendDirection(event.clientX, event.clientY));
         this.mouseCoordinates.x = event.clientX;
         this.mouseCoordinates.y = event.clientY;
-        this.easingTarget.x = newPosition.X;
-        this.easingTarget.y = newPosition.Y;
+        if (this.timeouts) {
+            this.timeouts.forEach(timer => {
+                clearTimeout(timer);
+            });
+        }
         this._moveMyBall();
     };
 
+
     private getNewPosition (direction) {
         const directionRadians = (direction) * Math.PI / 180;
-        const distance = 1;
+        const distance = 1000;
         const deltaX = distance * Math.sin(directionRadians);
         const deltaY = -distance * Math.cos(directionRadians);
         const oldPosition = {
             X: this.balls.get(this.currentUserID).x,
             Y: this.balls.get(this.currentUserID).y
         };
+
         const newPosition = {
             X: Math.round((oldPosition.X) + deltaX),
             Y: Math.round((oldPosition.Y) + deltaY),
         };
 
-        if (newPosition.X > 3000) {
-            newPosition.X = 3000;
+        if (newPosition.X > Scale.countWithScale(3000)) {
+            newPosition.X = Scale.countWithScale(3000);
         }
-        if (newPosition.Y > 3000) {
-            newPosition.Y = 3000;
+        if (newPosition.Y > Scale.countWithScale(3000)) {
+            newPosition.Y = Scale.countWithScale(3000);
         }
         if (newPosition.X < 0) {
             newPosition.X = 0;
@@ -177,34 +181,22 @@ export default class SinglePlayer {
         return newPosition;
     }
 
-    _moveMyBall = () => {
-        if (
-            this.easingTarget.x === this.balls.get(this.currentUserID).x + this.balls.get(this.currentUserID).radius &&
-            this.easingTarget.y === this.balls.get(this.currentUserID).y + this.balls.get(this.currentUserID).radius
-        ) {
-            return;
-        }
-
-        /*
-        this.balls.get(this.currentUserID).x += (this.easingTarget.x - this.balls.get(this.currentUserID).x) * 0.01;
-        this.balls.get(this.currentUserID).y += (this.easingTarget.y - this.balls.get(this.currentUserID).y) * 0.01;
-        */
+    _moveMyBall = (): void => {
+        const easing = 0.01;
+        const newPosition = this.getNewPosition(this._countAndSendDirection(this.mouseCoordinates.x, this.mouseCoordinates.y));
+        this.easingTarget.x = newPosition.X;
+        this.easingTarget.y = newPosition.Y;
 
         const ballToMove = this.balls.get(this.currentUserID);
 
-        Offset.setX(
-            ballToMove.x - Scale.countWithScale(this.easingTarget.x)
-        );
-        Offset.setY(
-            ballToMove.y - Scale.countWithScale(this.easingTarget.y)
-        );
+        Offset.x -= (this.easingTarget.x - ballToMove.x) * easing;
 
-        ballToMove.setTarget(
-            Scale.countWithScale(this.easingTarget.x),
-            Scale.countWithScale(this.easingTarget.y)
-        );
+        Offset.y -= (this.easingTarget.y - ballToMove.y) * easing;
 
-        this.timeouts.push(setTimeout(() => this._moveMyBall(), 100));
+        ballToMove.x += (this.easingTarget.x - ballToMove.x) * easing;
+        ballToMove.y += (this.easingTarget.y - ballToMove.y) * easing;
+
+        this.timeouts.push(setTimeout(() => this._moveMyBall(), 1000/60));
     };
 
     private _countAndSendSpeed = (x: number, y: number): void => {
@@ -221,7 +213,6 @@ export default class SinglePlayer {
         const speed = Math.floor((dis / currentBall.radius) * 100);
         if (this.prevSpeed !== speed) {
             this.prevSpeed = speed;
-
         }
     };
 
@@ -235,7 +226,6 @@ export default class SinglePlayer {
         if (x - window.innerWidth / 2 < 0 && y - window.innerHeight / 2 < 0) {
             angle = 360 + angle;
         }
-        console.log(angle);
         return angle;
     };
 
@@ -269,6 +259,15 @@ export default class SinglePlayer {
         let dy = -1;
         
         this.balls.getAllBalls().forEach(ball => {
+            this._detectFoodEating(ball);
+            this.balls.getAllBalls().forEach(ball1 => {
+                this.balls.getAllBalls().forEach(ball2 => {
+                    if (ball1 !== ball2) {
+                        this._detectBallEating(ball1, ball2);
+                    }
+                });
+            });
+
             if (ball.id !== this.currentUserID) {
                 if (
                     ball.x + dx > this.gameCanvas.width - ball.radius ||
@@ -293,6 +292,44 @@ export default class SinglePlayer {
                 this._redrawAllBalls();
             }
         });
+    };
+
+    private _detectFoodEating = (ball: Ball) => {
+        this.food.getFood().forEach(foodElement => {
+            if (
+                ball.x > foodElement.x - ball.radius &&
+                ball.x < foodElement.x + ball.radius &&
+                ball.y > foodElement.y - ball.radius &&
+                ball.y < foodElement.y + ball.radius
+            ) {
+                ball.increaseRadius(1);
+                this.food.delete(foodElement.id);
+                this.food.draw();
+            }
+        });
+    };
+
+    _detectBallEating = (ball1: Ball, ball2: Ball) => {
+
+        let small = ball1,
+            large = ball1;
+        if (ball1.radius === ball2.radius) {
+            return;
+        } else if (ball1.radius < ball2.radius) {
+            large = ball2;
+        } else {
+            small = ball2;
+        }
+
+        if (
+            small.x + small.radius < large.x + large.radius &&
+            small.x - small.radius > large.x - large.radius &&
+            small.y + small.radius < large.y + large.radius &&
+            small.y - small.radius > large.y - large.radius
+        ) {
+            this.balls.delete(small.id);
+            large.increaseRadius(small.radius);
+        }
     };
 
     private _end = (): void => {

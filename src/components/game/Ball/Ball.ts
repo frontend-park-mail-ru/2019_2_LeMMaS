@@ -6,6 +6,7 @@ import { ResponseUser } from "../../../modules/responseBody";
 const DEFAULT_COLOR = "green";
 const DEFAULT_STROKE = "rgba(128, 0, 0, 0.5)";
 const EASING = 1;
+const MAX_RADIUS = 100;
 
 export default class Ball {
     public backgroundImage: HTMLImageElement | undefined;
@@ -96,5 +97,13 @@ export default class Ball {
                 this.backgroundImage = backgroundImage;
             }
         });
+    };
+
+    public increaseRadius = (value: number) => {
+        if (this.radius + value > MAX_RADIUS) {
+            this.radius = MAX_RADIUS;
+            return;
+        }
+        this.radius += value;
     };
 }

@@ -6,8 +6,7 @@
         "server": "node dev/server.js",
         "build": "npm run sw && webpack --mode=production",
         "sw": "node dev/sw/generateUrlsToCache.js",
-        "dev": "npm run server & webpack --mode=development",
-        "dev watch": "npm run dev --watch",
+        "dev": "npm run server & webpack --watch --mode=development",
         "lintjs": "./node_modules/.bin/eslint -c .eslintrc.js './src/**/*?(.*).js?(x)'",
         "lintts": "./node_modules/.bin/eslint -c .eslintrc.js './src/**/*?(.*).ts?(x)'"
     },
