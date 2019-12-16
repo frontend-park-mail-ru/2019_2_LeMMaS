@@ -3,9 +3,10 @@ import { html } from "common-tags";
 import { routes } from "modules/router";
 import BaseStringComponent from "components/baseStringComponent";
 
-import "./style.css";
 import LogoImage from "assets/img/lemmaslogo.png";
 import LogoMobileImage from "assets/img/lemmaslogo_mobile.png";
+
+import "./style.css";
 
 export default class Logo extends BaseStringComponent {
     renderString = () => {

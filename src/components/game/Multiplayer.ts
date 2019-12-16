@@ -23,6 +23,7 @@ export default class Multiplayer {
     private balls: Balls;
     private food: Food;
     private mouseCoordinates: { x: number; y: number };
+    private easingTarget: { x: number; y: number };
     private currentUserID: number | undefined;
     private modalWindow: ModalWindow;
     private timeouts: Array<any>;
@@ -57,6 +58,12 @@ export default class Multiplayer {
             x: 0,
             y: 0,
         };
+
+        this.easingTarget = {
+            x: 0,
+            y: 0,
+        };
+
         this.prevSpeed = 0;
 
         this.timeouts = [];
@@ -264,11 +271,77 @@ export default class Multiplayer {
     private _handleMouseMove = (event: MouseEvent): void => {
         Socket.send(`{"type":"speed", "speed":100}`);
 
-        this._countAndSendDirection(event.clientX, event.clientY);
+       // this._countAndSendDirection(event.clientX, event.clientY);
 
         this.mouseCoordinates.x = event.clientX;
         this.mouseCoordinates.y = event.clientY;
+        if (this.timeouts) {
+            this.timeouts.forEach(timer => {
+                clearTimeout(timer);
+            });
+        }
+        this._moveMyBall();
     };
+
+    _moveMyBall = (): void => {
+        const easing = 0.008;
+        const newPosition = this.getNewPosition(this._countAndSendDirection(this.mouseCoordinates.x, this.mouseCoordinates.y));
+        this.easingTarget.x = newPosition.X;
+        this.easingTarget.y = newPosition.Y;
+
+        const ballToMove = this.balls.get(this.currentUserID);
+
+        Offset.x -= (this.easingTarget.x - ballToMove.x) * easing;
+
+        Offset.y -= (this.easingTarget.y - ballToMove.y) * easing;
+
+        ballToMove.x += (this.easingTarget.x - ballToMove.x) * easing;
+        ballToMove.y += (this.easingTarget.y - ballToMove.y) * easing;
+
+        this.timeouts.push(setTimeout(() => this._moveMyBall(), 1000/60));
+    };
+
+
+    private getNewPosition (direction) {
+        const ball = this.balls.get(this.currentUserID);
+        let distance = 1000;
+
+        if (
+            window.innerWidth / 2 > this.mouseCoordinates.x - ball.radius &&
+            window.innerWidth / 2 < this.mouseCoordinates.x + ball.radius &&
+            window.innerHeight / 2 > this.mouseCoordinates.y - ball.radius &&
+            window.innerHeight / 2 < this.mouseCoordinates.y + ball.radius
+        ) {
+            distance = 0;
+        }
+        const directionRadians = (direction) * Math.PI / 180;
+
+        const deltaX = distance * Math.sin(directionRadians);
+        const deltaY = -distance * Math.cos(directionRadians);
+        const oldPosition = {
+            X: this.balls.get(this.currentUserID).x,
+            Y: this.balls.get(this.currentUserID).y
+        };
+
+        const newPosition = {
+            X: Math.round((oldPosition.X) + deltaX),
+            Y: Math.round((oldPosition.Y) + deltaY),
+        };
+
+        if (newPosition.X > Scale.countWithScale(3000)) {
+            newPosition.X = Scale.countWithScale(3000);
+        }
+        if (newPosition.Y > Scale.countWithScale(3000)) {
+            newPosition.Y = Scale.countWithScale(3000);
+        }
+        if (newPosition.X < 0) {
+            newPosition.X = 0;
+        }
+        if (newPosition.Y < 0) {
+            newPosition.Y = 0;
+        }
+        return newPosition;
+    }
 
     private _countAndSendSpeed = (x: number, y: number): void => {
         if (!this.balls || !this.currentUserID) {
@@ -288,7 +361,7 @@ export default class Multiplayer {
         }
     };
 
-    private _countAndSendDirection = (x: number, y: number): void => {
+    private _countAndSendDirection = (x: number, y: number): number => {
         const radians = Math.atan2(
             y - window.innerHeight / 2,
             x - window.innerWidth / 2
@@ -300,6 +373,8 @@ export default class Multiplayer {
         }
 
         Socket.send(`{"type":"direction", "direction":${angle}}`);
+
+        return angle;
     };
 
     private _moveBall = (ball: Ball): void => {

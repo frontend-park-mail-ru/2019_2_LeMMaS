@@ -1,18 +1,14 @@
 import ModalWindow from "components/modalWindow";
 import { GameLeaderboard } from "components/leaderboard";
 import router from "modules/router";
-import User from "modules/user";
+
 import Ball from "./Ball/Ball";
 import Balls from "./Ball/Balls";
 import Food from "./Food/Food";
-import {
-    FoodElementResponse,
-    SocketMessageData,
-    PlayerResponse,
-} from "./types";
+
 import Offset from "./Offset";
 import Scale from "./Scale";
-import { ResponseUser } from "../../modules/responseBody";
+
 import "./style.css";
 import Background from "./Background/Background";
 
@@ -70,7 +66,7 @@ export default class SinglePlayer {
 
         this.gameEnded = false;
 
-        this.currentUserID = uuid();
+        this.currentUserID = Math.random() * 1000;
 
         this.background = new Background(this.gameCanvas);
     }
@@ -103,8 +99,9 @@ export default class SinglePlayer {
         ));
 
         for (let count = 0; count < 3; count++) {
-            this.balls.set(uuid(), new Ball(
-                uuid(),
+            const id = Math.random() * 100;
+            this.balls.set(id, new Ball(
+                id,
                 (Math.random() * window.innerWidth) / 2,
                 (Math.random() * window.innerHeight) / 2,
                 20,
@@ -149,7 +146,6 @@ export default class SinglePlayer {
         }
         this._moveMyBall();
     };
-
 
     private getNewPosition (direction) {
         const directionRadians = (direction) * Math.PI / 180;

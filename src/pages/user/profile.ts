@@ -5,6 +5,7 @@ import User from "modules/user";
 import ProfileForm from "components/profileForm";
 import Loader from "components/loader/index";
 import router from "modules/router";
+import Menu from "components/menu";
 
 export default class Profile extends BasePage {
     private profileForm: HTMLFormElement | undefined;
@@ -88,10 +89,16 @@ export default class Profile extends BasePage {
             const formData = new FormData();
             formData.append("avatar", userPic.files[0]);
             const response = await User.updateAvatar(formData);
-            response.ok
-                ? this.profileForm.showOK("Изменения сохранены")
-                : this.profileForm.showError("Произошла ошибка");
+            if (!response.ok) {
+                this.profileForm.showError("Произошла ошибка");
+                return;
+            }
+            this.profileForm.showOK("Изменения сохранены");
         }
+
+        User.updateCurrentUser().then(() => {
+            new Menu(document.querySelector(".menu")).start();
+        });
 
         loader.hide();
     };

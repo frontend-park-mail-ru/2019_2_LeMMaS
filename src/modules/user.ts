@@ -7,13 +7,13 @@ class User {
     private loggedIn: boolean | undefined;
 
     constructor() {
-        this._updateCurrentUser();
+        this.updateCurrentUser();
     }
 
     login = async (email: string, password: string): Promise<Response> => {
         const response = await API.loginUser(email, password);
         if (response.ok) {
-            this._updateCurrentUser();
+            this.updateCurrentUser();
         }
         return response;
     };
@@ -37,7 +37,7 @@ class User {
     update = async (name: string, password: string): Promise<Response> => {
         const response = await API.updateUser(name, password);
         if (response.ok) {
-            this._updateCurrentUser();
+            this.updateCurrentUser();
         }
         return response;
     };
@@ -45,7 +45,7 @@ class User {
     updateAvatar = async (formData: FormData): Promise<Response> => {
         const response = await API.updateAvatar(formData);
         if (response.ok) {
-            this._updateCurrentUser();
+            this.updateCurrentUser();
         }
         return response;
     };
@@ -62,7 +62,7 @@ class User {
 
     getCurrentUser = (): ResponseUser | undefined => this.currentUser;
 
-    _updateCurrentUser = async (): Promise<void> => {
+    updateCurrentUser = async (): Promise<void> => {
         const user = await API.currentUserProfile();
         this.currentUser = user;
         if (user) {
