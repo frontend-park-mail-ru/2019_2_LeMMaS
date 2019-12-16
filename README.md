@@ -1,8 +1,12 @@
 # LeMMaS Frontend
 
-Игра про голодные шарики, вдохновленная [Agar.io](http://agar.io/). Поиграть можно [тут](http://95.163.212.121).
+[![Build Status](https://travis-ci.com/frontend-park-mail-ru/2019_2_LeMMaS.svg?branch=develope)](https://travis-ci.com/frontend-park-mail-ru/2019_2_LeMMaS)
 
-[Документация по API](https://go-park-mail-ru.github.io/2019_2_LeMMaS).
+Игра про голодные шарики, вдохновленная Agar.io.
+
+[![image](https://user-images.githubusercontent.com/6276455/69713801-3a1aa980-1116-11ea-82db-902277aefbe3.png)](http://95.163.212.121/)
+
+[Документация по Api](https://go-park-mail-ru.github.io/2019_2_LeMMaS).
 
 ## Технологии
 
@@ -16,9 +20,6 @@
 ## Установка и запуск
 
 ```
-git clone https://github.com/frontend-park-mail-ru/2019_2_LeMMaS
-cd 2019_2_LeMMaS
-
 npm install
 npm run dev
 ```
@@ -34,4 +35,4 @@ npm run dev
 -   [Елизавета Щербакова](https://github.com/Liza-Shch)
 -   [Дмитрий Палий](https://github.com/stanf0rd)
 
-### [Репозиторий backend`a](https://github.com/go-park-mail-ru/2019_2_LeMMaS)
+### [Backend репозиторий](https://github.com/go-park-mail-ru/2019_2_LeMMaS)

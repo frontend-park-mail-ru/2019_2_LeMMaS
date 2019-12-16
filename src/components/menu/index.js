@@ -1,10 +1,10 @@
-import BaseComponent from "../baseComponent";
-import { LinkButton, Button } from "../buttons";
-import User from "../../modules/user";
-import router, { routes } from "../../modules/router";
+import BaseComponent from "components/baseComponent";
+import { LinkButton, Button } from "components/buttons";
+import UserInfo from "components/userInfo";
+import User from "modules/user";
+import router, { routes } from "modules/router";
 
 import "./style.css";
-import UserInfo from "../userInfo";
 
 export default class Menu extends BaseComponent {
     constructor(parent) {
@@ -24,7 +24,7 @@ export default class Menu extends BaseComponent {
         User.isLoggedIn() ? this._renderForLoggedIn() : this._renderForNoUser();
     };
 
-    _renderForLoggedIn() {
+    _renderForLoggedIn = () => {
         this.parent.innerHTML = `
             <span class="userinfo-wrapper"></span>
         `;
@@ -34,14 +34,14 @@ export default class Menu extends BaseComponent {
             extraClass: "button__transparency-transparent",
         }).render();
         new UserInfo(this.parent.querySelector(".userinfo-wrapper")).start();
-    }
+    };
 
-    _renderForNoUser() {
+    _renderForNoUser = () => {
         this.parent.innerHTML = `
             ${new LinkButton({
                 text: "Войти",
                 href: routes.USER_LOGIN,
-                extraClass: "button__color-violet",
+                extraClass: "button__color-gold",
             }).renderString()}
             ${new LinkButton({
                 text: "Регистрация",
@@ -49,10 +49,10 @@ export default class Menu extends BaseComponent {
                 extraClass: "button__type-secondary",
             }).renderString()}
         `;
-    }
+    };
 
-    async _onLogoutButtonClick() {
+    _onLogoutButtonClick = async () => {
         await User.logout();
         router.redirect(routes.INDEX);
-    }
+    };
 }

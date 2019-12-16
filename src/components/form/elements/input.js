@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 
-import BaseStringComponent from "../../baseStringComponent";
+import BaseStringComponent from "components/baseStringComponent";
 
 import "./style.css";
 
@@ -26,7 +26,7 @@ export default class Input extends BaseStringComponent {
         this.disabled = disabled;
     }
 
-    renderString() {
+    renderString = () => {
         return html`
             <div class="form__field-wrapper">
                 ${this._renderLabel()}
@@ -41,21 +41,21 @@ export default class Input extends BaseStringComponent {
                 ${this._renderTip()}
             </div>
         `;
-    }
+    };
 
-    _renderLabel() {
+    _renderLabel = () => {
         return this.label === null
             ? ""
             : html`
                   <label class="form__field__label">${this.label}</label>
               `;
-    }
+    };
 
-    _renderTip() {
+    _renderTip = () => {
         return this.tip === null
             ? ""
             : html`
                   <span class="form__field__tip">${this.tip}</span>
               `;
-    }
+    };
 }

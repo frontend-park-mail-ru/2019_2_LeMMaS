@@ -1,10 +1,10 @@
 import { html } from "common-tags";
 
-import Form from "../form";
-import Input from "../form/elements/input";
-import SubmitButton from "../form/elements/submitButton";
-import AvatarSelect from "../avatarSelect";
-import User from "../../modules/user";
+import Form from "components/form";
+import Input from "components/form/elements/input";
+import SubmitButton from "components/form/elements/submitButton";
+import AvatarSelect from "components/avatarSelect";
+import User from "modules/user";
 
 import "./style.css";
 
@@ -31,7 +31,7 @@ export default class ProfileForm extends Form {
         }, 200);
     };
 
-    async _renderElements(form) {
+    _renderElements = async form => {
         const user = User.getCurrentUser();
         form.innerHTML = html`
             <div class="form__row">
@@ -77,7 +77,7 @@ export default class ProfileForm extends Form {
             "new-password";
         form.querySelector(".form__field.password-repeat").autocomplete =
             "new-password";
-    }
+    };
 
     _onNameTyped = e => {
         const name = e.target.value;

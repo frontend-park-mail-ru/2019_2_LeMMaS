@@ -1,6 +1,6 @@
 import { html } from "common-tags";
 
-import BaseComponent from "../baseComponent";
+import BaseComponent from "components/baseComponent";
 
 import "./style.css";
 
@@ -15,7 +15,7 @@ export default class Form extends BaseComponent {
         this.extraClass = extraClass;
     }
 
-    async render() {
+    render = async () => {
         let formClass = "";
         formClass += this.extraClass ? this.extraClass : "";
 
@@ -28,35 +28,35 @@ export default class Form extends BaseComponent {
         form.addEventListener("submit", this.onSubmit);
 
         this.message = this.parent.querySelector(".form__message");
-    }
+    };
 
-    getValue(fieldName) {
+    getValue = fieldName => {
         return this.parent.querySelector("." + fieldName).value;
-    }
+    };
 
-    showOK(info) {
+    showOK = info => {
         this.message.innerHTML = `<i class="fas fa-check"></i> ${info}`;
         this.message.classList.remove(ERROR_MESSAGE_CLASS);
         this.message.classList.add(SUCCESS_MESSAGE_CLASS);
         setTimeout(() => {
             this.hideMessage();
         }, 3000);
-    }
+    };
 
-    showError(error) {
+    showError = error => {
         this.message.innerHTML = `<i class="fas fa-times"></i> ${error}`;
         this.message.classList.remove(SUCCESS_MESSAGE_CLASS);
         this.message.classList.add(ERROR_MESSAGE_CLASS);
-    }
+    };
 
-    hideMessage() {
+    hideMessage = () => {
         this.message.classList.remove(SUCCESS_MESSAGE_CLASS);
         this.message.classList.remove(ERROR_MESSAGE_CLASS);
-    }
+    };
 
-    _renderElements(form) {
+    _renderElements = form => {
         form.innerHTML = html`
             ${this.elements.map(e => e.renderString())}
         `;
-    }
+    };
 }

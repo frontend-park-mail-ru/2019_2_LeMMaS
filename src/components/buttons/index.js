@@ -1,14 +1,14 @@
 import classNames from "classnames";
 
-import BaseComponent from "../baseComponent";
-import BaseStringComponent from "../baseStringComponent";
+import BaseComponent from "components/baseComponent";
+import BaseStringComponent from "components/baseStringComponent";
 
 import "./style.css";
 
 export class LinkButton extends BaseStringComponent {
     constructor({
         text,
-        href = "",
+        href,
         icon = null,
         extraClass = "",
         disabled = false,
@@ -21,7 +21,14 @@ export class LinkButton extends BaseStringComponent {
         this.disabled = disabled;
     }
 
-    renderString() {
+    _makeHref = () => {
+        if (this.href) {
+            return `href="${this.href}"`;
+        }
+        return "notLoggedIn";
+    };
+
+    renderString = () => {
         const buttonClass = classNames(this.extraClass, {
             "button__type-disabled": this.disabled,
         });
@@ -29,12 +36,12 @@ export class LinkButton extends BaseStringComponent {
             ? `<span class="button-icon">${this.icon}</span>`
             : "";
         return `
-            <a class="button ${buttonClass}" href="${this.href}">
+            <a class="button ${buttonClass}" ${this._makeHref()}">
                 ${icon}
                 ${this.text}
             </a>
         `;
-    }
+    };
 }
 
 export class Button extends BaseComponent {
@@ -45,25 +52,12 @@ export class Button extends BaseComponent {
         this.extraClass = extraClass;
     }
 
-    render() {
+    render = () => {
         const button = document.createElement("a");
         button.className = "button " + this.extraClass;
         button.innerText = this.text;
         button.addEventListener("click", this.onClick);
 
         this.parent.appendChild(button);
-    }
-}
-
-export default class HomeButton {
-    static renderString() {
-        const buttonClass = classNames("button button__type-home", {
-            hidden: location.pathname === "/",
-        });
-        return `
-            <a class="${buttonClass}" href="/">
-                <i class="fas fa-arrow-left"></i>
-            </a>
-        `;
-    }
+    };
 }

@@ -12,6 +12,7 @@
 .leaderboard__player {
     font-size: 0.9em;
     margin-bottom: 0.2em;
+    padding: 0 0.3em;
 }
 
 .leaderboard__player-position {
@@ -38,32 +39,20 @@
     font-size: 0.8em;
 }
 
-@media  (max-width: 1024px) {
-
-    .leaderboard-plate {
-        width: 60%;
-    }
-
+@media (max-width: 1024px) {
     .leaderboard {
         max-height: 20vh;
     }
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
-
-    .leaderboard-plate {
-        width: 80%;
-    }
-
-}
-
 @media (max-width: 320px) {
     .leaderboard__player_me {
-        font-size: .8em;
+        font-size: 0.8em;
     }
 
-    .leaderboard__type-with-me .leaderboard__player:not(.leaderboard__player_me) {
-        font-size: .5em;
+    .leaderboard__type-with-me
+        .leaderboard__player:not(.leaderboard__player_me) {
+        font-size: 0.5em;
     }
 
     .leaderboard-plate {

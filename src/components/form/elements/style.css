@@ -10,10 +10,19 @@
     margin-right: 0;
 }
 
+.form__caption {
+    font-size: 0.9em;
+    opacity: 0.8;
+    text-align: center;
+    max-width: 280px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
 .form__field {
     padding: 0.9em;
     width: 100%;
-    border-radius: 3px;
+    border-radius: 5px;
     transition: 0.2s;
 }
 
@@ -38,12 +47,14 @@ input.form__field:focus {
 
 .form__field-wrapper {
     position: relative;
+    text-align: left;
     margin-top: 10px;
 }
 
 .form__field__label {
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
+    font-size: 0.9em;
 }
 
 .form__field__tip {
@@ -57,10 +68,10 @@ input.form__field:focus {
 @media (max-width: 320px) {
     .form__field {
         padding: 0.4em;
-        font-size: .8em;
+        font-size: 0.8em;
     }
 
     .form__field__label {
-        font-size: .8em;
+        font-size: 0.8em;
     }
 }

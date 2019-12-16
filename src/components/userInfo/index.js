@@ -1,25 +1,22 @@
 import { safeHtml } from "common-tags";
 
-import BaseComponent from "../baseComponent";
-import Loader from "../loader";
-import { routes } from "../../modules/router";
-import User from "../../modules/user";
+import BaseComponent from "components/baseComponent";
+import { routes } from "modules/router";
+import User from "modules/user";
 
 import "./style.css";
 
 export default class UserInfo extends BaseComponent {
-    start() {
-        const loader = new Loader(this.parent, this.parent.parentElement);
-        loader.show();
+    start = () => {
         const interval = setInterval(() => {
             if (User.getCurrentUser() !== undefined) {
-                this.render(User.getCurrentUser()).then(() => loader.hide());
+                this.render(User.getCurrentUser());
                 clearInterval(interval);
             }
         }, 200);
-    }
+    };
 
-    async render(currentUser) {
+    render = async currentUser => {
         if (currentUser === null) {
             return;
         }
@@ -32,5 +29,5 @@ export default class UserInfo extends BaseComponent {
                 />
             </a>
         `;
-    }
+    };
 }

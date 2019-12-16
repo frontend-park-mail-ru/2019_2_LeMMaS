@@ -2,20 +2,27 @@
     padding: 1em;
     display: flex;
     margin: auto 30px auto auto;
-    justify-content: space-between;
-    min-width: 17em;
+    justify-content: flex-end;
 }
 
 .menu .button {
     text-transform: uppercase;
+}
+
+.menu .button:not(:last-child) {
     margin-right: 1em;
 }
 
-@media (max-width: 320px) {
+.menu .button:not(.button__transparency-transparent) {
+    box-shadow: 0 3px 6px 0 #4a4a4ab0;
+}
+
+@media (max-width: 520px) {
     .menu {
-        padding: .5em;
-        min-width: 14em;
-        margin: auto;
+        margin-right: 0;
     }
 
+    .userinfo__name {
+        display: none;
+    }
 }

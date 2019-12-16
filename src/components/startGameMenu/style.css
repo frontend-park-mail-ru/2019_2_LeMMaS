@@ -18,17 +18,7 @@
     font-size: 2.8em;
 }
 
-@media (max-width: 1024px) {
-   .start-game-menu {
-        width: 60%;
-    }
-}
-
 @media (min-width: 320px) and (max-width: 480px) {
-    .plate {
-        width: 90%;
-    }
-
     .start-game-menu {
         width: 90%;
     }
@@ -43,9 +33,10 @@
 
     .start-game-menu .button {
         width: 100%;
-        margin: .5em 0;
+        margin: 0.5em 0;
     }
 }
+
 @media (max-width: 320px) {
     .start-game-menu .button .button-icon {
         font-size: 1.3em;
@@ -53,7 +44,7 @@
 
     .start-game-menu .button {
         width: 100%;
-        margin: .5em 0;
+        margin: 0.5em 0;
         flex-direction: row;
         text-align: center;
     }

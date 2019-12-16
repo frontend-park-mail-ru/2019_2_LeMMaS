@@ -1,12 +1,22 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-module.exports = [
+const sw = {
+    entry: ["./src/sw.js"],
+    output: {
+        filename: "sw.js",
+        path: path.resolve(__dirname, "public"),
+    }
+};
+
+const config = development => [
     {
-        mode: "production",
         entry: ["./src/app.js"],
         output: {
-            filename: "bundle.js",
+            filename: "[name].[contenthash].js",
             path: path.resolve(__dirname, "public"),
+            publicPath: "/",
         },
         module: {
             rules: [
@@ -14,6 +24,11 @@ module.exports = [
                     test: /\.js$/,
                     exclude: /node_modules/,
                     use: ["babel-loader", "eslint-loader"],
+                },
+                {
+                    test: /\.ts$/,
+                    exclude: /node_modules/,
+                    use: ["ts-loader", "eslint-loader"],
                 },
                 {
                     test: /\.css$/,
@@ -30,7 +45,19 @@ module.exports = [
                             loader: "file-loader",
                             options: {
                                 name: "[name].[ext]",
-                                outputPath: "/assets/fonts/",
+                                outputPath: "assets/fonts/",
+                            },
+                        },
+                    ],
+                },
+                {
+                    test: /\.(png|jpe?g|gif)$/,
+                    use: [
+                        {
+                            loader: "file-loader",
+                            options: {
+                                name: "[name].[ext]",
+                                outputPath: "assets/img/",
                             },
                         },
                     ],
@@ -41,13 +68,26 @@ module.exports = [
             fs: "empty",
             net: "empty",
         },
-    },
-    {
-        mode: "production",
-        entry: ["./src/sw.js"],
-        output: {
-            filename: "sw.js",
-            path: path.resolve(__dirname, "public"),
+        resolve: {
+            extensions: [".js", ".ts", ".tsx", ".jsx", ".json"],
+            modules: ["./node_modules", "./src"],
         },
-    },
+        optimization: { minimize: !development },
+        devtool: development ? "source-map" : false,
+        plugins: [
+            new CleanWebpackPlugin(),
+            new HtmlWebpackPlugin({
+                title: "Lemmas",
+                favicon: "./src/assets/img/favicon.png",
+                meta: {
+                    viewport:
+                        "width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0",
+                },
+            }),
+        ],
+    }
 ];
+
+module.exports = (env, argv) => {
+    return config(argv.mode === "development");
+};
