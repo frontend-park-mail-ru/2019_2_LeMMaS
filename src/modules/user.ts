@@ -29,6 +29,7 @@ class User {
 
         if (response.ok) {
             this._setLogin(false);
+            API.resetCSRFToken();
             this.currentUser = null;
         }
         return response;

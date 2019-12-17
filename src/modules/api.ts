@@ -117,6 +117,10 @@ class API {
     openGameWebSocket = (): WebSocket =>
         new WebSocket(this._getUrlByRoute(routes.GAME_SOCKET, WS_PROTO));
 
+    resetCSRFToken = (): void => {
+        this.csrfToken = null;
+    };
+
     _getCSRFToken = (): Promise<string | null | undefined> =>
         this._get(routes.ACCESS_CSRF_TOKEN)
             .then((response: Response) => response.json())
