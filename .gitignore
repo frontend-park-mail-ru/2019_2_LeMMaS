@@ -2,4 +2,3 @@ public
 node_modules
 .idea
 src/sw-urls-to-cache.json
-package-lock.json
