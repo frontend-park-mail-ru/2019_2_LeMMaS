@@ -57,6 +57,7 @@
     background-color: transparent;
     color: white;
     border: 1px solid white;
+    transition-duration: 0.15s;
 
     &:hover {
         background: white;

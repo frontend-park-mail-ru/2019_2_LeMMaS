@@ -26,13 +26,11 @@ body {
 
 a,
 button {
-    transition: all 0.3s ease-in-out;
     color: white;
 }
 
 a:not(.button):hover {
     color: gold;
-    transition: all 0.3s ease-in-out;
 }
 
 .content {
@@ -45,7 +43,6 @@ a:not(.button):hover {
     width: 20%;
     position: relative;
     background: #250823bf;
-    box-shadow: 0 14px 37px 0px rgba(0, 0, 0, 0.58);
     border-radius: 14px;
     padding: 2em;
     color: white;

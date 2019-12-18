@@ -16,11 +16,8 @@ export default class Form extends BaseComponent {
     }
 
     render = async () => {
-        let formClass = "";
-        formClass += this.extraClass ? this.extraClass : "";
-
         this.parent.innerHTML = html`
-            <form class="form ${formClass}"></form>
+            <form class="form ${this.extraClass}"></form>
             <div class="form__message"></div>
         `;
         const form = this.parent.querySelector(".form");

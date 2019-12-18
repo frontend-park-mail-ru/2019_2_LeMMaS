@@ -13,10 +13,6 @@
     margin-right: 1em;
 }
 
-.menu .button:not(.button__transparency-transparent) {
-    box-shadow: 0 3px 6px 0 #4a4a4ab0;
-}
-
 @media (max-width: 520px) {
     .menu {
         margin-right: 0;
