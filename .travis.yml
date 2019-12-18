@@ -1,11 +1,12 @@
 language: node_js
 node_js:
     - 12
+sudo: true
 script:
     - eval "$(ssh-agent -s)"
     - ssh-keyscan -H 95.163.212.121 >> ~/.ssh/known_hosts
-    - chmod 600 $HOME/.ssh/technopark
-    - ssh-add $HOME/.ssh/technopark
+    - chmod 600 $HOME/.ssh/2019_1_LeMMaS_id_rsa.pem
+    - ssh-add $HOME/.ssh/2019_1_LeMMaS_id_rsa.pem
     - npm install
     - npm run build
     - scp -r ./dist ubuntu@95.163.212.121:/var/www
