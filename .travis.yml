@@ -6,6 +6,7 @@ script:
     - ssh-keyscan -H 95.163.212.121 >> ~/.ssh/known_hosts
     - chmod 600 $HOME/.ssh/technopark
     - ssh-add $HOME/.ssh/technopark
+    - npm install
     - npm run build
     - scp -r ./dist ubuntu@95.163.212.121:/var/www
     - npm run dev-nw
