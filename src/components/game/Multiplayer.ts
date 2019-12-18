@@ -78,6 +78,7 @@ export default class Multiplayer {
         this.currentUserID = user.id;
 
         this.background = new Background(this.gameCanvas);
+        Offset.reset();
     }
 
     public start = (): void => {

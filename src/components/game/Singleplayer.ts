@@ -69,6 +69,7 @@ export default class SinglePlayer {
         this.currentUserID = Math.random() * 1000;
 
         this.background = new Background(this.gameCanvas);
+        Offset.reset();
     }
 
     public start = (): void => {

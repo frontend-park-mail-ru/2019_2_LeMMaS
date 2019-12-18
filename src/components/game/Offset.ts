@@ -14,6 +14,11 @@ class OffSet {
     public setY = (y: number): void => {
         this.y += y;
     };
+
+    public reset = () => {
+        this.x = -6000 + window.innerWidth;
+        this.y = -6000 + window.innerHeight;
+    };
 }
 
 export default new OffSet(
