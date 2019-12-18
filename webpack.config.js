@@ -77,7 +77,7 @@ const config = development => [
         plugins: [
             new CleanWebpackPlugin(),
             new HtmlWebpackPlugin({
-                title: "Lemmas",
+                title: "LeMMaS",
                 favicon: "./src/assets/img/favicon.png",
                 meta: {
                     viewport:
