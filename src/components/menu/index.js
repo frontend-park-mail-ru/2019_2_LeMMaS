@@ -31,7 +31,7 @@ export default class Menu extends BaseComponent {
         new Button(this.parent, {
             text: "Выйти",
             onClick: this._onLogoutButtonClick,
-            extraClass: "button__transparency-transparent",
+            extraClass: "button__type-secondary",
         }).render();
         new UserInfo(this.parent.querySelector(".userinfo-wrapper")).start();
     };

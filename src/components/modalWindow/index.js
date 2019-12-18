@@ -49,7 +49,7 @@ export default class ModalWindow {
         const noButton = new Button(buttonsWrapper, {
             text: "Нет",
             onClick: this.clickNo,
-            extraClass: "button__transparency-transparent",
+            extraClass: "button__type-secondary",
         });
 
         yesButton.render();

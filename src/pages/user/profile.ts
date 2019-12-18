@@ -7,6 +7,8 @@ import Loader from "components/loader/index";
 import router from "modules/router";
 import Menu from "components/menu";
 
+const TITLE = "О себе";
+
 export default class Profile extends BasePage {
     private profileForm: HTMLFormElement | undefined;
 
@@ -29,10 +31,10 @@ export default class Profile extends BasePage {
             return;
         }
 
-        document.title = "Мой профиль | LeMMaS";
+        document.title = TITLE + " | LeMMaS";
         parent.innerHTML = html`
             <div class="plate profile-wrapper">
-                <h2 class="text__align-center text__size-big">Мой профиль</h2>
+                <h2 class="text__align-center text__size-big">${TITLE}</h2>
                 <div class="form-wrapper"></div>
             </div>
         `;

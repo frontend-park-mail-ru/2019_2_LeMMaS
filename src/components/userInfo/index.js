@@ -22,7 +22,7 @@ export default class UserInfo extends BaseComponent {
         }
         this.parent.innerHTML = `
             <a href="${routes.USER_PROFILE}" class="userinfo">
-                <span class="userinfo__name">${safeHtml`${currentUser.name}`}</span>
+                <span class="userinfo__name link">${safeHtml`${currentUser.name}`}</span>
                 <img
                     class="userinfo__avatar"
                     src="${await User.getAvatarUrl()}"

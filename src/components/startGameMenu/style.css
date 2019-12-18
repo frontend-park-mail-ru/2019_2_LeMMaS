@@ -1,21 +1,44 @@
 .start-game-menu {
     width: auto;
+    background: none;
+
+    .button {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 0.5em;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        padding: 2em 4em 2em 2em;
+        border-radius: 10px;
+
+
+        &.button__type-primary {
+            box-shadow: 8px 8px 20px 0px #5672e6;
+        }
+
+        &.button__type-danger {
+            box-shadow: 8px 8px 20px 0px #dd5726;
+        }
+
+        &:hover {
+            transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+            transform: scale(1.15);
+        }
+
+        &:active {
+            transform: scale(1.1);
+        }
+
+        .button-icon {
+            font-size: 2em;
+            text-align: left;
+        }
+    }
 }
 
 .start-game-buttons-wrapper {
     display: flex;
-}
-
-.start-game-menu .button {
-    font-size: 1.3em;
-    margin: 0.5em;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-}
-
-.start-game-menu .button .button-icon {
-    font-size: 2.8em;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {

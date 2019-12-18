@@ -5,7 +5,7 @@ import { foods } from "components/foods";
 
 import "./style.css";
 
-const FOOD_SPEED = 1;
+const FOOD_SPEED = 0;
 
 export default class Wallpaper extends BaseComponent {
     render = () => {

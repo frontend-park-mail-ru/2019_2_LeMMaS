@@ -1,11 +1,12 @@
 .logo {
-    position: absolute;
-    top: 1.6em;
-    left: 2.5em;
+    position: relative;
+    top: 1.1em;
+    left: 2.8em;
+    opacity: .8;
 }
 
 .logo__image {
-    height: 65px;
+    height: 50px;
 }
 
 .logo__image_mobile {
@@ -13,7 +14,6 @@
 }
 
 .home-button {
-    display: flex;
     visibility: hidden;
     position: absolute;
     top: 1.7rem;
@@ -21,13 +21,13 @@
     font-size: 2em;
     background: none;
     color: white;
-    flex-direction: column;
-    justify-content: center;
     text-decoration: none;
+    transition: transform .2s;
 
     &:hover {
         background: none;
         color: white !important;
+        transform: scale(1.1);
     }
 }
 

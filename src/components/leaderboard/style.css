@@ -7,6 +7,11 @@
 
 .leaderboard-plate {
     padding: 2em 1em;
+
+    h2 i {
+        font-size: 0.8em;
+        margin-right: 0.2em;
+    }
 }
 
 .leaderboard__player {

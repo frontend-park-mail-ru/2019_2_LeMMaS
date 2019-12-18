@@ -1,6 +1,6 @@
 .button {
     text-align: center;
-    padding: 1em;
+    padding: .9em 1em;
     transition: 0.2s ease-in-out;
     text-decoration: none;
     cursor: pointer;
@@ -10,8 +10,7 @@
     user-select: none;
 
     &:active {
-        position: relative;
-        top: 1px;
+        transform: scale(.99) translateY(2px);
     }
 }
 
@@ -51,18 +50,6 @@
 .button__color-gold {
     background-color: gold;
     color: black;
-}
-
-.button__transparency-transparent {
-    background-color: transparent;
-    color: white;
-    border: 1px solid white;
-    transition-duration: 0.15s;
-
-    &:hover {
-        background: white;
-        color: black;
-    }
 }
 
 .button__type-disabled {

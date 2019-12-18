@@ -5,10 +5,6 @@
     justify-content: flex-end;
 }
 
-.menu .button {
-    text-transform: uppercase;
-}
-
 .menu .button:not(:last-child) {
     margin-right: 1em;
 }

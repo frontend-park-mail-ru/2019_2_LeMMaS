@@ -1,7 +1,7 @@
 .header {
-    height: var(--headerHeight);
     display: flex;
-    padding-top: 1em;
+    height: var(--headerHeight);
+    padding: 1em 10vw 0 10vw;
 
     &_show-home-button {
         .home-button {
