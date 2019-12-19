@@ -13,6 +13,7 @@ export default class BasePage {
             <div class="wallpaper"></div>
             <div class="header-wrapper"></div>
             <div class="content"></div>
+            <footer>Технопарк Mail.ru</footer>
         `;
         const headerWrapper: HTMLDivElement | null = document.querySelector(
             ".header-wrapper"
