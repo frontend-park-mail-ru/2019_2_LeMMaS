@@ -32,6 +32,7 @@ button {
 .link {
     text-decoration: none;
     position: relative;
+    transition: 0.2s;
 
     &::after {
         content: "";
@@ -66,6 +67,7 @@ button {
     background: #250823bf;
     border-radius: 14px;
     padding: 2em;
+    padding-bottom: 1.1em;
     color: white;
     margin: auto;
     display: flex;
@@ -112,7 +114,7 @@ h3 {
     font-size: 2.5em;
     margin-bottom: 0.4em;
     margin-top: 0.2em;
-    color: #ffc315;
+    color: #ffe8a5;
 }
 
 .text__size-normal {

@@ -10,7 +10,7 @@
 
 .modalWindow {
     margin: auto;
-    text-align: center;
+    padding-bottom: 2em;
 }
 
 .modalWindow__button-close {

@@ -45,11 +45,19 @@
 .button__type-secondary {
     background-color: white;
     color: #0b1233;
+
+    &:hover {
+        color: #5362a7;
+    }
 }
 
 .button__color-gold {
     background-color: gold;
     color: black;
+
+    &:hover {
+        color: #565656;
+    }
 }
 
 .button__type-disabled {
