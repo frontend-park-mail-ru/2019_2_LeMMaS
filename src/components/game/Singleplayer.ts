@@ -12,8 +12,6 @@ import Scale from "./Scale";
 import "./style.css";
 import Background from "./Background/Background";
 
-import { v4 as uuid } from 'uuid';
-
 export default class SinglePlayer {
     private parent: HTMLElement;
     private balls: Balls;
@@ -29,6 +27,8 @@ export default class SinglePlayer {
     private gameCanvas: HTMLCanvasElement;
     private gameFinishButton: HTMLDivElement;
     private background: Background;
+    private dx: number;
+    private dy: number;
 
     constructor(parent: HTMLElement) {
         this.parent = parent;
@@ -70,6 +70,9 @@ export default class SinglePlayer {
 
         this.background = new Background(this.gameCanvas);
         Offset.reset();
+
+        this.dx = 2;
+        this.dy = -1;
     }
 
     public start = (): void => {
@@ -99,19 +102,19 @@ export default class SinglePlayer {
             "green",
         ));
 
-        for (let count = 0; count < 3; count++) {
+        for (let count = 0; count < 10; count++) {
             const id = Math.random() * 100;
             this.balls.set(id, new Ball(
                 id,
-                (Math.random() * window.innerWidth) / 2,
-                (Math.random() * window.innerHeight) / 2,
+                (Math.random() * Scale.countWithScale(3000)) / 2,
+                (Math.random() * Scale.countWithScale(3000)) / 2,
                 20,
                 "yellow",
                 )
             );
         }
 
-        for (let count = 0; count < 100; count++) {
+        for (let count = 0; count < 200; count++) {
             this.food.add(
                 count,
                 Math.round(Math.random() * window.innerWidth * 2),
@@ -252,9 +255,6 @@ export default class SinglePlayer {
         this.food.draw();
         this.balls.draw();
 
-        let dx = 2;
-        let dy = -1;
-        
         this.balls.getAllBalls().forEach(ball => {
             this._detectFoodEating(ball);
             this.balls.getAllBalls().forEach(ball1 => {
@@ -267,20 +267,20 @@ export default class SinglePlayer {
 
             if (ball.id !== this.currentUserID) {
                 if (
-                    ball.x + dx > this.gameCanvas.width - ball.radius ||
-                    ball.x + dx < ball.radius
+                    ball.x + this.dx > Scale.countWithScale(3000) - ball.radius ||
+                    ball.x + this.dx < ball.radius
                 ) {
-                    dx = -dx;
+                    this.dx = -this.dx;
                 }
                 if (
-                    ball.y + dy > this.gameCanvas.height - ball.radius ||
-                    ball.y + dy < ball.radius
+                    ball.y + this.dy > Scale.countWithScale(3000) - ball.radius ||
+                    ball.y + this.dy < ball.radius
                 ) {
-                    dy = -dy;
+                    this.dy = -this.dy;
                 }
 
-                ball.x += dx * 2;
-                ball.y += dy * 2;
+                ball.x += this.dx * 2;
+                ball.y += this.dy * 2;
             }
         });
 
@@ -307,7 +307,6 @@ export default class SinglePlayer {
     };
 
     _detectBallEating = (ball1: Ball, ball2: Ball) => {
-
         let small = ball1,
             large = ball1;
         if (ball1.radius === ball2.radius) {

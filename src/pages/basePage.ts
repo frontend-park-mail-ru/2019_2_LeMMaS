@@ -6,6 +6,7 @@ import Wallpaper from "components/wallpaper";
 import "assets/css/common.css";
 import "@fortawesome/fontawesome-free/css/solid.min.css";
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
+import Ad from "../components/ads/ads";
 
 export default class BasePage {
     render = (): void => {
@@ -13,6 +14,7 @@ export default class BasePage {
             <div class="wallpaper"></div>
             <div class="header-wrapper"></div>
             <div class="content"></div>
+            <div class="ad"></div>
             <footer>Технопарк Mail.ru</footer>
         `;
         const headerWrapper: HTMLDivElement | null = document.querySelector(
@@ -32,6 +34,14 @@ export default class BasePage {
         );
         if (wallpaperWrapper) {
             new Wallpaper(wallpaperWrapper).render();
+        }
+
+        const adBlock: HTMLDivElement | null = document.querySelector(
+            ".ad"
+        );
+
+        if (adBlock) {
+            new Ad(adBlock).render();
         }
     };
 

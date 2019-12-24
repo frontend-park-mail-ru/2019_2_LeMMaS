@@ -15,7 +15,10 @@ export default class Balls {
     public delete = (id: number): boolean => this.balls.delete(id);
 
     public draw = () => {
-        if (this.balls) {
+
+        const sortedBalls = [...this.balls.values()].sort(this.compare);
+
+        if (sortedBalls) {
             const ballCtx: CanvasRenderingContext2D | null =
                 this.canvas && this.canvas.getContext("2d");
 
@@ -23,10 +26,15 @@ export default class Balls {
                 return;
             }
 
-            this.balls.forEach(ball => {
+            sortedBalls.forEach(ball => {
                 ball.draw();
             });
         }
+    };
+
+    compare = (a: Ball, b: Ball) => {
+        if (a.radius >= b.radius) return 1;
+        if (a.radius < b.radius) return -1;
     };
 
     public getAllBalls = () =>

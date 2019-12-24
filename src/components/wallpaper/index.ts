@@ -5,9 +5,11 @@ import { foods } from "components/foods";
 
 import "./style.css";
 
-const FOOD_SPEED = 0;
+const FOOD_SPEED = 1;
 
 export default class Wallpaper extends BaseComponent {
+    private foods;
+
     render = () => {
         this.parent.innerHTML = html`
             ${foods.map(food => `<span class="food">${food}</span>`)}
