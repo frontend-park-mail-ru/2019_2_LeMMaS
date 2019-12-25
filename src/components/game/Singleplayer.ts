@@ -1,6 +1,7 @@
 import ModalWindow from "components/modalWindow";
 import { GameLeaderboard } from "components/leaderboard";
 import router from "modules/router";
+import User from "modules/user";
 
 import Ball from "./Ball/Ball";
 import Balls from "./Ball/Balls";
@@ -17,24 +18,22 @@ export default class SinglePlayer {
     private balls: Balls;
     private food: Food;
     private mouseCoordinates: { x: number; y: number };
-    private easingTarget: { x: number; y: number };
     private currentUserID: number;
     private modalWindow: ModalWindow;
-    private timeouts: Array<any>;
+    private timeouts: Map<string, any>;
     private gameEnded: boolean;
     private leaderBoard: GameLeaderboard;
-    private prevSpeed: number;
     private gameCanvas: HTMLCanvasElement;
     private gameFinishButton: HTMLDivElement;
     private background: Background;
-    private dx: number;
-    private dy: number;
+    private following: {ball: Ball};
 
     constructor(parent: HTMLElement) {
         this.parent = parent;
         const gameCanvasTemp: HTMLCanvasElement | null = document.querySelector(
             ".gameCanvas"
         );
+
         this.gameCanvas = gameCanvasTemp
             ? gameCanvasTemp
             : document.createElement("canvas");
@@ -51,28 +50,21 @@ export default class SinglePlayer {
         this.food = new Food(this.gameCanvas);
 
         this.mouseCoordinates = {
-            x: 0,
-            y: 0,
+            x: Scale.countWithScale(3000),
+            y: Scale.countWithScale(3000),
         };
 
-        this.easingTarget = {
-            x: 0,
-            y: 0,
-        };
-
-        this.prevSpeed = 0;
-
-        this.timeouts = [];
+        this.timeouts = new Map<string, any>();
 
         this.gameEnded = false;
-
-        this.currentUserID = Math.random() * 1000;
+        if (User.isLoggedIn()) {
+            this.currentUserID = User.getCurrentUser().id;
+        } else {
+            this.currentUserID = Math.random() * 1000;
+        }
 
         this.background = new Background(this.gameCanvas);
         Offset.reset();
-
-        this.dx = 2;
-        this.dy = -1;
     }
 
     public start = (): void => {
@@ -103,7 +95,7 @@ export default class SinglePlayer {
         ));
 
         for (let count = 0; count < 10; count++) {
-            const id = Math.random() * 100;
+            const id = Math.floor(Math.random() * 100);
             this.balls.set(id, new Ball(
                 id,
                 (Math.random() * Scale.countWithScale(3000)) / 2,
@@ -113,6 +105,15 @@ export default class SinglePlayer {
                 )
             );
         }
+
+        this.balls.set(10, new Ball(
+            10,
+            1600,
+            1600,
+            20,
+            "yellow",
+            )
+        );
 
         for (let count = 0; count < 200; count++) {
             this.food.add(
@@ -125,6 +126,8 @@ export default class SinglePlayer {
         document.addEventListener("mousemove", this._handleMouseMove);
 
         this._redrawAllBalls();
+
+        this.balls.getAllBalls().forEach(ball => this._moveBall(ball));
     };
 
     private _onWindowResize = (): void => {
@@ -143,12 +146,6 @@ export default class SinglePlayer {
     private _handleMouseMove = (event: MouseEvent): void => {
         this.mouseCoordinates.x = event.clientX;
         this.mouseCoordinates.y = event.clientY;
-        if (this.timeouts) {
-            this.timeouts.forEach(timer => {
-                clearTimeout(timer);
-            });
-        }
-        this._moveMyBall();
     };
 
     private getNewPosition (direction) {
@@ -181,42 +178,25 @@ export default class SinglePlayer {
         return newPosition;
     }
 
-    _moveMyBall = (): void => {
+    private _moveBall = (ballToMove: Ball): void => {
         const easing = 0.01;
-        const newPosition = this.getNewPosition(this._countAndSendDirection(this.mouseCoordinates.x, this.mouseCoordinates.y));
-        this.easingTarget.x = newPosition.X;
-        this.easingTarget.y = newPosition.Y;
 
-        const ballToMove = this.balls.get(this.currentUserID);
+        if (ballToMove.id === this.currentUserID) {
+            const newPosition = this.getNewPosition(this._countDirection(this.mouseCoordinates.x, this.mouseCoordinates.y));
 
-        Offset.x -= (this.easingTarget.x - ballToMove.x) * easing;
+            ballToMove.easingTargetX = newPosition.X;
+            ballToMove.easingTargetY = newPosition.Y;
 
-        Offset.y -= (this.easingTarget.y - ballToMove.y) * easing;
+            Offset.x -= (ballToMove.easingTargetX - ballToMove.x) * easing;
+            Offset.y -= (ballToMove.easingTargetY - ballToMove.y) * easing;
+        }
 
-        ballToMove.x += (this.easingTarget.x - ballToMove.x) * easing;
-        ballToMove.y += (this.easingTarget.y - ballToMove.y) * easing;
-
-        this.timeouts.push(setTimeout(() => this._moveMyBall(), 1000/60));
+        ballToMove.x += (ballToMove.easingTargetX - ballToMove.x) * easing;
+        ballToMove.y += (ballToMove.easingTargetY - ballToMove.y) * easing;
+        this.timeouts.set("moveBall", setTimeout(() => this._moveBall(ballToMove), 1000/60));
     };
 
-    private _countAndSendSpeed = (x: number, y: number): void => {
-        if (!this.balls || !this.currentUserID) {
-            return;
-        }
-        const currentBall = this.balls.get(this.currentUserID);
-
-        const dis = Math.sqrt(
-            Math.pow(x - window.innerWidth / 2, 2) +
-            Math.pow(y - window.innerHeight / 2, 2)
-        );
-
-        const speed = Math.floor((dis / currentBall.radius) * 100);
-        if (this.prevSpeed !== speed) {
-            this.prevSpeed = speed;
-        }
-    };
-
-    private _countAndSendDirection = (x: number, y: number): number => {
+    private _countDirection = (x: number, y: number): number => {
         const radians = Math.atan2(
             y - window.innerHeight / 2,
             x - window.innerWidth / 2
@@ -227,27 +207,6 @@ export default class SinglePlayer {
             angle = 360 + angle;
         }
         return angle;
-    };
-
-    private _moveBall = (ball: Ball): void => {
-        if (ball.id === this.currentUserID) {
-            if (
-                window.innerWidth / 2 > this.mouseCoordinates.x - ball.radius &&
-                window.innerWidth / 2 < this.mouseCoordinates.x + ball.radius &&
-                window.innerHeight / 2 > this.mouseCoordinates.y - ball.radius &&
-                window.innerHeight / 2 < this.mouseCoordinates.y + ball.radius
-            ) {
-                console.log("dc");
-            } else {
-                this._countAndSendSpeed(
-                    this.mouseCoordinates.x,
-                    this.mouseCoordinates.y
-                );
-                this.timeouts.push(setTimeout(() => this._moveBall(ball), 100));
-            }
-        } else {
-            this.timeouts.push(setTimeout(() => this._moveBall(ball), 100));
-        }
     };
 
     private _redrawAllBalls = (): void => {
@@ -266,21 +225,18 @@ export default class SinglePlayer {
             });
 
             if (ball.id !== this.currentUserID) {
-                if (
-                    ball.x + this.dx > Scale.countWithScale(3000) - ball.radius ||
-                    ball.x + this.dx < ball.radius
-                ) {
-                    this.dx = -this.dx;
+                const currentUserBall = this.balls.get(this.currentUserID);
+                if (ball.radius > currentUserBall.radius && !this.following?.ball) {
+                    this.following = { ball };
+                    ball.easingTargetY = currentUserBall.y;
+                    ball.easingTargetX = currentUserBall.x;
+                } else {
+                    const closerFood = this.food.getCloserFood(ball.x, ball.y);
+                    if (closerFood) {
+                        ball.easingTargetY = closerFood.y;
+                        ball.easingTargetX = closerFood.x;
+                    }
                 }
-                if (
-                    ball.y + this.dy > Scale.countWithScale(3000) - ball.radius ||
-                    ball.y + this.dy < ball.radius
-                ) {
-                    this.dy = -this.dy;
-                }
-
-                ball.x += this.dx * 2;
-                ball.y += this.dy * 2;
             }
         });
 
@@ -299,7 +255,7 @@ export default class SinglePlayer {
                 ball.y > foodElement.y - ball.radius &&
                 ball.y < foodElement.y + ball.radius
             ) {
-                ball.increaseRadius(1);
+                ball.increaseRadius(2);
                 this.food.delete(foodElement.id);
                 this.food.draw();
             }
@@ -323,8 +279,23 @@ export default class SinglePlayer {
             small.y + small.radius < large.y + large.radius &&
             small.y - small.radius > large.y - large.radius
         ) {
-            this.balls.delete(small.id);
-            large.increaseRadius(small.radius);
+            if (small.id === this.currentUserID) {
+                this._pause();
+                this.modalWindow.start(
+                    "Вы проиграли. Хотите начать заново?",
+                    () => {
+                        this.modalWindow.close();
+                        this._playAgain();
+                    },
+                    () => {
+                        this.modalWindow.close();
+                        this._exit();
+                    }
+                );
+            } else {
+                this.balls.delete(small.id);
+                large.increaseRadius(small.radius);
+            }
         }
     };
 
@@ -341,6 +312,9 @@ export default class SinglePlayer {
                 clearTimeout(timer);
             });
         }
+
+        this.balls.clear();
+        this.food.clear();
     };
 
     private _pause = (): void => {

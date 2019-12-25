@@ -4,7 +4,6 @@ import SinglePlayer from "components/game/Singleplayer";
 import User from "modules/user";
 
 import "assets/css/common.css";
-import MultiPlayer from "../../components/game/Multiplayer";
 
 export default class Singleplayer {
     private gamePlay: SinglePlayer;
@@ -29,12 +28,14 @@ export default class Singleplayer {
             </div>
         `;
 
-        document.body.style.background = "white";
-
-        this.gamePlay = new SinglePlayer(
-            document.body.querySelector(".game__wrapper")
-        );
-
-        this.gamePlay.start();
+        const interval = setInterval(() => {
+            if (User.getCurrentUser() !== undefined) {
+                this.gamePlay = new SinglePlayer(
+                    document.body.querySelector(".game__wrapper")
+                );
+                this.gamePlay.start();
+                clearInterval(interval);
+            }
+        }, 200);
     };
 }

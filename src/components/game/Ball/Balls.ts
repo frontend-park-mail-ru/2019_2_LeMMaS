@@ -14,6 +14,10 @@ export default class Balls {
         this.balls.set(id, ball);
     public delete = (id: number): boolean => this.balls.delete(id);
 
+    public clear = () => {
+        this.balls.clear();
+    };
+
     public draw = () => {
 
         const sortedBalls = [...this.balls.values()].sort(this.compare);

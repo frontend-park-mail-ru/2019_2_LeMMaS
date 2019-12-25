@@ -1,18 +1,26 @@
 import { html } from "common-tags";
 
 import BaseComponent from "components/baseComponent";
-import { foods } from "components/foods";
+import { foods, winter } from "components/foods";
 
 import "./style.css";
+import { getCookie } from "../../modules/cookies";
 
 const FOOD_SPEED = 1;
 
 export default class Wallpaper extends BaseComponent {
     private foods;
 
-    render = () => {
+    public render = () => {
+        this.renderWallpaper();
+        this._moveFoods();
+    };
+
+    public renderWallpaper = () => {
+        const elementsFalling = getCookie("theme") === "winter" ? winter : foods;
+
         this.parent.innerHTML = html`
-            ${foods.map(food => `<span class="food">${food}</span>`)}
+            ${elementsFalling.map(food => `<span class="food">${food}</span>`)}
         `;
         this.foods = document.querySelectorAll(".wallpaper .food");
         this.foods.forEach(food => {
@@ -21,11 +29,9 @@ export default class Wallpaper extends BaseComponent {
             food.style.top = `${height}px`;
             food.style.left = `${width}px`;
         });
-
-        this._moveFoods();
     };
 
-    _moveFoods = () => {
+    private _moveFoods = () => {
         this.foods.forEach(food => {
             let position = parseInt(food.style.top.replace("px", ""));
             if (position > window.innerHeight + 50) {

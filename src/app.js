@@ -33,6 +33,13 @@ document.addEventListener("click", e => {
     if (!href || href === location.pathname) {
         return;
     }
-    window.history.pushState({}, document.title, href);
+
+    try {
+        window.history.pushState({}, document.title, href);
+    } catch (e) {
+        if (e.toString().startsWith("SecurityError: Failed to execute 'pushState' on 'History'")) {
+            location = href;
+        }
+    }
     Router.renderPage();
 });

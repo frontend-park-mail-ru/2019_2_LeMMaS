@@ -44,8 +44,8 @@ export default class Ad {
     };
 
     hide = () => {
+        this.parent.querySelector(".modalWindow__button-close").removeEventListener("click", this.hide);
         this.parent.innerHTML = '';
         document.cookie = "ad=false; max-age=1800";
-        this.parent.querySelector(".modalWindow__button-close").removeEventListener("click", this.hide);
     }
 }

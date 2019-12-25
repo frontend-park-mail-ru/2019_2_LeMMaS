@@ -2,11 +2,12 @@ import { html } from "common-tags";
 
 import Header from "components/header";
 import Wallpaper from "components/wallpaper";
+import Ad from "components/ads/ads";
+import ThemeSelector from "components/themeSelector";
 
 import "assets/css/common.css";
 import "@fortawesome/fontawesome-free/css/solid.min.css";
 import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
-import Ad from "../components/ads/ads";
 
 export default class BasePage {
     render = (): void => {
@@ -15,6 +16,7 @@ export default class BasePage {
             <div class="header-wrapper"></div>
             <div class="content"></div>
             <div class="ad"></div>
+            <div class="themeSelector__wrapper"></div>
             <footer>Технопарк Mail.ru</footer>
         `;
         const headerWrapper: HTMLDivElement | null = document.querySelector(
@@ -32,9 +34,10 @@ export default class BasePage {
         const wallpaperWrapper: HTMLDivElement | null = document.querySelector(
             ".wallpaper"
         );
-        if (wallpaperWrapper) {
-            new Wallpaper(wallpaperWrapper).render();
-        }
+
+        const wallpaper = new Wallpaper(wallpaperWrapper);
+
+        wallpaper.render();
 
         const adBlock: HTMLDivElement | null = document.querySelector(
             ".ad"
@@ -42,6 +45,14 @@ export default class BasePage {
 
         if (adBlock) {
             new Ad(adBlock).render();
+        }
+
+        const themeSelector: HTMLDivElement | null = document.querySelector(
+            ".themeSelector__wrapper"
+        );
+
+        if (themeSelector) {
+            new ThemeSelector(themeSelector, wallpaper).render();
         }
     };
 

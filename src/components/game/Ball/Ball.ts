@@ -15,8 +15,8 @@ export default class Ball {
     public y: number;
 
     public id: number;
-    private easingTargetX: number;
-    private easingTargetY: number;
+    public easingTargetX: number;
+    public easingTargetY: number;
     private readonly easing: number;
     private readonly strokeStyle: string;
     private readonly color: string;
