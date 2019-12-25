@@ -47,3 +47,12 @@
         }
     }
 }
+
+@media (max-width: 520px) {
+    .modalWindow__button-close {
+        margin: auto;
+        width: 300px;
+    }
+
+
+}
