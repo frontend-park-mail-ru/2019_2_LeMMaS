@@ -89,8 +89,8 @@ export default class SinglePlayer {
 
         this.balls.set(this.currentUserID, new Ball(
             this.currentUserID,
-            1500,
-            1500,
+            GAME_FIELD_SIZE / 2,
+            GAME_FIELD_SIZE / 2,
             20,
             "green",
         ));
