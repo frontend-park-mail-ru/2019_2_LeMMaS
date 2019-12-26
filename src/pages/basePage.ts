@@ -16,8 +16,10 @@ export default class BasePage {
             <div class="header-wrapper"></div>
             <div class="content"></div>
             <div class="ad"></div>
-            <div class="themeSelector__wrapper"></div>
-            <footer>Технопарк Mail.ru</footer>
+            <footer>
+                <div class="copyright">Технопарк Mail.ru</div>
+                <div class="themeSelector__wrapper"></div>
+            </footer>
         `;
         const headerWrapper: HTMLDivElement | null = document.querySelector(
             ".header-wrapper"
@@ -47,12 +49,12 @@ export default class BasePage {
             new Ad(adBlock).render();
         }
 
-        const themeSelector: HTMLDivElement | null = document.querySelector(
+        const themeSelectorWrapper: HTMLDivElement | null = document.querySelector(
             ".themeSelector__wrapper"
         );
 
-        if (themeSelector) {
-            new ThemeSelector(themeSelector, wallpaper).render();
+        if (themeSelectorWrapper) {
+            new ThemeSelector(themeSelectorWrapper, wallpaper).render();
         }
     };
 

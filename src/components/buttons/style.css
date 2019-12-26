@@ -14,10 +14,6 @@
     }
 }
 
-.button__alignment-right {
-    border-radius: 5px 0 0 5px;
-}
-
 .button__type-primary {
     background-position: right center;
     background-size: 200% auto;

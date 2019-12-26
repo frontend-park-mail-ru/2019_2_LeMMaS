@@ -3,6 +3,24 @@
     bottom: 10px;
     left: 50%;
     margin-left: -256px;
+    opacity: .5;
+
+    .ad__img {
+        border-radius: 14px;
+    }
+
+    .ad__close-button {
+        color: black;
+        text-shadow: none;
+        position: absolute;
+        top: 3px;
+        right: 8px;
+        font-size: 1.7em;
+        margin-bottom: 0.5em;
+        display: flex;
+        flex-direction: row-reverse;
+        cursor: pointer;
+    }
 }
 
 @media (max-width: 520px) {
@@ -20,6 +38,4 @@
         margin: auto;
         width: 300px;
     }
-
-
 }

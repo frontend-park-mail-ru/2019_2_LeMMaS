@@ -36,15 +36,15 @@ export default class Ad {
                         src="${ad.img}"
                     />
             </a>
-             <a class="modalWindow__button-close modalWindow__button-close__position-absolute modalWindow__button-close__shadow"
+             <a class="ad__close-button"
                     ><i class="fas fa-times"></i
              ></a>
         `;
-        this.parent.querySelector(".modalWindow__button-close").addEventListener("click", this.hide);
+        this.parent.querySelector(".ad__close-button").addEventListener("click", this.hide);
     };
 
     hide = () => {
-        this.parent.querySelector(".modalWindow__button-close").removeEventListener("click", this.hide);
+        this.parent.querySelector(".ad__close-button").removeEventListener("click", this.hide);
         this.parent.innerHTML = '';
         document.cookie = "ad=false; max-age=1800";
     }

@@ -182,7 +182,6 @@ export default class Multiplayer {
                     setTimeout(() => {ballToMove.radius = newRadius + 3;}, 100);
                     setTimeout(() => {ballToMove.radius = newRadius + 2;}, 150);
                     setTimeout(() => {ballToMove.radius = newRadius;}, 200);
-                    this.background.pulse();
                 }
 
                 this._moveBall(ballToMove);

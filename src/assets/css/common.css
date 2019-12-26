@@ -122,10 +122,12 @@ h3 {
 }
 
 footer {
-    position: absolute;
-    bottom: 1em;
-    left: calc(10vw + 3rem);
+    position: relative;
+    bottom: 3em;
+    padding: 0 calc(10vw + 3rem);
     color: #56009c;
+    display: flex;
+    justify-content: space-between;
 }
 
 @media (min-width: 1025px) and (max-width: 1280px) {
@@ -141,6 +143,10 @@ footer {
 
     .content {
         flex-direction: column;
+    }
+
+    footer {
+        display: none;
     }
 }
 

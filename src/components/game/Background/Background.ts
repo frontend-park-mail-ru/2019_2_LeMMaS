@@ -4,13 +4,11 @@ import Scale from "../Scale";
 const BACK_COLOR = "rgb(238,238,238)";
 const LINE_COLOR = "white";
 const LINE_WIDTH = 20;
-const LINE_PULSE_WIDTH = 27;
 
 export default class Background {
     private canvas: HTMLCanvasElement;
     private linesVertical: Array<number>;
     private linesHorizontal: Array<number>;
-    private lineWidth = LINE_WIDTH;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -37,7 +35,7 @@ export default class Background {
             this.linesVertical.forEach(line => {
                 ctx.beginPath();
                 ctx.strokeStyle = LINE_COLOR;
-                ctx.lineWidth = this.lineWidth;
+                ctx.lineWidth = LINE_WIDTH;
                 ctx.moveTo(line + Offset.x, Offset.y);
                 ctx.lineTo(
                     line + Offset.x,
@@ -49,7 +47,7 @@ export default class Background {
             this.linesHorizontal.forEach(line => {
                 ctx.beginPath();
                 ctx.strokeStyle = LINE_COLOR;
-                ctx.lineWidth = this.lineWidth;
+                ctx.lineWidth = LINE_WIDTH;
                 ctx.moveTo(Offset.x, line + Offset.y);
                 ctx.lineTo(
                     Scale.countWithScale(3000) + Offset.x,
@@ -59,10 +57,5 @@ export default class Background {
                 ctx.closePath();
             });
         }
-    };
-
-    public pulse = (): void => {
-        this.lineWidth = LINE_PULSE_WIDTH;
-        setTimeout(() => {this.lineWidth = LINE_WIDTH;}, 200);
     };
 }

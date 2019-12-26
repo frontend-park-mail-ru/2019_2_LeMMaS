@@ -1,5 +1,6 @@
-.themeSelector__wrapper {
-    position: absolute;
-    bottom: 2em;
-    right: 0;
+.themeSelector {
+    cursor: pointer;
+    font-size: 2em;
+    user-select: none;
+    margin-top: -.5em;
 }

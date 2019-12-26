@@ -10,7 +10,7 @@
 
 .modalWindow {
     margin: auto;
-    padding-bottom: 2em;
+    padding-bottom: 2em !important;
 }
 
 .modalWindow__button-close {
