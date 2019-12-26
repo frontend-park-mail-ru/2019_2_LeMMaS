@@ -1,5 +1,6 @@
 import Offset from "../Offset";
 import Scale from "../Scale";
+import { GAME_FIELD_SIZE } from "../const";
 
 const BACK_COLOR = "rgb(238,238,238)";
 const LINE_COLOR = "white";
@@ -14,10 +15,10 @@ export default class Background {
         this.canvas = canvas;
         this.linesVertical = [];
         this.linesHorizontal = [];
-        for (let x = 0; x <= Scale.countWithScale(3000); x += 150) {
+        for (let x = 0; x <= Scale.countWithScale(GAME_FIELD_SIZE); x += 150) {
             this.linesVertical.push(x);
         }
-        for (let y = 0; y <= Scale.countWithScale(3000); y += 150) {
+        for (let y = 0; y <= Scale.countWithScale(GAME_FIELD_SIZE); y += 150) {
             this.linesHorizontal.push(y);
         }
     }
@@ -39,7 +40,7 @@ export default class Background {
                 ctx.moveTo(line + Offset.x, Offset.y);
                 ctx.lineTo(
                     line + Offset.x,
-                    Scale.countWithScale(3000) + Offset.y
+                    Scale.countWithScale(GAME_FIELD_SIZE) + Offset.y
                 );
                 ctx.stroke();
                 ctx.closePath();
@@ -50,7 +51,7 @@ export default class Background {
                 ctx.lineWidth = LINE_WIDTH;
                 ctx.moveTo(Offset.x, line + Offset.y);
                 ctx.lineTo(
-                    Scale.countWithScale(3000) + Offset.x,
+                    Scale.countWithScale(GAME_FIELD_SIZE) + Offset.x,
                     line + Offset.y
                 );
                 ctx.stroke();

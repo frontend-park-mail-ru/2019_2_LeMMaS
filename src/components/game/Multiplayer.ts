@@ -6,7 +6,12 @@ import API from "modules/api";
 import Ball from "./Ball/Ball";
 import Balls from "./Ball/Balls";
 import Food from "./Food/Food";
-import { FoodElementResponse, PlayerResponse, SocketMessageData } from "./types";
+import {
+    FoodElementResponse,
+    PlayerResponse,
+    SocketMessageData,
+} from "./types";
+import { GAME_FIELD_SIZE } from "./const";
 import Offset from "./Offset";
 import Scale from "./Scale";
 import { ResponseUser } from "../../modules/responseBody";
@@ -121,34 +126,32 @@ export default class Multiplayer {
                     );
                 });
 
-                if (data && data.players) {
-                    data.players.forEach((player: PlayerResponse) => {
-                        API.getUserInfoById(player.user_id).then(
-                            (user: ResponseUser) => {
-                                if (user.name) {
-                                    this.leaderBoard.addPlayer(
-                                        user.name,
-                                        user.id,
-                                        this.currentUserID === user.id,
-                                        player.size
-                                    );
-                                }
+                data.players.forEach((player: PlayerResponse) => {
+                    API.getUserInfoById(player.user_id).then(
+                        (user: ResponseUser) => {
+                            if (user.name) {
+                                this.leaderBoard.addPlayer(
+                                    user.name,
+                                    user.id,
+                                    this.currentUserID === user.id,
+                                    player.size
+                                );
                             }
-                        );
-
-                        const ball: Ball = new Ball(
-                            player.user_id,
-                            player.position.x,
-                            player.position.y,
-                            player.size / 2,
-                            "yellow"
-                        );
-
-                        if (!this.balls.get(player.user_id)) {
-                            this.balls.set(player.user_id, ball);
                         }
-                    });
-                }
+                    );
+
+                    const ball: Ball = new Ball(
+                        player.user_id,
+                        player.position.x,
+                        player.position.y,
+                        player.size / 2,
+                        "yellow"
+                    );
+
+                    if (!this.balls.get(player.user_id)) {
+                        this.balls.set(player.user_id, ball);
+                    }
+                });
 
                 document.addEventListener("mousemove", this._handleMouseMove);
                 requestAnimationFrame(this._redrawAllBalls);
@@ -157,6 +160,9 @@ export default class Multiplayer {
             case "move": {
                 const ballToMove = this.balls.get(data.player.id);
                 if (!ballToMove) {
+                    console.log(
+                        "move: received unknown player id " + data.player.id
+                    );
                     return;
                 }
 
@@ -174,27 +180,37 @@ export default class Multiplayer {
                     Scale.countWithScale(data.player.y)
                 );
 
-
                 const newRadius = Scale.countWithScale(data.player.size / 2);
                 if (newRadius > ballToMove.radius) {
                     this.leaderBoard.update(data.player.id, data.player.size);
                     ballToMove.radius = newRadius + 4;
-                    setTimeout(() => {ballToMove.radius = newRadius + 3;}, 100);
-                    setTimeout(() => {ballToMove.radius = newRadius + 2;}, 150);
-                    setTimeout(() => {ballToMove.radius = newRadius;}, 200);
+                    setTimeout(() => {
+                        ballToMove.radius = newRadius + 3;
+                    }, 100);
+                    setTimeout(() => {
+                        ballToMove.radius = newRadius + 2;
+                    }, 150);
+                    setTimeout(() => {
+                        ballToMove.radius = newRadius;
+                    }, 200);
                 }
 
                 this._moveBall(ballToMove);
 
-                if (data.eatenFood.length > 0) {
-                    data.eatenFood.forEach((id: number) => {
-                        this.food.delete(id);
-                    });
-                }
+                data.eatenFood.forEach((id: number) => {
+                    this.food.delete(id);
+                });
                 break;
             }
             case "new_player": {
                 const player = data.player;
+                const ball = new Ball(
+                    player.user_id,
+                    player.position.x,
+                    player.position.y,
+                    player.size / 2,
+                    "yellow"
+                );
                 API.getUserInfoById(player.user_id).then(
                     (user: ResponseUser) => {
                         if (user.name) {
@@ -205,19 +221,6 @@ export default class Multiplayer {
                                 player.size
                             );
                         }
-                    }
-                );
-
-                const ball = new Ball(
-                    player.user_id,
-                    player.position.x,
-                    player.position.y,
-                    player.size / 2,
-                    "yellow"
-                );
-
-                API.getUserInfoById(player.user_id).then(
-                    (user: ResponseUser) => {
                         if (user.avatar_path) {
                             const backgroundImage = new Image();
                             backgroundImage.src = user.avatar_path;
@@ -329,11 +332,11 @@ export default class Multiplayer {
             Y: Math.round(oldPosition.Y + deltaY),
         };
 
-        if (newPosition.X > Scale.countWithScale(3000)) {
-            newPosition.X = Scale.countWithScale(3000);
+        if (newPosition.X > Scale.countWithScale(GAME_FIELD_SIZE)) {
+            newPosition.X = Scale.countWithScale(GAME_FIELD_SIZE);
         }
-        if (newPosition.Y > Scale.countWithScale(3000)) {
-            newPosition.Y = Scale.countWithScale(3000);
+        if (newPosition.Y > Scale.countWithScale(GAME_FIELD_SIZE)) {
+            newPosition.Y = Scale.countWithScale(GAME_FIELD_SIZE);
         }
         if (newPosition.X < 0) {
             newPosition.X = 0;

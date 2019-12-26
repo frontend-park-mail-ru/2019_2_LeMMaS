@@ -1,3 +1,5 @@
+import { GAME_FIELD_SIZE } from "./const";
+
 class OffSet {
     public x: number;
     public y: number;
@@ -16,12 +18,12 @@ class OffSet {
     };
 
     public reset = () => {
-        this.x = -6000 + window.innerWidth;
-        this.y = -6000 + window.innerHeight;
+        this.x = -(GAME_FIELD_SIZE * 2) + window.innerWidth;
+        this.y = -(GAME_FIELD_SIZE * 2) + window.innerHeight;
     };
 }
 
 export default new OffSet(
-    -6000 + window.innerWidth,
-    -6000 + window.innerHeight
+    -(GAME_FIELD_SIZE * 2) + window.innerWidth,
+    -(GAME_FIELD_SIZE * 2) + window.innerHeight
 );

@@ -12,6 +12,7 @@ import Scale from "./Scale";
 
 import "./style.css";
 import Background from "./Background/Background";
+import { GAME_FIELD_SIZE } from "./const";
 
 export default class SinglePlayer {
     private parent: HTMLElement;
@@ -50,8 +51,8 @@ export default class SinglePlayer {
         this.food = new Food(this.gameCanvas);
 
         this.mouseCoordinates = {
-            x: Scale.countWithScale(3000),
-            y: Scale.countWithScale(3000),
+            x: Scale.countWithScale(GAME_FIELD_SIZE),
+            y: Scale.countWithScale(GAME_FIELD_SIZE),
         };
 
         this.timeouts = new Map<string, any>();
@@ -98,8 +99,8 @@ export default class SinglePlayer {
             const id = Math.floor(Math.random() * 100);
             this.balls.set(id, new Ball(
                 id,
-                (Math.random() * Scale.countWithScale(3000)) / 2,
-                (Math.random() * Scale.countWithScale(3000)) / 2,
+                (Math.random() * Scale.countWithScale(GAME_FIELD_SIZE)) / 2,
+                (Math.random() * Scale.countWithScale(GAME_FIELD_SIZE)) / 2,
                 20,
                 "yellow",
                 )
@@ -163,11 +164,11 @@ export default class SinglePlayer {
             Y: Math.round((oldPosition.Y) + deltaY),
         };
 
-        if (newPosition.X > Scale.countWithScale(3000)) {
-            newPosition.X = Scale.countWithScale(3000);
+        if (newPosition.X > Scale.countWithScale(GAME_FIELD_SIZE)) {
+            newPosition.X = Scale.countWithScale(GAME_FIELD_SIZE);
         }
-        if (newPosition.Y > Scale.countWithScale(3000)) {
-            newPosition.Y = Scale.countWithScale(3000);
+        if (newPosition.Y > Scale.countWithScale(GAME_FIELD_SIZE)) {
+            newPosition.Y = Scale.countWithScale(GAME_FIELD_SIZE);
         }
         if (newPosition.X < 0) {
             newPosition.X = 0;
