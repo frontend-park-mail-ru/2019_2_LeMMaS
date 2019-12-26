@@ -195,8 +195,6 @@ export default class Multiplayer {
                     }, 200);
                 }
 
-                this._moveBall(ballToMove);
-
                 data.eatenFood.forEach((id: number) => {
                     this.food.delete(id);
                 });
@@ -379,29 +377,6 @@ export default class Multiplayer {
         Socket.send(`{"type":"direction", "direction":${angle}}`);
 
         return angle;
-    };
-
-    private _moveBall = (ball: Ball): void => {
-        if (ball.id === this.currentUserID) {
-            if (
-                window.innerWidth / 2 > this.mouseCoordinates.x - ball.radius &&
-                window.innerWidth / 2 < this.mouseCoordinates.x + ball.radius &&
-                window.innerHeight / 2 >
-                    this.mouseCoordinates.y - ball.radius &&
-                window.innerHeight / 2 < this.mouseCoordinates.y + ball.radius
-            ) {
-                Socket.send(`{"type":"speed", "speed":0}`);
-                // this.socket.send(`{"type":"speed", "speed":0}`);
-            } else {
-                this._countAndSendSpeed(
-                    this.mouseCoordinates.x,
-                    this.mouseCoordinates.y
-                );
-                this.timeouts.push(setTimeout(() => this._moveBall(ball), 100));
-            }
-        } else {
-            this.timeouts.push(setTimeout(() => this._moveBall(ball), 100));
-        }
     };
 
     private _redrawAllBalls = (): void => {
