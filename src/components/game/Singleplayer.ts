@@ -28,6 +28,7 @@ export default class SinglePlayer {
     private gameFinishButton: HTMLDivElement;
     private background: Background;
     private following: {ball: Ball};
+    private score: HTMLParagraphElement;
 
     constructor(parent: HTMLElement) {
         this.parent = parent;
@@ -51,8 +52,8 @@ export default class SinglePlayer {
         this.food = new Food(this.gameCanvas);
 
         this.mouseCoordinates = {
-            x: Scale.countWithScale(GAME_FIELD_SIZE),
-            y: Scale.countWithScale(GAME_FIELD_SIZE),
+            x: undefined,
+            y: undefined,
         };
 
         this.timeouts = new Map<string, any>();
@@ -65,10 +66,12 @@ export default class SinglePlayer {
         }
 
         this.background = new Background(this.gameCanvas);
-        Offset.reset();
+        this.score = document.querySelector(".gameScore__number");
     }
 
     public start = (): void => {
+        Offset.reset();
+
         document.addEventListener("keydown", this._escapeKeyHandler);
 
         this.gameFinishButton.addEventListener(
@@ -91,7 +94,7 @@ export default class SinglePlayer {
             this.currentUserID,
             GAME_FIELD_SIZE / 2,
             GAME_FIELD_SIZE / 2,
-            20,
+            10,
             "green",
         ));
 
@@ -99,9 +102,9 @@ export default class SinglePlayer {
             const id = Math.floor(Math.random() * 100);
             this.balls.set(id, new Ball(
                 id,
-                (Math.random() * Scale.countWithScale(GAME_FIELD_SIZE)) / 2,
-                (Math.random() * Scale.countWithScale(GAME_FIELD_SIZE)) / 2,
-                20,
+                (Math.random() * GAME_FIELD_SIZE),
+                (Math.random() * GAME_FIELD_SIZE),
+                10,
                 "yellow",
                 )
             );
@@ -111,7 +114,7 @@ export default class SinglePlayer {
             10,
             1600,
             1600,
-            20,
+            10,
             "yellow",
             )
         );
@@ -119,8 +122,8 @@ export default class SinglePlayer {
         for (let count = 0; count < 200; count++) {
             this.food.add(
                 count,
-                Math.round(Math.random() * window.innerWidth * 2),
-                Math.round(Math.random() * window.innerHeight * 2)
+                Math.round(Math.random() * GAME_FIELD_SIZE),
+                Math.round(Math.random() * GAME_FIELD_SIZE)
             );
         }
 
@@ -164,10 +167,10 @@ export default class SinglePlayer {
             Y: Math.round((oldPosition.Y) + deltaY),
         };
 
-        if (newPosition.X > Scale.countWithScale(GAME_FIELD_SIZE)) {
+        if (newPosition.X > Scale.countWithScale(GAME_FIELD_SIZE) + 1000) {
             newPosition.X = Scale.countWithScale(GAME_FIELD_SIZE);
         }
-        if (newPosition.Y > Scale.countWithScale(GAME_FIELD_SIZE)) {
+        if (newPosition.Y > Scale.countWithScale(GAME_FIELD_SIZE) + 1000) {
             newPosition.Y = Scale.countWithScale(GAME_FIELD_SIZE);
         }
         if (newPosition.X < 0) {
@@ -183,6 +186,10 @@ export default class SinglePlayer {
         const easing = 0.01;
 
         if (ballToMove.id === this.currentUserID) {
+            if (!this.mouseCoordinates.x && !this.mouseCoordinates.y) {
+                this.timeouts.set("moveBall", setTimeout(() => this._moveBall(ballToMove), 1000/60));
+                return;
+            }
             const newPosition = this.getNewPosition(this._countDirection(this.mouseCoordinates.x, this.mouseCoordinates.y));
 
             ballToMove.easingTargetX = newPosition.X;
@@ -228,7 +235,9 @@ export default class SinglePlayer {
             if (ball.id !== this.currentUserID) {
                 const currentUserBall = this.balls.get(this.currentUserID);
                 if (ball.radius > currentUserBall.radius && !this.following?.ball) {
-                    this.following = { ball };
+                    if (!this.following) {
+                        this.following = { ball };
+                    }
                     ball.easingTargetY = currentUserBall.y;
                     ball.easingTargetX = currentUserBall.x;
                 } else {
@@ -259,6 +268,9 @@ export default class SinglePlayer {
                 ball.increaseRadius(2);
                 this.food.delete(foodElement.id);
                 this.food.draw();
+                if (ball.id === this.currentUserID) {
+                    this.scoreIncrement();
+                }
             }
         });
     };
@@ -281,12 +293,12 @@ export default class SinglePlayer {
             small.y - small.radius > large.y - large.radius
         ) {
             if (small.id === this.currentUserID) {
-                this._pause();
+                this._end();
                 this.modalWindow.start(
                     "Вы проиграли. Хотите начать заново?",
                     () => {
                         this.modalWindow.close();
-                        this._playAgain();
+                        this.start();
                     },
                     () => {
                         this.modalWindow.close();
@@ -295,7 +307,10 @@ export default class SinglePlayer {
                 );
             } else {
                 this.balls.delete(small.id);
-                large.increaseRadius(small.radius);
+                large.increaseRadius(5);
+                if (large.id === this.currentUserID) {
+                    this.scoreIncrement();
+                }
             }
         }
     };
@@ -339,7 +354,6 @@ export default class SinglePlayer {
     };
 
     private _playAgain = (): void => {
-        this.modalWindow.close();
         this._end();
         this.start();
     };
@@ -370,5 +384,9 @@ export default class SinglePlayer {
                 this._resume();
             }
         );
+    };
+
+    private scoreIncrement = () => {
+        this.score.innerText = String(parseInt(this.score.innerText) + 1);
     };
 }

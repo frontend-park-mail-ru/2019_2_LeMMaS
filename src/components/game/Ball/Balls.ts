@@ -16,6 +16,7 @@ export default class Balls {
 
     public clear = () => {
         this.balls.clear();
+
     };
 
     public draw = () => {

@@ -6,7 +6,7 @@ import { ResponseUser } from "../../../modules/responseBody";
 const DEFAULT_COLOR = "green";
 const DEFAULT_STROKE = "rgba(128, 0, 0, 0.5)";
 const EASING = 1;
-const MAX_RADIUS = 100;
+const MAX_RADIUS = 200;
 
 export default class Ball {
     public backgroundImage: HTMLImageElement | undefined;
