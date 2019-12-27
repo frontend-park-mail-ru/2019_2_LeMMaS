@@ -144,7 +144,9 @@ footer {
     .content {
         flex-direction: column;
     }
+}
 
+@media (max-width: 640px) {
     footer {
         display: none;
     }

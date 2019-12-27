@@ -2,5 +2,12 @@
     cursor: pointer;
     font-size: 2em;
     user-select: none;
-    margin-top: -.5em;
+    margin-top: -16px;
+    background: #5e09a2b3;
+    border-radius: 9px;
+    padding: 4px 6px;
+
+    &:hover {
+        background: #5e09a2e8;
+    }
 }
